@@ -1,0 +1,57 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+
+  <div class="large-6 columns">
+    <p>
+      <strong>Title:</strong>
+      <%= @post.title %>
+    </p>
+
+    <p>
+      <strong>Description:</strong>
+      <%= @post.description %>
+    </p>
+
+    <p>
+      <strong>Location:</strong>
+  <span id="<%= dom_id(@post) %>">
+<% if @post.location %>
+  <%= @post.location.name %><br/>
+        <%= @post.location.address %>
+        <%= @post.location.city %>,
+        <%= @post.location.state %>
+        <%= @post.location.postcode %>
+<% end %>
+  </span>
+      <% if @post.location %>
+      <%= link_to 'Remove Location',
+                  post_location_path(@post.id, @post.location.id),
+                  method: :delete,
+                  class: "button alert tiny remove_location",
+                  data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    </p>
+
+    <p>
+      <strong>Communities</strong>
+      <% if @post.communities %>
+        <ul>
+          <% @post.communities.each do |community| %>
+              <li><%= community.name %></li>
+          <% end %>
+        </ul>
+    <% end %>
+
+    </p>
+
+    <%= link_to 'Edit', edit_post_path(@post) %> |
+    <%= link_to 'Back', posts_path %>
+  </div>
+
+  <div class="large-6 columns">
+    <div id="map"></div>
+  </div>
+</div>
+<br/><br/>
+

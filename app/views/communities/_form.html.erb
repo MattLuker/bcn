@@ -1,0 +1,48 @@
+<%= form_for(@community) do |f| %>
+  <% if @community.errors.any? %>
+    <div id="error_explanation" class="alert-box alert radius">
+      <h5><%= pluralize(@community.errors.count, "error") %> prohibited this community from being saved:</h5>
+
+      <ul>
+      <% @community.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :description %>
+        <%= f.text_field :description %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :home_page %>
+        <%= f.text_field :home_page %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :color %>
+        <%= f.text_field :color %>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="large-4 columns actions">
+        <%= f.submit 'Save Community', :class => 'button small success' %>
+      </div>
+    </div>
+<% end %>

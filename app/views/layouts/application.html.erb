@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BcnRails</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+      <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="/">Boone Community Network</a></h1>
+          </li>
+          <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+        <section class="top-bar-section">
+          <!-- Right Nav Section -->
+          <ul class="right">
+            <li><a href="#">Login</a></li>
+          </ul>
+        </section>
+
+        <section class="top-bar-section">
+          <!-- Left Nav Section -->
+          <ul class="left">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/communities">Communities</a></li>
+          </ul>
+        </section>
+      </nav>
+
+
+    <% flash.each do |type, message| %>
+    <div class="flash alert-box text-center <%= type %>">
+      <%= message %>
+      <a href="#" class="close">&times;</a>
+    </div>
+    <% end %>
+
+  <div class="row collapse">
+    <div class="row main">
+      <%= yield %>
+    </div>
+  </div>
+
+  <footer>
+    <div class="text-center">
+      &copy; <span class="copyright-year"></span> Boone Community Network
+    </div>
+  </footer>
+
+</body>
+</html>
