@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<h2 class="page-title">Communities</h2>
+
+
+<ul class="communities no-bullet">
+  <% @communities.each do |community| %>
+      <li class="clearfix">
+        <div class="community-title"><%= link_to community.name, community, {:style => "color: #{community.color}"} %></div>
+        <div class="community-details">
+          <ul class="vcard">
+            <li><%= community.description %></li>
+            <li><em>Home Page: </em><%= link_to community.home_page %></li>
+            <li><span style="background: <%= community.color %>; color: white; padding: 3px;"><%= community.color %></span></li>
+          </ul>
+        </div>
+      </li>
+  <% end %>
+</ul>
+
+
+<%= link_to 'New Community', new_community_path %>

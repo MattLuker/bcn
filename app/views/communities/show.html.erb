@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h2><%= @community.name %></h2>
+
+<p>
+  <strong>Description:</strong>
+  <%= @community.description %>
+</p>
+
+<p>
+  <strong>Home page:</strong>
+ <%= link_to @community.home_page %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <span style="background: <%= @community.color %>; color: white; padding: 3px;"><%= @community.color %></span>
+</p>
+<br/>
+
+<%= link_to 'Edit', edit_community_path(@community) %> |
+<%= link_to 'Destroy', @community, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', communities_path %>

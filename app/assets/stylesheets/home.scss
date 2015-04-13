@@ -1,0 +1,62 @@
+@import 'application';
+
+$black: #252525;
+#map {
+  height: 500px;
+  width: 100%;
+  border: 3px solid $oil;
+  margin-top: 20px;
+}
+
+
+.posts {
+  .post-title {
+    font-size: $h4-font-size;
+  }
+
+  .post-text {
+    padding-left: 10px;
+  }
+
+  .post-location {
+    padding-left: 10px;
+    font-size: $paragraph-font-size - .2rem;
+    color: $gray;
+  }
+
+  .post-communities {
+    padding-left: 10px;
+    display: inline;
+  }
+
+  li {
+    padding: 10px 5px;
+    margin: 20px 0px;
+  }
+  li:nth-child(odd) {
+    background: lighten($light-gray, 5);
+  }
+}
+
+.intro {
+  h3 {
+    color: white;
+  }
+  color: white;
+  background-color:rgba(178, 178, 178, 0.7);
+}
+
+.main-video {
+  video#bgvid {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    background: url(/videos/bcn_movie-1.mp4) no-repeat;
+    background-size: cover;
+  }
+}

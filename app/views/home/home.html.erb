@@ -1,0 +1,41 @@
+<div class="large-6 columns">
+  <h2>Boone</h2>
+
+  <div id="map"></div>
+
+  <br/>
+  <button class="all_communities tiny">All</button>
+
+  <% @communities.each do |community| %>
+      <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
+  <% end %>
+</div>
+
+<div class="large-6 columns">
+  <h2>Recent Posts</h2>
+
+  <ul class="posts no-bullet">
+    <% @posts.each do |post| %>
+        <li class="<%= dom_id(post) %>" class="post row">
+          <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
+          <span class="post-text truncate" title="<%= post.description %>"><%= post.description %></span>
+          <br/>
+          <% if post.location %>
+            <span class="post-location"><%= post.location.name %></span>
+          <% end %>
+
+          <% if post.communities %>
+              <div class="post-communities">
+                <% post.communities.each do |community| %>
+                    <span class="label info"><%= link_to community.name, community %></span>
+                <% end %>
+              </div>
+         <% end %>
+        </li>
+    <% end %>
+  </ul>
+
+  <%= link_to "More", posts_path %>
+</div>
+
+

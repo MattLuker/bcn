@@ -1,0 +1,49 @@
+<%= form_for(@post) do |f| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation" class="alert-box alert radius">
+      <h5><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h5>
+
+      <ul>
+      <% @post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :description %>
+        <%= f.text_area :description %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns communities">
+        <% if @communities %>
+
+         <%= f.label "Communities" %>
+         <%= f.collection_select :community_ids, @communities, :id, :name, {}, {:multiple => true} %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns actions">
+        <%= f.submit 'Save Post', :class => 'button small success' %>
+      </div>
+    </div>
+
+  <br/>
+  <% if params[:lat] and params[:lon] %>
+    <%= f.hidden_field :lat, :value => params[:lat] %>
+    <%= f.hidden_field :lon, :value => params[:lon] %>
+  <% end %>
+<% end %>
