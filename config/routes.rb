@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :users
   get 'home/index'
   get 'home', to: 'home#home'
   get 'who_we_are', to: 'home#who_we_are'

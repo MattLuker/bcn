@@ -17,32 +17,19 @@ class Location < ActiveRecord::Base
     require 'nominatim'
 
     Nominatim.configure do |config|
-      puts Rails.application.config_for(:nominatim)['host']
-      config.email = 'adam@thehoick.com'
+      config.email = Rails.application.config_for(:nominatim)['email']
       config.endpoint = Rails.application.config_for(:nominatim)['host']
     end
-
-    # # Use static data if testing.
-    # if Rails.env.test? and params[:lat] == 36.2168215386211
-    #   loc.lat = params[:lat]
-    #   loc.lon = params[:lon]
-    #   loc.post_id = params[:post_id].to_i
-    #   loc.name = 'Kenneth E. Peacock Hall'
-    #   loc.address = '416 Howard Street'
-    #   loc.city = 'Boone'
-    #   loc.state = 'NC'
-    #   loc.county = 'Watauga'
-    #   loc.country = 'us'
-    #   loc.save
-    #   return loc
-    # end
 
     places = Nominatim.search("#{params[:lat]},#{params[:lon]}").limit(10).address_details(true)
     for place in places
 
       loc.lat = params[:lat]
       loc.lon = params[:lon]
-      loc.post_id = params[:post_id].to_i
+
+      if params[:post_id]
+        loc.post_id = params[:post_id].to_i
+      end
 
       loc.name = place.display_name.split(',')[0]
       if place.address.road and place.address.house_number

@@ -3,46 +3,62 @@ class Api::LocationsController < ApplicationController
   before_filter :find_post
 
   def create
-    location = @post.create_location(location_params)
-    location.save
+    location = Location.new.create(location_params)
 
-    puts params
-    # Do a post.save for the web form, but might just
-    # do it through the map and change it to location.save ...
-    if @post.save
+    if location.save
+      if @post
+        @post.location = location
+        @post.save
+      end
+
       render status: 200, json: {
-        message: "Location created.",
-        post: @post,
-        location: @post.location
-      }.to_json
+                            message: 'Location created.',
+                            post: @post,
+                            location: location
+                        }.to_json
     else
       render status: 422, json: {
-        errors: @post.errors
-      }.to_json
+                            errors: location.errors
+                        }.to_json
     end
   end
 
   def update
-    if @post.location.update_attributes(params[:id], location_params)
-      puts "locations controller location_params: #{location_params}"
-      @post.save
+    location = Location.find(params[:id])
+
+    if location.update_attributes(params[:id], location_params)
+      location.reload
+
+      if @post
+        @post.location = location
+        @post.save
+      end
+
       render status: 200, json: {
-        message: "Location updated.",
+        message: 'Location updated.',
         post: @post,
-        location: @post.location
+        location: location
       }.to_json
     else
       render status: 422, json: {
-        message: "Location could not be updated.",
-        post: @post
+        message: 'Location could not be updated.',
+        post: @post,
+        location: location
       }.to_json
     end
   end
 
   def destroy
-    @post.location.destroy
+    if @post
+      @post.location = location
+      @post.location.destroy
+    else
+      location = Location.find(params[:id])
+      location.destroy
+    end
+
     render status: 200, json: {
-      message: "Location deleted."
+      message: 'Location deleted.'
     }.to_json
   end
 
@@ -52,6 +68,10 @@ class Api::LocationsController < ApplicationController
   end
 
   def find_post
-    @post = Post.find(params[:post_id])
+    if params[:post_id]
+      @post = Post.find(params[:post_id])
+    else
+      @post = nil
+    end
   end
 end

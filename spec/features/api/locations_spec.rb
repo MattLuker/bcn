@@ -22,7 +22,7 @@ describe 'Location API', :type => :api do
 
     expect(last_response.status).to eq(200)
 
-    expect(json.length).to eq(2)
+    expect(json.length).to eq(3)
     expect(json['message']).to eq('Location created.')
     expect(json['location']['lat']).to eq(36.2168215386211)
     expect(json['location']['name']).to eq('Kenneth E. Peacock Hall')
@@ -34,17 +34,17 @@ describe 'Location API', :type => :api do
 
     expect(last_response.status).to eq(200)
 
-    expect(json.length).to eq(2)
+    expect(json.length).to eq(3)
     expect(json['message']).to eq('Location updated.')
     expect(json['location']['name']).to eq('Kenneth E. Peacock Hall')
   end
 
   it 'deletes a post and has valid response' do
-    delete '/api/posts/' + new_post.id.to_s, format: :json
+    delete '/api/locations/' + location.id.to_s, format: :json
 
     expect(last_response.status).to eq(200)
 
     expect(json.length).to eq(1)
-    expect(json['message']).to eq('Post deleted.')
+    expect(json['message']).to eq('Location deleted.')
   end
 end

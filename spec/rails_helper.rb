@@ -53,10 +53,11 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include Capybara::DSL, type: :feature
-  #config.include Capybara::DSL, :type => :request
   config.include LocationHelpers, type: :feature
   config.include CommunityHelpers, type: :feature
   config.include RailsDomIdHelper, type: :feature
+  config.include DatabaseCleaner, type: :feature
+
 
   config.include ApiHelper, :type=>:api #apply to all spec for apis folder
   config.include Requests::JsonHelpers
