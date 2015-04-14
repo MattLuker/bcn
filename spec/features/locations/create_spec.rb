@@ -5,7 +5,7 @@ describe 'Adding locations' do
   # United States of America (university) 36.21640465, -81.6822303793054
 
   let!(:post) { Post.create(title: 'Location Post', description: 'Great job location!') }
-  let!(:location) { Location.create(
+  let!(:location) { Location.new.create(
       lat: 36.21640465,
       lon: -81.6822303793054,
       post_id: 1,
@@ -18,6 +18,7 @@ describe 'Adding locations' do
 
   it 'is successful with valid content and correct log entry', :js => true do
     create_post_with_location
+
     expect(page).to have_content('Location: Kenneth E. Peacock Hall')
 
     logs = Log.last(2)
