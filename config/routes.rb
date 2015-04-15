@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :user_sessions, only: [:create, :new]
+
   resources :users
   get 'home/index'
   get 'home', to: 'home#home'
