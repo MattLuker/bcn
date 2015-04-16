@@ -11,6 +11,11 @@ describe 'Editing User' do
   it 'allow edit if logged in' do
     sign_in user, password: 'beans'
     visit "/users/#{user.id}/edit"
-    expect(page).to have_content('Last name: Slidell')
+    expect(find_field('Last name').value).to eq('Slidell')
+
+    fill_in 'Last name', with: 'Barker'
+    click_button 'Update Profile'
+
+    expect(page).to have_content('Last name: Barker')
   end
 end

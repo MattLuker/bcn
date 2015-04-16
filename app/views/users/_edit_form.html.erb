@@ -20,11 +20,8 @@
 
     <div class="row">
       <div class="large-4 columns">
-        <p>current_user:
-        <%= @current_user.last_name %>
-        </p>
         <%= f.label :last_name %>
-        <%= f.text_field :last_name, @current_user.last_name %>
+        <%= f.text_field :last_name %>
       </div>
     </div>
 
@@ -44,7 +41,7 @@
 
     <div class="row">
       <div class="large-4 columns actions">
-        <%= f.submit 'Register', :class => 'button small success' %>
+        <%= f.submit 'Update Profile', :class => 'button small success' %>
       </div>
     </div>
 
