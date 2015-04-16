@@ -14,19 +14,37 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    @post = Post.new
+    if current_user
+      @post = current_user.posts.new
+    else
+      @post = Post.new
+    end
     @communities = Community.all
   end
 
   # GET /posts/1/edit
   def edit
     @communities = Community.all
+
+    if not current_user
+      if current_user != @post.user
+        flash[:error] = 'You can only update your posts.'
+        redirect_to home_index_path
+      else
+        flash[:info] = 'You must be logged in to update a post.'
+        redirect_to new_user_session_path
+      end
+    end
   end
 
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new({title: post_params[:title], description: post_params[:description]})
+    if current_user
+      @post = current_user.posts.new({title: post_params[:title], description: post_params[:description]})
+    else
+      @post = Post.new({title: post_params[:title], description: post_params[:description]})
+    end
 
     post_params[:community_ids].each do |c|
       if not c.empty?
@@ -50,13 +68,18 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
-      else
-        format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+    if current_user != @post.user
+      flash[:error] = 'You can only update your posts.'
+      redirect_to home_index_path
+    else
+      respond_to do |format|
+        if @post.update(post_params)
+          format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+          format.json { render :show, status: :ok, location: @post }
+        else
+          format.html { render :edit }
+          format.json { render json: @post.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -64,17 +87,31 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
-      format.json { head :no_content }
+      if current_user.posts.find(params[:id]).destroy
+        format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        flash[:error] = 'You must be logged in to delete a post.'
+        format.html { render :edit }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      if current_user
+        begin
+          @post = current_user.posts.find(params[:id])
+        rescue ActiveRecord::RecordNotFound => e
+          # Be able to view a post if logged in, but not the Post.user.
+          @post = Post.find(params[:id])
+        end
+      else
+        @post = Post.find(params[:id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,20 +1,7 @@
 #require 'spec_helper'
 require 'rails_helper'
 
-describe "Creating posts" do 
-  def create_post(options={})
-    options[:title] ||= "My Post"
-    options[:description] ||= "Great new post."
-
-    visit "/posts"
-    click_link "New Post"
-    expect(page).to have_content("New Post")
-
-    fill_in "Title", with: options[:title]
-    fill_in "Description", with: options[:description]
-    click_button "Save Post"
-
-  end
+describe "Creating posts" do
 
   it "redirects to the post list index page on success" do
     create_post
@@ -87,5 +74,13 @@ describe "Creating posts" do
 
     expect(log.post).to eq(Post.last)
     expect(log.action).to eq("created")
+  end
+
+  it 'creates a post for the current user' do
+    user = create(:user)
+    sign_in(user, {password: 'beans'})
+    create_post
+
+    expect(Post.last.user).to eq(user)
   end
 end

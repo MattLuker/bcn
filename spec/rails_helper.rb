@@ -53,6 +53,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include Capybara::DSL, type: :feature
+  config.include PostHelpers, type: :feature
   config.include LocationHelpers, type: :feature
   config.include CommunityHelpers, type: :feature
   config.include RailsDomIdHelper, type: :feature

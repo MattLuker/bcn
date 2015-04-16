@@ -5,6 +5,7 @@ class Post < ActiveRecord::Base
 
   has_one :location
   has_and_belongs_to_many :communities
+  belongs_to :user
 
   after_create do
     Log.create({post: self, action: "created"})
