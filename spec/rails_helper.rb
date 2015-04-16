@@ -57,8 +57,10 @@ RSpec.configure do |config|
   config.include CommunityHelpers, type: :feature
   config.include RailsDomIdHelper, type: :feature
   config.include DatabaseCleaner, type: :feature
+  config.include Requests::JsonHelpers
+  config.include AuthenticationHelpers, type: :feature
 
+  config.include FactoryGirl::Syntax::Methods
 
   config.include ApiHelper, :type=>:api #apply to all spec for apis folder
-  config.include Requests::JsonHelpers
 end

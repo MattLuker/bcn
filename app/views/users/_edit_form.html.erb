@@ -1,0 +1,51 @@
+<%= form_for(@user) do |f| %>
+    <% if @user.errors.any? %>
+        <div id="error_explanation" class="alert-box alert radius">
+          <h5><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h5>
+
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <p>current_user:
+        <%= @current_user.last_name %>
+        </p>
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name, @current_user.last_name %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns actions">
+        <%= f.submit 'Register', :class => 'button small success' %>
+      </div>
+    </div>
+
+<% end %>

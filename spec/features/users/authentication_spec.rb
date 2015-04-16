@@ -6,7 +6,7 @@ describe 'Signing In' do
     visit new_user_session_path
     fill_in 'Email', with: 'adam@thehoick.com'
     fill_in 'Password', with: 'beans'
-    click_button 'Sign In'
+    click_button 'Log In'
 
     expect(page).to have_content('Boone')
     expect(page).to have_content('Recent Posts')
@@ -17,7 +17,7 @@ describe 'Signing In' do
     visit new_user_session_path
     fill_in 'Email', with: 'adam@thehoick.com'
     fill_in 'Password', with: 'barns'
-    click_button 'Sign In'
+    click_button 'Log In'
 
     expect(page).to have_content('There was a problem logging in, please check you username and password.')
     expect(page).to have_field('Email', with: 'adam@thehoick.com')

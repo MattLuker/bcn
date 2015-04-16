@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
-
-  resources :user_sessions, only: [:create, :new]
-
-  resources :users
+  get '/login' => 'user_sessions#new', as: :login
   get 'home/index'
   get 'home', to: 'home#home'
   get 'who_we_are', to: 'home#who_we_are'
   get 'calendar', to: 'home#calendar'
 
   resources :communities
+  resources :user_sessions, only: [:create, :new]
+  resources :users
 
   namespace :api do
     resources :posts do
