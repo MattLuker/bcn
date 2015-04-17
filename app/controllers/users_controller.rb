@@ -21,6 +21,10 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    if not current_user == @user
+      flash[:error] = 'You can only update your profile.'
+      redirect_to '/users/' + @user.id.to_s
+    end
   end
 
   # POST /users
@@ -44,12 +48,17 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
+      if current_user == @user
+        if @user.update(user_params)
+          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+          format.json { render :show, status: :ok, location: @user }
+        else
+          format.html { render :edit }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        flash[:error] = 'You can only update your profile.'
+        redirect_to '/users/' + @user.id.to_s
       end
     end
   end
@@ -57,10 +66,12 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user == @user
+      @user.destroy
+      redirect_to users_url, notice: 'User was successfully destroyed.'
+    else
+      flash[:error] = 'You can only delete your account.'
+      redirect_to '/users/' + @user.id.to_s
     end
   end
 

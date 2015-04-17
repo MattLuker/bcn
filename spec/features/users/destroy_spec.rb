@@ -8,7 +8,7 @@ describe 'Deleting User' do
     expect(page).to have_content('You must be logged in to view that page.')
   end
 
-  it 'allow delete if logged in' do
+  it 'allow delete if logged in and current user' do
     sign_in user, password: 'beans'
     expect(User.count).to eq(1)
 
@@ -17,6 +17,17 @@ describe 'Deleting User' do
     click_link 'Destroy'
 
     expect(User.count).to eq(0)
+  end
+
+  it 'will not let non-current user delete other users' do
+    new_user = User.create({email: 'bob@thehoick.com', password: 'beans'})
+    sign_in(new_user, {password: 'beans'})
+
+    visit "/users/#{user.id}"
+    click_link 'Destroy'
+
+    expect(User.count).to eq(2)
+    expect(page).to have_content('You can only delete your account.')
   end
 
 end
