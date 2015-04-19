@@ -15,7 +15,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'turbolinks'
 gem "paranoia", "~> 2.0"
 
-# Zurb Foundation
 gem 'foundation-rails', '~> 5.5.1.1'
 
 group :development, :test do

@@ -1,4 +1,4 @@
-# Boone Community Network Rails Project
+# BCN Rails Project
 
 ## Origin Story
 
