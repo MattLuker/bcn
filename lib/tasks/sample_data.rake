@@ -9,11 +9,39 @@ namespace :db do
   task populate_sample_data: :environment do
     User.create!({email: 'adam@example.com', password: 'beans'})
     User.create!({email: 'bob@example.com', password: 'barns'})
-    User.create!({email: 'cheese@example.com', password: 'beans'})
+    User.create!({email: 'cheese@example.com', password: 'brains'})
 
-    Location.create({lat: 36.2168215386211, lon: -81.682448387146})
-    Location.create({lat: 36.21991, lon: -81.68261})
-    Location.create({lat: 36.22066499490376, lon: -81.67625516653061})
+    Location.create({lat: 36.2117382055093,
+                     lon: -81.6856241226196,
+                     name: 'Kidd Brewer Stadium',
+                     address: '1 Stadium Drive',
+                     city: 'Boone',
+                     state: 'North Carolina',
+                     postcode: '28608',
+                     county: 'Watauga County',
+                     county: 'United States of America'
+                    })
+    Location.create({lat: 36.2165856654217,
+                     lon: -81.686224937439,
+                     name: 'Student Recreation Center',
+                     address: 'Bodenheimer Drive',
+                     city: 'Boone',
+                     state: 'North Carolina',
+                     postcode: '28608',
+                     county: 'Watauga County',
+                     county: 'United States of America'
+                    })
+    Location.create({lat: 36.2165099261701,
+                     lon: -81.6720628738403,
+                     name: 'East King Street',
+                     address: 'East King Street',
+                     city: 'Boone',
+                     state: 'North Carolina',
+                     postcode: '28608',
+                     county: 'Watauga County',
+                     county: 'United States ogf America'
+                    })
+
 
     Community.create({name: 'Boone Community Network',
                       description: 'We are all part of the Boone community!',
