@@ -63,7 +63,7 @@ namespace :db do
     Post.create({title: 'Posty Post Post',
                  description: 'Doing some posting...',
                  user: User.find(2),
-                 location: Location.find(3),
+                 location: Location.find(2),
                  communities: [Community.find(1)]
                 })
     Post.create({title: 'Woo Woo',
