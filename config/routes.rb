@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get '/login' => 'user_sessions#new', as: :login
+  get '/logout' => 'user_sessions#destroy', as: :logout
   get 'home/index'
   get 'home', to: 'home#home'
   get 'who_we_are', to: 'home#who_we_are'
@@ -8,7 +9,7 @@ Rails.application.routes.draw do
   resources :communities
   resources :user_sessions, only: [:create, :new]
   resources :users
-  resources :password_resets, only: [:new, :create, :edit]
+  resources :password_resets, only: [:new, :create, :edit, :update]
 
   namespace :api do
     resources :posts do

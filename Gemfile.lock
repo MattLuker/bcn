@@ -49,6 +49,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-email (2.4.0)
+      capybara (~> 2.4)
+      mail
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     coffee-rails (4.1.0)
@@ -207,6 +210,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.10)
   byebug
   capybara
+  capybara-email
   coffee-rails (~> 4.1.0)
   database_cleaner (~> 1.4.1)
   factory_girl_rails (~> 4.5.0)

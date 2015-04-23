@@ -24,6 +24,7 @@ group :development, :test do
   gem 'spring'
   gem 'rspec-rails', '~> 3.0'
   gem 'capybara'
+  gem 'capybara-email'
   gem 'shoulda-matchers', '~> 2.8.0'
   gem "rack-test", require: "rack/test"
   gem 'quiet_assets', '~> 1.1.0'

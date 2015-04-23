@@ -6,6 +6,7 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rspec'
 require 'capybara/rails'
+require 'capybara/email/rspec'
 #include Capybara::DSL
 
 

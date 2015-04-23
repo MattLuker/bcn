@@ -1,0 +1,16 @@
+<h3>Update Your Password</h3>
+
+<%= form_for @user, url: password_reset_path(@user.password_reset_token), html: {method: :patch} do |form| %>
+    <div class="row">
+      <div class="large-4 columns">
+        <%= form.label :password %>
+        <%= form.password_field :password %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns actions">
+        <%= form.submit 'Update Password', :class => 'button small success' %>
+      </div>
+    </div>
+<% end %>
