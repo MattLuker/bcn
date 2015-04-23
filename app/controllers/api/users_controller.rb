@@ -1,6 +1,4 @@
-class Api::UsersController < ApplicationController
-  skip_before_filter :verify_authenticity_token
-
+class Api::UsersController < Api::ApiController
   def index
     users = User.all
     render json: users.as_json

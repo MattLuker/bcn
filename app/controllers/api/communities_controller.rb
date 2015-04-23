@@ -1,5 +1,4 @@
-class Api::CommunitiesController < ApplicationController
-  skip_before_filter :verify_authenticity_token
+class Api::CommunitiesController < Api::ApiController
 
   def index
     communities = Community.all

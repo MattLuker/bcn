@@ -1,5 +1,4 @@
-class Api::LocationsController < ApplicationController
-  skip_before_filter :verify_authenticity_token
+class Api::LocationsController < Api::ApiController
   before_filter :find_post
 
   def create
