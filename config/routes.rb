@@ -24,6 +24,11 @@ Rails.application.routes.draw do
     resources :locations, only: [:create, :update, :destroy] do
       resources :posts, only: [:create, :update, :destroy]
     end
+
+    resources :users do
+      resources :posts, only: [:create, :update, :destroy]
+      #resources :communities, only: [:create, :update, :destroy]
+    end
   end
 
   resources :posts do 

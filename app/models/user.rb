@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
    format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/ }
 
   has_many :posts
+  #has_and_belongs_to_many :communities
 
   before_validation :set_username
   before_save :downcase_email
