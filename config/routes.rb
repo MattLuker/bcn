@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :communities
   resources :user_sessions, only: [:create, :new]
   resources :users
+  resources :password_resets, only: [:new, :create, :edit]
 
   namespace :api do
     resources :posts do

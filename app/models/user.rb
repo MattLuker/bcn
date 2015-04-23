@@ -17,4 +17,8 @@ class User < ActiveRecord::Base
   def set_username
     self.username = email if username.blank?
   end
+
+  def generate_password_reset_token!
+    update_attribute(:password_reset_token, SecureRandom.urlsafe_base64)
+  end
 end

@@ -60,6 +60,7 @@ RSpec.configure do |config|
   config.include DatabaseCleaner, type: :feature
   config.include Requests::JsonHelpers
   config.include AuthenticationHelpers, type: :feature
+  config.include UserHelpers
 
   config.include FactoryGirl::Syntax::Methods
 
