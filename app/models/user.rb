@@ -22,4 +22,8 @@ class User < ActiveRecord::Base
   def generate_password_reset_token!
     update_attribute(:password_reset_token, SecureRandom.urlsafe_base64)
   end
+
+  def as_json(options={})
+    super(:except => [:password_digest])
+  end
 end

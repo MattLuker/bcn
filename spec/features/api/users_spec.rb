@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Community API', :type => :api do
+describe 'User API', :type => :api do
   let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
 
   it 'sends a list of users' do
@@ -9,15 +9,6 @@ describe 'Community API', :type => :api do
 
     expect(json.length).to eq(1)
     expect(json[0]['email']).to eq('adam@thehoick.com')
-  end
-
-  it 'shows user details' do
-    get '/api/users/' + user.id.to_s
-
-    expect(last_response.status).to eq(200)
-
-    expect(json['first_name']).to eq('Adam')
-    expect(json['email']).to eq('adam@thehoick.com')
   end
 
   it 'creates a user and has valid response' do
@@ -56,23 +47,40 @@ describe 'Community API', :type => :api do
     expect(json['errors']['email']).to eq(['has already been taken'])
   end
 
+  it 'shows user details' do
+    basic_authorize(user.email, 'beans')
+    get '/api/users/' + user.id.to_s
+    expect(last_response.status).to eq(200)
+
+    expect(json['first_name']).to eq('Adam')
+    expect(json['email']).to eq('adam@thehoick.com')
+  end
+
   it 'updates a user and sends a valid response' do
+    basic_authorize(user.email, 'beans')
+
     patch '/api/users/' + user.id.to_s,
           format: :json, :user => {:first_name => 'Mike'}
-
     expect(last_response.status).to eq(200)
+
     expect(json.length).to eq(2)
     expect(json['message']).to eq('User updated.')
     expect(json['user']['first_name']).to eq('Mike')
   end
 
-
   it "deletes a user and sends a valid response" do
+    basic_authorize(user.email, 'beans')
+
     delete '/api/users/' + user.id.to_s, format: :json
 
     expect(last_response.status).to eq(200)
 
     expect(json.length).to eq(1)
     expect(json['message']).to eq('User deleted.')
+  end
+
+  it 'will not delete if not logged in and receive 401' do
+    delete '/api/users/' + user.id.to_s, format: :json
+    expect(last_response.status).to eq(401)
   end
 end

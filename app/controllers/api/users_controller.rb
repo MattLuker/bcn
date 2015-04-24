@@ -1,7 +1,9 @@
 class Api::UsersController < Api::ApiController
+  before_action :require_user, only: [:show, :update, :destroy]
+
   def index
     users = User.all
-    render json: users.as_json
+    render json: users.as_json()
   end
 
   def show
