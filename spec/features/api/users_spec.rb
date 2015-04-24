@@ -84,4 +84,9 @@ describe 'User API', :type => :api do
     delete '/api/users/' + user.id.to_s, format: :json
     expect(last_response.status).to eq(401)
   end
+
+  it 'will not delete if logged in as other user' do
+    pending "Waiting..."
+    expect(last_response.status).to eq(401)
+  end
 end

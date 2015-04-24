@@ -72,4 +72,16 @@ describe 'Posts API', :type => :api do
     expect(json.length).to eq(1)
     expect(json['message']).to eq('Post deleted.')
   end
+
+  it 'will not update post if not logged in as non-post user' do
+    post2 = Post.create(title: 'Location Post', description: 'Great job location!', user: user)
+
+    user2 = User.create(email: 'cheese@thehoick.com', password: 'beans')
+    basic_authorize(user2.email, 'beans')
+
+    patch '/api/posts/' + post2.id.to_s, format: :json, :post => {:title => 'JSON Updated Post',
+                                                                  :description => 'Great job JSON!'}
+
+    expect(last_response.status).to eq(404)
+  end
 end
