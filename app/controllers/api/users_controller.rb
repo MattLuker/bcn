@@ -7,8 +7,7 @@ class Api::UsersController < Api::ApiController
   end
 
   def show
-    user = User.find(params[:id])
-    render json: user.as_json(include: :posts)
+    render json: current_user.as_json(include: :posts)
   end
 
   def create
@@ -26,24 +25,21 @@ class Api::UsersController < Api::ApiController
   end
 
   def update
-    user = User.find(params[:id])
-
-    if user.update(user_params)
+    if current_user.update(user_params)
       render status: 200, json: {
                             message: 'User updated.',
-                            user: user
+                            user: current_user
                         }.to_json
     else
       render status: 422, json: {
                             message: 'User could not be updated.',
-                            user: user
+                            user: current_user
                         }.to_json
     end
   end
 
   def destroy
-    user = User.find(params[:id])
-    user.destroy
+    current_user.destroy
 
     render status: 200, json: {
                           message: 'User deleted.'
