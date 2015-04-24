@@ -1,5 +1,5 @@
 class Api::UsersController < Api::ApiController
-  before_action :require_user, only: [:show, :update, :destroy]
+  before_filter :authenticate, only: [:show, :update, :destroy]
 
   def index
     users = User.all

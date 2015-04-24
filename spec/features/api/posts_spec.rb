@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe 'Posts API', :type => :api do
   let!(:new_post) { Post.create(title: 'Location Post', description: 'Great job location!') }
+  let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
+
 
   it 'sends a list of posts' do
 
@@ -32,8 +34,24 @@ describe 'Posts API', :type => :api do
     expect(json['post']['title']).to eq('JSON Post')
   end
 
+  it 'creates a post with a user and has valid response' do
+    post '/api/posts', format: :json, :post => {:title => 'JSON Post',
+                                                :description => 'Great job JSON!',
+                                                :user_id => user.id}
+
+    expect(last_response.status).to eq(200)
+
+    expect(json.length).to eq(3)
+    expect(json['message']).to eq('Post created.')
+    expect(json['post']['title']).to eq('JSON Post')
+    expect(json['post']['user']['email']).to eq(user.email)
+  end
+
   it 'updates a post and has valid response' do
-    patch '/api/posts/' + new_post.id.to_s, format: :json, :post => {:title => 'JSON Updated Post',
+    basic_authorize(user.email, 'beans')
+    post2 = Post.create(title: 'Location Post', description: 'Great job location!', user: user)
+
+    patch '/api/posts/' + post2.id.to_s, format: :json, :post => {:title => 'JSON Updated Post',
                                                                      :description => 'Great job JSON!'}
 
     expect(last_response.status).to eq(200)
@@ -44,7 +62,10 @@ describe 'Posts API', :type => :api do
   end
 
   it 'deletes a post and has valid response' do
-    delete '/api/posts/' + new_post.id.to_s, format: :json
+    basic_authorize(user.email, 'beans')
+    post2 = Post.create(title: 'Location Post', description: 'Great job location!', user: user)
+
+    delete '/api/posts/' + post2.id.to_s, format: :json
 
     expect(last_response.status).to eq(200)
 

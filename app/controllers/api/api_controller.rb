@@ -5,14 +5,20 @@ module Api
     #helper_method :authenticate
     helper_method :current_user
 
-    before_filter :authenticate, only: [:show, :update, :destroy]
-
     def current_user
       @current_user
     end
 
     def authenticate
+      if not session[:user_id]
+        basic_auth
+      end
+    end
+
+    def basic_auth
       authenticate_or_request_with_http_basic do |email, password|
+        #authenticate_with_http_basic do |email, password|
+
         Rails.logger.info "API authentication: #{email}, #{password}"
         user = User.find_by(email: email)
 
@@ -22,6 +28,7 @@ module Api
           true
         else
           Rails.logger.info "Credentials invalid."
+          # Send HTTP status for 401.
           false
         end
       end

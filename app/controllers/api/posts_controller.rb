@@ -1,4 +1,5 @@
 class Api::PostsController < Api::ApiController
+  before_filter :authenticate, only: [:update, :destroy]
 
   def index
     posts = Post.all
@@ -11,7 +12,12 @@ class Api::PostsController < Api::ApiController
   end
 
   def create
-    post = Post.new(post_params)
+    if current_user
+      post = current_user.posts.new(post_params)
+    else
+      post = Post.new(post_params)
+    end
+
     if post.save
       render status: 200, json: {
         message: 'Post created.',
@@ -26,7 +32,7 @@ class Api::PostsController < Api::ApiController
   end
 
   def update
-    post = Post.find(params[:id])
+    post = current_user.posts.find(params[:id])
 
     message = 'Post updated.'
     if params[:community_id]
@@ -50,7 +56,7 @@ class Api::PostsController < Api::ApiController
   end
 
   def destroy
-    post = Post.find(params[:id])
+    post = current_user.posts.find(params[:id])
 
     message = 'Post deleted.'
     if params[:community_id]
@@ -67,6 +73,6 @@ class Api::PostsController < Api::ApiController
 
   private
   def post_params
-    params.require('post').permit('title', 'description', :lat, :lon, :community_ids => [])
+    params.require('post').permit('title', 'description', :lat, :lon, :user_id, :community_ids => [])
   end
 end

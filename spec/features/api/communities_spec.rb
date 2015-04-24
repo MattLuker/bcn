@@ -7,6 +7,7 @@ describe 'Community API', :type => :api do
       home_page: 'http://boonecommunitynetwork.com',
       color: '#000000'
   ) }
+  let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
 
   it 'sends a list of communities' do
 
@@ -82,6 +83,8 @@ describe 'Community API', :type => :api do
   end
 
   it "deletes a community and sends a valid response" do
+    basic_authorize(user.email, 'beans')
+
     delete '/api/communities/' + community.id.to_s, format: :json
 
     expect(last_response.status).to eq(200)

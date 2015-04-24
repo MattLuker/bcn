@@ -29,7 +29,7 @@ class PostsController < ApplicationController
     if not current_user
       if current_user != @post.user
         flash[:error] = 'You can only update your posts.'
-        redirect_to home_index_path
+        redirect_to login_path
       else
         flash[:info] = 'You must be logged in to update a post.'
         redirect_to new_user_session_path

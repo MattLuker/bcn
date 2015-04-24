@@ -1,4 +1,5 @@
 class Api::CommunitiesController < Api::ApiController
+  before_filter :authenticate, only: [:destroy]
 
   def index
     communities = Community.all

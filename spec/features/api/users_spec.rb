@@ -50,6 +50,7 @@ describe 'User API', :type => :api do
   it 'shows user details' do
     basic_authorize(user.email, 'beans')
     get '/api/users/' + user.id.to_s
+
     expect(last_response.status).to eq(200)
 
     expect(json['first_name']).to eq('Adam')

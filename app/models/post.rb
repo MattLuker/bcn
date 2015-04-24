@@ -46,6 +46,14 @@ class Post < ActiveRecord::Base
             :color
           ]
         },
+        :user => {
+            :only => [
+                :email,
+                :first_name,
+                :last_name,
+                :username
+            ]
+        }
       }
     )
   end

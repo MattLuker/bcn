@@ -2,12 +2,7 @@ require 'rails_helper'
 
 describe 'Post Communities API', :type => :api do
   let!(:new_post) { Post.create(title: 'Location Post 1', description: 'Great job location!') }
-  # let!(:community) { Community.create(
-  #     name: 'Boone Community Network 1',
-  #     description: "We're all part of the Boone community!",
-  #     home_page: 'http://boonecommunitynetwork.com',
-  #     color: '#000000'
-  # ) }
+  let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
 
   it 'creates a post with a community and has valid response' do
     create_api_community
@@ -45,7 +40,10 @@ describe 'Post Communities API', :type => :api do
     create_api_community
     community = Community.find(json['community']['id'])
 
-    patch "/api/communities/#{community.id}/posts/#{new_post.id}", format: :json,
+    basic_authorize(user.email, 'beans')
+    post2 = Post.create(title: 'Location Post', description: 'Great job location!', user: user)
+
+    patch "/api/communities/#{community.id}/posts/#{post2.id}", format: :json,
           :post => {:community_ids => [community.id]}
 
     expect(last_response.status).to eq(200)
@@ -60,8 +58,15 @@ describe 'Post Communities API', :type => :api do
     create_api_community
     community = Community.find(json['community']['id'])
 
-    post '/api/posts', format: :json, :post => {:title => 'JSON Post', :description => 'Great job JSON!',
-                                                :community_ids => [community.id]}
+    basic_authorize(user.email, 'beans')
+
+    post '/api/posts', format: :json, :post => {:title => 'JSON Post',
+                                                :description => 'Great job JSON!',
+                                                :community_ids => [community.id],
+                                                :user_id => user.id
+                                               }
+    #post2 = Post.create(title: 'Location Post', description: 'Great job location!', user: user)
+
 
     expect(last_response.status).to eq(200)
     json ||= JSON.parse(last_response.body)
@@ -85,12 +90,15 @@ describe 'Post Communities API', :type => :api do
     create_api_community
     community = Community.find(json['community']['id'])
 
+    basic_authorize(user.email, 'beans')
+
     post '/api/communities', format: :json, :community => {
                                :name => 'JSON Community',
                                :description => 'Great job JSON!',
                                home_page: 'http://thehoick.com',
                                color: '#ececec',
-                               post_ids: [1]
+                               post_ids: [1],
+                               user: user
                            }
     expect(last_response.status).to eq(200)
     json ||= JSON.parse(last_response.body)
