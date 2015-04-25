@@ -11,6 +11,7 @@ class Community < ActiveRecord::Base
   end
 
   has_and_belongs_to_many :posts
+  has_and_belongs_to_many :users
 
   def as_json(options={})
     super(:only => [
@@ -18,7 +19,8 @@ class Community < ActiveRecord::Base
             :name,
             :description,
             :home_page,
-            :color
+            :color,
+            :created_by
       ],
       :include => {
         :posts => {
@@ -44,7 +46,16 @@ class Community < ActiveRecord::Base
             },
           },
         },
-      }
+        :users => {
+          :only => [
+              :id,
+              :email,
+              :username,
+              :first_name,
+              :last_name
+            ],
+          },
+        },
     )
   end
 end

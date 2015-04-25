@@ -1,5 +1,5 @@
 class Api::CommunitiesController < Api::ApiController
-  before_filter :authenticate, only: [:destroy]
+  before_filter :authenticate, only: [:update, :destroy]
 
   def index
     communities = Community.all
@@ -26,7 +26,29 @@ class Api::CommunitiesController < Api::ApiController
   end
 
   def update
-    community = Community.find(params[:id])
+    puts params
+    puts community_params.keys
+    # Scope this to the current user.
+    community = Community.find_by(created_by: current_user.id)
+    if not community
+      puts 'Did not find current_user Community...'
+      # Only let the created_by user update the other Community attributes.
+      if community_params.keys == 'user_ids'
+        community = Community.find(params[:id])
+      else
+        render status: 401, json: {
+                              message: "Only the Community creator can update those attributes.",
+                              post: post
+                          }.to_json
+      end
+    end
+
+    # if current_user.id != community_params['user_ids'][0]
+    #   render status: 401, json: {
+    #                         message: "Sorry, you can only add yourself to a Community.",
+    #                         post: post
+    #                     }.to_json
+    # end
 
     message = 'Community updated.'
     if params[:post_id]
@@ -66,6 +88,6 @@ class Api::CommunitiesController < Api::ApiController
 
   private
   def community_params
-    params.require("community").permit("name", "description")
+    params.require('community').permit('name', 'description', 'created_by', :user_ids => [])
   end
 end

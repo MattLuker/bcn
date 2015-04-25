@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
     resources :users do
       resources :posts, only: [:create, :update, :destroy]
-      #resources :communities, only: [:create, :update, :destroy]
+      resources :communities, only: [:update, :destroy]
     end
   end
 
