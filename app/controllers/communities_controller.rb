@@ -1,5 +1,6 @@
 class CommunitiesController < ApplicationController
   before_action :set_community, only: [:show, :edit, :update, :destroy]
+  before_filter :require_user, only: [:new, :create, :update, :destroy, :add_user, :remove_user]
 
   # GET /communities
   # GET /communities.json
@@ -19,12 +20,17 @@ class CommunitiesController < ApplicationController
 
   # GET /communities/1/edit
   def edit
+    if @community.created_by != current_user.id
+      redirect_to @community, notice: 'Must be the creator of the Community to update it.'
+    end
   end
 
   # POST /communities
   # POST /communities.json
   def create
     @community = Community.new(community_params)
+    @community.created_by = current_user.id
+    @community.users << current_user
 
     respond_to do |format|
       if @community.save
@@ -41,12 +47,16 @@ class CommunitiesController < ApplicationController
   # PATCH/PUT /communities/1.json
   def update
     respond_to do |format|
-      if @community.update(community_params)
-        format.html { redirect_to @community, notice: 'Community was successfully updated.' }
-        format.json { render :show, status: :ok, location: @community }
+      if @community.created_by != current_user.id
+        format.html { redirect_to @community, notice: 'Must be the creator of the Community to update it.' }
       else
-        format.html { render :edit }
-        format.json { render json: @community.errors, status: :unprocessable_entity }
+        if @community.update(community_params)
+          format.html { redirect_to @community, notice: 'Community was successfully updated.' }
+          format.json { render :show, status: :ok, location: @community }
+        else
+          format.html { render :edit }
+          format.json { render json: @community.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -54,10 +64,17 @@ class CommunitiesController < ApplicationController
   # DELETE /communities/1
   # DELETE /communities/1.json
   def destroy
-    @community.destroy
-    respond_to do |format|
-      format.html { redirect_to communities_url, notice: 'Community was successfully deleted.' }
-      format.json { head :no_content }
+    if @community.created_by == current_user.id
+      @community.destroy
+      respond_to do |format|
+        format.html { redirect_to communities_url, notice: 'Community was successfully deleted.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @community, notice: 'Community can only be deleted by creator.' }
+        format.json { head :no_content }
+      end
     end
   end
 

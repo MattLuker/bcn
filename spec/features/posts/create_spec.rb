@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe "Creating posts" do
+  let(:user) { create(:user) }
 
   it "redirects to the post list index page on success" do
     create_post
@@ -48,6 +49,7 @@ describe "Creating posts" do
   end
 
   it "success when creating a post with a community" do
+    sign_in user, password: 'beans'
     create_community
     expect(page).to have_content('Community was successfully created.')
 
