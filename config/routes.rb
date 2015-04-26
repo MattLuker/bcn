@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
     resources :communities do
       resources :posts, only: [:create, :update, :destroy]
+      patch 'users', to: 'communities#add_user'
+      delete 'users', to: 'communities#remove_user'
     end
 
     resources :locations, only: [:create, :update, :destroy] do
@@ -27,7 +29,6 @@ Rails.application.routes.draw do
 
     resources :users do
       resources :posts, only: [:create, :update, :destroy]
-      resources :communities, only: [:update, :destroy]
     end
   end
 

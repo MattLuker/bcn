@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 describe 'Post Communities API', :type => :api do
-  let!(:new_post) { Post.create(title: 'Location Post 1', description: 'Great job location!') }
   let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
+  let!(:new_post) { Post.create(title: 'Location Post 1', description: 'Great job location!') }
 
   it 'creates a post with a community and has valid response' do
-    create_api_community
+    basic_authorize(user.email, 'beans')
+
+    create_api_community(user.id)
     community = Community.find(json['community']['id'])
 
     post '/api/posts', format: :json, :post => {:title => 'JSON Post 2', :description => 'Great job JSON!',
@@ -22,7 +24,9 @@ describe 'Post Communities API', :type => :api do
   end
 
   it 'can add a post to a community' do
-    create_api_community
+    basic_authorize(user.email, 'beans')
+
+    create_api_community(user.id)
     community = Community.find(json['community']['id'])
 
     patch "/api/posts/#{new_post.id}/communities/#{community.id}", format: :json,
@@ -37,7 +41,9 @@ describe 'Post Communities API', :type => :api do
   end
 
   it 'can add a community to a post' do
-    create_api_community
+    basic_authorize(user.email, 'beans')
+
+    create_api_community(user.id)
     community = Community.find(json['community']['id'])
 
     basic_authorize(user.email, 'beans')
@@ -55,7 +61,9 @@ describe 'Post Communities API', :type => :api do
   end
 
   it 'can remove a community from a post' do
-    create_api_community
+    basic_authorize(user.email, 'beans')
+
+    create_api_community(user.id)
     community = Community.find(json['community']['id'])
 
     basic_authorize(user.email, 'beans')
@@ -87,7 +95,9 @@ describe 'Post Communities API', :type => :api do
   end
 
   it 'can remove a post from a community' do
-    create_api_community
+    basic_authorize(user.email, 'beans')
+
+    create_api_community(user.id)
     community = Community.find(json['community']['id'])
 
     basic_authorize(user.email, 'beans')

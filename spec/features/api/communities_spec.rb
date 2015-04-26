@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 describe 'Community API', :type => :api do
+  let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
   let!(:community) { Community.create(
       name: 'Boone Community Network',
       description: "We're all part of the Boone community!",
       home_page: 'http://boonecommunitynetwork.com',
-      color: '#000000'
+      color: '#000000',
+      created_by: user.id
   ) }
-  let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
 
   it 'sends a list of communities' do
 
@@ -29,6 +30,8 @@ describe 'Community API', :type => :api do
   end
 
   it 'creates a community and has valid response' do
+    basic_authorize(user.email, 'beans')
+
     post '/api/communities', format: :json, :community => {
                                :name => 'JSON Community',
                                :description => 'Great job JSON!',
@@ -37,13 +40,17 @@ describe 'Community API', :type => :api do
                            }
 
     expect(last_response.status).to eq(200)
+    community = Community.last
 
     expect(json.length).to eq(2)
     expect(json['message']).to eq('Community created.')
     expect(json['community']['name']).to eq('JSON Community')
+    expect(json['community']['created_by']).to eq(user.id)
   end
 
   it 'fails to create a community with no name and has a valid response' do
+    basic_authorize(user.email, 'beans')
+
     post '/api/communities', format: :json, :community => {
                                :name => '',
                                :description => 'Great job JSON!',
@@ -58,6 +65,8 @@ describe 'Community API', :type => :api do
   end
 
   it 'fails to create a community when there is another with the same name' do
+    basic_authorize(user.email, 'beans')
+
     post '/api/communities', format: :json, :community => {
                                :name => 'Boone Community Network',
                                :description => 'Great job JSON!',
@@ -72,6 +81,8 @@ describe 'Community API', :type => :api do
   end
 
   it 'updates a community and sends a valid response' do
+    basic_authorize(user.email, 'beans')
+
     patch '/api/communities/' + community.id.to_s,
           format: :json, :community => {:name => 'JSON Updated Community'}
 
@@ -80,6 +91,19 @@ describe 'Community API', :type => :api do
     expect(json.length).to eq(3)
     expect(json['message']).to eq('Community updated.')
     expect(json['community']['name']).to eq('JSON Updated Community')
+  end
+
+  it 'fails to update when logged in as non-creator user' do
+    cheese = User.create(email: 'cheese@thehoick.com', password: 'beans', first_name: 'Cheese', last_name: 'Cheeese')
+    basic_authorize(cheese.email, 'beans')
+
+    patch '/api/communities/' + community.id.to_s,
+          format: :json, :community => {:name => 'JSON Updated Community'}
+
+    expect(last_response.status).to eq(401)
+
+    expect(json.length).to eq(2)
+    expect(json['message']).to eq('Only the community creator and update the community.')
   end
 
   it "deletes a community and sends a valid response" do

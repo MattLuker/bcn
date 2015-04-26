@@ -1,5 +1,5 @@
 class Api::CommunitiesController < Api::ApiController
-  before_filter :authenticate, only: [:update, :destroy]
+  before_filter :authenticate, only: [:create, :update, :destroy, :add_user, :remove_user]
 
   def index
     communities = Community.all
@@ -12,10 +12,11 @@ class Api::CommunitiesController < Api::ApiController
   end
 
   def create
-    community = Community.new(community_params)
+    community = current_user.communities.new(community_params)
+    community.created_by = current_user.id
     if community.save
       render status: 200, json: {
-                            message: "Community created.",
+                            message: 'Community created.',
                             community: community,
                         }.to_json
     else
@@ -26,29 +27,7 @@ class Api::CommunitiesController < Api::ApiController
   end
 
   def update
-    puts params
-    puts community_params.keys
-    # Scope this to the current user.
-    community = Community.find_by(created_by: current_user.id)
-    if not community
-      puts 'Did not find current_user Community...'
-      # Only let the created_by user update the other Community attributes.
-      if community_params.keys == 'user_ids'
-        community = Community.find(params[:id])
-      else
-        render status: 401, json: {
-                              message: "Only the Community creator can update those attributes.",
-                              post: post
-                          }.to_json
-      end
-    end
-
-    # if current_user.id != community_params['user_ids'][0]
-    #   render status: 401, json: {
-    #                         message: "Sorry, you can only add yourself to a Community.",
-    #                         post: post
-    #                     }.to_json
-    # end
+    community = Community.find(params[:id])
 
     message = 'Community updated.'
     if params[:post_id]
@@ -56,16 +35,69 @@ class Api::CommunitiesController < Api::ApiController
       message = 'Post added to Community.'
     end
 
-    if community.update(community_params)
-      render status: 200, json: {
-                            message: message,
-                            community: community,
-                            posts: community.posts
-                        }.to_json
+    if community.created_by == current_user.id
+
+      if community.update(community_params)
+        render status: 200, json: {
+                              message: message,
+                              community: community,
+                              posts: community.posts
+                          }.to_json
+      else
+        render status: 422, json: {
+                              message: 'Community could not be updated.',
+                              post: post
+                          }.to_json
+      end
     else
-      render status: 422, json: {
-                            message: "Community could not be updated.",
-                            post: post
+      render status: 401, json: {
+                            message: 'Only the community creator and update the community.',
+                            community: community
+                        }.to_json
+    end
+  end
+
+  def add_user
+    community = Community.find(params[:community_id])
+
+    if current_user.id == community_params['user_ids'][0].to_i
+      if community.update(community_params)
+        render status: 200, json: {
+                              message: 'User added to community.',
+                              community: community,
+                          }.to_json
+      else
+        render status: 422, json: {
+                              message: 'User could not be added to community.',
+                              community: community
+                          }.to_json
+      end
+    else
+      render status: 401, json: {
+                            message: '"You can only add yourself to a community.",'
+                        }.to_json
+    end
+  end
+
+  def remove_user
+    community = Community.find(params[:community_id])
+    user = User.find(community_params['user_ids'][0].to_i)
+
+    if current_user.id == community_params['user_ids'][0].to_i
+      if community.users.delete(user)
+        render status: 200, json: {
+                              message: 'User removed to community.',
+                              community: community,
+                          }.to_json
+      else
+        render status: 422, json: {
+                              message: 'User could not be removed to community.',
+                              community: community
+                          }.to_json
+      end
+    else
+      render status: 401, json: {
+                            message: 'You can only remove yourself from a community.',
                         }.to_json
     end
   end
