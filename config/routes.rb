@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   get 'who_we_are', to: 'home#who_we_are'
   get 'calendar', to: 'home#calendar'
 
-  resources :communities
+  resources :communities do
+    patch 'users', to: 'communities#add_user'
+    delete 'users', to: 'communities#remove_user'
+  end
+
   resources :user_sessions, only: [:create, :new]
   resources :users
   resources :password_resets, only: [:new, :create, :edit, :update]

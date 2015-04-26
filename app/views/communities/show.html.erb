@@ -16,6 +16,21 @@
   <strong>Color:</strong>
   <span style="background: <%= @community.color %>; color: white; padding: 3px;"><%= @community.color %></span>
 </p>
+
+<p>
+  <%= form_tag("/communities/#{@community.id}/users", method: 'patch') do |f| %>
+      <%= hidden_field_tag 'user_id', current_user.id %>
+      <%= submit_tag 'Join Community', :class => 'button small' %>
+  <% end %>
+</p>
+<p>
+  <strong>Users</strong>
+  <ul>
+    <% @community.users.each do |user| %>
+      <li><%= link_to "#{user.first_name} #{user.last_name}", user %></li>
+    <% end %>
+  </ul>
+</p>
 <br/>
 
 <%= link_to 'Edit', edit_community_path(@community) %> |

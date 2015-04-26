@@ -61,7 +61,9 @@ class Api::CommunitiesController < Api::ApiController
     community = Community.find(params[:community_id])
 
     if current_user.id == community_params['user_ids'][0].to_i
-      if community.update(community_params)
+      user = User.find(community_params['user_ids'][0].to_i)
+      community.users << user
+      if community.save
         render status: 200, json: {
                               message: 'User added to community.',
                               community: community,
@@ -74,7 +76,7 @@ class Api::CommunitiesController < Api::ApiController
       end
     else
       render status: 401, json: {
-                            message: '"You can only add yourself to a community.",'
+                            message: 'You can only add yourself to a community.'
                         }.to_json
     end
   end

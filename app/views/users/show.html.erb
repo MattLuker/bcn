@@ -16,8 +16,18 @@
 </p>
 
 <p>
-  <strong>Password digest:</strong>
-  <%= @user.password_digest %>
+  <strong>Communities:</strong>
+  <ul>
+    <% @user.communities.each do |community| %>
+      <li>
+        <%= link_to community.name, community %>
+        <%= form_tag("/communities/#{community.id}/users", method: 'delete') do |f| %>
+            <%= hidden_field_tag 'user_id', current_user.id %>
+            <%= submit_tag 'Leave Community', :class => 'button tiny secondary' %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

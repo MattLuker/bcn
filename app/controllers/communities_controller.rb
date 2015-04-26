@@ -46,6 +46,7 @@ class CommunitiesController < ApplicationController
   # PATCH/PUT /communities/1
   # PATCH/PUT /communities/1.json
   def update
+    puts params
     respond_to do |format|
       if @community.created_by != current_user.id
         format.html { redirect_to @community, notice: 'Must be the creator of the Community to update it.' }
@@ -58,6 +59,41 @@ class CommunitiesController < ApplicationController
           format.json { render json: @community.errors, status: :unprocessable_entity }
         end
       end
+    end
+  end
+
+  def add_user
+    @community = Community.find(params[:community_id].to_i)
+
+    if current_user.id == params['user_id'].to_i
+      user = User.find(params['user_id'])
+      @community.users << user
+      if @community.save
+        flash[:success] = "You are now part of the #{@community.name} community."
+        redirect_to @community
+      else
+        puts 'did not save communty'
+        redirect_to @community, notice: 'There was a problem adding you to the community'
+      end
+    else
+      puts 'could not find communiy'
+      redirect_to communities_path, notice: 'You can only add yourself to a community.'
+    end
+  end
+
+  def remove_user
+    community = Community.find(params[:community_id].to_i)
+
+    if current_user.id == params['user_id'].to_i
+      @user = User.find(params['user_id'])
+      if community.users.delete(@user)
+        flash[:success] = "You have left the #{community.name} community."
+        redirect_to @user
+      else
+        redirect_to @user, notice: 'There was a problem leaving the community'
+      end
+    else
+      redirect_to @user, notice: 'You can only remove yourself from a community.'
     end
   end
 
@@ -86,6 +122,6 @@ class CommunitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def community_params
-      params.require(:community).permit(:name, :description, :home_page, :color)
+      params.require(:community).permit(:name, :description, :home_page, :color, :user_ids => [])
     end
 end
