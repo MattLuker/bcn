@@ -38,16 +38,23 @@
       <% if @post.communities %>
         <ul>
           <% @post.communities.each do |community| %>
-              <li><%= community.name %></li>
+              <li>
+                <%= link_to community.name, community %>
+                <%= form_tag("/posts/#{@post.id}/community", method: 'delete') do |f| %>
+                    <% if current_user %>
+                      <%= hidden_field_tag 'user_id', current_user.id %>
+                      <%= hidden_field_tag 'community_id', community.id %>
+                    <% end %>
+                    <%= submit_tag 'Remove Community', :class => 'button tiny secondary' %>
+                <% end %>
+              </li>
           <% end %>
         </ul>
     <% end %>
 
     </p>
 
-    <% if @post.user == current_user %>
-      <%= link_to 'Edit', edit_post_path(@post) %> |
-    <% end %>
+    <%= link_to 'Edit', edit_post_path(@post) %> |
     <%= link_to 'Back', posts_path %>
   </div>
 

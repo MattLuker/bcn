@@ -46,7 +46,6 @@ class CommunitiesController < ApplicationController
   # PATCH/PUT /communities/1
   # PATCH/PUT /communities/1.json
   def update
-    puts params
     respond_to do |format|
       if @community.created_by != current_user.id
         format.html { redirect_to @community, notice: 'Must be the creator of the Community to update it.' }
@@ -72,11 +71,9 @@ class CommunitiesController < ApplicationController
         flash[:success] = "You are now part of the #{@community.name} community."
         redirect_to @community
       else
-        puts 'did not save communty'
         redirect_to @community, notice: 'There was a problem adding you to the community'
       end
     else
-      puts 'could not find communiy'
       redirect_to communities_path, notice: 'You can only add yourself to a community.'
     end
   end

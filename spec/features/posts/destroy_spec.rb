@@ -42,7 +42,7 @@ describe "Deleting posts" do
       create_post
       visit "/posts/#{Post.last.id}/edit"
 
-      expect(page).to have_content('You must be logged in to update a post.')
+      expect(page).to have_content('You must be logged in to view that page.')
       expect(find_button('Log In').value).to eq('Log In')
     end
   end

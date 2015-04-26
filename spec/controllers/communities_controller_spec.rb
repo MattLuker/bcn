@@ -53,10 +53,6 @@ RSpec.describe CommunitiesController, type: :controller do
   end
 
   describe "GET #new" do
-    it "assigns a new community as @community" do
-      get :new, {}, valid_session
-      expect(assigns(:community)).to be_a_new(Community)
-    end
   end
 
   describe "GET #edit" do

@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_filter :require_user, only: [:edit, :update, :destroy, :remove_community]
 
   # GET /posts
   # GET /posts.json
@@ -81,6 +82,22 @@ class PostsController < ApplicationController
           format.json { render json: @post.errors, status: :unprocessable_entity }
         end
       end
+    end
+  end
+
+  def remove_community
+    @post = Post.find(params[:post_id])
+
+    if current_user.id == params['user_id'].to_i
+      community = Community.find(params['community_id'])
+      if @post.communities.delete(community)
+        flash[:success] = "Community #{community.name} removed."
+        redirect_to @post
+      else
+        redirect_to @post, notice: 'There was a problem removing the community'
+      end
+    else
+      redirect_to @post, notice: 'Only the post creator can remove a community.'
     end
   end
 
