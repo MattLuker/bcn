@@ -1,5 +1,5 @@
 class Api::PostsController < Api::ApiController
-  before_filter :authenticate, only: [:update, :destroy]
+  before_filter :authenticate, only: [:create, :update, :destroy]
 
   def index
     posts = Post.all
@@ -12,11 +12,20 @@ class Api::PostsController < Api::ApiController
   end
 
   def create
+    puts "params: #{params}"
+    puts "post_params['lat']: #{post_params['lat']}"
+    if post_params['lat'] and post_params['lon']
+      lat = params[:post].delete :lat
+      lon = params[:post].delete :lon
+    end
+
     if current_user
+      puts "post_params: #{post_params}"
       post = current_user.posts.new(post_params)
     else
       post = Post.new(post_params)
     end
+    post.create_location({lat: lat, lon: lon}) if lat and lon
 
     if post.save
       render status: 200, json: {
@@ -73,6 +82,6 @@ class Api::PostsController < Api::ApiController
 
   private
   def post_params
-    params.require('post').permit('title', 'description', :lat, :lon, :user_id, :community_ids => [])
+    params.require('post').permit(:title, :description, :lat, :lon, :location_id, :user_id, :community_ids => [])
   end
 end

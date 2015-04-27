@@ -2,7 +2,6 @@ module Api
   class ApiController < ApplicationController
     skip_before_filter :verify_authenticity_token
     protect_from_forgery with: :null_session
-    #helper_method :authenticate
     helper_method :current_user
 
     def current_user
@@ -11,7 +10,16 @@ module Api
 
     def authenticate
       if not session[:user_id]
-        basic_auth
+        # Perform basic auth for Post create, or not.
+        if controller_name == 'posts' and action_name == 'create'
+          if request.headers.include?('HTTP_AUTHORIZATION')
+            basic_auth
+          else
+            true
+          end
+        else
+          basic_auth
+        end
       end
     end
 

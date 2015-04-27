@@ -35,9 +35,10 @@ describe 'Posts API', :type => :api do
   end
 
   it 'creates a post with a user and has valid response' do
+    basic_authorize(user.email, 'beans')
+
     post '/api/posts', format: :json, :post => {:title => 'JSON Post',
-                                                :description => 'Great job JSON!',
-                                                :user_id => user.id}
+                                                :description => 'Great job JSON!'}
 
     expect(last_response.status).to eq(200)
 
@@ -83,5 +84,20 @@ describe 'Posts API', :type => :api do
                                                                   :description => 'Great job JSON!'}
 
     expect(last_response.status).to eq(404)
+  end
+
+  it 'creates a post with one location' do
+    basic_authorize(user.email, 'beans')
+    post '/api/posts', format: :json, :post => {:title => 'JSON Post',
+                                                :description => 'Great job JSON!',
+                                                :user_id => user.id,
+                                                :lat => 36.2168215386211,
+                                                :lon => -81.682448387146}
+    expect(last_response.status).to eq(200)
+
+    expect(json.length).to eq(3)
+    expect(json['message']).to eq('Post created.')
+    expect(json['post']['title']).to eq('JSON Post')
+    expect(json['post']['location']['name']).to eq('Kenneth E. Peacock Hall')
   end
 end

@@ -84,4 +84,12 @@ describe "Creating posts" do
 
     expect(Post.last.user).to eq(user)
   end
+
+  it 'creates a post with many locations', :js => true do
+    user = create(:user)
+    sign_in(user, {password: 'beans'})
+    create_post
+
+    expect(page).to have_content('My Post')
+  end
 end
