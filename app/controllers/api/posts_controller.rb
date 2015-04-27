@@ -8,19 +8,16 @@ class Api::PostsController < Api::ApiController
 
   def show
     post = Post.find(params[:id])
-    render json: post.as_json(include: :location, include: :communities)
+    render json: post.as_json(include: :locations, include: :communities)
   end
 
   def create
-    puts "params: #{params}"
-    puts "post_params['lat']: #{post_params['lat']}"
     if post_params['lat'] and post_params['lon']
       lat = params[:post].delete :lat
       lon = params[:post].delete :lon
     end
 
     if current_user
-      puts "post_params: #{post_params}"
       post = current_user.posts.new(post_params)
     else
       post = Post.new(post_params)
@@ -31,7 +28,7 @@ class Api::PostsController < Api::ApiController
       render status: 200, json: {
         message: 'Post created.',
         post: post,
-        location: post.location
+        locations: post.locations
       }.to_json
     else
       render status: 422, json: {
@@ -53,7 +50,7 @@ class Api::PostsController < Api::ApiController
       render status: 200, json: {
         message: message,
         post: post,
-        location: post.location,
+        locations: post.locations,
         communities: post.communities
       }.to_json
     else

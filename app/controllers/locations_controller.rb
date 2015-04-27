@@ -9,9 +9,12 @@ class LocationsController < ApplicationController
   end
 
   def create
-    @location = @post.create_location(location_params)
+    #puts "location params: #{params}"
+    @locations = @post.create_location(location_params)
+    #@post.create_location(location_params)
+    #puts "@locations[1].name: #{@locations[0].name}"
 
-    if @location.save
+    if @locations
       flash[:success] = "Post location added."
       redirect_to post_locations_path
     else

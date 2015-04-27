@@ -6,14 +6,14 @@ class Api::LocationsController < Api::ApiController
 
     if location.save
       if @post
-        @post.location = location
+        @post.locations << location
         @post.save
       end
 
       render status: 200, json: {
                             message: 'Location created.',
                             post: @post,
-                            location: location
+                            locations: @post.locations
                         }.to_json
     else
       render status: 422, json: {

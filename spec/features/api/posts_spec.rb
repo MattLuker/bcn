@@ -98,6 +98,29 @@ describe 'Posts API', :type => :api do
     expect(json.length).to eq(3)
     expect(json['message']).to eq('Post created.')
     expect(json['post']['title']).to eq('JSON Post')
-    expect(json['post']['location']['name']).to eq('Kenneth E. Peacock Hall')
+    expect(json['post']['locations'][0]['name']).to eq('Kenneth E. Peacock Hall')
+  end
+
+  it 'creates a post with multiple locations' do
+    basic_authorize(user.email, 'beans')
+    post '/api/posts', format: :json, :post => {:title => 'JSON Post',
+                                                :description => 'Great job JSON!',
+                                                :user_id => user.id,
+                                                :lat => 36.2168215386211,
+                                                :lon => -81.682448387146}
+    expect(last_response.status).to eq(200)
+    post = Post.last
+
+    expect(json.length).to eq(3)
+    expect(json['message']).to eq('Post created.')
+    expect(json['post']['title']).to eq('JSON Post')
+    expect(json['post']['locations'][0]['name']).to eq('Kenneth E. Peacock Hall')
+
+    post "/api/posts/#{post.id}/locations", format: :json, :location => {lat: 36.2116343280817, lon: -81.685516834259}
+    expect(last_response.status).to eq(200)
+    loc_json ||= JSON.parse(last_response.body)
+
+    expect(loc_json['post']['locations'][0]['name']).to eq('Kidd Brewer Stadium')
+    expect(loc_json['post']['locations'][1]['name']).to eq('Kenneth E. Peacock Hall')
   end
 end

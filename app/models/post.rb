@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
   validates :title, presence: true
   validates :description, presence: true
 
-  has_one :location
+  has_many :locations
   has_and_belongs_to_many :communities
   belongs_to :user
 
@@ -23,7 +23,7 @@ class Post < ActiveRecord::Base
         :description,
       ],
       :include => {
-        :location => {
+        :locations => {
           :only => [
             :id,
             :lat,
@@ -60,6 +60,6 @@ class Post < ActiveRecord::Base
 
   def create_location(params)
     loc = Location.new.get_location_name(Location.new, params)
-    self.location = loc
+    self.locations << loc
   end
 end
