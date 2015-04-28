@@ -40,7 +40,7 @@ class LocationsController < ApplicationController
   end
 
   def destroy
-    @location = @post.location
+    @location = @post.locations.find(params[:id])
     if @location.destroy
       flash[:success] = "Location was deleted."
     else

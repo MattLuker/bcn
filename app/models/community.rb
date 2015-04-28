@@ -30,7 +30,7 @@ class Community < ActiveRecord::Base
             :description,
           ],
           :include => {
-            :location => {
+            :locations => {
               :only => [
                 :id,
                 :lat,

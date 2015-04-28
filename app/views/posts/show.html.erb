@@ -14,22 +14,26 @@
     </p>
 
     <p>
-      <strong>Location:</strong>
-  <span id="<%= dom_id(@post) %>">
-<% if @post.location %>
-  <%= @post.location.name %><br/>
-        <%= @post.location.address %>
-        <%= @post.location.city %>,
-        <%= @post.location.state %>
-        <%= @post.location.postcode %>
-<% end %>
-  </span>
-      <% if @post.location %>
-      <%= link_to 'Remove Location',
-                  post_location_path(@post.id, @post.location.id),
+      <strong>Locations:</strong>
+      <% if @post.locations %>
+        <ul>
+          <% @post.locations.each do |location| %>
+            <li>
+              <%= location.name %><br/>
+              <%= location.address %>
+              <%= location.city %>,
+              <%= location.state %>
+              <%= location.postcode %>
+
+              <%= link_to 'Remove Location',
+                  post_location_path(@post.id, location.id),
                   method: :delete,
                   class: "button alert tiny remove_location",
                   data: { confirm: 'Are you sure?' } %>
+             </li>
+
+          <% end %>
+        </ul>
       <% end %>
     </p>
 

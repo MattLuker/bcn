@@ -28,10 +28,22 @@ class Api::LocationsController < Api::ApiController
     if location.update_attributes(params[:id], location_params)
       location.reload
 
-      if @post
-        @post.location = location
-        @post.save
-      end
+      # if @post
+      #   # Remove the existing location and/or add the new one.
+      #   @post.locations.each do |loc|
+      #     if location.id == loc.id
+      #       @post.locations.delete(loc)
+      #       #else
+      #     #  @post.locations << location
+      #     end
+      #
+      #     @post.locations << location
+      #     @post.save
+      #   end
+      # end
+
+      #location.save
+      #@post.save
 
       render status: 200, json: {
         message: 'Location updated.',

@@ -88,8 +88,26 @@ describe "Creating posts" do
   it 'creates a post with many locations', :js => true do
     user = create(:user)
     sign_in(user, {password: 'beans'})
-    create_post
 
-    expect(page).to have_content('My Post')
+    #create_post
+    visit '/posts'
+    click_link 'New Post'
+    expect(page).to have_content('New Post')
+
+    fill_in 'Title', with: 'Locations Post'
+    fill_in 'Description', with: 'Posting some locations yo!'
+    click_button 'Save Post'
+    expect(page).to have_content('Locations Post')
+
+    # visit "/home"
+    find("#map").click
+    #
+    expect(page).to have_content("Add Location")
+    find("#add_location").click
+
+    # fill_in "Title", with: "My Location Post"
+    # fill_in "Description", with: "Great new post."
+    # click_button "Save Post"
+    # expect(page).to have_content("My Location Post")
   end
 end
