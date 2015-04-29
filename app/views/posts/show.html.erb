@@ -16,7 +16,7 @@
     <p>
       <strong>Locations:</strong>
       <% if @post.locations %>
-        <ul>
+        <ul id="<%= dom_id(@post) %>">
           <% @post.locations.each do |location| %>
             <li>
               <span id="<%= dom_id(location) %>">

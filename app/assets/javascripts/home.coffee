@@ -143,16 +143,29 @@ ready = ->
         dataType: "JSON"
         type: "post"
         data: "location[lat]=#{coord.lat}&location[lon]=#{coord.lng}"
-        success: (new_loc, status, jqXHR) ->
-          console.log(new_loc)
-          # Close the popup.
+        success: (data, status, jqXHR) ->
+          #console.log(data)
+
+          # Update the popup.
+          data.locations.sort()
+          new_loc = data.locations[data.locations.length-1]
+          marker.bindPopup("Location Set to:<br/> #{new_loc.name}").openPopup();
+
           # Update the Locations <ul>.
-#          marker.bindPopup("Location Set to:<br/> #{data.location.name}").openPopup();
-#
-#          # Update the location name, address, etc.
-#          updated_location = """#{data.location.name} <br/> #{data.location.address}
-#                  #{data.location.city} #{data.location.state} #{data.location.postcode}"""
-#          $("#post_" + data.post.id).html(updated_location)
+          new_loc_html = """<li>
+                            <span id="location_#{new_loc.id}">
+                            #{new_loc.name} <br/> #{new_loc.address}
+                            #{new_loc.city} #{new_loc.state} #{new_loc.postcode}
+                            </span>
+                            <a class="button alert tiny remove_location"
+                               data-confirm="Are you sure?"
+                              rel="nofollow"
+                              data-method="delete"
+                              href="/posts/#{data.post.id}/locations/#{new_loc.id}">Remove Location</a>
+                            </li>
+                         """
+          $('#post_' + data.post.id).append(new_loc_html)
+
 
   # Remove all markers not in button's community.
   $('.community').on "click", (e) ->
