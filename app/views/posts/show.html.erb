@@ -19,11 +19,13 @@
         <ul>
           <% @post.locations.each do |location| %>
             <li>
-              <%= location.name %><br/>
-              <%= location.address %>
-              <%= location.city %>,
-              <%= location.state %>
-              <%= location.postcode %>
+              <span id="<%= dom_id(location) %>">
+                  <%= location.name %><br/>
+                  <%= location.address %>
+                  <%= location.city %>,
+                  <%= location.state %>
+                  <%= location.postcode %>
+              </span>
 
               <%= link_to 'Remove Location',
                   post_location_path(@post.id, location.id),

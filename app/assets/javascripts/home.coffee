@@ -80,33 +80,14 @@ ready = ->
           for loc in data.locations
             marker = new L.Marker([loc.lat, loc.lon], {
               draggable: true,
-              title: data.title,
+              title: loc.name,
               riseOnHover: true,
             })
-            marker.addTo(map).bindPopup("<h3>#{data.title}</h3><p>#{data.description}</p>")
+            marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{data.description}</p>")
 
-            marker.on "dragend", (e) ->
-              drop_coord = e.target._latlng
-              console.log('drop_coord:', drop_coord)
-              #
-              # Send an $.ajax request to update the location.
-              #
-              # Maybe break this out into it's own updateLocation() function, or something...
-              $.ajax
-                url: '/api' + location.pathname + '/locations/' + loc.id
-                dataType: "JSON"
-                type: "patch"
-                data: "location[lat]=#{drop_coord.lat}&location[lon]=#{drop_coord.lng}&location[post_id]=#{data.id}"
-                success: (updated_data, status, jqXHR) ->
-                  console.log(updated_data)
+            $(marker).on "dragend", (e) ->
+              markerDrop(e, this, loc, data.id)
 
-                  # Flash a message either on the marker.
-                  marker.bindPopup("Location updated to:<br/> #{updated_data.location.name}").openPopup();
-
-                  # Update the location name, address, etc.
-                  updated_location = """#{updated_data.location.name} <br/> #{updated_data.location.address}
-                    #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcodee}"""
-                  $("#post_" + updated_data.post.id).html(updated_location)
 
         catch error
           # If no location set for post allow marker to be set.
@@ -125,14 +106,14 @@ ready = ->
                 type: "post"
                 data: "location[lat]=#{set_coord.lat}&location[lon]=#{set_coord.lng}&location[post_id]=#{data.id}"
                 success: (data, status, jqXHR) ->
-                  #console.log(data)
+                  console.log(data)
 
                   marker.bindPopup("Location Set to:<br/> #{data.location.name}").openPopup();
 
                   # Update the location name, address, etc.
                   updated_location = """#{data.location.name} <br/> #{data.location.address}
                   #{data.location.city} #{data.location.state} #{data.location.postcode}"""
-                  $("#post_" + data.post.id).html(updated_location)
+                  $("#location_" + data.location.id).html(updated_location)
 
 
   # Bind clicks to new marker on the main map, if marker is already there update it.
@@ -168,6 +149,12 @@ ready = ->
           console.log(new_loc)
           # Close the popup.
           # Update the Locations <ul>.
+#          marker.bindPopup("Location Set to:<br/> #{data.location.name}").openPopup();
+#
+#          # Update the location name, address, etc.
+#          updated_location = """#{data.location.name} <br/> #{data.location.address}
+#                  #{data.location.city} #{data.location.state} #{data.location.postcode}"""
+#          $("#post_" + data.post.id).html(updated_location)
 
   # Remove all markers not in button's community.
   $('.community').on "click", (e) ->
@@ -194,6 +181,30 @@ ready = ->
     for layer in window.layers
       layer.onMap = true
       map.addLayer(layer)
+
+
+  markerDrop = (e, marker, loc, post_id) ->
+    drop_coord = e.target._latlng
+    console.log('drop_coord:', drop_coord)
+    #
+    # Send an $.ajax request to update the location.
+    #
+    # Maybe break this out into it's own updateLocation() function, or something...
+    $.ajax
+      url: '/api' + location.pathname + '/locations/' + loc.id
+      dataType: "JSON"
+      type: "patch"
+      data: "location[lat]=#{drop_coord.lat}&location[lon]=#{drop_coord.lng}&location[post_id]=#{post_id}"
+      success: (updated_data, status, jqXHR) ->
+        console.log(updated_data)
+
+        # Flash a message either on the marker.
+        marker.bindPopup("Location updated to:<br/> #{updated_data.location.name}").openPopup();
+
+        # Update the location name, address, etc.
+        updated_location = """#{updated_data.location.name} <br/> #{updated_data.location.address}
+                    #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcodee}"""
+        $("#location_" + updated_data.location.id).html(updated_location)
 
 
 
