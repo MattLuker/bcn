@@ -36,8 +36,8 @@ ready = ->
     url: url
     dataType: "JSON"
     success: (data, status, jqXHR) ->
-      console.log(data)
-      console.log(Object.prototype.toString.call(data))
+#      console.log(data)
+#      console.log(Object.prototype.toString.call(data))
 
       # If Main page array of objects is returned else add the edit functionality.
       if Object.prototype.toString.call(data) == '[object Array]'
@@ -72,11 +72,7 @@ ready = ->
         #L.control.layers(overlayMaps).addTo(map);
       else
         try
-          console.log('turning off click...')
-          # Turn off the new marker on click.
-          #map.off "click"
-
-          # Set the marker/s.
+          # Update existing Location/s.
           for loc in data.locations
             marker = new L.Marker([loc.lat, loc.lon], {
               draggable: true,
@@ -84,8 +80,10 @@ ready = ->
               riseOnHover: true,
             })
             marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{data.description}</p>")
+            marker['loc_id'] = loc.id
+            #console.log(marker)
 
-            $(marker).on "dragend", (e) ->
+            marker.on "dragend", (e) ->
               markerDrop(e, this, loc, data.id)
 
 
@@ -106,7 +104,7 @@ ready = ->
                 type: "post"
                 data: "location[lat]=#{set_coord.lat}&location[lon]=#{set_coord.lng}&location[post_id]=#{data.id}"
                 success: (data, status, jqXHR) ->
-                  console.log(data)
+                  #console.log(data)
 
                   marker.bindPopup("Location Set to:<br/> #{data.location.name}").openPopup();
 
@@ -185,13 +183,10 @@ ready = ->
 
   markerDrop = (e, marker, loc, post_id) ->
     drop_coord = e.target._latlng
-    console.log('drop_coord:', drop_coord)
-    #
+
     # Send an $.ajax request to update the location.
-    #
-    # Maybe break this out into it's own updateLocation() function, or something...
     $.ajax
-      url: '/api' + location.pathname + '/locations/' + loc.id
+      url: '/api' + location.pathname + '/locations/' + marker.loc_id
       dataType: "JSON"
       type: "patch"
       data: "location[lat]=#{drop_coord.lat}&location[lon]=#{drop_coord.lng}&location[post_id]=#{post_id}"
@@ -204,7 +199,7 @@ ready = ->
         # Update the location name, address, etc.
         updated_location = """#{updated_data.location.name} <br/> #{updated_data.location.address}
                     #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcodee}"""
-        $("#location_" + updated_data.location.id).html(updated_location)
+        $("#location_" + marker.loc_id).html(updated_location)
 
 
 
