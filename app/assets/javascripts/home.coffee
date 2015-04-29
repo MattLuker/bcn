@@ -28,6 +28,9 @@ ready = ->
   if location.pathname == '/home'
     post_path = 'home'
     url = "/api/communities"
+  else if location.pathname == '/posts/new' || location.pathname == '/login'
+    console.log('new post... doing nothing')
+    return
   else
     post_path = 'post'
     url = "/api#{location.pathname}"
@@ -104,7 +107,7 @@ ready = ->
                 type: "post"
                 data: "location[lat]=#{set_coord.lat}&location[lon]=#{set_coord.lng}&location[post_id]=#{data.id}"
                 success: (data, status, jqXHR) ->
-                  #console.log(data)
+                  console.log(data)
 
                   marker.bindPopup("Location Set to:<br/> #{data.location.name}").openPopup();
 
@@ -136,7 +139,7 @@ ready = ->
   map.on 'popupopen', (e) ->
     $('#new_location').on 'click', (e) ->
       e.preventDefault()
-#      console.log('new_location clicked...')
+      console.log('new_location clicked...')
 #      console.log(window.coord)
       $.ajax
         url: "/api#{location.pathname}/locations"
@@ -144,7 +147,7 @@ ready = ->
         type: "post"
         data: "location[lat]=#{coord.lat}&location[lon]=#{coord.lng}"
         success: (data, status, jqXHR) ->
-          #console.log(data)
+          console.log(data)
 
           # Update the popup.
           data.locations.sort()

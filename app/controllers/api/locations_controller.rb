@@ -2,18 +2,19 @@ class Api::LocationsController < Api::ApiController
   before_filter :find_post
 
   def create
-    location = Location.new.create(location_params)
+    locations = []
+    locations << Location.new.create(location_params)
 
-    if location.save
+    if locations[0].save
       if @post
-        @post.locations << location
+        @post.locations << locations[0]
         @post.save
       end
 
       render status: 200, json: {
                             message: 'Location created.',
                             post: @post,
-                            locations: @post.locations
+                            locations: locations
                         }.to_json
     else
       render status: 422, json: {

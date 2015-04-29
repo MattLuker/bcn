@@ -53,12 +53,19 @@ class PostsController < ApplicationController
         @post.communities << community
       end
     end
-    @post.create_location(post_params)
+    if post_params[:lat] and post_params[:lon]
+      @post.create_location(post_params)
+    else
+      @post.locations = []
+    end
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
+        format.html {
+          flash[:success] = 'Post was successfully created.'
+          redirect_to @post
+        }
+        format.json { render :show, status: :created, locations: @post.locations }
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }

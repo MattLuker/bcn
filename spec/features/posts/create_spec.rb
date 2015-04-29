@@ -8,7 +8,7 @@ describe "Creating posts" do
     expect(page).to have_content("My Post")
   end
 
-  it "success from creating a post by clicking on the map then the New Post popup link", :js => true do
+  it "succeeds when creating a post by clicking on the map then the New Post popup link", :js => true do
     visit "/home"
     find("#map").click
 
@@ -89,25 +89,24 @@ describe "Creating posts" do
     user = create(:user)
     sign_in(user, {password: 'beans'})
 
-    #create_post
-    visit '/posts'
-    click_link 'New Post'
-    expect(page).to have_content('New Post')
+    visit "/home"
+    find("#map").click
 
-    fill_in 'Title', with: 'Locations Post'
-    fill_in 'Description', with: 'Posting some locations yo!'
-    click_button 'Save Post'
-    expect(page).to have_content('Locations Post')
+    expect(page).to have_content("New Post")
+    find("#new_post").click
+
+    fill_in "Title", with: "My Location Post"
+    fill_in "Description", with: "Great new post."
+    click_button "Save Post"
+    expect(page).to have_content("My Location Post")
+    post = Post.last
 
     # visit "/home"
     find("#map").click
     #
     expect(page).to have_content("Add Location")
-    find("#add_location").click
-
-    # fill_in "Title", with: "My Location Post"
-    # fill_in "Description", with: "Great new post."
-    # click_button "Save Post"
-    # expect(page).to have_content("My Location Post")
+    find("#new_location").click
+    sleep(1)
+    expect(post.locations.count).to eq(2)
   end
 end

@@ -19,7 +19,7 @@ describe 'Adding locations' do
   it 'is successful with valid content and correct log entry', :js => true do
     create_post_with_location
 
-    expect(page).to have_content('Location: Kenneth E. Peacock Hall')
+    expect(page).to have_content('Locations: Kenneth E. Peacock Hall')
 
     logs = Log.last(2)
 
@@ -37,9 +37,12 @@ describe 'Adding locations' do
     expect(page).to have_content('Post was successfully created.')
 
     find('#map').click
+    find("#new_location").click
+    sleep(1)
     expect(page).to have_content('Location Set to: Kenneth E. Peacock Hall')
 
-    expect(page).to have_content('Location: Kenneth E. Peacock Hall')
+    expect(page).to have_content('Locations: Kenneth E. Peacock Hall')
+
 
   end
 end

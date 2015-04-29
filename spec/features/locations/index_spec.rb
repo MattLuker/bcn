@@ -16,10 +16,10 @@ describe "Viewing locations" do
 
   it "dipslays location content when a post has a location" do 
     location = Location.new.create(lat: 36.21991, lon: -81.68261)
-    post.location = location
+    post.locations << location
 
     visit('/posts/' + post.id.to_s)
 
-    expect(page).to have_content('Location: Watauga County Public Library')
+    expect(page).to have_content('Locations: Watauga County Public Library')
   end
 end

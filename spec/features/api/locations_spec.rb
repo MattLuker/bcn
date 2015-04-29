@@ -24,8 +24,8 @@ describe 'Location API', :type => :api do
 
     expect(json.length).to eq(3)
     expect(json['message']).to eq('Location created.')
-    expect(json['location']['lat']).to eq(36.2168215386211)
-    expect(json['location']['name']).to eq('Kenneth E. Peacock Hall')
+    expect(json['locations'][0]['lat']).to eq(36.2168215386211)
+    expect(json['locations'][0]['name']).to eq('Kenneth E. Peacock Hall')
   end
 
   it 'updates a location and has valid response' do
