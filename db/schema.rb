@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150425194729) do
+ActiveRecord::Schema.define(version: 20150430185949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20150425194729) do
   end
 
   add_index "locations", ["deleted_at"], name: "index_locations_on_deleted_at", using: :btree
+  add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
   add_index "locations", ["post_id"], name: "index_locations_on_post_id", using: :btree
 
   create_table "logs", force: :cascade do |t|
@@ -89,6 +90,8 @@ ActiveRecord::Schema.define(version: 20150425194729) do
     t.integer  "communities"
     t.datetime "deleted_at"
     t.integer  "user_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree

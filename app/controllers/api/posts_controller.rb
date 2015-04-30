@@ -79,6 +79,14 @@ class Api::PostsController < Api::ApiController
 
   private
   def post_params
-    params.require('post').permit(:title, :description, :lat, :lon, :location_id, :user_id, :community_ids => [])
+    params.require('post').permit(:title,
+                                  :description,
+                                  :lat,
+                                  :lon,
+                                  :location_id,
+                                  :user_id,
+                                  :start_date,
+                                  :end_date,
+                                  :community_ids => [])
   end
 end

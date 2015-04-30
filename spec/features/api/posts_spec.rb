@@ -123,4 +123,37 @@ describe 'Posts API', :type => :api do
     expect(loc_json['post']['locations'][0]['name']).to eq('Kidd Brewer Stadium')
     expect(loc_json['post']['locations'][1]['name']).to eq('Kenneth E. Peacock Hall')
   end
+
+  it 'creates a post with an event' do
+    start_date = DateTime.now
+    end_date = DateTime.now + 1.hour
+
+    basic_authorize(user.email, 'beans')
+    post '/api/posts', format: :json, :post => {:title => 'JSON Post',
+                                                :description => 'Great job JSON!',
+                                                :user_id => user.id,
+                                                :lat => 36.2168215386211,
+                                                :lon => -81.682448387146,
+                                                :start_date => start_date,
+                                                :end_date => end_date
+                                               }
+    expect(last_response.status).to eq(200)
+    post = Post.last
+
+    expect(json.length).to eq(3)
+    expect(json['message']).to eq('Post created.')
+    expect(json['post']['locations'][0]['name']).to eq('Kenneth E. Peacock Hall')
+
+    json_start = DateTime.parse(json['post']['start_date']).change(:offset => '-0400') - 4.hour
+    json_end = DateTime.parse(json['post']['end_date']).change(:offset => '-0400') - 4.hour
+
+    expect(json_start.hour).to eq(start_date.hour)
+    expect(json_end.hour).to eq(end_date.hour)
+    expect(json_start.day).to eq(start_date.day)
+    expect(json_end.day).to eq(end_date.day)
+    expect(json_start.month).to eq(start_date.month)
+    expect(json_end.month).to eq(end_date.month)
+    expect(json_start.year).to eq(start_date.year)
+    expect(json_end.year).to eq(end_date.year)
+  end
 end

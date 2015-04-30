@@ -21,6 +21,8 @@ class Post < ActiveRecord::Base
         :id,
         :title,
         :description,
+        :start_date,
+        :end_date
       ],
       :include => {
         :locations => {
