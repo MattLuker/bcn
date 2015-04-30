@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :users
   resources :password_resets, only: [:new, :create, :edit, :update]
 
+  get 'locations', to: 'locations#show'
+
   namespace :api do
     resources :posts do
       resources :locations, only: [:create, :update, :destroy]

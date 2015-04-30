@@ -23,14 +23,12 @@ ready = ->
     map = initialize_map()
   catch
     console.log('no map...')
+    return
 
   # Add all event pop-ups if on the home page else just add the specific post.
   if location.pathname == '/home'
     post_path = 'home'
     url = "/api/communities"
-  else if location.pathname == '/posts/new' || location.pathname == '/login'
-    console.log('new post... doing nothing')
-    return
   else
     post_path = 'post'
     url = "/api#{location.pathname}"
@@ -124,7 +122,14 @@ ready = ->
     window.coord = coord
 
     if post_path == 'home'
-      markerHtml = "<br/><a id='new_post' href='/posts/new?lat=#{coord.lat}&lon=#{coord.lng}'>New Post</a>"
+      markerHtml = """<br/>
+                      <a id='new_post' href='/posts/new?lat=#{coord.lat}&lon=#{coord.lng}'>New Post</a>
+                      <br/><br/>
+                      <a id='posts_here' href='/locations?lat=#{coord.lat}&lon=#{coord.lng}'>
+                        What's Happening Here
+                      </a>
+                      <br/>
+                   """
     else
       markerHtml = "<br/><a id='new_location' href='#'>Add Location</a>"
 

@@ -4,6 +4,21 @@ class LocationsController < ApplicationController
   def index
   end
 
+  def show
+    name = Location.new.lookup_name(params)
+    @location = Location.find_by(name: name)
+
+    @posts = []
+    Location.where(name: name).find_each do |location|
+      if location.post.nil?
+        next
+      else
+        @posts << location.post
+      end
+    end
+    render :show
+  end
+
   def new
     @location = Location.new
   end
@@ -55,7 +70,7 @@ class LocationsController < ApplicationController
 
   private
   def find_post
-    @post = Post.find(params[:post_id])
+    @post = Post.find(params[:post_id]) if params[:post_id]
   end
 
   def location_params

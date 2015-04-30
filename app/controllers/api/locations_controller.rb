@@ -14,7 +14,6 @@ class Api::LocationsController < Api::ApiController
       end
     end
 
-    puts "posts array count: #{posts.count}"
     render status: 200, json: {
                           message: 'Location found.',
                           location: loc,

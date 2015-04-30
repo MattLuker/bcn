@@ -22,4 +22,32 @@ describe "Viewing locations" do
 
     expect(page).to have_content('Locations: Watauga County Public Library')
   end
+
+
+  before do
+    for i in 1..3
+      Location.create(
+          lat: 36.21640465,
+          lon: -81.6822302793054,
+          name: 'Kenneth E. Peacock Hall',
+          address: '416 Howard Street',
+          city: 'Boone',
+          state: 'North Carolina',
+          postcode: '28607',
+          county: 'Watauga',
+          country: 'us'
+      )
+      location = Location.last
+
+      Post.create(title: "Location API Post #{i}", description: "Number #{i} post.", locations: [location])
+    end
+  end
+
+  it 'displays a list of posts based on a location', :js => true do
+      visit '/home'
+      find('#map').click
+      sleep(1)
+      find('#posts_here').click
+      expect(page).to have_content('Posts For: Kenneth E. Peacock Hall')
+  end
 end
