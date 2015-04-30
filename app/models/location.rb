@@ -1,4 +1,6 @@
 class Location < ActiveRecord::Base
+  require 'nominatim'
+
   acts_as_paranoid
   belongs_to :post
 
@@ -13,8 +15,19 @@ class Location < ActiveRecord::Base
     Log.create({location: self, action: 'updated'})
   end
 
-  def get_location_name(loc, params, update=false)
-    require 'nominatim'
+  def lookup_name(params)
+    Nominatim.configure do |config|
+      config.email = Rails.application.config_for(:nominatim)['email']
+      config.endpoint = Rails.application.config_for(:nominatim)['host']
+    end
+
+    places = Nominatim.search("#{params[:lat]},#{params[:lon]}").limit(10).address_details(true)
+    for place in places
+      return place.display_name.split(',')[0]
+    end
+  end
+
+  def set_location_attrs(loc, params, update=false)
 
     Nominatim.configure do |config|
       config.email = Rails.application.config_for(:nominatim)['email']
@@ -65,12 +78,12 @@ class Location < ActiveRecord::Base
   end
 
   def create(params)
-    loc = self.get_location_name(Location.new, params)
+    loc = self.set_location_attrs(Location.new, params)
     return loc
   end
 
   def update_attributes(loc_id, params)
-    loc = self.get_location_name(Location.find(loc_id), params, update: true)
+    loc = self.set_location_attrs(Location.find(loc_id), params, update: true)
     return loc
   end
 end

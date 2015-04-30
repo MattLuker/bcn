@@ -1,6 +1,27 @@
 class Api::LocationsController < Api::ApiController
   before_filter :find_post
 
+  def show
+    name = Location.new.lookup_name(params)
+    loc = Location.find_by(name: name)
+
+    posts = []
+    Location.where(name: name).find_each do |location|
+      if location.post.nil?
+        next
+      else
+        posts << location.post
+      end
+    end
+
+    puts "posts array count: #{posts.count}"
+    render status: 200, json: {
+                          message: 'Location found.',
+                          location: loc,
+                          posts: posts
+                      }.to_json
+  end
+
   def create
     locations = []
     locations << Location.new.create(location_params)

@@ -59,7 +59,7 @@ class Post < ActiveRecord::Base
   end
 
   def create_location(params)
-    loc = Location.new.get_location_name(Location.new, params)
+    loc = Location.new.set_location_attrs(Location.new, params)
     self.locations << loc
   end
 end

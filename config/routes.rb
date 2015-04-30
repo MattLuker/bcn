@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       delete 'users', to: 'communities#remove_user'
     end
 
-    resources :locations, only: [:create, :update, :destroy] do
+    resources :locations, only: [:show, :create, :update, :destroy] do
       resources :posts, only: [:create, :update, :destroy]
     end
 

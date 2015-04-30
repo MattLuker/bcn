@@ -47,4 +47,35 @@ describe 'Location API', :type => :api do
     expect(json.length).to eq(1)
     expect(json['message']).to eq('Location deleted.')
   end
+
+  before do
+    for i in 1..3
+      Location.create(
+          lat: 36.21991,
+          lon: -81.68261,
+          name: 'Watauga County Public Library',
+          address: '140 Queen Street',
+          city: 'Boone',
+          state: 'North Carolina',
+          postcode: '28607',
+          county: 'Watauga',
+          country: 'us'
+      )
+      location = Location.last
+
+      Post.create(title: "Location API Post #{i}", description: "Number #{i} post.", locations: [location])
+    end
+  end
+
+  it 'gets a list of posts with the location name' do
+
+    get "/api/locations/1?lat=36.21991&lon=-81.68261", format: :json
+
+    expect(last_response.status).to eq(200)
+
+    expect(json.length).to eq(3)
+    expect(json['message']).to eq('Location found.')
+    expect(json['location']['name']).to eq('Watauga County Public Library')
+    expect(json['posts'].count).to eq(3)
+  end
 end
