@@ -35,19 +35,42 @@
       </div>
     </div>
 
+    <br/>
     <div class="row">
       <div class="large-4 columns">
-        <%= f.label :start_date %>
-        <%= f.text_field :start_date %>
+        <input type="checkbox" class="toggle" data-toggle="hidden" />  Event?
       </div>
     </div>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :end_date %>
-        <%= f.text_field :end_date %>
+    <div class="hidden">
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="large-2 columns">
+            <%= f.label :start_date %>
+            <%= f.text_field :start_date, :class => 'datepicker', :style => 'width: 165px;' %>
+          </div>
+          <div class="large-2 columns left">
+            <%= label_tag 'Start time' %>
+            <%= text_field_tag :start_time %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="large-2 columns">
+            <%= f.label :end_date %>
+            <%= f.text_field :end_date, :class => 'datepicker', :style => 'width: 165px;' %>
+          </div>
+          <div class="large-2 columns left">
+            <%= label_tag 'End time' %>
+            <%= text_field_tag :end_time %>
+          </div>
+        </div>
       </div>
     </div>
+
+    <br/><br/>
 
     <div class="row">
       <div class="large-4 columns actions">

@@ -14,8 +14,18 @@
 #  params
 #
 #
-#$(document).ready ->
-#  coord = getParams()
-#  $('#new_post').append("<input type='hidden' name='lat' value='#{coord.lat}'/>")
-#  $('#new_post').append("<input type='hidden' name='lon' value='#{coord.lon}'/>")
-#  console.log($('#new_post'));
+
+ready_post = ->
+  console.log('post...')
+  $('.datepicker').fdatepicker()
+
+  $('.toggle').on 'click', (e) ->
+    #e.preventDefault()
+    #console.log(e.target.dataset.toggle)
+    $('.' + e.target.dataset.toggle).toggle()
+
+
+
+# Fire the ready function on load and refresh.
+$(document).ready(ready_post)
+$(document).on('page:load', ready_post)

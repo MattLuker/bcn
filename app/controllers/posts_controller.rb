@@ -59,8 +59,10 @@ class PostsController < ApplicationController
       @post.locations = []
     end
 
-    @post.start_date = DateTime.strptime(post_params[:start_date], '%m/%d/%Y %I:%M:%S') if not post_params[:start_date].empty?
-    @post.end_date = DateTime.strptime(post_params[:end_date], '%m/%d/%Y %I:%M:%S') if not post_params[:end_date].empty?
+    start_date = post_params[:start_date] + ' ' + params[:start_time]
+    end_date = post_params[:end_date] + ' ' + params[:end_time]
+    @post.start_date = DateTime.strptime(start_date, '%m/%d/%Y %I:%M:%S') if not post_params[:start_date].empty?
+    @post.end_date = DateTime.strptime(end_date, '%m/%d/%Y %I:%M:%S') if not post_params[:end_date].empty?
 
     respond_to do |format|
       if @post.save
@@ -151,6 +153,8 @@ class PostsController < ApplicationController
                                     :user_id,
                                     :start_date,
                                     :end_date,
+                                    :start_time,
+                                    :end_time,
                                     :community_ids => [])
     end
 end
