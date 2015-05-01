@@ -109,4 +109,26 @@ describe "Creating posts" do
     sleep(1)
     expect(post.locations.count).to eq(2)
   end
+
+  it 'creates a post with as an event' do
+    start_date = DateTime.now
+    end_date = DateTime.now + 1.hour
+
+    user = create(:user)
+    sign_in(user, {password: 'beans'})
+
+    visit '/posts'
+    click_link 'New Post'
+    expect(page).to have_content('New Post')
+
+    fill_in 'Title', with: 'Event Post'
+    fill_in 'Description', with: 'This is a great event!'
+    fill_in 'Start date', with: '5/25/2015 05:05:05'
+    fill_in 'End date', with: '5/25/2015 06:05:05'
+    click_button 'Save Post'
+    post = Post.last
+
+    expect(post.start_date).to eq(DateTime.strptime('5/25/2015 05:05:05', '%m/%d/%Y %I:%M:%S'))
+    expect(post.end_date).to eq(DateTime.strptime('5/25/2015 06:05:05', '%m/%d/%Y %I:%M:%S'))
+  end
 end

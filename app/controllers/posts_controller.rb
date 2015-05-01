@@ -59,6 +59,9 @@ class PostsController < ApplicationController
       @post.locations = []
     end
 
+    @post.start_date = DateTime.strptime(post_params[:start_date], '%m/%d/%Y %I:%M:%S') if not post_params[:start_date].empty?
+    @post.end_date = DateTime.strptime(post_params[:end_date], '%m/%d/%Y %I:%M:%S') if not post_params[:end_date].empty?
+
     respond_to do |format|
       if @post.save
         format.html {
@@ -140,6 +143,14 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :description, :lat, :lon, :community_ids => [])
+      params.require('post').permit(:title,
+                                    :description,
+                                    :lat,
+                                    :lon,
+                                    :location_id,
+                                    :user_id,
+                                    :start_date,
+                                    :end_date,
+                                    :community_ids => [])
     end
 end

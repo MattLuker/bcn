@@ -24,6 +24,9 @@ class Api::PostsController < Api::ApiController
     end
     post.create_location({lat: lat, lon: lon}) if lat and lon
 
+    post.start_date = DateTime.strptime(post_params[:start_date], '%m/%d/%Y %I:%M:%S') if post_params[:start_date]
+    post.end_date = DateTime.strptime(post_params[:end_date], '%m/%d/%Y %I:%M:%S') if post_params[:end_date]
+
     if post.save
       render status: 200, json: {
         message: 'Post created.',

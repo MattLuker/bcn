@@ -125,8 +125,8 @@ describe 'Posts API', :type => :api do
   end
 
   it 'creates a post with an event' do
-    start_date = DateTime.now
-    end_date = DateTime.now + 1.hour
+    start_date = DateTime.strptime('5/25/2015 05:05:05', '%m/%d/%Y %I:%M:%S')
+    end_date = DateTime.strptime('5/25/2015 06:05:05', '%m/%d/%Y %I:%M:%S')
 
     basic_authorize(user.email, 'beans')
     post '/api/posts', format: :json, :post => {:title => 'JSON Post',
@@ -134,18 +134,17 @@ describe 'Posts API', :type => :api do
                                                 :user_id => user.id,
                                                 :lat => 36.2168215386211,
                                                 :lon => -81.682448387146,
-                                                :start_date => start_date,
-                                                :end_date => end_date
+                                                :start_date => '5/25/2015 05:05:05',
+                                                :end_date => '5/25/2015 06:05:05'
                                                }
     expect(last_response.status).to eq(200)
-    post = Post.last
 
     expect(json.length).to eq(3)
     expect(json['message']).to eq('Post created.')
     expect(json['post']['locations'][0]['name']).to eq('Kenneth E. Peacock Hall')
 
-    json_start = DateTime.parse(json['post']['start_date']).change(:offset => '-0400') - 4.hour
-    json_end = DateTime.parse(json['post']['end_date']).change(:offset => '-0400') - 4.hour
+    json_start = DateTime.parse(json['post']['start_date'])
+    json_end = DateTime.parse(json['post']['end_date'])
 
     expect(json_start.hour).to eq(start_date.hour)
     expect(json_end.hour).to eq(end_date.hour)
