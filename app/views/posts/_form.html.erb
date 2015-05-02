@@ -48,11 +48,9 @@
           <div class="large-2 columns">
             <%= f.label :start_date %>
             <% if @post.start_date %>
-                <%= f.text_field :start_date, :value => @post.start_date.strftime("%m/%d/%Y"),
-                             :class => 'datepicker',
-                             :style => 'width: 165px;' %>
+                <%= f.text_field :start_date, :value => @post.start_date.strftime("%m/%d/%Y"), :class => 'datepicker'%>
             <% else %>
-                <%= f.text_field :start_date, :class => 'datepicker', :style => 'width: 165px;' %>
+                <%= f.text_field :start_date, :class => 'datepicker' %>
             <% end %>
           </div>
           <div class="large-2 columns left">
@@ -73,11 +71,9 @@
           <div class="large-2 columns">
             <%= f.label :end_date %>
             <% if @post.start_date %>
-                <%= f.text_field :end_date, :value => @post.start_date.strftime("%m/%d/%Y"),
-                             :class => 'datepicker',
-                             :style => 'width: 165px;' %>
+                <%= f.text_field :end_date, :value => @post.start_date.strftime("%m/%d/%Y"), :class => 'datepicker'%>
             <% else %>
-                <%= f.text_field :end_date, :class => 'datepicker', :style => 'width: 165px;' %>
+                <%= f.text_field :end_date, :class => 'datepicker' %>
             <% end %>
           </div>
           <div class="large-2 columns left">

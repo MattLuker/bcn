@@ -116,12 +116,12 @@ $activeColor:#2ba6cb;
 // real datepicker styles 
 .datepicker {
   display:none;
-  position:absolute;
+  //position:absolute;
   padding: 4px;
   margin-top: 1px;
-  &-inline {
-  	width: 220px;
-  }
+  //&-inline {
+  //	width: 220px;
+  //}
   direction: ltr;
   & {
 	direction: ltr;
