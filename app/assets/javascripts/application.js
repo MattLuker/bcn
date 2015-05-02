@@ -17,6 +17,8 @@
 //= require turbolinks
 //= require_tree .
 //= require foundation-datepicker
+//= require clockpicker
+
 
 
 

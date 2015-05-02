@@ -25,6 +25,13 @@ ready_post = ->
     $('.' + e.target.dataset.toggle).toggle()
 
 
+  $('.clockpicker').clockpicker({
+    align: 'left',
+    autoclose: true,
+    donetext: 'OK'
+  });
+
+
 
 # Fire the ready function on load and refresh.
 $(document).ready(ready_post)

@@ -111,8 +111,8 @@ describe "Creating posts" do
   end
 
   it 'creates a post with as an event' do
-    start_date = DateTime.now
-    end_date = DateTime.now + 1.hour
+    # start_date = DateTime.now
+    # end_date = DateTime.now + 1.hour
 
     user = create(:user)
     sign_in(user, {password: 'beans'})
@@ -123,12 +123,48 @@ describe "Creating posts" do
 
     fill_in 'Title', with: 'Event Post'
     fill_in 'Description', with: 'This is a great event!'
-    fill_in 'Start date', with: '5/25/2015 05:05:05'
-    fill_in 'End date', with: '5/25/2015 06:05:05'
+    fill_in 'Start date', with: '05/25/2015'
+    fill_in 'post[start_time]', with: '05:05'
+    fill_in 'End date', with: '05/25/2015'
+    fill_in 'post[end_time]', with: '06:05'
     click_button 'Save Post'
     post = Post.last
 
-    expect(post.start_date).to eq(DateTime.strptime('5/25/2015 05:05:05', '%m/%d/%Y %I:%M:%S'))
-    expect(post.end_date).to eq(DateTime.strptime('5/25/2015 06:05:05', '%m/%d/%Y %I:%M:%S'))
+    expect(post.start_date).to eq(Date.strptime('05/25/2015', '%m/%d/%Y'))
+    expect(post.end_date).to eq(Date.strptime('05/25/2015', '%m/%d/%Y'))
+    expect((post.start_time - 4.hours).to_s(:time)).to eq('05:05')
+    expect((post.end_time - 4.hours).to_s(:time)).to eq('06:05')
+  end
+
+  it 'creates a post with a event date selected using the javascript helpers', :js => true do
+    user = create(:user)
+    sign_in(user, {password: 'beans'})
+
+    visit '/home'
+    find('#map').click
+
+    expect(page).to have_content('New Post')
+    find('#new_post').click
+
+    fill_in 'Title', with: 'My Location Post'
+    fill_in "Description", with: 'Great new post.'
+
+    find(:css, '#event').set(true)
+    find(:css, '#post_start_date').click
+    first('.day').click
+
+    find(:css, '#post_start_time').click
+    first('.clockpicker-tick').click
+    first('.clockpicker-minutes .clockpicker-tick').click
+
+    find(:css, '#post_end_date').click
+    first('.day').click
+
+    find(:css, '#post_end_time').click
+    first('.clockpicker-tick').click
+    first('.clockpicker-minutes .clockpicker-tick').click
+
+    click_button 'Save Post'
+    expect(page).to have_content("My Location Post")
   end
 end

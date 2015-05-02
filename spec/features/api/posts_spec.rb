@@ -134,25 +134,21 @@ describe 'Posts API', :type => :api do
                                                 :user_id => user.id,
                                                 :lat => 36.2168215386211,
                                                 :lon => -81.682448387146,
-                                                :start_date => '5/25/2015 05:05:05',
-                                                :end_date => '5/25/2015 06:05:05'
+                                                :start_date => '5/25/2015',
+                                                :start_time =>  '05:05:05',
+                                                :end_date => '5/25/2015 06:05:05',
+                                                :end_time =>  '06:05:05',
                                                }
     expect(last_response.status).to eq(200)
 
     expect(json.length).to eq(3)
     expect(json['message']).to eq('Post created.')
     expect(json['post']['locations'][0]['name']).to eq('Kenneth E. Peacock Hall')
+    post = Post.last
 
-    json_start = DateTime.parse(json['post']['start_date'])
-    json_end = DateTime.parse(json['post']['end_date'])
-
-    expect(json_start.hour).to eq(start_date.hour)
-    expect(json_end.hour).to eq(end_date.hour)
-    expect(json_start.day).to eq(start_date.day)
-    expect(json_end.day).to eq(end_date.day)
-    expect(json_start.month).to eq(start_date.month)
-    expect(json_end.month).to eq(end_date.month)
-    expect(json_start.year).to eq(start_date.year)
-    expect(json_end.year).to eq(end_date.year)
+    expect(post.start_date).to eq(Date.strptime('05/25/2015', '%m/%d/%Y'))
+    expect(post.end_date).to eq(Date.strptime('05/25/2015', '%m/%d/%Y'))
+    expect((post.start_time - 4.hours).to_s(:time)).to eq('05:05')
+    expect((post.end_time - 4.hours).to_s(:time)).to eq('06:05')
   end
 end
