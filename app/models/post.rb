@@ -2,15 +2,16 @@ class Post < ActiveRecord::Base
   acts_as_paranoid
   validates :title, presence: true
   validates :description, presence: true
-  validates :start_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 05/05/2015' }
+  validates :start_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :start_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
-  validates :end_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 05/05/2015' }
+  validates :end_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :end_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
 
 
   has_many :locations
   has_and_belongs_to_many :communities
   belongs_to :user
+
 
   after_create do
     Log.create({post: self, action: "created"})
@@ -19,6 +20,7 @@ class Post < ActiveRecord::Base
   after_update do
     Log.create({post: self, action: "updated"})
   end
+
 
   def as_json(options={})
     super(:only => [

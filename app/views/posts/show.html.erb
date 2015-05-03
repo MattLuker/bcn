@@ -13,6 +13,23 @@
       <%= @post.description %>
     </p>
 
+  <% if @post.start_date %>
+    <p>
+      <strong>Event Dates:</strong>
+      <br/>
+      <em>Start Date:</em>
+      <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <%= @post.start_date.strftime('%m/%d/%Y') %> <%= @post.start_time.to_s(:time) %>
+
+      <br/>
+      <em>End Date:</em>
+      <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <%= @post.end_date.strftime('%m/%d/%Y') %> <%= @post.end_time.to_s(:time) %>
+    </p>
+  <% end %>
+
     <p>
       <strong>Locations:</strong>
       <% if @post.locations %>

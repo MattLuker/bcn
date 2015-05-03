@@ -41,28 +41,21 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+    if post_params[:lat] and post_params[:lon]
+      lat = params[:post].delete :lat
+      lon = params[:post].delete :lon
+    end
     if current_user
-      @post = current_user.posts.new({title: post_params[:title], description: post_params[:description]})
+      @post = current_user.posts.new(post_params)
     else
-      @post = Post.new({title: post_params[:title], description: post_params[:description]})
+      @post = Post.new(post_params)
     end
 
-    post_params[:community_ids].each do |c|
-      if not c.empty?
-        community = Community.find(c.to_i)
-        @post.communities << community
-      end
-    end
-    if post_params[:lat] and post_params[:lon]
-      @post.create_location(post_params)
+    if lat and lon
+      @post.create_location({lat: lat, lon: lon})
     else
       @post.locations = []
     end
-
-    @post.start_date = Date.strptime(post_params[:start_date], '%m/%d/%Y') if not post_params[:start_date].empty?
-    @post.start_time = Time.strptime(post_params[:start_time], '%H:%M') if not post_params[:start_time].empty?
-    @post.end_date = Date.strptime(post_params[:end_date], '%m/%d/%Y') if not post_params[:end_date].empty?
-    @post.end_time = Time.strptime(post_params[:end_time], '%H:%M') if not post_params[:end_time].empty?
 
     respond_to do |format|
       if @post.save

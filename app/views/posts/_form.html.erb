@@ -47,17 +47,13 @@
         <div class="large-12 columns">
           <div class="large-2 columns">
             <%= f.label :start_date %>
-            <% if @post.start_date %>
-                <%= f.text_field :start_date, :value => @post.start_date.strftime("%m/%d/%Y"), :class => 'datepicker'%>
-            <% else %>
-                <%= f.text_field :start_date, :class => 'datepicker' %>
-            <% end %>
+            <%= f.text_field :start_date, :class => 'datepicker', 'data-date-format' => 'yyyy-mm-dd' %>
           </div>
           <div class="large-2 columns left">
             <%= f.label 'Start time' %>
             <% if @post.start_time %>
                 <%= f.text_field :start_time,
-                                 :value => "#{(@post.start_time - 4.hours).to_s(:time)}",
+                                 :value => "#{(@post.start_time).to_s(:time)}",
                                  :class => 'clockpicker' %>
             <% else %>
                 <%= f.text_field :start_time, :class => 'clockpicker' %>
@@ -70,17 +66,13 @@
         <div class="large-12 columns">
           <div class="large-2 columns">
             <%= f.label :end_date %>
-            <% if @post.start_date %>
-                <%= f.text_field :end_date, :value => @post.start_date.strftime("%m/%d/%Y"), :class => 'datepicker'%>
-            <% else %>
-                <%= f.text_field :end_date, :class => 'datepicker' %>
-            <% end %>
+            <%= f.text_field :end_date, :class => 'datepicker', 'data-date-format' => 'yyyy-mm-dd' %>
           </div>
           <div class="large-2 columns left">
             <%= f.label 'End time' %>
             <% if @post.end_time %>
                 <%= f.text_field :end_time,
-                                 :value => "#{(@post.end_time - 4.hours).to_s(:time)}",
+                                 :value => "#{(@post.end_time).to_s(:time)}",
                                  :class => 'clockpicker' %>
             <% else %>
                 <%= f.text_field :end_time, :class => 'clockpicker' %>

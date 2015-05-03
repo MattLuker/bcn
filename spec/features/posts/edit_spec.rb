@@ -39,6 +39,17 @@ describe "Editing posts" do
       expect(log.post).to eq(Post.last)
       expect(log.action).to eq("updated")
     end
+
+    it 'updates the event fields' do
+      update_post(start_date: '2015-05-25', start_time: '05:05', end_date: '2015-05-25', end_time: '07:05', post: post)
+
+      post.reload
+
+      expect(post.start_date).to eq(Date.parse('2015-05-25'))
+      expect(post.end_date).to eq(Date.parse('2015-05-25'))
+      expect((post.start_time).to_s(:time)).to eq('05:05')
+      expect((post.end_time).to_s(:time)).to eq('07:05')
+    end
   end
 
   context 'authenticated non-post user' do

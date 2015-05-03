@@ -20,8 +20,6 @@ ready_post = ->
   $('.datepicker').fdatepicker()
 
   $('.toggle').on 'click', (e) ->
-    #e.preventDefault()
-    #console.log(e.target.dataset.toggle)
     $('.' + e.target.dataset.toggle).toggle()
 
 

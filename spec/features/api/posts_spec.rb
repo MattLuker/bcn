@@ -125,8 +125,6 @@ describe 'Posts API', :type => :api do
   end
 
   it 'creates a post with an event' do
-    start_date = DateTime.strptime('5/25/2015 05:05:05', '%m/%d/%Y %I:%M:%S')
-    end_date = DateTime.strptime('5/25/2015 06:05:05', '%m/%d/%Y %I:%M:%S')
 
     basic_authorize(user.email, 'beans')
     post '/api/posts', format: :json, :post => {:title => 'JSON Post',
@@ -134,10 +132,10 @@ describe 'Posts API', :type => :api do
                                                 :user_id => user.id,
                                                 :lat => 36.2168215386211,
                                                 :lon => -81.682448387146,
-                                                :start_date => '5/25/2015',
-                                                :start_time =>  '05:05:05',
-                                                :end_date => '5/25/2015 06:05:05',
-                                                :end_time =>  '06:05:05',
+                                                :start_date => '2015-05-25',
+                                                :start_time =>  '05:05',
+                                                :end_date => '2015-05-25',
+                                                :end_time =>  '06:05',
                                                }
     expect(last_response.status).to eq(200)
 
@@ -146,9 +144,9 @@ describe 'Posts API', :type => :api do
     expect(json['post']['locations'][0]['name']).to eq('Kenneth E. Peacock Hall')
     post = Post.last
 
-    expect(post.start_date).to eq(Date.strptime('05/25/2015', '%m/%d/%Y'))
-    expect(post.end_date).to eq(Date.strptime('05/25/2015', '%m/%d/%Y'))
-    expect((post.start_time - 4.hours).to_s(:time)).to eq('05:05')
-    expect((post.end_time - 4.hours).to_s(:time)).to eq('06:05')
+    expect(post.start_date).to eq(Date.parse('2015-05-25'))
+    expect(post.end_date).to eq(Date.parse('2015-05-25'))
+    expect((post.start_time).to_s(:time)).to eq('05:05')
+    expect((post.end_time).to_s(:time)).to eq('06:05')
   end
 end
