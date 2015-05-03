@@ -18,6 +18,11 @@
 </p>
 
 <p>
+  <strong>Events URL:</strong>
+  <%= @community.events_url %>
+</p>
+
+<p>
   <%= form_tag("/communities/#{@community.id}/users", method: 'patch') do |f| %>
       <%= hidden_field_tag 'user_id', current_user.id %>
       <%= submit_tag 'Join Community', :class => 'button small' %>
