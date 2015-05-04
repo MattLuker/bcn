@@ -1,0 +1,11 @@
+development:
+  host: 'http://open.mapquestapi.com/nominatim/v1'
+  email: 'adam@thehoick.com'
+
+test:
+  host: 'http://open.mapquestapi.com/nominatim/v1'
+  email: 'adam@thehoick.com'
+
+production:
+  host: 'http://open.mapquestapi.com/nominatim/v1'
+  email: 'adam@thehoick.com'
