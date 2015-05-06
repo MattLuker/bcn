@@ -73,7 +73,6 @@ RSpec.describe User, type: :model do
   describe '#facbook login' do
     it 'creates user from Facebook attributes' do
       user = User.create({facebook_id: '10152915557788',
-                          username: 'cheese.cheeese_fb',
                           first_name: 'Cheese',
                           last_name: 'Cheeese',
                           password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join
@@ -81,7 +80,7 @@ RSpec.describe User, type: :model do
 
       new_user = User.last
 
-      expect(user.email).to eq('cheese.cheeese_fb@placeholder.boonecommunitynetwork.com')
+      expect(user.facebook_id).to eq('10152915557788')
       expect(user.id).to eq(new_user.id)
     end
   end

@@ -1,13 +1,15 @@
-<h3>Sign In with Facebook</h3>
+<h4>Sign In with Facebook</h4>
 
-<%= link_to "Login with Facebook", '/auth/facebook' %>
+<%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small success' %>
 
 
-<h3>Sign In With Twitter</h3>
+<h4>Sign In With Twitter</h4>
 
-<a href="#">Click Here For Twitter</a>
+<a href="#" class="button small success">Login with Twitter</a>
 
-<h3>Sign In With Email</h3>
+<hr/>
+
+<h4>Sign In With Email</h4>
 
 <%= form_tag user_sessions_path do %>
 
