@@ -1,0 +1,11 @@
+development:
+  app_id: Enter App ID here
+  secret: Enter App Secret here
+
+test:
+  app_id: Enter App ID here
+  secret: Enter App Secret here
+
+production:
+  app_id: Enter App ID here
+  secret: Enter App Secret here

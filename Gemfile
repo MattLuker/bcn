@@ -17,6 +17,11 @@ gem "paranoia", "~> 2.0"
 
 gem 'foundation-rails', '~> 5.5.1.1'
 
+gem 'nominatim'
+
+gem 'omniauth-facebook'
+gem 'koala'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
@@ -31,6 +36,3 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.4.1'
   gem 'factory_girl_rails', '~> 4.5.0'
 end
-
-# Nominatim for mapping.
-gem 'nominatim'

@@ -69,4 +69,20 @@ RSpec.describe User, type: :model do
       user.generate_password_reset_token!
     end
   end
+
+  describe '#facbook login' do
+    it 'creates user from Facebook attributes' do
+      user = User.create({facebook_id: '10152915557788',
+                          username: 'cheese.cheeese_fb',
+                          first_name: 'Cheese',
+                          last_name: 'Cheeese',
+                          password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join
+                         })
+
+      new_user = User.last
+
+      expect(user.email).to eq('cheese.cheeese_fb@placeholder.boonecommunitynetwork.com')
+      expect(user.id).to eq(new_user.id)
+    end
+  end
 end

@@ -17,8 +17,15 @@ class User < ActiveRecord::Base
   has_many :posts
   has_and_belongs_to_many :communities
 
-  before_validation :set_username
+  before_validation :set_username, :set_email
   before_save :downcase_email
+
+  def self.koala(auth)
+    access_token = auth['token']
+    facebook = Koala::Facebook::API.new(access_token)
+    facebook.get_object("me?fields=name,picture,first_name,last_name")
+    #facebook.get_object("me")
+  end
 
   def downcase_email
     self.email = email.downcase
@@ -26,6 +33,10 @@ class User < ActiveRecord::Base
 
   def set_username
     self.username = email if username.blank?
+  end
+
+  def set_email
+    self.email = username + '@placeholder.boonecommunitynetwork.com' if email.blank?
   end
 
   def generate_password_reset_token!
