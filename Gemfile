@@ -22,6 +22,8 @@ gem 'nominatim'
 gem 'omniauth-facebook'
 gem 'koala'
 
+gem 'sidekiq'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'

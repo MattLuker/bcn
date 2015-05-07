@@ -2,16 +2,31 @@ class Community < ActiveRecord::Base
   acts_as_paranoid
   validates :name, presence: true, uniqueness: true
 
-  after_create do
-    Log.create({community: self, action: "created"})
-  end
+  # after_create do
+  #   Log.create({community: self, action: "created"})
+  # end
+  #
+  # after_update do
+  #   Log.create({community: self, action: "updated"})
+  # end
 
-  after_update do
-    Log.create({community: self, action: "updated"})
-  end
+  before_save :set_sync_type
 
   has_and_belongs_to_many :posts
   has_and_belongs_to_many :users
+
+  def set_sync_type
+    user = User.find(created_by)
+    if !(user.facebook_id.nil?) and events_url.match(/facebook/i)
+      self.events_sync_type = 'facebook'
+    elsif !(events_url.nil?) and events_url.match(/ical/i)
+      self.events_sync_type = 'ical'
+    end
+
+    unless events_url.nil?
+
+    end
+  end
 
   def as_json(options={})
     super(:only => [
