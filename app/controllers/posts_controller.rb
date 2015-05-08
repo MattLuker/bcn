@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all
+    FacebookSyncJob.perform_now
   end
 
   # GET /posts/1

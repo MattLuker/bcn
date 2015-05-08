@@ -2,13 +2,22 @@ class FacebookSyncJob < ActiveJob::Base
   queue_as :default
 
   def perform(*args)
-    Community.find_by(events_sync_type: 'facebook').each do |community|
+    Community.where(events_sync_type: 'facebook').each do |community|
       user = User.find(community.created_by)
 
       # How do I lookup the events for the group/page on Facebook.
-      profile = @graph.get_object(user.facebook_id)
+      #profile = @graph.get_object(user.facebook_id)
+
+      #FACEBOOK_CONFIG['app_id'], FACEBOOK_CONFIG['secret'],
+      @oauth = Koala::Facebook::OAuth.new(FACEBOOK_CONFIG['app_id'], FACEBOOK_CONFIG['secret'])
+      key = @oauth.get_app_access_token
+      @graph = Koala::Facebook::API.new(key)
+
+      puts "user.facebook_id: #{user.facebook_id}"
+
       events = @graph.get_connections(user.facebook_id, 'events')
 
+      puts "events.inpsect: #{events.inspect}"
       events.each do |event|
         fb_event = @graph.get_object(event['id'])
         if fb_event['owner']['name'] == community.name
