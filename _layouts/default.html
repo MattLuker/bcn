@@ -8,7 +8,7 @@
     {% include header.html %}
 
     <div class="page-content">
-      <div class="wrapper">
+      <div class="main">
         {{ content }}
       </div>
     </div>
@@ -22,6 +22,33 @@
   <script src="js/foundation/foundation.topbar.js"></script>
   <script>
     $(document).foundation();
+
+    $(document).ready(function() {
+      $('.copyright-year').html(new Date().getFullYear());
+      stickyFooter();
+    })
+
+    function stickyFooter() {
+      if (document.getElementsByTagName("footer")[0].getAttribute("style") != null) {
+        document.getElementsByTagName("footer")[0].removeAttribute("style");
+      }
+
+      if (window.innerHeight != document.body.offsetHeight) {
+        var offset = window.innerHeight - document.body.offsetHeight;
+        var current = getCSS("footer", "margin-top");
+
+        if (isNaN(current) == true) {
+          document.getElementsByTagName("footer")[0].setAttribute("style","margin-top:0px;");
+          current = 0;
+          } else {
+          current = parseInt(current);
+        }
+
+        if (current+offset > parseInt(getCSS("footer", "margin-top"))) {
+          document.getElementsByTagName("footer")[0].setAttribute("style","margin-top:"+(current+offset)+"px;");
+        }
+      }
+    }
   </script>
 
 </html>
