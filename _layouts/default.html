@@ -49,6 +49,24 @@
         }
       }
     }
+
+    //lets get the marginTop for the <footer>
+    function getCSS(element, property) {
+
+      var elem = document.getElementsByTagName(element)[0];
+      var css = null;
+
+      if (elem.currentStyle) {
+        css = elem.currentStyle[property];
+
+        } else if (window.getComputedStyle) {
+        css = document.defaultView.getComputedStyle(elem, null).
+        getPropertyValue(property);
+      }
+
+      return css;
+
+    }
   </script>
 
 </html>
