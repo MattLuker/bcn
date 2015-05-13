@@ -10,7 +10,7 @@ class Community < ActiveRecord::Base
   #   Log.create({community: self, action: "updated"})
   # end
 
-  before_save :set_sync_type
+  #before_save :set_sync_type
 
   has_and_belongs_to_many :posts
   has_and_belongs_to_many :users
