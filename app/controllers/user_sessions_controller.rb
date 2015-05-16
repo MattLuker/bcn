@@ -1,15 +1,6 @@
 class UserSessionsController < ApplicationController
-  before_filter :parse_facebook_cookies
 
   def new
-  end
-
-  def parse_facebook_cookies
-    #@facebook_cookies ||= Koala::Facebook::OAuth.new(FACEBOOK_CONFIG['app_id'], FACEBOOK_CONFIG['secret']).get_user_info_from_cookie(cookies)
-    #@facebook_cookies ||= @oauth.get_user_info_from_cookie(cookies)
-
-    # If you've setup a configuration file as shown above then you can just do
-    #@facebook_cookies ||= Koala::Facebook::OAuth.new.get_user_info_from_cookie(cookies)
   end
 
   def create
@@ -31,30 +22,10 @@ class UserSessionsController < ApplicationController
     end
   end
 
-  # def facebook_login
-  #   fb_user = User.koala(request.env['omniauth.auth']['credentials'])
-  #   puts fb_user.inspect
-  #
-  #   user = User.find_by(facebook_id: fb_user['id']) unless fb_user['id'].nil?
-  #   if user.nil?
-  #     redirect_to new_user_path
-  #   else
-  #     flash[:notice] = 'Could not find your username, please register using one of the methods below.'
-  #     session[:user_id] = user.id
-  #     redirect_to home_path
-  #   end
-  # end
-
   def facebook_login
-    @graph = User.koala(request.env['omniauth.auth']['credentials'])
-    fb_user = @graph.get_object("me?fields=id,name,picture,first_name,last_name,link,events")
-    puts "fb_user: #{fb_user.inspect}"
 
-    events = @graph.get_connections(fb_user['id'], 'events')
-    puts "session events.inpsect: #{events.inspect}"
-    # if fb_user['id'] == '10152906515550983'
-    #   fb_user['id'] = '516660982'
-    # end
+    @facebook = User.facebook(request.env['omniauth.auth']['credentials'])
+    fb_user = @facebook.get_object("me?fields=id,name,picture,first_name,last_name,link")
     user = User.find_by(facebook_id: fb_user['id']) unless fb_user['id'].nil?
 
     if user.nil?
@@ -67,7 +38,7 @@ class UserSessionsController < ApplicationController
       if user.save
         flash[:success] = 'Welcome, you have been registered using Facebook.'
         session[:user_id] = user.id
-        FacebookSyncJob.perform_now(cookies)
+        FacebookSyncJob.perform_now(@facebook)
       else
         user = User.only_deleted.find_by(facebook_id: fb_user['id'])
         User.restore(user)
@@ -76,13 +47,13 @@ class UserSessionsController < ApplicationController
 
         flash[:success] = 'Welcome back, you have been re-enabled using Facebook.'
         session[:user_id] = user.id
-        FacebookSyncJob.perform_now(cookies)
+        FacebookSyncJob.perform_now(@facebook)
       end
 
     else
       flash[:success] = "Welcome #{user.first_name}"
       session[:user_id] = user.id
-      FacebookSyncJob.perform_now(@graph)
+      FacebookSyncJob.perform_now(@facebook)
     end
 
     redirect_to home_path
