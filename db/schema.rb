@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506181450) do
+ActiveRecord::Schema.define(version: 20150517104609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20150506181450) do
     t.datetime "deleted_at"
     t.string   "facebook_id"
     t.string   "photo"
+    t.time     "event_sync_time"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
