@@ -29,7 +29,12 @@ class User < ActiveRecord::Base
   end
 
   def set_username
-    self.username = email.split('@')[0] unless email.nil?
+    username = email.split('@')[0]
+    if User.find_by(username: username)
+      self.username = username + '_' + (0...5).map { ('a'..'z').to_a[rand(26)] }.join unless email.nil?
+    else
+      self.username = email.split('@')[0] unless email.nil?
+    end
   end
 
   def generate_password_reset_token!
