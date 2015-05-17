@@ -5,7 +5,16 @@
 
           <ul>
             <% @user.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
+                <% if message == 'Email has already been taken' %>
+                    <li>
+                      <p>Email has already been taken.</p>
+                      <% unless current_user.facebook_id.nil? %>
+                        <%= link_to 'Click Here Request Merge', user_merge_path %>
+                      <% end %>
+                    </li>
+                <% else %>
+                    <li><%= message %></li>
+                <% end %>
             <% end %>
           </ul>
         </div>

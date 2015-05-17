@@ -12,15 +12,4 @@ describe "Adding communities" do
     expect(page).to have_content('Community was successfully created.')
     expect(community.created_by).to eq(user.id)
   end
-
-  it 'has a log entry after creation' do
-    sign_in user, password: 'beans'
-    create_community
-
-    log = Log.last
-
-    expect(log.community).to eq(Community.last)
-    expect(log.action).to eq("created")
-
-  end
 end

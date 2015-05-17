@@ -26,6 +26,16 @@ class UsersController < ApplicationController
     end
   end
 
+  # Get /user_merge
+  def merge
+    puts "params: #{params}"
+
+    user = User.find_by(email: params[:email])
+    Notifier.user_merge(user, current_user).deliver_now
+    flash[:success] = 'Merge request sent! Please check your email.'
+    redirect_to current_user
+  end
+
   # POST /users
   # POST /users.json
   def create

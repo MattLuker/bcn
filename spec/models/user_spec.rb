@@ -49,12 +49,6 @@ RSpec.describe User, type: :model do
       expect(user.save).to be_truthy
       expect(user.email).to eq('adam@thehoick.com')
     end
-
-    it 'will use email address for username if username is blank' do
-      user = User.new({email: 'adam@thehoick.com', password: 'beans'})
-      expect(user.save).to be_truthy
-      expect(user.username).to eq(user.email)
-    end
   end
 
   describe '#generate_password_reset_token!' do

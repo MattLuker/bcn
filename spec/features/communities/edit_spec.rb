@@ -17,20 +17,6 @@ describe '"Updating communities" 'do
     expect(page).to have_content('Community was successfully updated.')
   end
 
-  it 'has a log entry after creation' do
-    sign_in user, password: 'beans'
-    create_community
-
-    click_link 'Edit'
-    fill_in 'Color', with: '#ffffff'
-    click_button 'Save Community'
-
-    log = Log.last
-
-    expect(log.community).to eq(Community.last)
-    expect(log.action).to eq('updated')
-  end
-
   it 'will not allow updating Community if user is not the creator' do
     sign_in user, password: 'beans'
     create_community
