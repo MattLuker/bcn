@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   end
 
   def set_username
-    self.username = email if username.blank?
+    self.username = email.split('@')[0] if username.blank?
   end
 
   def generate_password_reset_token!

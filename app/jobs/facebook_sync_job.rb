@@ -24,7 +24,7 @@ class FacebookSyncJob < ActiveJob::Base
                                      start_time: start_time,
                                      end_date: end_date,
                                      end_time: end_time,
-                                     communities: [community],
+                                     communities: [community[0]],
                                      user: user
                                  })
         else

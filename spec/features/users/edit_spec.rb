@@ -14,6 +14,7 @@ describe 'Editing User' do
     expect(find_field('Last name').value).to eq('Slidell')
 
     fill_in 'Last name', with: 'Barker'
+    fill_in 'Username', with: 'bob_barker'
     click_button 'Update Profile'
 
     expect(page).to have_content('Last name: Barker')

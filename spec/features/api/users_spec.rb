@@ -61,7 +61,7 @@ describe 'User API', :type => :api do
     basic_authorize(user.email, 'beans')
 
     patch '/api/users/' + user.id.to_s,
-          format: :json, :user => {:first_name => 'Mike'}
+          format: :json, :user => {:first_name => 'Mike', :username => 'batman'}
     expect(last_response.status).to eq(200)
 
     expect(json.length).to eq(2)
