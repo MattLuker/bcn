@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
    format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/ }
 
   after_create do
+    set_username
     Log.create({user: self, action: "created"})
   end
 
@@ -17,7 +18,6 @@ class User < ActiveRecord::Base
   has_many :posts
   has_and_belongs_to_many :communities
 
-  before_validation :set_username
   before_save :downcase_email
 
   def self.facebook(auth)
@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   end
 
   def set_username
-    self.username = email.split('@')[0] if username.blank?
+    self.username = email.split('@')[0] unless email.nil?
   end
 
   def generate_password_reset_token!
