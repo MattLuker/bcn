@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
    format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/ }
 
   after_create do
-    set_username
     Log.create({user: self, action: "created"})
   end
 
@@ -19,6 +18,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :communities
 
   before_save :downcase_email
+  before_validation :set_username
 
   def self.facebook(auth)
     @facebook = Koala::Facebook::API.new(auth['token'])
@@ -29,11 +29,12 @@ class User < ActiveRecord::Base
   end
 
   def set_username
+    puts email
     username = email.split('@')[0]
     if User.find_by(username: username)
       self.username = username + '_' + (0...5).map { ('a'..'z').to_a[rand(26)] }.join unless email.nil?
     else
-      self.username = email.split('@')[0] unless email.nil?
+      self.username = username unless email.nil?
     end
   end
 
