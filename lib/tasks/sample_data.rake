@@ -11,16 +11,6 @@ namespace :db do
     User.create!({email: 'bob@example.com', password: 'barns'})
     User.create!({email: 'cheese@example.com', password: 'brains'})
 
-    # User.create!({
-    #                  first_name: 'Adam',
-    #                  last_name: 'Sommer',
-    #                  email: 'adam.sommer_fb@placeholder.boonecommunitynetwork.com',
-    #                  username: 'adam.sommer_fb@placeholder.boonecommunitynetwork.com',
-    #                  password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join,
-    #                  facebook_id: '10152906515550983',
-    #                  photo: 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/c8.0.50.50/p50x50/12126_10152015144330983_923593965_n.jpg?oh=10f722bb1455eb8bad4d7a1116848e15&oe=55DD2BCC&__gda__=1440143610_10f5ba52241c58e81d096f22909f89f8'
-    #              })
-
     Location.create({lat: 36.2117382055093,
                      lon: -81.6856241226196,
                      name: 'Kidd Brewer Stadium',
@@ -62,6 +52,11 @@ namespace :db do
                       description: 'We all love coffee!!',
                       home_page: 'http://www.reddit.com/r/coffee',
                       color: '#4D4444'
+                     })
+    Community.create({name: 'BCN Rails',
+                      description: 'BCN Rails Open Source project.',
+                      home_page: 'https://github.com/asommer70/bcn',
+                      color: '#333333'
                      })
 
     Post.create({title: 'Testing',
