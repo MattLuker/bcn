@@ -55,7 +55,7 @@ describe 'Signing Up with Facebook' do
     click_link 'Log Out'
     click_link 'Login'
     click_link 'Login with Facebook'
-    
+
     expect(page).to have_content('More Facebook Integration')
   end
 end
