@@ -5,6 +5,11 @@ development:
 test:
   app_id: Enter App ID here
   secret: Enter App Secret here
+  username: Test User email here
+  password: Test User password here
+  first_name: Test User first name here
+  last_name: Test User last name here
+
 
 production:
   app_id: Enter App ID here

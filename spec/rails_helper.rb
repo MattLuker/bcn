@@ -66,4 +66,9 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.include ApiHelper, :type=>:api #apply to all spec for apis folder
+
+  # Set the server port and make sure the clients can find it.
+  Capybara.app_host = 'http://localhost'
+  Capybara.server_port = 10000
+  Capybara.always_include_port = true
 end

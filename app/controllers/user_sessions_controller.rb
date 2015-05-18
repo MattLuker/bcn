@@ -40,7 +40,7 @@ class UserSessionsController < ApplicationController
                 password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join
                })
       if user.save
-        flash[:success] = 'Welcome, you have been registered using Facebook.'
+        flash[:success] = "Welcome #{user.first_name}, you have been registered using Facebook."
         session[:user_id] = user.id
         FacebookSyncJob.perform_now(@facebook.access_token, user)
       else
