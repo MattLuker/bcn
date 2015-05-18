@@ -1,0 +1,8 @@
+<p>Hi <%= @user.first_name %>,</p>
+
+<p>A merge request has been sent from another Boone Community Network account. Click below to merge the accounts.</p>
+
+<p><%= link_to merge_user_url(@user.merge_token),
+               merge_user_url(@user.merge_token)  %></p>
+
+<p>Or if you did not request this merge, please disregard this message.</p>

@@ -9,7 +9,9 @@
                     <li>
                       <p>Email has already been taken.</p>
                       <% unless current_user.facebook_id.nil? %>
-                        <%= link_to 'Click Here Request Merge', user_merge_path %>
+                        <%= link_to 'Click Here To Request Merge', send_merge_path,
+                                    :id => 'merge_link',
+                                    :class => 'button small' %>
                       <% end %>
                     </li>
                 <% else %>

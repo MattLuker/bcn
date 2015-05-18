@@ -7,8 +7,8 @@ class Notifier < ApplicationMailer
     mail(to: "#{user.first_name} #{user.last_name} <#{user.email}>", subject: "Reset Your Password")
   end
 
-  def user_merge(user, current_user)
-    @user = user
-    mail(to: "#{user.first_name} #{user.last_name} <#{user.email}>", subject: "Merge Account Request")
+  def send_merge(merge_user)
+    @user = merge_user
+    mail(to: "#{@user.first_name} #{@user.last_name} <#{@user.email}>", subject: "Merge Account Request")
   end
 end

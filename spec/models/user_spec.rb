@@ -64,6 +64,19 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#generate_user_merge_token!' do
+    let(:user) { create(:user) }
+
+    it 'changes the merge_token attribute' do
+      expect{user.generate_user_merge_token!}.to change{user.merge_token}
+    end
+
+    it 'calls SecureRandom.urlsafe_base64 to generate merge_token' do
+      expect(SecureRandom).to receive(:urlsafe_base64)
+      user.generate_user_merge_token!
+    end
+  end
+
   describe '#facbook login' do
     it 'creates user from Facebook attributes' do
       user = User.create({facebook_id: '10152915557788',

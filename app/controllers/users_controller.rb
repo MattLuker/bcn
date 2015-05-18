@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_user, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, only: [:show, :edit, :update, :destroy, :merge_user]
 
   # GET /users
   # GET /users.json
@@ -27,13 +27,46 @@ class UsersController < ApplicationController
   end
 
   # Get /user_merge
-  def merge
+  def send_merge_email
     puts "params: #{params}"
+    merge_user = User.find_by(email: params[:email])
 
-    user = User.find_by(email: params[:email])
-    Notifier.user_merge(user, current_user).deliver_now
-    flash[:success] = 'Merge request sent! Please check your email.'
-    redirect_to current_user
+    if merge_user.facebook_id.nil?
+      merge_user.generate_user_merge_token!
+      Notifier.send_merge(merge_user).deliver_now
+      flash[:success] = 'Merge request sent! Please check your email.'
+      redirect_to current_user
+    else
+      flash[:alert] = 'Cannot request merge for this email.'
+      redirect_to current_user
+    end
+  end
+
+  def merge_user
+    @user = User.find_by(merge_token: params[:id])
+    @user.first_name = current_user.first_name
+    @user.last_name = current_user.last_name
+    @user.username = current_user.username
+    @user.facebook_id = current_user.facebook_id
+    @user.email = current_user.email
+    if @user.save
+      # Update all posts.
+      # Update all communities.
+
+      puts "@user.inspect: #{@user.inspect}"
+
+      current_user.really_destroy!
+      puts "current_user: #current_user}"
+
+
+      session[:user_id] = nil
+      reset_session
+      flash[:notice] = 'Your account has been merged, please login again.'
+      redirect_to home_path
+    else
+      flash[:notice] = 'There was a problem merging your account.'
+      redirect_to current_user
+    end
   end
 
   # POST /users

@@ -10,8 +10,6 @@ describe 'Signing Up with Facebook' do
   end
 
   it 'allows user to sign up via Facebook', :js => true do
-    expect(User.count).to eq(0)
-
     visit '/'
 
     expect(page).to have_content('Register')
@@ -42,7 +40,6 @@ describe 'Signing Up with Facebook' do
 
     fill_in 'Email or Phone:', with: FACEBOOK_CONFIG['username']
     fill_in 'Password:', with: FACEBOOK_CONFIG['password']
-    #sleep(10)
     find('#u_0_2').click # 'Log In' button element.
 
     expect(User.count).to eq(1)

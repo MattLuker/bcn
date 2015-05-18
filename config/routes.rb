@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   resources :user_sessions, only: [:create, :new]
   resources :users
   resources :password_resets, only: [:new, :create, :edit, :update]
-  get :user_merge, to: 'users#merge'
+  get :send_merge, to: 'users#send_merge_email'
+  get :merge_user, to: 'users#merge_user'
+
 
   get 'locations', to: 'locations#show'
 
