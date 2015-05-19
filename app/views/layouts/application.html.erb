@@ -34,6 +34,8 @@
                     <li><%= link_to current_user.first_name, current_user %></li>
                 <% elsif current_user.first_name.blank? %>
                     <li><%= link_to current_user.username, current_user %></li>
+                <% elsif current_user.username.blank? %>
+                    <li><%= link_to current_user.email, current_user %></li>
                 <% else %>
                     <li><%= link_to current_user.username, current_user %></li>
                 <% end %>

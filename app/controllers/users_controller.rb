@@ -28,7 +28,6 @@ class UsersController < ApplicationController
 
   # Get /user_merge
   def send_merge_email
-    puts "params: #{params}"
     merge_user = User.find_by(email: params[:email])
 
     if merge_user.facebook_id.nil?
@@ -43,21 +42,26 @@ class UsersController < ApplicationController
   end
 
   def merge_user
-    @user = User.find_by(merge_token: params[:id])
+    @user = User.find_by(merge_token: params[:format])
     @user.first_name = current_user.first_name
     @user.last_name = current_user.last_name
     @user.username = current_user.username
     @user.facebook_id = current_user.facebook_id
-    @user.email = current_user.email
+    @user.merge_token = nil
     if @user.save
       # Update all posts.
-      # Update all communities.
+      current_user.posts.each do |post|
+        post.user = @user
+        post.save
+      end
 
-      puts "@user.inspect: #{@user.inspect}"
+      # Update all communities created_by.
+      Community.where(created_by: current_user.id).each do |community|
+        community.created_by = @user.id
+        community.save
+      end
 
       current_user.really_destroy!
-      puts "current_user: #current_user}"
-
 
       session[:user_id] = nil
       reset_session
