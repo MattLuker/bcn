@@ -13,5 +13,7 @@ github_username:  jekyll
 # Build settings
 markdown: kramdown
 
+excerpt_separator: <!--more-->
+
 sass:
   sass_dir: css

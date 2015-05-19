@@ -4,8 +4,6 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">Posts</h1>
-
   <ul class="post-list">
     {% for post in site.posts %}
       <li>
@@ -13,7 +11,10 @@ layout: default
         <h2>
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <br/>
+        {{ post.excerpt }}
+        <span class="post-meta"></span>
+        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">Read More</a>
       </li>
     {% endfor %}
   </ul>

@@ -4,6 +4,7 @@ title:  "Rails and Facebook"
 date:   2015-05-14 07:00:00
 categories: rails
 author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
+image: <img src="http://www.thehoick.com/images/bcn_blog/facebook_and_rails.jpg" title="Facebook and Rails" alt='facebook and rails' class="post-image"/>
 ---
 
 <img src="http://www.thehoick.com/images/bcn_blog/facebook_and_rails.jpg" title="Facebook and Rails" alt='facebook and rails' class="post-image"/>
@@ -16,6 +17,7 @@ Sync Event information from RSVPed events to our site.
 
 To accomplish this we’ll need to create a Facebook web application, integrate it with Rails via the [Koala](https://github.com/arsduo/koala) and [OmniAuth](https://github.com/mkdynamic/omniauth-facebook) libraries, and ask for additional permissions to access the Event data.
 
+<!--more-->
 Thankfully most of these steps are covered by multiple great guides out there on the  intertubes and I won’t rehash them.  I will however provide some linky links and detail the changes I needed to make to get things working.
 
 The Koala project wiki has a great example (though it’s for Rails 3) [here](https://github.com/arsduo/koala/wiki/Koala-on-Rails).  I only used it to get some additional background on how to setup Rails and Facebook.  The main guide I used is over at Railscasts #360 [Facebook Authentication](http://railscasts.com/episodes/360-facebook-authentication).  This is a great guide that I was easily able to follow and when I finished Facebook authentication was working like a champ.

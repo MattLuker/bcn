@@ -4,6 +4,7 @@ title:  "Rails Vendor Assets"
 date:   2015-05-03 08:56:44
 categories: rails
 author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
+image: <img src="http://www.thehoick.com/images/bcn_blog/bw_cleaner.jpg" title="BCN Cleaner" alt='bcn cleaner' class="post-image"/>
 ---
 
 <img src="http://www.thehoick.com/images/bcn_blog/bw_cleaner.jpg" title="BCN Cleaner" alt='bcn cleaner' class="post-image"/>
@@ -11,6 +12,7 @@ author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
 # Vendor Assets
 
 Sometimes you need to use a JavaScript library that is so cutting edge it doesn't have a gem yet.  Or maybe there aren't enough developers interested and it'll never have it's own gem.  Either way that's where the $RAILS_ROOT/vendor directory comes into the mix.
+<!--more-->
 
 Copy files into $RAILS_ROOT/vendor/assets.  There are specific subfolders for **stylesheets** and **javascripts**.  This folder structure mirrors the $RAILS_ROOT/app/assets directory and is part of the Rails Asset Pipeline.
 
