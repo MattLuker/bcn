@@ -24,6 +24,24 @@ class User < ActiveRecord::Base
     @facebook = Koala::Facebook::API.new(auth['token'])
   end
 
+  def self.twitter(auth_hash)
+    puts "auth: #{auth_hash}"
+    user = User.find_by(username: auth_hash.info.nickname)
+    if user.nil?
+      user = create(username: auth_hash.info.nickname, password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join)
+    end
+
+    name = auth_hash.info.name.split(' ') unless auth_hash.info.name.nil?
+    user.twitter_id = auth_hash.uid
+    user.photo = auth_hash.info.image
+    user.first_name = name[0] unless name[0].nil?
+    user.last_name = name[-1] unless name[-1].nil?
+    user.twitter_token = auth_hash.credentials.token
+    user.twitter_secret = auth_hash.credentials.secret
+    user.save
+    user
+  end
+
   def downcase_email
     self.email = email.downcase unless email.nil?
   end

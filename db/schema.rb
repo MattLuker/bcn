@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150518094206) do
+ActiveRecord::Schema.define(version: 20150520134404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,9 @@ ActiveRecord::Schema.define(version: 20150518094206) do
     t.string   "photo"
     t.time     "event_sync_time"
     t.string   "merge_token"
+    t.string   "twitter_id"
+    t.string   "twitter_token"
+    t.string   "twitter_secret"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

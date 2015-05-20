@@ -63,6 +63,14 @@ class UserSessionsController < ApplicationController
     redirect_to home_path
   end
 
+  def twitter_login
+    puts params
+    user = User.twitter(request.env['omniauth.auth'])
+    flash[:success] = "Welcome #{user.first_name}"
+    session[:user_id] = user.id
+    redirect_to home_path
+  end
+
   def destroy
     session[:user_id] = nil
     reset_session

@@ -46,9 +46,9 @@ Rails.application.routes.draw do
     delete 'community', to: 'posts#remove_community'
   end
 
-  get 'auth/facebook', as: 'auth_provider'
+  #get 'auth/facebook', as: 'auth_provider'
   get 'auth/facebook/callback', to: 'user_sessions#facebook_login'
-  get 'auth/twitter', as: 'twitter_auth_provider'
+  get 'auth/twitter', as: 'auth_provider'
   get 'auth/twitter/callback', to: 'user_sessions#twitter_login'
 
 
