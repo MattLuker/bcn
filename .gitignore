@@ -16,6 +16,9 @@ learning
 config/nominatim.yml
 config/database.yml
 config/facebook.yml
+config/twitter.yml
+config/google.yml
+
 
 *.rbc
 capybara-*.html

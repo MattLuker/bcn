@@ -19,7 +19,9 @@ gem 'foundation-rails', '~> 5.5.1.1'
 
 gem 'nominatim'
 
+gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 gem 'koala'
 
 gem 'sidekiq'
