@@ -32,12 +32,14 @@ class User < ActiveRecord::Base
 
     name = auth_hash.info.name.split(' ') unless auth_hash.info.name.nil?
     user.twitter_id = auth_hash.uid
-    user.photo = auth_hash.info.image
+    user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
     user.first_name = name[0] unless name[0].nil?
     user.last_name = name[-1] unless name[-1].nil?
     user.twitter_token = auth_hash.credentials.token
     user.twitter_secret = auth_hash.credentials.secret
+    user.twitter_link = auth_hash.info.urls.Twitter
     user.save
+    puts user.errors.full_messages
     user
   end
 

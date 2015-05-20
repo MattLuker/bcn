@@ -34,6 +34,7 @@ class UserSessionsController < ApplicationController
 
     if user.nil?
       user = User.new({facebook_id: fb_user['id'],
+                facebook_link: fb_user['link'],
                 first_name: fb_user['first_name'],
                 last_name: fb_user['last_name'],
                 photo: fb_user['picture']['data']['url'],
