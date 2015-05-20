@@ -64,7 +64,6 @@ class UserSessionsController < ApplicationController
   end
 
   def twitter_login
-    puts params
     user = User.twitter(request.env['omniauth.auth'])
     flash[:success] = "Welcome #{user.first_name}"
     session[:user_id] = user.id
