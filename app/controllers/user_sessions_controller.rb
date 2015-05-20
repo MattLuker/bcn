@@ -66,8 +66,18 @@ class UserSessionsController < ApplicationController
 
   def twitter_login
     user = User.twitter(request.env['omniauth.auth'])
-    flash[:success] = "Welcome #{user.first_name}"
+    puts "user.inspect: #{user.inspect}"
     session[:user_id] = user.id
+    flash[:success] = "Welcome #{user.first_name}"
+    redirect_to home_path
+  end
+
+  def google_login
+    puts "google_login params: #{params}"
+    puts
+    user = User.google(request.env['omniauth.auth'])
+    session[:user_id] = user.id
+    flash[:success] = "Welcome #{user.first_name}"
     redirect_to home_path
   end
 

@@ -25,21 +25,42 @@ class User < ActiveRecord::Base
   end
 
   def self.twitter(auth_hash)
-    user = User.find_by(username: auth_hash.info.nickname)
+
+    user = User.find_by(twitter_id: auth_hash.uid)
     if user.nil?
       user = create(username: auth_hash.info.nickname, password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join)
     end
 
     name = auth_hash.info.name.split(' ') unless auth_hash.info.name.nil?
-    user.twitter_id = auth_hash.uid
     user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
     user.first_name = name[0] unless name[0].nil?
     user.last_name = name[-1] unless name[-1].nil?
+
+    user.twitter_id = auth_hash.uid
     user.twitter_token = auth_hash.credentials.token
     user.twitter_secret = auth_hash.credentials.secret
     user.twitter_link = auth_hash.info.urls.Twitter
+
     user.save
-    puts user.errors.full_messages
+    user
+  end
+
+  def self.google(auth_hash)
+    user = User.find_by(email: auth_hash.info.email)
+    if user.nil?
+      user = create(email: auth_hash.info.email, password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join)
+    end
+
+    user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
+    user.first_name = auth_hash.info.first_name unless auth_hash.info.first_name.nil?
+    user.last_name = auth_hash.info.last_name unless auth_hash.info.last_name.nil?
+    user.email = auth_hash.info.email
+
+    user.google_id = auth_hash.uid
+    user.google_token = auth_hash.credentials.token
+    user.google_link = auth_hash.extra.raw_info.profile
+
+    user.save
     user
   end
 

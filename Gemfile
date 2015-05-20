@@ -22,6 +22,7 @@ gem 'nominatim'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem "omniauth-google-oauth2"
 gem 'koala'
 
 gem 'sidekiq'
