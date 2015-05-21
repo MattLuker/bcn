@@ -47,6 +47,11 @@ class UsersController < ApplicationController
     @user.last_name = current_user.last_name
     @user.username = current_user.username
     @user.facebook_id = current_user.facebook_id
+    @user.twitter_id = current_user.twitter_id
+    @user.google_id = current_user.google_id
+    @user.facebook_link = current_user.facebook_link
+    @user.twitter_link = current_user.twitter_link
+    @user.google_link = current_user.google_link
     @user.merge_token = nil
     if @user.save
       # Update all posts.

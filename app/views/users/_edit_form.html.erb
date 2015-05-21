@@ -8,7 +8,7 @@
                 <% if message == 'Email has already been taken' %>
                     <li>
                       <p>Email has already been taken.</p>
-                      <% unless current_user.facebook_id.nil? %>
+                      <% if !current_user.facebook_id.nil? || !current_user.twitter_id.nil? %>
                         <%= link_to 'Click Here To Request Merge', send_merge_path,
                                     :id => 'merge_link',
                                     :class => 'button small' %>
