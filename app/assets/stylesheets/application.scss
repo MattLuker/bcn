@@ -24,6 +24,9 @@ $yellow: #FBDE09;
 $red: #D04334;
 $light-gray: #E7E7E7;
 $gray: darken($light-gray, 15);
+$google: #D73D32;
+$twitter: #55ACEE;
+$facebook: #45619D;
 
 body {
   height: auto;
@@ -43,4 +46,38 @@ footer {
 
 .white {
   color: #ffffff;
+}
+
+.google {
+  background-color: $google;
+  &:hover {
+    background-color: darken($google, 15%);
+  }
+}
+
+.twitter {
+  background-color: $twitter;
+  &:hover {
+    background-color: darken($twitter, 15%);
+  }
+}
+
+.facebook {
+  background-color: $facebook;
+  &:hover {
+    background-color: darken($facebook, 15%);
+  }
+}
+
+.avatar {
+  border: 1px solid $oil;
+  width: 150px;
+}
+
+.image-link:hover {
+  width: 50px;
+  height: 50px;
+  position:absolute;
+  background-color: darken($anchor-font-color, 20%);
+  opacity:0.5;
 }

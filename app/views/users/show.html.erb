@@ -1,22 +1,36 @@
-<p>
-  <strong>First name:</strong>
-  <%= @user.first_name %>
-</p>
+<div class="row">
+  <div class="large-2 columns">
+    <% if @user.photo %>
+        <%= image_tag @user.photo, :class => 'avatar' %>
+    <% else %>
+        <%= image_tag 'avatar.png', :class => 'avatar' %>
+    <% end %>
+  </div>
+  <div class="large-10 columns">
+    <p>
+      <strong>Name:</strong>
+      <%= @user.first_name + ' ' + @user.last_name %>
+    </p>
 
-<p>
-  <strong>Last name:</strong>
-  <%= @user.last_name %>
-</p>
+    <p>
+      <strong>Email:</strong>
+      <%= @user.email %>
+    </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+    <p>
+      <strong>Username:</strong>
+      <%= @user.username %>
+    </p>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
+    <p>
+      <strong>Links:</strong><br/>
+      <%= link_to @user.web_link, target: '_blank' do %>
+        <% image_tag 'globe.png', class: 'image-link' %>
+      <% end %>
+    </p>
+  </div>
+</div>
+
 
 <p>
   <strong>Communities:</strong>

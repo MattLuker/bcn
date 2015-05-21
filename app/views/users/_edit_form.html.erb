@@ -24,6 +24,13 @@
 
     <div class="row">
       <div class="large-4 columns">
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
         <%= f.label :first_name %>
         <%= f.text_field :first_name %>
       </div>
@@ -52,10 +59,11 @@
 
     <div class="row">
       <div class="large-4 columns">
-        <%= f.label :password %>
-        <%= f.password_field :password %>
+        <%= f.label :web_link, 'Website' %>
+        <%= f.text_field :web_link %>
       </div>
     </div>
+
 
     <div class="row">
       <div class="large-4 columns actions">

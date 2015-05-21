@@ -1,18 +1,16 @@
-<h4>Do you have a Facebook account?</h4>
+<h4>Do you have one of these Social accounts?</h4>
 
-<%= link_to "Register with Facebook", '/auth/facebook', :class => 'button small success' %>
+<%= link_to "Register with Facebook", '/auth/facebook', :class => 'button small facebook' %>
 
 
-<h4>Do you have a Twitter account?</h4>
+<%= link_to "Register with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
 
-<%= link_to "Register with Twitter", '/auth/twitter', :class => 'button small success', :id => 'twitter_login' %>
 
-<h4>Do you have a Google account?</h4>
-
-<%= link_to "Register with Google", '/auth/google_oauth2', :class => 'button small success', :id => 'google_login' %>
+<%= link_to "Register with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
 
 
 <hr/>
+<p>Or</p>
 
 <h4>Register With Email</h4>
 

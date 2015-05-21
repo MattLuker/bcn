@@ -1,18 +1,13 @@
-<h4>Sign In with Facebook</h4>
+<h4>Sign In with your Social account:</h4>
 
-<%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small success', :id => 'facebook_login' %>
+<%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small facebook', :id => 'facebook_login' %>
 
+<%= link_to "Login with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
 
-<h4>Sign In With Twitter</h4>
-
-<%= link_to "Login with Twitter", '/auth/twitter', :class => 'button small success', :id => 'twitter_login' %>
-
-<h4>Sign In With Google</h4>
-
-<%= link_to "Login with Google", '/auth/google_oauth2', :class => 'button small success', :id => 'google_login' %>
+<%= link_to "Login with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
 
 <hr/>
-
+<p>Or</p>
 <h4>Sign In With Email</h4>
 
 <%= form_tag user_sessions_path do %>

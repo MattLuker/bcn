@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
    format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/ }
 
   after_create do
+    downcase_email
+    set_photo
     Log.create({user: self, action: "created"})
   end
 
@@ -32,7 +34,9 @@ class User < ActiveRecord::Base
     end
 
     name = auth_hash.info.name.split(' ') unless auth_hash.info.name.nil?
-    user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
+    if user.photo.nil?
+      user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
+    end
     user.first_name = name[0] unless name[0].nil?
     user.last_name = name[-1] unless name[-1].nil?
 
@@ -51,7 +55,9 @@ class User < ActiveRecord::Base
       user = create(email: auth_hash.info.email, password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join)
     end
 
-    user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
+    if user.photo.nil?
+      user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
+    end
     user.first_name = auth_hash.info.first_name unless auth_hash.info.first_name.nil?
     user.last_name = auth_hash.info.last_name unless auth_hash.info.last_name.nil?
     user.email = auth_hash.info.email
@@ -65,7 +71,16 @@ class User < ActiveRecord::Base
   end
 
   def downcase_email
-    self.email = email.downcase unless email.nil?
+    self.email = email.strip.downcase unless email.nil?
+  end
+
+  def set_photo
+    unless self.email.nil?
+      if self.photo.nil?
+        hash = Digest::MD5(downcase_email)
+        self.photo = "http://gravatar.com/avatar/#{hash}"
+      end
+    end
   end
 
   def set_username
