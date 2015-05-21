@@ -79,6 +79,8 @@ class UserSessionsController < ApplicationController
   end
 
   def destroy
+    current_user.event_sync_time = nil
+    current_user.save
     session[:user_id] = nil
     reset_session
     flash[:notice] = 'You have been logged out.'

@@ -29,14 +29,16 @@
           <!-- Right Nav Section -->
           <ul class="right">
             <% if current_user %>
-                <% if current_user.first_name %>
-                    <li><%= link_to current_user.first_name, current_user %></li>
-                <% elsif current_user.first_name.blank? %>
+                <% if current_user.photo %>
+                    <li>
+                      <%= link_to user_path(current_user) do %>
+                          <%= image_tag current_user.photo, class: 'nav-profile-pic' %>
+                      <% end %>
+                    </li>
+                <% elsif current_user.username %>
                     <li><%= link_to current_user.username, current_user %></li>
-                <% elsif current_user.username.blank? %>
-                    <li><%= link_to current_user.email, current_user %></li>
                 <% else %>
-                    <li><%= link_to current_user.username, current_user %></li>
+                    <li><%= link_to 'Profile', current_user %></li>
                 <% end %>
                 <li><a href="<%= logout_path %>">Log Out</a></li>
             <% else %>
