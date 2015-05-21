@@ -28,6 +28,8 @@ gem 'koala'
 gem 'sweet-alert'
 gem 'sweet-alert-confirm'
 
+gem 'dragonfly', '~> 1.0.8'
+
 gem 'sidekiq'
 
 group :development, :test do

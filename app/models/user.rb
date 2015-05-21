@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   acts_as_paranoid
   has_secure_password
+  dragonfly_accessor :photo
 
   validates :username, allow_nil: true, uniqueness: true
   validates :email, allow_nil: true, uniqueness: true,
@@ -35,7 +36,7 @@ class User < ActiveRecord::Base
 
     name = auth_hash.info.name.split(' ') unless auth_hash.info.name.nil?
     if user.photo.nil?
-      user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
+      user.photo_url = auth_hash.info.image unless auth_hash.info.image.nil?
     end
     user.first_name = name[0] unless name[0].nil?
     user.last_name = name[-1] unless name[-1].nil?
@@ -56,7 +57,7 @@ class User < ActiveRecord::Base
     end
 
     if user.photo.nil?
-      user.photo = auth_hash.info.image unless auth_hash.info.image.nil?
+      user.photo_url = auth_hash.info.image unless auth_hash.info.image.nil?
     end
     user.first_name = auth_hash.info.first_name unless auth_hash.info.first_name.nil?
     user.last_name = auth_hash.info.last_name unless auth_hash.info.last_name.nil?

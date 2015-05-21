@@ -37,7 +37,6 @@ class UserSessionsController < ApplicationController
                 facebook_link: fb_user['link'],
                 first_name: fb_user['first_name'],
                 last_name: fb_user['last_name'],
-                photo: fb_user['picture']['data']['url'],
                 password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join
                })
       if user.save
@@ -47,6 +46,7 @@ class UserSessionsController < ApplicationController
       else
         user = User.only_deleted.find_by(facebook_id: fb_user['id'])
         User.restore(user)
+        user.photo_url = fb_user['picture']['data']['url']
         user.password = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
         user.save
 
@@ -56,6 +56,10 @@ class UserSessionsController < ApplicationController
       end
 
     else
+      if user.photo.nil?
+        user.photo_url = fb_user['picture']['data']['url']
+        user.save
+      end
       flash[:success] = "Welcome #{user.first_name}"
       session[:user_id] = user.id
       FacebookSyncJob.perform_now(@facebook.access_token, user)

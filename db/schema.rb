@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150521100110) do
+ActiveRecord::Schema.define(version: 20150521184709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,9 @@ ActiveRecord::Schema.define(version: 20150521100110) do
     t.date     "end_date"
     t.time     "start_time"
     t.time     "end_time"
+    t.string   "image"
+    t.string   "image_uid"
+    t.string   "image_name"
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
@@ -127,6 +130,8 @@ ActiveRecord::Schema.define(version: 20150521100110) do
     t.string   "google_id"
     t.string   "google_token"
     t.string   "web_link"
+    t.string   "photo_uid"
+    t.string   "photo_name"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

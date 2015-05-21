@@ -24,6 +24,19 @@
 
     <div class="row">
       <div class="large-4 columns">
+        <% if @user.photo  %>
+            <%= image_tag @user.photo.thumb('150x150#').url, :class => 'avatar' %>
+        <% else %>
+            <%= image_tag 'avatar.svg', :class => 'avatar' %>
+        <% end %>
+        <%= f.file_field :photo %>
+        <%= f.hidden_field :retained_photo %>
+      </div>
+    </div>
+    <br/>
+
+    <div class="row">
+      <div class="large-4 columns">
         <%= f.label :password %>
         <%= f.password_field :password %>
       </div>

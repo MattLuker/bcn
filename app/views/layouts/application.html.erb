@@ -32,8 +32,8 @@
                 <% if current_user.photo %>
                     <li>
                       <%= link_to user_path(current_user) do %>
-                          <%= image_tag current_user.photo, class: 'nav-profile-pic' %>
-                      <% end %>
+                          <%= image_tag current_user.photo.thumb('35x35#').url, :class => 'nav-profile-pic' %>
+                    <% end %>
                     </li>
                 <% elsif current_user.username %>
                     <li><%= link_to current_user.username, current_user %></li>

@@ -2,9 +2,9 @@
 
   <div class="large-2 columns">
     <% if @user.photo %>
-        <%= image_tag @user.photo, :class => 'avatar' %>
+        <%= image_tag @user.photo.thumb('150x150#').url, :class => 'avatar' %>
     <% else %>
-        <%= image_tag 'avatar.png', :class => 'avatar' %>
+        <%= image_tag 'avatar.svg', :class => 'avatar' %>
     <% end %>
   </div>
 
