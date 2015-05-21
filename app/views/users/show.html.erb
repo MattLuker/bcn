@@ -1,4 +1,5 @@
 <div class="row">
+
   <div class="large-2 columns">
     <% if @user.photo %>
         <%= image_tag @user.photo, :class => 'avatar' %>
@@ -6,6 +7,7 @@
         <%= image_tag 'avatar.png', :class => 'avatar' %>
     <% end %>
   </div>
+
   <div class="large-10 columns">
     <p>
       <strong>Name:</strong>
@@ -22,31 +24,78 @@
       <%= @user.username %>
     </p>
 
-    <p>
+    <div>
       <strong>Links:</strong><br/>
       <%= link_to @user.web_link, target: '_blank' do %>
-        <% image_tag 'globe.png', class: 'image-link' %>
+        <% image_tag 'globe.svg', class: 'image-link' %>
       <% end %>
-    </p>
+      <%= link_to @user.facebook_link, target: '_blank' do %>
+          <% image_tag 'facebook-icon.svg', class: 'image-link' %>
+      <% end %>
+      <%= link_to @user.twitter_link, target: '_blank' do %>
+          <% image_tag 'twitter-icon.svg', class: 'image-link' %>
+      <% end %>
+      <%= link_to @user.google_link, target: '_blank' do %>
+          <% image_tag 'google-icon.svg', class: 'image-link' %>
+      <% end %>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="large-6 columns">
+      <%= link_to edit_user_path(@user), class: 'button tiny icon', title: 'Edit Profile' do %>
+          <% image_tag 'edit-icon.svg', class: 'icon' %>
+      <% end %>
+      <br/>
+      <h5><small>
+        <%= link_to 'Delete Account', @user, method: :delete,
+                    data: { confirm: 'Are you sure?' },
+                    class: 'delete' %>
+      </small></h5>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="large-6 columns">
+    <br/><hr/><br/>
   </div>
 </div>
 
-
-<p>
-  <strong>Communities:</strong>
-  <ul>
+<div>
+  <h3>Communities:</h3>
+  <ul class="communities">
     <% @user.communities.each do |community| %>
       <li>
-        <%= link_to community.name, community %>
-        <%= form_tag("/communities/#{community.id}/users", method: 'delete') do |f| %>
+        <h4><%= link_to community.name, community %></h4>
+        <%= form_tag("/communities/#{community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
             <%= hidden_field_tag 'user_id', current_user.id %>
-            <%= submit_tag 'Leave Community', :class => 'button tiny secondary' %>
+            <%= image_submit_tag 'exit-icon.svg', :class => 'button tiny secondary icon leave-community',
+                                 :alt => 'Leave Community',
+                                 :value => 'Leave',
+                                 :title => 'Leave Community' %>
         <% end %>
       </li>
     <% end %>
   </ul>
-</p>
+</div>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
-<%= link_to 'Back', users_path %>
+<div class="row">
+  <div class="large-6 columns">
+    <br/><hr/><br/>
+  </div>
+</div>
+
+<div>
+  <h3>Posts:</h3>
+
+  <div class="large-6 columns">
+    <ul class="posts no-bullet">
+      <% @user.posts.each do |post| %>
+          <%= render 'layouts/posts_list', post: post %>
+      <% end %>
+    </ul>
+  </div>
+</div>

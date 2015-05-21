@@ -1,0 +1,25 @@
+
+      <li class="<%= dom_id(post) %>" class="post row">
+        <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
+        <span class="post-text truncate" title="<%= post.description %>"><%= post.description %></span>
+        <br/>
+        <% if post.locations %>
+            <% if post.locations.count > 1 %>
+                <span class="post-location"><%= post.locations[0].name %> &amp; more...</span>
+            <% else %>
+                <% if post.locations.count == 1 %>
+                    <span class="post-location"><%= post.locations[0].name %></span>
+                <% else %>
+                    <span class="post-location">No location set...</span>
+                <% end %>
+            <% end %>
+        <% end %>
+
+        <% if post.communities %>
+            <div class="post-communities">
+              <% post.communities.each do |community| %>
+                  <span class="label info"><%= link_to community.name, community %></span>
+              <% end %>
+            </div>
+        <% end %>
+      </li>

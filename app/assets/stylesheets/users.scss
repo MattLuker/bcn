@@ -1,0 +1,71 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+
+$light-gray: #E7E7E7;
+$gray: darken($light-gray, 15);
+
+.leave-community-form {
+  display: inline;
+  vertical-align: middle;
+}
+
+.icon.leave-community {
+  margin-bottom: 0;
+  margin-left: 20px;
+}
+
+ul.communities {
+  list-style: none;
+
+  li {
+    h4 {
+      display: inline-block;
+    }
+  }
+}
+
+.sweet-alert.showSweetAlert.visible {
+  border-radius: 0;
+
+  button {
+    border-radius: 0;
+  }
+
+  button.cancel {
+    background-color: $light-gray;
+  }
+
+  button.confirm {
+    background-color: #F04124 !important;
+  }
+}
+
+.user-posts {
+  list-style: none;
+
+  .post-title {
+    font-size: 23px;
+  }
+
+  .post-text {
+    padding-left: 10px;
+  }
+
+  .post-location {
+    padding-left: 10px;
+    font-size: 0.8rem;
+    color: $gray;
+  }
+
+  .post-communities {
+    padding-left: 10px;
+    display: inline;
+  }
+
+  li {
+    padding: 10px 5px;
+    margin: 20px 0px;
+  }
+}

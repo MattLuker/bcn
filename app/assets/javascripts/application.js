@@ -18,7 +18,8 @@
 //= require_tree .
 //= require foundation-datepicker
 //= require clockpicker
-
+//= require sweet-alert
+//= require sweet-alert-confirm
 
 
 

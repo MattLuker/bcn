@@ -11,6 +11,3 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 Rails.application.config.assets.precompile += %w( clockpicker.css foundation-datepicker.css )
-#Rails.application.config.assets.precompile += ['clockpicker.css', 'foundation-datepicker.css']
-
-#Rails.application.config.assets.precompile += %w( foundation-datepicker.scss )

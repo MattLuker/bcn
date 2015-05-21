@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  *= require foundation_and_overrides
+ *= require sweet-alert
 
  */
 
@@ -74,10 +75,21 @@ footer {
   width: 150px;
 }
 
-.image-link:hover {
+.image-link {
   width: 50px;
   height: 50px;
-  position:absolute;
-  background-color: darken($anchor-font-color, 20%);
-  opacity:0.5;
+  padding: 5px;
+
+  &:hover {
+    opacity: .7;
+  }
 }
+
+.icon {
+  width: 55px;
+}
+
+.delete {
+  color: $gray;
+}
+

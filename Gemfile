@@ -25,6 +25,9 @@ gem 'omniauth-twitter'
 gem "omniauth-google-oauth2"
 gem 'koala'
 
+gem 'sweet-alert'
+gem 'sweet-alert-confirm'
+
 gem 'sidekiq'
 
 group :development, :test do
