@@ -1,0 +1,16 @@
+development:
+  app_id: Enter App ID here
+  secret: Enter App Secret here
+
+test:
+  app_id: Enter App ID here
+  secret: Enter App Secret here
+  username: Enter App test user here
+  password: Enter App test password here
+  first_name: Enter App test user first name here
+  last_name: Enter App test user last name here
+
+
+production:
+  app_id: Enter App ID here
+  secret: Enter App Secret here
