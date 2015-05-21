@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   def send_merge_email
     merge_user = User.find_by(email: params[:email])
 
-    if merge_user.facebook_id.nil?
+    if merge_user.facebook_id.nil? or merge_user.twitter_id.nil?
       merge_user.generate_user_merge_token!
       Notifier.send_merge(merge_user).deliver_now
       flash[:success] = 'Merge request sent! Please check your email.'
@@ -43,16 +43,17 @@ class UsersController < ApplicationController
 
   def merge_user
     @user = User.find_by(merge_token: params[:format])
-    @user.first_name = current_user.first_name
-    @user.last_name = current_user.last_name
-    @user.username = current_user.username
-    @user.facebook_id = current_user.facebook_id
-    @user.twitter_id = current_user.twitter_id
-    @user.google_id = current_user.google_id
-    @user.facebook_link = current_user.facebook_link
-    @user.twitter_link = current_user.twitter_link
-    @user.google_link = current_user.google_link
+
+    @user.first_name = current_user.first_name if @user.first_name.nil?
+    @user.last_name = current_user.last_name if @user.last_name.nil?
+    @user.facebook_id = current_user.facebook_id if @user.facebook_id.nil?
+    @user.twitter_id = current_user.twitter_id if @user.twitter_id.nil?
+    @user.google_id = current_user.google_id if @user.google_id.nil?
+    @user.facebook_link = current_user.facebook_link if @user.facebook_link.nil?
+    @user.twitter_link = current_user.twitter_link if @user.twitter_link.nil?
+    @user.google_link = current_user.google_link if @user.google_link.nil?
     @user.merge_token = nil
+
     if @user.save
       # Update all posts.
       current_user.posts.each do |post|
@@ -66,14 +67,18 @@ class UsersController < ApplicationController
         community.save
       end
 
+      # Set the username here since it has to be unique.
+      username = current_user.username
       current_user.really_destroy!
+      @user.username = username if @user.username.nil?
+      @user.save
 
       session[:user_id] = nil
       reset_session
       flash[:notice] = 'Your account has been merged, please login again.'
       redirect_to home_path
     else
-      flash[:notice] = 'There was a problem merging your account.'
+      flash[:alert] = "There was a problem merging your account: #{@user.errors.full_messages[0]}"
       redirect_to current_user
     end
   end
@@ -111,7 +116,7 @@ class UsersController < ApplicationController
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       else
-        flash[:error] = 'You can only update your profile.'
+        flash[:alert] = 'You can only update your profile.'
         redirect_to '/users/' + @user.id.to_s
       end
     end
