@@ -1,4 +1,11 @@
-FactoryGirl.define do
+FactoryGirl.define do  factory :comment do
+    content "MyText"
+photo_uid "MyString"
+photo_name "MyString"
+user nil
+post nil
+  end
+
   factory :user do
     first_name 'Bob'
     last_name 'Slidell'

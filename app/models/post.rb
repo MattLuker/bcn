@@ -9,6 +9,7 @@ class Post < ActiveRecord::Base
 
 
   has_many :locations
+  has_many :comments
   has_and_belongs_to_many :communities
   belongs_to :user
 
