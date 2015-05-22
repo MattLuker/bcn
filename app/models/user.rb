@@ -79,7 +79,10 @@ class User < ActiveRecord::Base
     unless self.email.nil?
       if self.photo.nil?
         hash = Digest::MD5.hexdigest(downcase_email)
-        self.photo = "http://gravatar.com/avatar/#{hash}"
+        self.photo_url = "http://gravatar.com/avatar/#{hash}?s=150"
+        
+        # Not sure why I have to save here, but it doesn't keep the photo info if I don't.
+        self.save
       end
     end
   end

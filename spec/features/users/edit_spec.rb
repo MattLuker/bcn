@@ -28,4 +28,22 @@ describe 'Editing User' do
 
     expect(page).to have_content('You can only update your profile.')
   end
+
+  it 'will upload profile image file' do
+    FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+    file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    sign_in user, password: 'beans'
+    visit "/users/#{user.id}/edit"
+    expect(find_field('Last name').value).to eq('Slidell')
+
+    attach_file('user[photo]', Rails.root.join('app/assets/images/test_avatar.jpg'))
+    click_button 'Update Profile'
+
+    new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+    user.reload
+
+    expect(user.photo.name).to eq('test_avatar.jpg')
+    expect(file_count).to be < new_file_count
+  end
 end
