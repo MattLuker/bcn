@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
   def set_photo
     unless self.email.nil?
       if self.photo.nil?
-        hash = Digest::MD5(downcase_email)
+        hash = Digest::MD5.hexdigest(downcase_email)
         self.photo = "http://gravatar.com/avatar/#{hash}"
       end
     end

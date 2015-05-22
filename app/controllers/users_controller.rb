@@ -2,19 +2,13 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :require_user, only: [:index, :show, :edit, :update, :destroy, :merge_user]
 
-  # GET /users
-  # GET /users.json
   def index
-    puts "current_user.admiN?: #{current_user.admin?}"
-    puts
     unless current_user.admin?
       redirect_to home_path
     end
     @users = User.all
   end
 
-  # GET /users/1
-  # GET /users/1.json
   def show
   end
 
@@ -108,11 +102,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
   def update
-    puts "params: #{params}"
-
     if current_user == @user
       if @user.update(user_params)
           flash[:success] = 'Profile successfully updated.'
@@ -134,10 +124,11 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
   def destroy
     if current_user == @user
+      @user.destroy
+      redirect_to users_url, notice: 'User was successfully destroyed.'
+    elsif current_user.admin?
       @user.destroy
       redirect_to users_url, notice: 'User was successfully destroyed.'
     else
@@ -147,12 +138,10 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :password, :username, :web_link, :photo, :role)
     end

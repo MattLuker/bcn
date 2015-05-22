@@ -12,16 +12,20 @@ describe 'Forgotten passwords' do
     click_link 'Login'
     click_link 'Login with Facebook'
 
-    expect(page).to have_content('Facebook Login')
-
-    fill_in 'Email or Phone:', with: FACEBOOK_CONFIG['username']
-    fill_in 'Password:', with: FACEBOOK_CONFIG['password']
-    find('#u_0_2').click # 'Log In' button element.
-
-    expect(page).to have_content("Welcome #{FACEBOOK_CONFIG['first_name']}, you have been registered using Facebook.")
+    #
+    # Uncomment if running the test stand alone because you don't need to login to Facebook again if run after the
+    # other Facebook tests.
+    #
+    # expect(page).to have_content('Facebook Login')
+    #
+    # fill_in 'Email or Phone:', with: FACEBOOK_CONFIG['username']
+    # fill_in 'Password:', with: FACEBOOK_CONFIG['password']
+    # find('#u_0_2').click # 'Log In' button element.
+    #
+    # expect(page).to have_content("Welcome #{FACEBOOK_CONFIG['first_name']}, you have been registered using Facebook.")
     fb_user = User.last
 
-    click_link FACEBOOK_CONFIG['first_name']
+    find('.profile').click
     click_link 'Edit'
 
     fill_in 'Email', with: FACEBOOK_CONFIG['username']
@@ -44,9 +48,12 @@ describe 'Forgotten passwords' do
 
       click_link 'Login'
       click_link 'Login with Facebook'
+      sleep(1)
+
       expect(page).to have_content("Welcome #{user.first_name}")
       expect(User.all.count).to eq(2)
       expect(user.facebook_id).to eq(fb_user.facebook_id)
+      page.driver.finish!
     end
   end
 
@@ -69,7 +76,7 @@ describe 'Forgotten passwords' do
 
     tw_user = User.last
 
-    click_link TWITTER_CONFIG['first_name']
+    find('.profile').click
     click_link 'Edit'
 
     fill_in 'Email', with: TWITTER_CONFIG['username'] + '@thehoick.com'
@@ -92,9 +99,13 @@ describe 'Forgotten passwords' do
 
       click_link 'Login'
       click_link 'Login with Twitter'
+      sleep(1)
+
       expect(page).to have_content("Welcome #{user.first_name}")
       expect(User.all.count).to eq(2)
       expect(user.facebook_id).to eq(tw_user.twitter_id)
+      page.driver.finish!
     end
   end
+
 end

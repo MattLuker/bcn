@@ -17,7 +17,7 @@ describe 'Editing User' do
     fill_in 'Username', with: 'bob_barker'
     click_button 'Update Profile'
 
-    expect(page).to have_content('Last name: Barker')
+    expect(page).to have_content('Name: Bob Barker')
   end
 
   it 'will not allow non-current user to update user profile' do

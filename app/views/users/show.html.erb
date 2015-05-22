@@ -31,17 +31,25 @@
 
     <div>
       <strong>Links:</strong><br/>
-      <%= link_to @user.web_link, target: '_blank' do %>
-        <% image_tag 'globe.svg', class: 'image-link' %>
+      <% if @user.web_link %>
+          <%= link_to @user.web_link, target: '_blank' do %>
+              <% image_tag 'globe.svg', class: 'image-link' %>
+          <% end %>
       <% end %>
-      <%= link_to @user.facebook_link, target: '_blank' do %>
-          <% image_tag 'facebook-icon.svg', class: 'image-link' %>
+      <% if @user.facebook_link %>
+          <%= link_to @user.facebook_link, target: '_blank' do %>
+              <% image_tag 'facebook-icon.svg', class: 'image-link' %>
+          <% end %>
       <% end %>
-      <%= link_to @user.twitter_link, target: '_blank' do %>
-          <% image_tag 'twitter-icon.svg', class: 'image-link' %>
+      <% if @user.twitter_link %>
+          <%= link_to @user.twitter_link, target: '_blank' do %>
+              <% image_tag 'twitter-icon.svg', class: 'image-link' %>
+          <% end %>
       <% end %>
-      <%= link_to @user.google_link, target: '_blank' do %>
-          <% image_tag 'google-icon.svg', class: 'image-link' %>
+      <% if @user.google_link %>
+          <%= link_to @user.google_link, target: '_blank' do %>
+              <% image_tag 'google-icon.svg', class: 'image-link' %>
+          <% end %>
       <% end %>
     </div>
 

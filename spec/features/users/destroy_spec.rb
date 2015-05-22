@@ -13,8 +13,8 @@ describe 'Deleting User' do
     expect(User.count).to eq(1)
 
     visit "/users/#{user.id}"
-    expect(page).to have_content('Last name: Slidell')
-    click_link 'Destroy'
+    expect(page).to have_content('Name: Bob Slidell')
+    click_link 'Delete Account'
 
     expect(User.count).to eq(0)
   end
@@ -24,7 +24,7 @@ describe 'Deleting User' do
     sign_in(new_user, {password: 'beans'})
 
     visit "/users/#{user.id}"
-    click_link 'Destroy'
+    click_link 'Delete Account'
 
     expect(User.count).to eq(2)
     expect(page).to have_content('You can only delete your account.')

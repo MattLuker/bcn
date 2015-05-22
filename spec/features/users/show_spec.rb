@@ -11,6 +11,6 @@ describe 'Showing User' do
   it 'allow show if logged in' do
     sign_in user, password: 'beans'
     visit('/users/' + user.id.to_s)
-    expect(page).to have_content('Last name: Slidell')
+    expect(page).to have_content('Name: Bob Slidell')
   end
 end

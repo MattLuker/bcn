@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>ID #</th>
       <th>First name</th>
       <th>Last name</th>
       <th>Email</th>
@@ -12,13 +13,14 @@
       <th>Twitter ID</th>
       <th>Google ID</th>
       <th>Role</th>
-      <th colspan="4"></th>
+      <th colspan="">Functions</th>
     </tr>
   </thead>
 
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td><%= user.id %></td>
         <td><%= user.first_name %></td>
         <td><%= user.last_name %></td>
         <td><%= user.email %></td>
@@ -28,10 +30,11 @@
         <td><%= user.twitter_id %></td>
         <td><%= user.google_id %></td>
         <td><%= user.role %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <td>
+          <%= link_to 'Show', user %>
+          <br/><br/>
+          <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <br/><br/>
           <% if user.admin? %>
               <%= link_to 'Admin!', user_path(user, user: {role: nil}), method: :put %>
           <% else %>

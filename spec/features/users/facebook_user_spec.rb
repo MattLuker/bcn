@@ -36,15 +36,6 @@ describe 'Signing Up with Facebook' do
     click_link 'Login'
     click_link 'Login with Facebook'
 
-    expect(page).to have_content('Facebook Login')
-
-    fill_in 'Email or Phone:', with: FACEBOOK_CONFIG['username']
-    fill_in 'Password:', with: FACEBOOK_CONFIG['password']
-    find('#u_0_2').click # 'Log In' button element.
-
-    expect(User.count).to eq(1)
-    expect(page).to have_content("Welcome #{FACEBOOK_CONFIG['first_name']}, you have been registered using Facebook.")
-
     click_link 'Communities'
     click_link 'BCN Rails'
     click_button 'Join Community'
