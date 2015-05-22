@@ -12,8 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require modernizr
 //= require foundation/foundation
 //= require foundation
+//= require foundation/foundation.alert
 //= require turbolinks
 //= require_tree .
 //= require foundation-datepicker
