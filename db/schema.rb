@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150521184709) do
+ActiveRecord::Schema.define(version: 20150521193151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 20150521184709) do
     t.string   "web_link"
     t.string   "photo_uid"
     t.string   "photo_name"
+    t.string   "role"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
@@ -140,6 +141,7 @@ ActiveRecord::Schema.define(version: 20150521184709) do
   add_index "users", ["google_id"], name: "index_users_on_google_id", using: :btree
   add_index "users", ["merge_token"], name: "index_users_on_merge_token", using: :btree
   add_index "users", ["password_reset_token"], name: "index_users_on_password_reset_token", using: :btree
+  add_index "users", ["role"], name: "index_users_on_role", using: :btree
   add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 

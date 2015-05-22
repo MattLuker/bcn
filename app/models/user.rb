@@ -101,6 +101,10 @@ class User < ActiveRecord::Base
     update_attribute(:merge_token, SecureRandom.urlsafe_base64)
   end
 
+  def admin?
+    true if role == 'admin'
+  end
+
   def as_json(options={})
     super(:except => [:password_digest])
   end

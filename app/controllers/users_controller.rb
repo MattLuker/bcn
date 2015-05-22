@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_user, only: [:show, :edit, :update, :destroy, :merge_user]
+  before_action :require_user, only: [:index, :show, :edit, :update, :destroy, :merge_user]
 
   # GET /users
   # GET /users.json
   def index
+    puts "current_user.admiN?: #{current_user.admin?}"
+    puts
+    unless current_user.admin?
+      redirect_to home_path
+    end
     @users = User.all
   end
 
@@ -15,6 +20,9 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    if current_user
+      redirect_to home_path
+    end
     @user = User.new
   end
 
@@ -103,22 +111,26 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    respond_to do |format|
-      if current_user == @user
-        if @user.update(user_params)
-          format.html {
-            flash[:success] = 'Profile successfully updated.'
-            redirect_to @user
-          }
-          format.json { render :show, status: :ok, location: @user }
-        else
-          format.html { render :edit }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+    puts "params: #{params}"
+
+    if current_user == @user
+      if @user.update(user_params)
+          flash[:success] = 'Profile successfully updated.'
+          redirect_to @user
       else
-        flash[:alert] = 'You can only update your profile.'
-        redirect_to '/users/' + @user.id.to_s
+        render :edit
       end
+    elsif current_user.admin?
+      if @user.update(user_params)
+        flash[:success] = 'User successfully updated.'
+        redirect_to users_path
+      else
+        flash[:success] = 'Problem updating user.'
+        redirect_to users_path
+      end
+    else
+      flash[:alert] = 'You can only update your profile.'
+      redirect_to '/users/' + @user.id.to_s
     end
   end
 
@@ -142,6 +154,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :username, :web_link, :photo)
+      params.require(:user).permit(:first_name, :last_name, :email, :password, :username, :web_link, :photo, :role)
     end
 end
