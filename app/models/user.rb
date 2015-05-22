@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
       if self.photo.nil?
         hash = Digest::MD5.hexdigest(downcase_email)
         self.photo_url = "http://gravatar.com/avatar/#{hash}?s=150"
-        
+
         # Not sure why I have to save here, but it doesn't keep the photo info if I don't.
         self.save
       end
@@ -109,6 +109,22 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(:except => [:password_digest])
+    super(:only => [
+        :id,
+        :first_name,
+        :last_name,
+        :email,
+        :created_at,
+        :username,
+        :facebook_id,
+        :facebook_link,
+        :twitter_id,
+        :twitter_link,
+        :google_id,
+        :google_link,
+        :web_link,
+        :photo_name,
+        :role
+    ])
   end
 end

@@ -3,7 +3,17 @@ require 'rails_helper'
 describe 'User API', :type => :api do
   let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
 
-  it 'sends a list of users' do
+  it 'requires login to send a list of users' do
+    get '/api/users'
+    expect(last_response.status).to eq(401)
+  end
+
+  it 'sends a list of users to admin role user' do
+    user = User.last
+    user.role = 'admin'
+    user.save
+    basic_authorize(user.email, 'beans')
+
     get '/api/users'
     expect(last_response.status).to eq(200)
 

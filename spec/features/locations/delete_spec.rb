@@ -6,7 +6,9 @@ describe 'Editing locations' do
     create_post_with_location
 
     click_link 'Remove Location'
-    page.driver.browser.switch_to.alert.accept
+    #page.driver.browser.switch_to.alert.accept
+    sleep(1)
+    click_button 'Ok'
 
     post = Post.where(title: 'My Location Post').first
 

@@ -16,13 +16,13 @@ describe 'Forgotten passwords' do
     # Uncomment if running the test stand alone because you don't need to login to Facebook again if run after the
     # other Facebook tests.
     #
-    # expect(page).to have_content('Facebook Login')
-    #
-    # fill_in 'Email or Phone:', with: FACEBOOK_CONFIG['username']
-    # fill_in 'Password:', with: FACEBOOK_CONFIG['password']
-    # find('#u_0_2').click # 'Log In' button element.
-    #
-    # expect(page).to have_content("Welcome #{FACEBOOK_CONFIG['first_name']}, you have been registered using Facebook.")
+    expect(page).to have_content('Facebook Login')
+
+    fill_in 'Email or Phone:', with: FACEBOOK_CONFIG['username']
+    fill_in 'Password:', with: FACEBOOK_CONFIG['password']
+    find('#u_0_2').click # 'Log In' button element.
+
+    expect(page).to have_content("Welcome #{FACEBOOK_CONFIG['first_name']}, you have been registered using Facebook.")
     fb_user = User.last
 
     find('.profile').click

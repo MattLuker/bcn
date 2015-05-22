@@ -1,9 +1,21 @@
 class Api::UsersController < Api::ApiController
-  before_filter :authenticate, only: [:show, :update, :destroy]
+  before_filter :authenticate, only: [:index, :show, :update, :destroy]
 
   def index
-    users = User.all
-    render json: users.as_json()
+    if current_user.nil?
+      render status: 401, json: {
+                            errors: 'Unauthorized.'
+                        }.to_json
+    else
+      if current_user.role == 'admin'
+        users = User.all
+        render status: 200, json: users.as_json
+      else
+        render status: 422, json: {
+                              errors: 'Method not allowed.'
+                          }.to_json
+      end
+    end
   end
 
   def show

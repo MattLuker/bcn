@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   get 'auth/twitter/callback', to: 'user_sessions#twitter_login'
   get 'auth/google_oauth2', as: 'google_auth_provider'
   get 'auth/google_oauth2/callback', to: 'user_sessions#google_login'
+  get 'auth/failure', to: 'user_sessions#auth_failure'
 
 
   root 'home#index'

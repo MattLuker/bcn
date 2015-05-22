@@ -85,6 +85,11 @@ class UserSessionsController < ApplicationController
     redirect_to home_path
   end
 
+  def auth_failure
+    flash[:alert] = 'Authentication failure.'
+    redirect_to home_path
+  end
+
   def destroy
     current_user.event_sync_time = nil unless current_user.event_sync_time.nil?
     current_user.save
