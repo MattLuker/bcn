@@ -20,18 +20,31 @@ class CommentsController < ApplicationController
 
   def update
     comment = Comment.find(params[:id])
-    if comment.update(comment_params)
-      flash[:success] = 'Yay, comment updated.'
-      redirect_to comment.post
-    else
-      flash[:alert] = 'Sorry, there was a problem updating your comment.'
-      redirect_to comment.post
+
+    if comment.user == current_user
+      if comment.update(comment_params)
+        flash[:success] = 'Yay, comment updated.'
+        redirect_to comment.post
+      else
+        flash[:alert] = 'Sorry, there was a problem updating your comment.'
+        redirect_to comment.post
+      end
     end
   end
 
   def destroy
-    puts "params: #{params}"
+    comment = Comment.find(params[:id])
+    post = comment.post
 
+    if comment.user == current_user || current_user.admin?
+      if comment.destroy
+        flash[:success] = 'Comment deleted.'
+        redirect_to post
+      else
+        flash[:alert] = 'Sorry, there was a problem deleting your comment.'
+        redirect_to comment.post
+      end
+    end
   end
 
   private

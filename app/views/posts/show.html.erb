@@ -120,7 +120,7 @@
               <%= comment.user.username %>: <%= comment.content %>
               &nbsp;&nbsp;&nbsp;&nbsp;
 
-              <% if current_user == comment.user %>
+              <% if current_user == comment.user || current_user.admin? %>
                   <button class="button tiny secondary toggle comment-edit" data-toggle="<%= dom_id(comment) %>">Edit</button>
                   <div class="hidden <%= dom_id(comment) %>">
                     <%= form_for(comment) do |f| %>
@@ -135,6 +135,13 @@
                             <%= submit_tag 'Save Comment',
                                            :class => 'button small success',
                                            :id => "save_" + dom_id(comment) %>
+
+                            <h5><small>
+                              <%= link_to 'Delete Comment', comment, method: :delete,
+                                          id: dom_id(comment) + '_delete',
+                                          data: { confirm: 'Are you sure?' },
+                                          class: 'delete' %>
+                            </small></h5>
                           </div>
                         </div>
                     <% end %>

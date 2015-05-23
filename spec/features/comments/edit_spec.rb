@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Creating comments' do
+describe 'Updating comments' do
   let(:user) { create(:user) }
   let(:post) { Post.create(title: 'Good Post', description: 'Fun things going on.') }
 
@@ -31,7 +31,7 @@ describe 'Creating comments' do
     find("#comment_#{comment.id}_content").set('This is funny!!!')
     find("#save_comment_#{comment.id}").click
 
-    #expect(page).to have_content('Good Post')
+    expect(page).to have_content('Good Post')
 
     comment.reload
     expect(page).to have_content(comment.content)
