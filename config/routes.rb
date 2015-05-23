@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     delete 'community', to: 'posts#remove_community'
   end
 
+  resources :comments, only: [:update, :destroy]
+
   get '/login' => 'user_sessions#new', as: :login
   get '/logout' => 'user_sessions#destroy', as: :logout
   resources :user_sessions, only: [:create, :new]

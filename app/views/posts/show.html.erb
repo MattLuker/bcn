@@ -118,6 +118,28 @@
         <p>
           <% if comment.user %>
               <%= comment.user.username %>: <%= comment.content %>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+
+              <% if current_user == comment.user %>
+                  <button class="button tiny secondary toggle comment-edit" data-toggle="<%= dom_id(comment) %>">Edit</button>
+                  <div class="hidden <%= dom_id(comment) %>">
+                    <%= form_for(comment) do |f| %>
+                        <div class="row">
+                          <div class="large-4 columns actions">
+                            <%= f.text_area :content, :id => dom_id(comment) + '_content' %>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="large-4 columns actions">
+                            <%= submit_tag 'Save Comment',
+                                           :class => 'button small success',
+                                           :id => "save_" + dom_id(comment) %>
+                          </div>
+                        </div>
+                    <% end %>
+                  </div>
+              <% end %>
           <% else %>
               <%= comment.content %>
         <% end %>

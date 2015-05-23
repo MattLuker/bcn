@@ -8,4 +8,8 @@ module AuthenticationHelpers
     fill_in 'Password', with: options[:password]
     click_button 'Log In'
   end
+
+  def sign_out
+    visit '/logout'
+  end
 end
