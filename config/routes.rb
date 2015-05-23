@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  get '/login' => 'user_sessions#new', as: :login
-  get '/logout' => 'user_sessions#destroy', as: :logout
+
   get 'home/index'
   get 'home', to: 'home#home'
   get 'who_we_are', to: 'home#who_we_are'
@@ -11,12 +10,19 @@ Rails.application.routes.draw do
     delete 'users', to: 'communities#remove_user'
   end
 
+  resources :posts do
+    resources :locations
+    resources :comments, only: [:create]
+    delete 'community', to: 'posts#remove_community'
+  end
+
+  get '/login' => 'user_sessions#new', as: :login
+  get '/logout' => 'user_sessions#destroy', as: :logout
   resources :user_sessions, only: [:create, :new]
   resources :users
   resources :password_resets, only: [:new, :create, :edit, :update]
   get :send_merge, to: 'users#send_merge_email'
   get :merge_user, to: 'users#merge_user'
-
 
   get 'locations', to: 'locations#show'
 
@@ -39,11 +45,6 @@ Rails.application.routes.draw do
     resources :users do
       resources :posts, only: [:create, :update, :destroy]
     end
-  end
-
-  resources :posts do 
-    resources :locations
-    delete 'community', to: 'posts#remove_community'
   end
 
   get 'auth/facebook', as: 'auth_provider'
