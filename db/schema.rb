@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150523135834) do
+ActiveRecord::Schema.define(version: 20150524043759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,21 @@ ActiveRecord::Schema.define(version: 20150523135834) do
   add_index "posts", ["title"], name: "index_posts_on_title", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
+  create_table "replies", force: :cascade do |t|
+    t.text     "content"
+    t.string   "photo_uid"
+    t.string   "photo_name"
+    t.datetime "deleted_at"
+    t.integer  "user_id"
+    t.integer  "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "replies", ["comment_id"], name: "index_replies_on_comment_id", using: :btree
+  add_index "replies", ["deleted_at"], name: "index_replies_on_deleted_at", using: :btree
+  add_index "replies", ["user_id"], name: "index_replies_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -167,4 +182,6 @@ ActiveRecord::Schema.define(version: 20150523135834) do
   add_foreign_key "logs", "communities"
   add_foreign_key "logs", "locations"
   add_foreign_key "logs", "posts"
+  add_foreign_key "replies", "comments"
+  add_foreign_key "replies", "users"
 end

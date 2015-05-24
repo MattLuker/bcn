@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
 
   has_many :posts
   has_many :comments
+  has_many :replies
   has_and_belongs_to_many :communities
 
   before_save :downcase_email

@@ -1,10 +1,9 @@
-class Comment < ActiveRecord::Base
+class Reply < ActiveRecord::Base
   acts_as_paranoid
   dragonfly_accessor :photo
 
   validates :content, presence: true
 
-  belongs_to :post
+  belongs_to :comment
   belongs_to :user
-  has_many :replies
 end

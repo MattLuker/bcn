@@ -1,4 +1,7 @@
-FactoryGirl.define do  factory :comment do
+FactoryGirl.define do  factory :create_reply do
+    
+  end
+  factory :comment do
     content "MyText"
 photo_uid "MyString"
 photo_name "MyString"
