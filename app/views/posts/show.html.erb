@@ -165,6 +165,33 @@
                         </div>
                     <% end %>
                   </div>
+
+                  <button class="button tiny toggle" data-toggle="reply_<%= dom_id(comment) %>">Reply?</button>
+
+                  <div class="hidden reply_<%= dom_id(comment) %>">
+                    <%= form_tag comment_replies_path(comment), :enctype => "multipart/form-data", :class => 'reply' do %>
+                        <div class="row">
+                          <div class="large-4 columns actions">
+                            <%= label_tag :photo, 'Add a pic?'%>
+                            <%= file_field_tag 'reply[photo]' %>
+                            <%= hidden_field_tag :retained_photo %>
+
+                            <%= text_area_tag 'reply[content]' %>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="large-4 columns actions">
+                            <%= submit_tag 'Save Reply', :class => 'button small success' %>
+                          </div>
+                        </div>
+                    <% end %>
+                  </div>
+
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                  <% comment.replies.each do |reply| %>
+                      <p><%= reply.content %>
+                  <% end %>
               <% end %>
           <% else %>
               <%= comment.content %>
@@ -194,8 +221,7 @@
                     </div>
                 <% end %>
               </div>
-              <br/>
-              <br/>
+
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
               <% comment.replies.each do |reply| %>
