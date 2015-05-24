@@ -3,4 +3,12 @@
   They will automatically be included in application.css.
 */
 
+@import 'colors';
+
+
 .hidden { display: none; }
+
+.comment-photo {
+  width: 100px;
+  border: 2px solid $oil;
+}

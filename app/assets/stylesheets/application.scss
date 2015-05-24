@@ -18,16 +18,7 @@
  */
 
 @import 'foundation_and_overrides';
-
-/* Colors */
-$blue: #008BC4;
-$yellow: #FBDE09;
-$red: #D04334;
-$light-gray: #E7E7E7;
-$gray: darken($light-gray, 15);
-$google: #D73D32;
-$twitter: #55ACEE;
-$facebook: #45619D;
+@import 'colors';
 
 body {
   height: auto;

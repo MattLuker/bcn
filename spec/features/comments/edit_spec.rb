@@ -36,4 +36,27 @@ describe 'Updating comments' do
     comment.reload
     expect(page).to have_content(comment.content)
   end
+
+  it 'will upload a pic' do
+    post.comments.create( {:content => 'This is fun!!!'})
+
+    comment = Comment.last
+    comment.user = user
+    comment.save
+
+    sign_in user, password: 'beans'
+
+    visit post_path(post)
+    expect(page).to have_content('Good Post')
+
+    click_button 'Edit'
+    find("#comment_#{comment.id}_content").set('This is funny!!!')
+    attach_file("comment_#{comment.id}_photo", Rails.root.join('app/assets/images/test_avatar.jpg'))
+    find("#save_comment_#{comment.id}").click
+
+    expect(page).to have_content('Good Post')
+
+    comment.reload
+    expect(page).to have_content(comment.content)
+  end
 end

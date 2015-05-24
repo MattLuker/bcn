@@ -93,9 +93,13 @@
     <button class="button tiny toggle" data-toggle="hidden">Comment?</button>
 
     <div class="hidden">
-    <%= form_tag post_comments_path(@post), :class => 'comment' do %>
+    <%= form_tag post_comments_path(@post), :enctype => "multipart/form-data", :class => 'comment' do %>
         <div class="row">
           <div class="large-4 columns actions">
+            <%= label_tag :photo, 'Add a pic?'%>
+            <%= file_field_tag 'comment[photo]' %>
+            <%= hidden_field_tag :retained_photo %>
+
             <%= text_area_tag 'comment[content]' %>
           </div>
         </div>
@@ -117,7 +121,18 @@
         <% @post.comments.each do |comment| %>
         <p>
           <% if comment.user %>
-              <%= comment.user.username %>: <%= comment.content %>
+
+              <%= comment.content %>
+
+              <% if comment.photo %>
+                  <%= image_tag comment.photo.url, class: 'comment-photo' %>
+              <% end %>
+              <br/>
+
+              <%= comment.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+              by
+              <%= link_to comment.user.username, comment.user %>
+
               &nbsp;&nbsp;&nbsp;&nbsp;
 
               <% if current_user == comment.user || current_user.admin? %>
@@ -126,6 +141,10 @@
                     <%= form_for(comment) do |f| %>
                         <div class="row">
                           <div class="large-4 columns actions">
+                            <%= f.label :photo, 'Add a pic?'%>
+                            <%= f.file_field :photo, id: dom_id(comment) + '_photo'%>
+                            <%= f.hidden_field :retained_photo %>
+
                             <%= f.text_area :content, :id => dom_id(comment) + '_content' %>
                           </div>
                         </div>

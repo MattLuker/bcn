@@ -36,4 +36,19 @@ describe 'Creating comments' do
     expect(page).to have_content(comment.content)
     expect(comment.user).to eq(user)
   end
+
+  it 'can upload a pic' do
+    sign_in user, password: 'beans'
+
+    visit post_path(post)
+    expect(page).to have_content('Good Post')
+
+    click_button 'Comment?'
+    find('#comment_content').set('This is fun!!!')
+    attach_file('comment[photo]', Rails.root.join('app/assets/images/test_avatar.jpg'))
+    click_button 'Save Comment'
+
+    expect(post.comments.count).to eq(1)
+    expect(page).to have_content('Good Post')
+  end
 end

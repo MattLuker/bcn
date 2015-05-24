@@ -3,8 +3,7 @@
   They will automatically be included in application.css.
 */
 
-$light-gray: #E7E7E7;
-$gray: darken($light-gray, 15);
+@import 'colors';
 
 .leave-community-form {
   display: inline;
