@@ -22,10 +22,16 @@
                   <% if current_user == comment.user || current_user.admin? %>
                       <button class="button tiny secondary toggle comment-edit" data-toggle="<%= dom_id(comment) %>">Edit</button>
 
-                      <%= render 'comment_form', {:comment => comment}%>
+                      <%= render 'new_comment_form', {:comment => comment}%>
 
                   <% end %>
-              <% else %>
+
+                  <div class="comment-comment">
+                    <button class="button tiny toggle comment-add" data-toggle="new-comment">Comment?</button>
+                    <%= render 'comment_form', {:comment => comment}%>
+                  </div>
+
+            <% else %>
                   <%= comment.content %>
                   <br/>
                   <%= comment.created_at.strftime('%m/%d/%Y %I:%M%P') %>
