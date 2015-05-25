@@ -4,8 +4,9 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+# Purpose
 
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
+Welcome to the BCN Development Blog.  I’m going to use this blog to document my process of learning Ruby on Rails.  The primary reason to shift the focus is to hopefully provide more value then, a boring recitation of what I’ve been working on in the BCN project.
 
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+There seems to me to be a lot of questions on how to learn Rails out there, and hopefully this blog will be a great resource for someone looking to do just that.
+
