@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="large-12 columns">
+    <strong>Comments:</strong>
+    <% if @post.comments %>
+        <% @post.comments.each do |comment| %>
+            <p>
+              <% if comment.user %>
+
+                  <%= comment.content %>
+
+                  <% if comment.photo %>
+                      <%= image_tag comment.photo.url, class: 'comment-photo' %>
+                  <% end %>
+                  <br/>
+
+                  <%= comment.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+                  by
+                  <%= link_to comment.user.username, comment.user %>
+
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+
+                  <% if current_user == comment.user || current_user.admin? %>
+                      <button class="button tiny secondary toggle comment-edit" data-toggle="<%= dom_id(comment) %>">Edit</button>
+
+                      <%= render 'comment_form', {:comment => comment}%>
+
+                  <% end %>
+              <% else %>
+                  <%= comment.content %>
+                  <br/>
+                  <%= comment.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+                  by Anonymous
+
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+
+              <% end %>
+              </p>
+        <% end %>
+    <% end %>
+  </div>
+</div>

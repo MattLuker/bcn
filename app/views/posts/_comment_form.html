@@ -1,0 +1,29 @@
+
+<div class="hidden <%= dom_id(comment) %>">
+    <%= form_for(comment) do |f| %>
+    <div class="row">
+        <div class="large-4 columns actions">
+            <%= f.label :photo, 'Add a pic?'%>
+            <%= f.file_field :photo, id: dom_id(comment) + '_photo'%>
+            <%= f.hidden_field :retained_photo %>
+
+            <%= f.text_area :content, :id => dom_id(comment) + '_content' %>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="large-4 columns actions">
+            <%= submit_tag 'Save Comment',
+            :class => 'button small success',
+            :id => "save_" + dom_id(comment) %>
+
+            <h5><small>
+                <%= link_to 'Delete Comment', comment, method: :delete,
+                id: dom_id(comment) + '_delete',
+                data: { confirm: 'Are you sure?' },
+                class: 'delete' %>
+            </small></h5>
+        </div>
+    </div>
+    <% end %>
+</div>

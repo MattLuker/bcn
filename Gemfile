@@ -13,7 +13,8 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'turbolinks'
-gem "paranoia", "~> 2.0"
+gem 'paranoia', '~> 2.0'
+gem 'acts_as_tree'
 
 gem 'foundation-rails', '~> 5.5.1.1'
 
