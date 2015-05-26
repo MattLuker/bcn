@@ -90,7 +90,7 @@
 
 <div class="row">
   <div class="large-12 columns">
-    <button class="button tiny toggle" data-toggle="hidden">Comment?</button>
+    <button class="button tiny toggle" data-toggle="post-comment">Comment?</button>
 
     <div class="hidden post-comment">
     <%= form_tag post_comments_path(@post), :enctype => "multipart/form-data", :class => 'comment' do %>
@@ -114,7 +114,14 @@
   </div>
 </div>
 
-<%= render 'comments' %>
+<div class="row">
+  <div class="large-12 columns comments">
+    <% if @post.comments %>
+        <%= render 'comments', {comments: @post.comments} %>
+    <% end %>
+  </div>
+</div>
+
 
 <br/><br/>
 

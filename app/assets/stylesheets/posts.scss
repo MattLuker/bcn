@@ -13,6 +13,15 @@
   border: 2px solid $oil;
 }
 
-.comment-comment, .new-comment {
-  margin-left: 80px;
+.comments {
+  margin-left: 60px;
+  max-width: 900px;
+}
+
+.comment {
+  border-left: 1px solid $light-gray;
+  border-bottom: 1px solid $oil;
+
+  padding-left: 10px;
+  margin-bottom: 20px;
 }

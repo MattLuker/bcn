@@ -3,6 +3,7 @@ class RepliesController < ApplicationController
   before_filter :require_user, only: [:update, :destroy]
 
   def create
+    puts "params: #{params}"
     if current_user
       reply = @comment.replies.new(replies_params)
       reply.user = current_user
