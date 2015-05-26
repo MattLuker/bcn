@@ -51,4 +51,29 @@ describe 'Creating comments' do
     expect(post.comments.count).to eq(1)
     expect(page).to have_content('Good Post')
   end
+
+  it 'can comment on a comment' do
+    visit post_path(post)
+    expect(page).to have_content('Good Post')
+
+    click_button 'Comment?'
+    find('#comment_content').set('This is fun!!!')
+    click_button 'Save Comment'
+
+    expect(post.comments.count).to eq(1)
+    expect(page).to have_content('Good Post')
+
+    comment = Comment.last
+    expect(page).to have_content(comment.content)
+
+    click_button 'Reply?'
+    find("#content_comment_#{comment.id}").set('This is more Comment fun...')
+    find("#save_comment_#{comment.id}" ).click
+
+    expect(comment.children.count).to eq(1)
+    expect(page).to have_content('Good Post')
+
+    comment_comment = Comment.last
+    expect(page).to have_content(comment_comment.content)
+  end
 end

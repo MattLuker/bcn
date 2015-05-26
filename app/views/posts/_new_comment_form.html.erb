@@ -6,13 +6,13 @@
           <%= file_field_tag 'comment[photo]' %>
           <%= hidden_field_tag :retained_photo %>
 
-          <%= text_area_tag 'comment[content]' %>
+          <%= text_area_tag 'comment[content]', '', :id => 'content_' + dom_id(comment) %>
         </div>
       </div>
 
       <div class="row">
         <div class="large-4 columns actions">
-          <%= submit_tag 'Save Comment', :class => 'button small success' %>
+          <%= submit_tag 'Save Comment', :class => 'button small success', :id => 'save_' + dom_id(comment) %>
         </div>
       </div>
   <% end %>
