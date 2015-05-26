@@ -3,26 +3,12 @@ class CommentsController < ApplicationController
   before_filter :require_user, only: [:update, :destroy]
 
   def create
-    puts "params: #{params}"
-
-    if current_user
-      if @type == 'post'
-        comment = @parent.comments.new(comment_params)
-        comment.user = current_user
-        comment.post = @parent
-      else
-        comment = @parent.children.new(comment_params)
-        comment.user = current_user
-        comment.comments = comment.children
-      end
-    else
-      if @type == 'post'
-        comment.post = @parent
-        comment = @parent.comments.new(comment_params)
-      else
-        comment = @parent.children.new(comment_params)
-        comment.comments = comment.children
-      end
+    if @post
+      comment = @post.comments.new(comment_params)
+      comment.user = current_user if current_user
+    elsif @parent_comment
+      comment = @parent_comment.children.new(comment_params)
+      comment.user = current_user if current_user
     end
 
     if comment.save
@@ -64,13 +50,8 @@ class CommentsController < ApplicationController
 
   private
   def find_parent
-    if params[:post_id]
-      @parent = Post.find(params[:post_id])
-      @type = 'post'
-    elsif params[:comment_id]
-      @parent = Comment.find(params[:comment_id])
-      @type = 'comment'
-    end
+    @post = Post.find(params[:post_id]) if params[:post_id]
+    @parent_comment = Comment.find(params[:comment_id]) if params[:comment_id]
   end
 
   def comment_params
