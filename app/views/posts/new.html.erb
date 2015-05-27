@@ -2,4 +2,6 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Back', posts_path %>
+<%= link_to 'Cancel', request.env["HTTP_REFERER"] %>
+
+<br/><br/>
