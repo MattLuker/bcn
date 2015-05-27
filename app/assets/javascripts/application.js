@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui/autocomplete
+//= require autocomplete-rails
 //= require modernizr
 //= require foundation/foundation
 //= require foundation
@@ -22,7 +24,6 @@
 //= require clockpicker
 //= require sweet-alert
 //= require sweet-alert-confirm
-
 
 
 $(function(){

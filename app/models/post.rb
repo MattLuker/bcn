@@ -13,7 +13,6 @@ class Post < ActiveRecord::Base
   has_and_belongs_to_many :communities
   belongs_to :user
 
-
   after_create do
     Log.create({post: self, action: "created"})
   end
@@ -66,6 +65,7 @@ class Post < ActiveRecord::Base
       }
     )
   end
+
 
   def create_location(params)
     loc = Location.new.set_location_attrs(Location.new, params)

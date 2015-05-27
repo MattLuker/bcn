@@ -25,3 +25,25 @@
   padding-left: 10px;
   margin-bottom: 20px;
 }
+
+//ui-autocomplete ui-front ui-menu ui-widget ui-widget-content {
+
+li.ui-menu-item {
+  background: #ffffff;
+  padding: 8px;
+  font-size: 0.875rem;
+  width: 369px;
+
+  &:active, &:hover, &:focus {
+    background: $light-gray;
+    //color: darken(#ffffff, 30%);
+  }
+}
+
+ul.ui-autocomplete {
+  list-style: none;
+  width: 360px;
+  font-size: 0.875rem;
+  border: 1px solid #CCCCCC;
+  box-shadow: 0 6px 6px -3px $oil;
+}

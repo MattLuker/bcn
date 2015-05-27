@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :locations
     resources :comments, only: [:create]
     delete 'community', to: 'posts#remove_community'
+    get :autocomplete_community_name, on: :collection
   end
 
   resources :comments, only: [:update, :destroy] do

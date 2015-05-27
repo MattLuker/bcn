@@ -27,8 +27,19 @@
       <div class="large-4 columns communities">
         <% if @communities %>
 
-         <%= f.label "Communities" %>
+         <%= f.label "Select Multiple Communities (or just one)" %>
          <%= f.collection_select :community_ids, @communities, :id, :name, {}, {:multiple => true} %>
+
+           <%= f.label 'Or' %>
+            <%= autocomplete_field_tag 'post[community_ids][]', '', '/posts/autocomplete_community_name',
+                                       :class => 'auto',
+                                       :id => 'post_community_ids_auto',
+                                       :update_elements => {},
+                                       'data-delimiter' => ',',
+                                       :multiple => true,
+                                       :id_element => '#community_id',
+                                       :placeholder => 'Search Communities (add a comma separated list)'
+            %>
         <% end %>
       </div>
     </div>

@@ -73,4 +73,10 @@ class Community < ActiveRecord::Base
         },
     )
   end
+
+  def auto_value
+    value = id
+    label = name
+
+  end
 end

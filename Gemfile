@@ -15,6 +15,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'turbolinks'
 gem 'paranoia', '~> 2.0'
 gem 'acts_as_tree'
+gem 'rails4-autocomplete'
+gem 'jquery-ui-rails'
 
 gem 'foundation-rails', '~> 5.5.1.1'
 

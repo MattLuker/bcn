@@ -2,6 +2,8 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_filter :require_user, only: [:edit, :update, :destroy, :remove_community]
 
+  autocomplete :community, :name, :full => true#, :display_value => :auto_value
+
   # GET /posts
   # GET /posts.json
   def index
@@ -148,6 +150,8 @@ class PostsController < ApplicationController
                                     :end_date,
                                     :start_time,
                                     :end_time,
-                                    :community_ids => [])
+                                    :community_ids => [],
+                                    :community_names => []
+                                   )
     end
 end
