@@ -26,7 +26,7 @@ module BcnRails
     #config.assets.precompile += %w( vendor/modernizr.js )
 
     # Auto-load lib directory classes and modules.
-    config.autoload_paths << Rails.root.join('lib')
+    #config.autoload_paths << Rails.root.join('lib')
 
 
     # Custom configs.

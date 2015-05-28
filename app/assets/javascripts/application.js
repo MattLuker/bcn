@@ -24,6 +24,7 @@
 //= require clockpicker
 //= require sweet-alert
 //= require sweet-alert-confirm
+//= require leaflet
 
 
 $(function(){
