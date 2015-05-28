@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_filter :require_user, only: [:edit, :update, :destroy, :remove_community]
 
-  autocomplete :community, :name, :full => true#, :display_value => :auto_value
+  autocomplete :community, :name, :full => true
 
   # GET /posts
   # GET /posts.json
@@ -22,14 +22,15 @@ class PostsController < ApplicationController
     else
       @post = Post.new
     end
-    @communities = Community.all
+    @community_names = []
   end
 
   # GET /posts/1/edit
   def edit
     @communities = Community.all
+    @community_names = @post.communities.map { |c| c.name }.join(',') + ','
 
-    if not current_user
+    unless current_user
       if current_user != @post.user
         flash[:error] = 'You can only update your posts.'
         redirect_to login_path
@@ -47,9 +48,8 @@ class PostsController < ApplicationController
       lat = params[:post].delete :lat
       lon = params[:post].delete :lon
     end
-    if post_params[:community_name]
-      community = params[:post].delete :community_name
-    end
+
+    communities = set_communities
 
     if current_user
       @post = current_user.posts.new(post_params)
@@ -57,7 +57,11 @@ class PostsController < ApplicationController
       @post = Post.new(post_params)
     end
 
-    @post.communities << Community.find_by_name(community) if community
+    if communities
+      communities.each do |community|
+        @post.communities << Community.find_by_name(community)
+      end
+    end
 
     if lat and lon
       @post.create_location({lat: lat, lon: lon})
@@ -82,6 +86,18 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
+    communities = set_communities
+    if communities
+      new_communities = []
+      communities.each do |community|
+        # unless @post.communities.any? { |c| c.name == community }
+        #   @post.communities << Community.find_by_name(community)
+        # end
+        new_communities.push(Community.find_by_name(community))
+      end
+      @post.communities = new_communities
+    end
+
     if current_user != @post.user
       flash[:error] = 'You can only update your posts.'
       redirect_to home_index_path
@@ -119,7 +135,7 @@ class PostsController < ApplicationController
   def destroy
     respond_to do |format|
       if current_user.posts.find(params[:id]).destroy
-        format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+        format.html { redirect_to home_path, notice: 'Post was successfully destroyed.' }
         format.json { head :no_content }
       else
         flash[:error] = 'You must be logged in to delete a post.'
@@ -144,8 +160,11 @@ class PostsController < ApplicationController
       end
     end
 
-    def get_ids
-      post_params[:community_ids] = Community.find_by_name(post_params[:community_ids])
+    def set_communities
+      if post_params[:community_names]
+        communities = params[:post].delete :community_names
+        communities = communities.split(',')
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -160,7 +179,7 @@ class PostsController < ApplicationController
                                     :end_date,
                                     :start_time,
                                     :end_time,
-                                    :community_name,
+                                    :community_names,
                                     :community_ids => [])
     end
 end

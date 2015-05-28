@@ -20,7 +20,7 @@
       <em>Start Date:</em>
       <br/>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <%= @post.start_date.strftime('%m/%d/%Y') %> <%= @post.start_time.to_s(:time) %>
+      <%= @post.start_date.strftime('%m/%d/%Y') %> <%= @post.start_time.to_s(:time) if @post.start_time %>
 
       <br/>
   <% end %>
@@ -28,7 +28,7 @@
       <em>End Date:</em>
       <br/>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <%= @post.end_date.strftime('%m/%d/%Y') %> <%= @post.end_time.to_s(:time) %>
+      <%= @post.end_date.strftime('%m/%d/%Y') %> <%= @post.end_time.to_s(:time) if @post.end_time %>
     </p>
   <% end %>
 

@@ -79,20 +79,22 @@
 
 <div>
   <h3>Communities:</h3>
-  <ul class="communities">
-    <% @user.communities.each do |community| %>
-      <li>
-        <h4><%= link_to community.name, community %></h4>
-        <%= form_tag("/communities/#{community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
-            <%= hidden_field_tag 'user_id', current_user.id %>
-            <%= image_submit_tag 'exit-icon.svg', :class => 'button tiny secondary icon leave-community',
-                                 :alt => 'Leave Community',
-                                 :value => 'Leave',
-                                 :title => 'Leave Community' %>
+  <% if @user.communities %>
+      <ul class="communities">
+        <% @user.communities.each do |community| %>
+            <li>
+              <h4><%= link_to community.name, community %></h4>
+              <%= form_tag("/communities/#{community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
+                  <%= hidden_field_tag 'user_id', current_user.id %>
+                  <%= image_submit_tag 'exit-icon.svg', :class => 'button tiny secondary icon leave-community',
+                                       :alt => 'Leave Community',
+                                       :value => 'Leave',
+                                       :title => 'Leave Community' %>
+              <% end %>
+            </li>
         <% end %>
-      </li>
-    <% end %>
-  </ul>
+      </ul>
+  <% end %>
 </div>
 
 <div class="row">
