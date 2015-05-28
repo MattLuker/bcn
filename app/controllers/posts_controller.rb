@@ -47,11 +47,17 @@ class PostsController < ApplicationController
       lat = params[:post].delete :lat
       lon = params[:post].delete :lon
     end
+    if post_params[:community_name]
+      community = params[:post].delete :community_name
+    end
+
     if current_user
       @post = current_user.posts.new(post_params)
     else
       @post = Post.new(post_params)
     end
+
+    @post.communities << Community.find_by_name(community) if community
 
     if lat and lon
       @post.create_location({lat: lat, lon: lon})
@@ -138,6 +144,10 @@ class PostsController < ApplicationController
       end
     end
 
+    def get_ids
+      post_params[:community_ids] = Community.find_by_name(post_params[:community_ids])
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require('post').permit(:title,
@@ -150,8 +160,7 @@ class PostsController < ApplicationController
                                     :end_date,
                                     :start_time,
                                     :end_time,
-                                    :community_ids => [],
-                                    :community_names => []
-                                   )
+                                    :community_name,
+                                    :community_ids => [])
     end
 end

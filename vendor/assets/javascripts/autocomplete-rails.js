@@ -123,9 +123,11 @@
             this.value = terms.join("");
             if (jQuery(this).attr('data-id-element')) {
               console.log('ui.item.id:', ui.item.id);
-              var ids = jQuery(jQuery(this).attr('data-id-element')).val();
-              ids.push(ui.item.id);
-              jQuery(jQuery(this).attr('data-id-element')).val(ids)
+              jQuery(jQuery(this).attr('data-id-element')).val(ui.item.id);
+
+              //var ids = jQuery(jQuery(this).attr('data-id-element')).val(ui.item.id);
+              //ids.push(ui.item.id);
+              //jQuery(jQuery(this).attr('data-id-element')).val(ids)
             }
             if (jQuery(this).attr('data-update-elements')) {
               var data = jQuery(this).data(ui.item.id.toString());
