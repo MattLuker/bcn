@@ -4,7 +4,7 @@
 */
 
 @import 'colors';
-
+@import 'foundation_and_overrides';
 
 .hidden { display: none; }
 
@@ -50,4 +50,37 @@ ul.ui-autocomplete {
 
 .title {
   color: darken($blue, 10%);
+}
+
+.post-user-image {
+  vertical-align: middle;
+  margin-left: 10px;
+
+  img {
+    vertical-align: middle;
+  }
+}
+
+.post-meta {
+  border: 1px solid $oil;
+  padding: 4px;
+  font-size: $small-font-size;
+  margin-bottom: 5px;
+
+  span {
+    vertical-align: bottom;
+    line-height: 20px;
+  }
+}
+
+#map.post-map {
+  height: 300px;
+}
+
+.no-disc {
+  list-style: none;
+}
+
+.location-details {
+  font-size: $form-label-font-size;
 }

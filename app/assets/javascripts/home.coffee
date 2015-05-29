@@ -22,7 +22,6 @@ ready = ->
   try
     map = initialize_map()
   catch
-    console.log('no map...')
     return
 
   # Add all event pop-ups if on the home page else just add the specific post.

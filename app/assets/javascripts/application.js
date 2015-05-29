@@ -18,6 +18,7 @@
 //= require foundation/foundation
 //= require foundation
 //= require foundation/foundation.alert
+//= require foundation/foundation.tab
 //= require turbolinks
 //= require_tree .
 //= require foundation-datepicker
@@ -36,6 +37,7 @@ $(window).on('page:load', function() {
     // Set the year in the footer copyright statement.
     $('.copyright-year').html(new Date().getFullYear());
     stickyFooter();
+    $(document).foundation('tab', 'reflow');
 });
 
 

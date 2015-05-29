@@ -27,13 +27,17 @@
 
   <% if current_user %>
       <% if current_user == comment.user || current_user.admin? %>
-          <button class="button tiny secondary toggle comment-edit" data-toggle="<%= dom_id(comment) %>_edit">Edit</button>
+          <a href="#" class="button tiny secondary toggle comment-edit icon" data-toggle="<%= dom_id(comment) %>_edit">
+            <%= image_tag 'edit-icon-black.svg', class: 'icon' %>
+          </a>
           <%= render 'edit_comment_form', {:comment => comment}%>
       <% end %>
   <% end %>
 
 
-  <button class="button tiny secondary toggle comment-add" data-toggle="<%= dom_id(comment) %>_new">Reply?</button>
+  <a href="#" class="button tiny secondary toggle comment-add icon" data-toggle="<%= dom_id(comment) %>_new">
+    <%= image_tag 'reply-icon.svg', class: 'icon' %>
+  </a>
   <div class="comment-comment">
     <%= render 'new_comment_form', {:comment => comment}%>
   </div>

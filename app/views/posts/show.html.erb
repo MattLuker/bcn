@@ -1,90 +1,143 @@
-<p id="notice"><%= notice %></p>
-
 <div class="row">
 
-  <div class="large-6 columns">
-    <p>
-      <strong>Title:</strong>
+  <div class="large-8 columns">
+    <div class="post-content">
+    <h2 class="title">
       <%= @post.title %>
-    </p>
+    </h2>
 
     <p>
-      <strong>Description:</strong>
       <%= @post.description %>
     </p>
+    </div>
 
-  <% if @post.start_date %>
-    <p>
-      <strong>Event Dates:</strong>
-      <br/>
-      <em>Start Date:</em>
-      <br/>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <%= @post.start_date.strftime('%m/%d/%Y') %> <%= @post.start_time.to_s(:time) if @post.start_time %>
+    <hr/>
 
-      <br/>
-  <% end %>
-  <% if @post.end_date %>
-      <em>End Date:</em>
-      <br/>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <%= @post.end_date.strftime('%m/%d/%Y') %> <%= @post.end_time.to_s(:time) if @post.end_time %>
-    </p>
-  <% end %>
+    <div class="row">
+      <div class="large-4 columns right">
+        <div class="post-meta right">
+           <span class="left">
+             posted by:
+             <br/>
+             at: <%= @post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+           </span>
 
-    <p>
-      <strong>Locations:</strong>
-      <% if @post.locations %>
-        <ul id="<%= dom_id(@post) %>">
-          <% @post.locations.each do |location| %>
-            <li>
-              <span id="<%= dom_id(location) %>">
-                  <%= location.name %><br/>
-                  <%= location.address %>
-                  <%= location.city %>,
-                  <%= location.state %>
-                  <%= location.postcode %>
-              </span>
-
-              <%= link_to 'Remove Location',
-                  post_location_path(@post.id, location.id),
-                  method: :delete,
-                  class: "button alert tiny remove_location",
-                  data: { confirm: 'Are you sure?' } %>
-             </li>
-
+          <% if @post.user %>
+              <%= link_to @post.user, :class => 'post-user-image right' do %>
+                  <% if @post.user.photo %>
+                      <%= image_tag @post.user.photo.thumb('50x50#').url %>
+                  <% else %>
+                      <%= image_tag 'avatar.png', :width => '50' %>
+                  <% end %>
+              <% end %>
+          <% else %>
+              <strong>Anonymous</strong>
           <% end %>
-        </ul>
-      <% end %>
-    </p>
 
-    <p>
-      <strong>Communities</strong>
-      <% if @post.communities %>
-        <ul>
-          <% @post.communities.each do |community| %>
-              <li>
-                <%= link_to community.name, community %>
-                <%= form_tag("/posts/#{@post.id}/community", method: 'delete') do |f| %>
-                    <% if current_user %>
-                      <%= hidden_field_tag 'user_id', current_user.id %>
-                      <%= hidden_field_tag 'community_id', community.id %>
+        </div>
+        <% if @post.user == current_user %>
+            <%= link_to edit_post_path(@post), class: 'button tiny icon right', title: 'Edit Post' do %>
+                <%= image_tag 'edit-icon.svg', class: 'icon' %>
+            <% end %>
+        <% end %>
+      </div>
+
+      <div class="large-8 columns left">
+        <div class="post-attrs">
+
+          <ul class="tabs" data-tab role="tablist">
+            <li class="tab-title active" role="presentational" >
+              <a href="#dates" role="tab" tabindex="0" aria-selected="true" controls="dates">Dates</a>
+            </li>
+            <li class="tab-title" role="presentational" >
+              <a href="#locations" role="tab" tabindex="0"aria-selected="false" controls="locations">Locations</a>
+            </li>
+            <li class="tab-title" role="presentational">
+              <a href="#communities" role="tab" tabindex="0" aria-selected="false" controls="communities">Communities</a>
+            </li>
+          </ul>
+          <div class="tabs-content">
+            <section role="tabpanel" aria-hidden="false" class="content active" id="dates">
+              <% if @post.start_date %>
+                  <p>
+                    <br/>
+                    <em>Starting:</em>
+                    <%= @post.start_date.strftime('%m/%d/%Y') %>
+                    at
+                    <%= @post.start_time.to_s(:time) if @post.start_time %>
+                    <br/>
+              <% end %>
+              <% if @post.end_date %>
+                  <em>Ending:</em>
+                  <%= @post.end_date.strftime('%m/%d/%Y') %>
+                  at
+                  <%= @post.end_time.to_s(:time) if @post.end_time %>
+                  </p>
+              <% end %>
+            </section>
+
+            <section role="tabpanel" aria-hidden="true" class="content" id="locations">
+              <% if @post.locations %>
+                  <ul id="<%= dom_id(@post) %>" class="no-disc">
+                    <% @post.locations.each do |location| %>
+                        <li>
+                          <span id="<%= dom_id(location) %>">
+                            <strong><%= location.name %></strong>
+                            <br/>
+                            <span class="location-details">
+                              <%= location.address %>
+                              <%= location.city %>,
+                              <%= location.state %>
+                              <%= location.postcode %>
+                            </span>
+                          </span>
+
+                          &nbsp;&nbsp;
+
+                          <%= link_to post_location_path(@post.id, location.id),
+                                      method: :delete,
+                                      class: "button alert tiny remove_location icon",
+                                      title: 'Remove Location',
+                                      data: { confirm: 'Are you sure?' } do %>
+                            <%= image_tag 'trash-icon.svg', class: 'icon' %>
+                          <% end %>
+                        </li>
+
                     <% end %>
-                    <%= submit_tag 'Remove Community', :class => 'button tiny secondary' %>
-                <% end %>
-              </li>
-          <% end %>
-        </ul>
-    <% end %>
+                  </ul>
+              <% end %>
+            </section>
 
-    </p>
+            <section role="tabpanel" aria-hidden="true" class="content" id="communities">
+              <p>
+                <% if @post.communities %>
+                  <ul class="no-disc">
+                    <% @post.communities.each do |community| %>
+                        <li>
+                          <%= link_to community.name, community %>
+                          <!--<%= form_tag("/posts/#{@post.id}/community", method: 'delete') do |f| %>-->
+                              <!--<% if current_user %>-->
+                                  <!--<%= hidden_field_tag 'user_id', current_user.id %>-->
+                                  <!--<%= hidden_field_tag 'community_id', community.id %>-->
+                              <!--<% end %>-->
+                              <!--<%= submit_tag 'Remove Community', :class => 'button tiny secondary' %>-->
+                          <!--<% end %>-->
+                        </li>
+                    <% end %>
+                  </ul>
+              <% end %>
 
-    <%= link_to 'Edit', edit_post_path(@post) %> |
-    <%= link_to 'Back', posts_path %>
+              </p>
+            </section>
+          </div>
+        </div>
+        </div>
+
+      </div>
   </div>
 
-  <div class="large-6 columns">
-    <div id="map"></div>
+  <div class="large-4 columns">
+    <div id="map" class="post-map"></div>
   </div>
 </div>
 

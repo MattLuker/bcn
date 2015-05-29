@@ -1,4 +1,5 @@
 <div class="hidden <%= dom_id(comment) %>_new">
+  <p>Reply:</p>
   <%= form_tag comment_comments_path(comment), :enctype => "multipart/form-data", :class => 'comment' do %>
       <div class="row">
         <div class="large-4 columns actions">
