@@ -4,7 +4,7 @@
 #$(document).ready ->
 
 
-ready = ->
+window.ready_home = ->
   initialize_map = ->
     # Initialize the Open Street Map map.
     map = new L.Map('map');
@@ -228,5 +228,5 @@ ready = ->
 
 
 # Fire the ready function on load and refresh.
-$(document).ready(ready)
-$(document).on('page:load', ready)
+$(document).ready(window.ready_home)
+$(document).on('page:load', window.ready_home)

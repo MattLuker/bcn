@@ -31,6 +31,15 @@ ready_post = ->
     donetext: 'OK'
   });
 
+  $('.expand-map').on 'click', (e) ->
+    e.preventDefault()
+    $('.map-container').removeClass('large-3').addClass('large-12')
+    $('#map').remove()
+    $('.map-container').append('<div id="map" class="post-map"></div>')
+    $('#map').css('height', '550px')
+    #window.initialize_map()
+    window.ready_home()
+    $('.expand-map').hide()
 
 
 # Fire the ready function on load and refresh.

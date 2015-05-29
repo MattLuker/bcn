@@ -14,7 +14,7 @@
     <hr/>
 
     <div class="row">
-      <div class="large-4 columns right">
+      <div class="large-4 columns right post-meta-container">
         <div class="post-meta right">
            <span class="left">
              posted by:
@@ -25,7 +25,7 @@
           <% if @post.user %>
               <%= link_to @post.user, :class => 'post-user-image right' do %>
                   <% if @post.user.photo %>
-                      <%= image_tag @post.user.photo.thumb('50x50#').url %>
+                      <%= image_tag @post.user.photo.thumb('36x36#').url %>
                   <% else %>
                       <%= image_tag 'avatar.png', :width => '50' %>
                   <% end %>
@@ -36,13 +36,13 @@
 
         </div>
         <% if @post.user == current_user %>
-            <%= link_to edit_post_path(@post), class: 'button tiny icon right', title: 'Edit Post' do %>
+            <%= link_to edit_post_path(@post), class: 'button tiny icon post-edit', title: 'Edit Post' do %>
                 <%= image_tag 'edit-icon.svg', class: 'icon' %>
             <% end %>
         <% end %>
       </div>
 
-      <div class="large-8 columns left">
+      <div class="large-8 columns left post-objects">
         <div class="post-attrs">
 
           <ul class="tabs" data-tab role="tablist">
@@ -141,8 +141,12 @@
       </div>
   </div>
 
-  <div class="large-4 columns">
+  <div class="large-3 columns map-container">
     <div id="map" class="post-map"></div>
+    <%= button_tag class: 'button tiny secondary expand-map' do %>
+        <%= image_tag 'expand-icon.svg', class: 'ty-icon' %> &nbsp;
+        Expand Map
+    <% end %>
   </div>
 </div>
 
