@@ -74,6 +74,10 @@
                   <%= @post.end_time.to_s(:time) if @post.end_time %>
                   </p>
               <% end %>
+
+              <% unless @post.start_date && @post.end_date %>
+              <p class="grey">No dates set.</p>
+              <% end %>
             </section>
 
             <section role="tabpanel" aria-hidden="true" class="content" id="locations">
@@ -105,12 +109,13 @@
 
                     <% end %>
                   </ul>
+              <% else %>
+                  <p class="grey">No locations set.</p>
               <% end %>
             </section>
 
             <section role="tabpanel" aria-hidden="true" class="content" id="communities">
-              <p>
-                <% if @post.communities %>
+              <% if @post.communities %>
                   <ul class="no-disc">
                     <% @post.communities.each do |community| %>
                         <li>
@@ -125,9 +130,9 @@
                         </li>
                     <% end %>
                   </ul>
+              <% else %>
+                  <p class="grey">No communities set.</p>
               <% end %>
-
-              </p>
             </section>
           </div>
         </div>
@@ -143,7 +148,10 @@
 
 <div class="row">
   <div class="large-12 columns">
-    <button class="button tiny toggle" data-toggle="post-comment">Comment?</button>
+    <a class="button tiny toggle" data-toggle="post-comment">
+      <%= image_tag 'reply-icon-white.svg', class: 'ty-icon toggle', data: { toggle: "post-comment" } %> &nbsp;
+      Comment?
+    </a>
 
     <div class="hidden post-comment">
     <%= form_tag post_comments_path(@post), :enctype => "multipart/form-data", :class => 'comment' do %>
@@ -159,14 +167,18 @@
 
         <div class="row">
           <div class="large-4 columns actions">
-            <%= submit_tag 'Save Comment', :class => 'button small success' %>
+            <%= button_tag type: 'submit', class: 'button small success' do %>
+                <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
+                &nbsp;
+                Save Comment
+            <% end %>
           </div>
         </div>
     <% end %>
     </div>
   </div>
 </div>
-
+<br/>
 <div class="row">
   <div class="large-12 columns comments">
     <% if @post.comments %>

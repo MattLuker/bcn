@@ -161,14 +161,18 @@ ready = ->
           # Update the Locations <ul>.
           new_loc_html = """<li>
                             <span id="location_#{new_loc.id}">
-                            #{new_loc.name} <br/> #{new_loc.address}
+                            <strong>#{new_loc.name}</strong>
+                            <br/>
+                            #{new_loc.address}
                             #{new_loc.city} #{new_loc.state} #{new_loc.postcode}
                             </span>
-                            <a class="button alert tiny remove_location"
-                               data-confirm="Are you sure?"
-                              rel="nofollow"
-                              data-method="delete"
-                              href="/posts/#{data.post.id}/locations/#{new_loc.id}">Remove Location</a>
+                            <a class="button alert tiny remove_location icon"
+                                title="Remove Location"
+                                data-sweet-alert-confirm="Are you sure?"
+                                rel="nofollow" data-method="delete"
+                                href="/posts/#{data.post.id}/locations/#{new_loc.id}">
+                              <img class="icon" src="/assets/trash-icon.svg" alt="Trash icon">
+                            </a>
                             </li>
                          """
           $('#post_' + data.post.id).append(new_loc_html)

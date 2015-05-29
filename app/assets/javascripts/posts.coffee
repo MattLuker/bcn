@@ -21,6 +21,7 @@ ready_post = ->
 
   $('.toggle').on 'click', (e) ->
     e.preventDefault()
+    e.stopPropagation()
     $('.' + e.target.dataset.toggle).toggle()
 
 

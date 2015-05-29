@@ -77,11 +77,19 @@ footer {
   }
 }
 
+.ty-icon {
+  width: 13px;
+}
+
 .icon {
   width: 55px;
 }
 
-.delete {
+.lg-icon {
+  width: 65px;
+}
+
+.delete, .grey {
   color: $gray;
 }
 

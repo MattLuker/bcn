@@ -6,6 +6,9 @@
 @import 'colors';
 @import 'foundation_and_overrides';
 
+$tabs-navigation-padding: rem-calc(8);
+$tabs-navigation-font-size: rem-calc(12);
+
 .hidden { display: none; }
 
 .comment-photo {
