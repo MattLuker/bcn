@@ -1,5 +1,7 @@
 class Post < ActiveRecord::Base
   acts_as_paranoid
+  dragonfly_accessor :image
+
   validates :title, presence: true
   validates :description, presence: true
   validates :start_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }

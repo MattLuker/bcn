@@ -1,20 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-#getParams = ->
-#  query = window.location.search.substring(1)
-#  raw_vars = query.split("&")
-#
-#  params = {}
-#
-#  for v in raw_vars
-#    [key, val] = v.split("=")
-#    params[key] = decodeURIComponent(val)
-#
-#  params
-#
-#
-
 ready_post = ->
   #console.log('post...')
   $('.datepicker').fdatepicker()
@@ -22,8 +5,12 @@ ready_post = ->
   $('.toggle').on 'click', (e) ->
     e.preventDefault()
     e.stopPropagation()
-    $('.' + e.target.dataset.toggle).toggle()
+    $form = $('.' + e.target.dataset.toggle)
+    $form.toggle()
 
+    # Expand text area to fit text.
+    tx = $form.find('textarea')
+    tx.height(tx.prop('scrollHeight'))
 
   $('.clockpicker').clockpicker({
     align: 'left',
@@ -35,6 +22,9 @@ ready_post = ->
     toggle_map(e)
   $('.contract-map').on 'click', (e) ->
     toggle_map(e)
+
+  # Set the Post edit form textarea height.
+  $('#post_description').height($('#post_description').prop('scrollHeight'))
 
 
 toggle_map = (e) ->
@@ -58,6 +48,7 @@ toggle_map = (e) ->
 
   $('#map').css('height', height)
   window.ready_home()
+
 
 # Fire the ready function on load and refresh.
 $(document).ready(ready_post)

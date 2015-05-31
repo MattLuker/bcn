@@ -86,6 +86,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
+    puts "params: #{params}"
     communities = set_communities
     if communities
       new_communities = []
@@ -179,6 +180,7 @@ class PostsController < ApplicationController
                                     :end_date,
                                     :start_time,
                                     :end_time,
+                                    :image,
                                     :community_names,
                                     :community_ids => [])
     end

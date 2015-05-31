@@ -1,53 +1,64 @@
 <div class="comment">
 
-  <% if comment.user %>
-      <%= link_to comment.user do %>
-          <%= image_tag comment.user.photo.thumb('50x50#').url %>
+  <div class="row">
+    <div class="large-6 columns comment-meta">
+      <% if comment.user %>
+          <%= link_to comment.user do %>
+              <%= image_tag comment.user.photo.thumb('50x50#').url %>
+          <% end %>
+      <% else %>
+          <%= image_tag 'avatar.svg', size: '50x50' %>
       <% end %>
-  <% else %>
-      <%= image_tag 'avatar.svg' %>
-  <% end %>
-
-  <%= comment.content %>
-
-  <% if comment.photo %>
-      <%= image_tag comment.photo.url, class: 'comment-photo' %>
-  <% end %>
-  <br/>
-
-  <%= comment.created_at.strftime('%m/%d/%Y %I:%M%P') %>
-  by
-  <% if comment.user %>
-      <%= link_to comment.user.username, comment.user %>
-  <% else %>
-      Anonymous
-  <% end %>
-
-  &nbsp;&nbsp;&nbsp;&nbsp;
-
-  <% if current_user %>
-      <% if current_user == comment.user || current_user.admin? %>
-          <a href="#" class="button tiny secondary toggle comment-edit icon"
-             data-toggle="<%= dom_id(comment) %>_edit"
-             title="Edit Comment"
-          >
-            <%= image_tag 'edit-icon-black.svg', class: 'icon toggle', data: { toggle: "#{dom_id(comment)}_edit" } %>
-          </a>
-          <%= render 'edit_comment_form', {:comment => comment}%>
+      <%= comment.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+      by
+      <% if comment.user %>
+          <%= link_to comment.user.username, comment.user %>
+      <% else %>
+          Anonymous
       <% end %>
-  <% end %>
 
-
-  <a href="#" class="button tiny secondary toggle comment-add icon"
-     data-toggle="<%= dom_id(comment) %>_new"
-     title="Reply to Comment"
-  >
-    <%= image_tag 'reply-icon.svg', class: 'icon toggle', data: { toggle: "#{dom_id(comment)}_new" } %>
-  </a>
-  <div class="comment-comment">
-    <%= render 'new_comment_form', {:comment => comment}%>
+      </div>
   </div>
 
+  <div class="row">
+    <div class="large-12 columns">
+      <%= comment.content %>
+    </div>
+  </div>
+
+    <div class="row">
+    <div class="large-12 columns image-row">
+      <% if comment.photo %>
+          <%= image_tag comment.photo.url, class: 'comment-photo' %>
+      <% end %>
+    </div>
+
+      <div class="large-6 columns left">
+        <% if current_user %>
+            <% if current_user == comment.user || current_user.admin? %>
+                <a href="#" class="button tiny secondary toggle comment-edit icon"
+                   data-toggle="<%= dom_id(comment) %>_edit"
+                   title="Edit Comment"
+                >
+                  <%= image_tag 'edit-icon-black.svg', class: 'icon toggle', data: { toggle: "#{dom_id(comment)}_edit" } %>
+                </a>
+
+                <a href="#" class="button tiny secondary toggle comment-add icon"
+                   data-toggle="<%= dom_id(comment) %>_new"
+                   title="Reply to Comment">
+                  <%= image_tag 'reply-icon.svg', class: 'icon toggle', data: { toggle: "#{dom_id(comment)}_new" } %>
+                </a>
+
+                <%= render 'edit_comment_form', {:comment => comment}%>
+            <% end %>
+        <% end %>
+
+        <div class="comment-comment">
+          <%= render 'new_comment_form', {:comment => comment}%>
+        </div>
+
+      </div>
+  </div>
 
   <% if comment.children %>
       <div class="row">
@@ -57,4 +68,5 @@
         </div>
       </div>
   <% end %>
+
 </div>

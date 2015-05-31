@@ -11,6 +11,15 @@
     </p>
     </div>
 
+    <div class="row">
+        <div class="large-12 columns">
+          <% if @post.image %>
+          <%= image_tag @post.image.url %>
+          <% end %>
+        </div>
+    </div>
+
+
     <hr/>
 
     <div class="row">
@@ -27,15 +36,16 @@
                   <% if @post.user.photo %>
                       <%= image_tag @post.user.photo.thumb('36x36#').url %>
                   <% else %>
-                      <%= image_tag 'avatar.png', :width => '50' %>
+                      <%= image_tag 'avatar.svg', size: '36x36' %>
                   <% end %>
               <% end %>
           <% else %>
-              <strong>Anonymous</strong>
-          <% end %>
+              <strong>Anonymous</strong><br/>
+              <%= image_tag 'avatar.svg', size: '20x20', class: 'right' %>
+        <% end %>
 
         </div>
-        <% if @post.user == current_user %>
+        <% if @post.user == current_user || current_user.admin? %>
             <%= link_to edit_post_path(@post), class: 'button tiny icon post-edit', title: 'Edit Post' do %>
                 <%= image_tag 'edit-icon.svg', class: 'icon' %>
             <% end %>
@@ -81,7 +91,7 @@
             </section>
 
             <section role="tabpanel" aria-hidden="true" class="content" id="locations">
-              <% if @post.locations %>
+              <% unless @post.locations.empty? %>
                   <ul id="<%= dom_id(@post) %>" class="no-disc">
                     <% @post.locations.each do |location| %>
                         <li>
@@ -115,7 +125,7 @@
             </section>
 
             <section role="tabpanel" aria-hidden="true" class="content" id="communities">
-              <% if @post.communities %>
+              <% unless @post.communities.empty? %>
                   <ul class="no-disc">
                     <% @post.communities.each do |community| %>
                         <li>

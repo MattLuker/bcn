@@ -3,7 +3,7 @@
 
   <%= form_for(comment) do |f| %>
     <div class="row">
-        <div class="large-4 columns actions">
+        <div class="large-12 columns actions">
             <%= f.label :photo, 'Add a pic?'%>
             <%= f.file_field :photo, id: dom_id(comment) + '_photo'%>
             <%= f.hidden_field :retained_photo %>
@@ -13,7 +13,7 @@
     </div>
 
     <div class="row">
-        <div class="large-4 columns actions">
+        <div class="large-12 columns actions">
           <%= button_tag type: 'submit', class: 'button small success', id: "save_#{dom_id(comment)}" do %>
               <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
               &nbsp;

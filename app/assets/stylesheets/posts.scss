@@ -29,6 +29,10 @@
   margin-bottom: 20px;
 }
 
+.comment-meta {
+  margin-bottom: 10px;
+}
+
 //ui-autocomplete ui-front ui-menu ui-widget ui-widget-content {
 
 li.ui-menu-item {
@@ -62,6 +66,10 @@ ul.ui-autocomplete {
   img {
     vertical-align: middle;
   }
+}
+
+.post-avatar {
+  width: 36px;
 }
 
 .columns.right.post-meta-container {
@@ -109,4 +117,8 @@ button.expand-map {
 
 button.hidden {
   display: none;
+}
+
+.image-row {
+  padding: 20px 0px;
 }
