@@ -32,15 +32,32 @@ ready_post = ->
   });
 
   $('.expand-map').on 'click', (e) ->
-    e.preventDefault()
-    $('.map-container').removeClass('large-3').addClass('large-12')
-    $('#map').remove()
-    $('.map-container').append('<div id="map" class="post-map"></div>')
-    $('#map').css('height', '550px')
-    #window.initialize_map()
-    window.ready_home()
-    $('.expand-map').hide()
+    toggle_map(e)
+  $('.contract-map').on 'click', (e) ->
+    toggle_map(e)
 
+
+toggle_map = (e) ->
+  e.preventDefault()
+  $map_container = $('.map-container')
+
+  if ($map_container.hasClass('large-3'))
+    $('.map-container').removeClass('large-3').addClass('large-12')
+    height = '550px'
+    $('.expand-map').addClass('hidden')
+    $('.contract-map').removeClass('hidden')
+  else
+    $('.map-container').removeClass('large-12').addClass('large-3')
+    height = '300px'
+    $('.expand-map').removeClass('hidden')
+    $('.contract-map').addClass('hidden')
+
+
+  $('#map').remove()
+  $map_container.append('<div id="map" class="post-map"></div>')
+
+  $('#map').css('height', height)
+  window.ready_home()
 
 # Fire the ready function on load and refresh.
 $(document).ready(ready_post)

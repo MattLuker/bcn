@@ -142,11 +142,15 @@
   </div>
 
   <div class="large-3 columns map-container">
-    <div id="map" class="post-map"></div>
     <%= button_tag class: 'button tiny secondary expand-map' do %>
         <%= image_tag 'expand-icon.svg', class: 'ty-icon' %> &nbsp;
         Expand Map
     <% end %>
+    <%= button_tag class: 'button tiny secondary contract-map hidden' do %>
+        <%= image_tag 'contract-icon.svg', class: 'ty-icon' %> &nbsp;
+        Shrink Map
+    <% end %>
+    <div id="map" class="post-map"></div>
   </div>
 </div>
 
