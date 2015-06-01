@@ -19,7 +19,11 @@
     <% end %>
   </ul>
 
-      <%= link_to "More", posts_path, class: 'button tiny secondary' %> &nbsp; <%= link_to 'New Post', new_post_path %>
+  <%= link_to posts_path, class: 'button tiny secondary' do %>
+      <%= image_tag 'ellipses-icon.svg', size: '25x25', class: 'ty-icon' %>
+       More Posts
+  <% end %>
+  &nbsp; <%= link_to 'New Post', new_post_path %>
   <br/><br/>
 
 </div>

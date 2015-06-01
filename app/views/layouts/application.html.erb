@@ -25,6 +25,11 @@
         <section class="top-bar-section">
           <!-- Right Nav Section -->
           <ul class="right">
+            <li class="has-form">
+              <%= link_to new_post_path, class: 'button small new-post', title: 'New Post' do %>
+                <%= image_tag 'plus-icon.svg', size: '15x15' %>
+              <% end %>
+            </li>
             <% if current_user %>
                 <% if current_user.photo %>
                     <li>
