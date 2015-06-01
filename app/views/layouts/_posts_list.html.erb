@@ -2,7 +2,7 @@
 <li class="<%= dom_id(post) %>" class="post row">
   <div class="row">
     <% if post.image %>
-        <% if action_name == 'home' %>
+        <% if action_name == 'home' || action_name == 'show' %>
             <div class="large-2 columns">
         <% else %>
             <div class="large-1 columns">
@@ -15,7 +15,7 @@
         </div>
     <% end %>
 
-    <% if action_name == 'home' %>
+    <% if action_name == 'home' || action_name == 'show' %>
         <div class="large-10 columns">
 
     <% else %>

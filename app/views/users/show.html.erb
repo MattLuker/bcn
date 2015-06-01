@@ -114,7 +114,7 @@
 
   <div class="large-6 columns">
     <ul class="posts no-bullet">
-      <% @user.posts.each do |post| %>
+      <% @user.posts.reverse_each do |post| %>
           <%= render 'layouts/posts_list', post: post %>
       <% end %>
     </ul>
