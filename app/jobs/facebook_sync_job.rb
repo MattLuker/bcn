@@ -7,7 +7,7 @@ class FacebookSyncJob < ActiveJob::Base
 
     events.each do |event|
       fb_event = @graph.get_object(event['id'])
-      community = user.communities.where(name: fb_event['owner']['name'])
+      community = user.communities.where(name: fb_event['owner']['name']) unless user.communities.blank?
       unless community.blank?
         start_date = Date.parse(event['start_time']) unless event['start_time'].nil?
         start_time = Time.parse(event['start_time']) unless event['start_time'].nil?
