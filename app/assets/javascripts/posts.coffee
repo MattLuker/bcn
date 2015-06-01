@@ -26,6 +26,11 @@ ready_post = ->
   # Set the Post edit form textarea height.
   $('#post_description').height($('#post_description').prop('scrollHeight'))
 
+  # Display the image to be uploaded.
+  $('.photo_upload').on 'change', (e) ->
+    readURL(this);
+
+
 
 toggle_map = (e) ->
   e.preventDefault()
@@ -48,6 +53,17 @@ toggle_map = (e) ->
 
   $('#map').css('height', height)
   window.ready_home()
+
+
+readURL = (input) ->
+  if (input.files && input.files[0])
+    reader = new FileReader()
+
+    reader.onload = (e) ->
+      $('.image_to_upload').attr('src', e.target.result).removeClass('hidden');
+
+    reader.readAsDataURL(input.files[0]);
+
 
 
 # Fire the ready function on load and refresh.

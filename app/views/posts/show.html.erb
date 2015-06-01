@@ -176,8 +176,10 @@
     <%= form_tag post_comments_path(@post), :enctype => "multipart/form-data", :class => 'comment' do %>
         <div class="row">
           <div class="large-4 columns actions">
+            <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
+
             <%= label_tag :photo, 'Add a pic?'%>
-            <%= file_field_tag 'comment[photo]' %>
+            <%= file_field_tag 'comment[photo]', class: 'photo_upload' %>
             <%= hidden_field_tag :retained_photo %>
 
             <%= text_area_tag 'comment[content]' %>

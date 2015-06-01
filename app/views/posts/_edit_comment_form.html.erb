@@ -1,32 +1,44 @@
 <div class="hidden <%= dom_id(comment) %>_edit">
   <p>Edit Comment:</p>
 
-  <%= form_for(comment) do |f| %>
-    <div class="row">
-        <div class="large-12 columns actions">
-            <%= f.label :photo, 'Add a pic?'%>
-            <%= f.file_field :photo, id: dom_id(comment) + '_photo'%>
-            <%= f.hidden_field :retained_photo %>
+  <% if current_user == comment.user %>
+      <%= form_for(comment) do |f| %>
+          <div class="row">
+            <div class="large-12 columns actions">
+              <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
 
-            <%= f.text_area :content, :id => dom_id(comment) + '_content' %>
-        </div>
-    </div>
+              <%= f.label :photo, 'Add a pic?'%>
+              <%= f.file_field :photo, id: dom_id(comment) + '_photo', class: 'photo_upload' %>
+              <%= f.hidden_field :retained_photo %>
 
-    <div class="row">
-        <div class="large-12 columns actions">
-          <%= button_tag type: 'submit', class: 'button small success', id: "save_#{dom_id(comment)}" do %>
-              <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
-              &nbsp;
-              Update Comment
-          <% end %>
+              <%= f.text_area :content, :id => dom_id(comment) + '_content' %>
+            </div>
+          </div>
 
-            <h5><small>
+          <div class="row">
+            <div class="large-12 columns actions">
+              <%= button_tag type: 'submit', class: 'button small success', id: "save_#{dom_id(comment)}" do %>
+                  <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
+                  &nbsp;
+                  Update Comment
+              <% end %>
+
+              <h5><small>
                 <%= link_to 'Delete Comment', comment, method: :delete,
-                id: dom_id(comment) + '_delete',
-                data: { confirm: 'Are you sure?' },
-                class: 'delete' %>
-            </small></h5>
-        </div>
-    </div>
-    <% end %>
+                            id: dom_id(comment) + '_delete',
+                            data: { confirm: 'Are you sure?' },
+                            class: 'delete' %>
+              </small></h5>
+            </div>
+          </div>
+      <% end %>
+  <% else %>
+      <h5><small>
+        <%= link_to 'Delete Comment', comment, method: :delete,
+                    id: dom_id(comment) + '_delete',
+                    data: { confirm: 'Are you sure?' },
+                    class: 'delete' %>
+      </small></h5>
+  <% end %>
+
 </div>
