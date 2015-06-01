@@ -100,3 +100,6 @@ footer {
   vertical-align: middle;
 }
 
+.smaller-text {
+  font-size: $paragraph-font-size - .2rem;
+}

@@ -31,7 +31,6 @@ ready_post = ->
     readURL(this);
 
 
-
 toggle_map = (e) ->
   e.preventDefault()
   $map_container = $('.map-container')
