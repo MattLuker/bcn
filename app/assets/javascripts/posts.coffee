@@ -61,6 +61,9 @@ readURL = (input) ->
 
     reader.onload = (e) ->
       $('.image_to_upload').attr('src', e.target.result).removeClass('hidden');
+      $swap = $('.swap')
+      if $swap
+        $swap.removeClass('hidden')
 
     reader.readAsDataURL(input.files[0]);
 

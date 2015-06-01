@@ -29,6 +29,8 @@
         <% else %>
             <%= image_tag 'avatar.svg', :class => 'avatar' %>
         <% end %>
+
+        <%= image_tag 'swap-icon.svg', size: '75x75', class: 'hidden swap' %>
         <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
 
         <%= f.file_field :photo, class: 'photo_upload' %>

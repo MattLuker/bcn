@@ -57,15 +57,21 @@
 
   <div class="row">
     <div class="large-6 columns">
-      <%= link_to edit_user_path(@user), class: 'button tiny icon', title: 'Edit Profile' do %>
-          <% image_tag 'edit-icon.svg', class: 'icon' %>
+      <% if current_user == @user %>
+          <%= link_to edit_user_path(@user), class: 'button tiny icon', title: 'Edit Profile' do %>
+              <% image_tag 'edit-icon.svg', class: 'icon' %>
+          <% end %>
       <% end %>
       <br/>
-      <h5><small>
-        <%= link_to 'Delete Account', @user, method: :delete,
-                    data: { confirm: 'Are you sure?' },
-                    class: 'delete' %>
-      </small></h5>
+
+      <% if current_user == @user || (current_user && current_user.admin?) %>
+          <h5><small>
+            <%= link_to 'Delete Account', @user, method: :delete,
+                        data: { confirm: 'Are you sure?' },
+                        class: 'delete' %>
+          </small></h5>
+      <% end %>
+
     </div>
   </div>
 
