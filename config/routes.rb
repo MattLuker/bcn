@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     get :autocomplete_community_name, on: :collection
   end
 
-  resources :comments, only: [:update, :destroy] do
+  resources :comments, only: [:update, :destroy, :show] do
     resources :replies, only: [:create]
     resources :comments, only: [:create, :update, :destroy]
   end

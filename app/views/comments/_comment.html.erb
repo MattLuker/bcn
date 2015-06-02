@@ -62,7 +62,7 @@
   </div>
 
   <% if comment.children %>
-      <% if comment.descendants.count > 5 %>
+      <% if comment.descendants.count > 5 && comment != @comment %>
           <div class="row">
             <div class="large-12 columns comments">
               <%= link_to comment, class: 'button small' do %>

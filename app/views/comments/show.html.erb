@@ -1,0 +1,18 @@
+<div class="row">
+
+  <% if @comment.post %>
+      <%= link_to @comment.post, class: 'button small' do %>
+          <%= image_tag 'back-icon.svg', size: '15x15' %>
+          &nbsp;Back
+      <% end %>
+  <% else %>
+      <%= link_to comment_path(@comment.ancestors.first), class: 'button small' do %>
+          <%= image_tag 'back-icon.svg', size: '15x15' %>
+          &nbsp;Back
+      <% end %>
+  <% end %>
+
+  <br/><br/>
+  <%= render 'comment', { comment: @comment } %>
+
+</div>

@@ -2,6 +2,10 @@ class CommentsController < ApplicationController
   before_action :find_parent
   before_filter :require_user, only: [:update, :destroy]
 
+  def show
+    @comment = Comment.find(params[:id])
+  end
+
   def create
     if @post
       comment = @post.comments.new(comment_params)
