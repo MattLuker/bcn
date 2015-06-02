@@ -1,0 +1,54 @@
+<div class="row">
+  <% if post.image %>
+      <% if action_name == 'home' || action_name == 'show' %>
+          <div class="large-2 columns">
+      <% else %>
+          <div class="large-1 columns">
+      <% end %>
+
+      <%= link_to post do %>
+          <%= image_tag post.image.thumb('75x75#').url %>
+      <% end %>
+
+      </div>
+  <% end %>
+
+  <% if action_name == 'home' || action_name == 'show' %>
+      <div class="large-10 columns">
+
+  <% else %>
+      <div class="large-11 columns">
+  <% end %>
+
+  <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
+  <span class="post-text truncate" title="<%= post.description %>"><%= truncate(post.description, length: 50) %></span>
+
+  <br/>
+
+  <span class="grey post-date smaller-text"><%= post.created_at.strftime('%m/%d/%Y %I:%M%P') %></span>
+
+  <% unless post.comments.blank? %>
+      <span class="grey comment-count smaller-text"> &nbsp; <%= post.comments.count %> Comments</span>
+  <% end %>
+
+  <% if post.locations %>
+      <% if post.locations.count > 1 %>
+          <span class="post-location smaller-text"><%= post.locations[0].name %> &amp; more...</span>
+      <% else %>
+          <% if post.locations.count == 1 %>
+              <span class="post-location smaller-text"><%= post.locations[0].name %></span>
+          <% else %>
+              <span class="post-location smaller-text">No location set...</span>
+          <% end %>
+      <% end %>
+  <% end %>
+
+  <% if post.communities %>
+      <div class="post-communities">
+        <% post.communities.each do |community| %>
+            <span class="label info"><%= link_to community.name, community %></span>
+        <% end %>
+      </div>
+  <% end %>
+  </div>
+  </div>

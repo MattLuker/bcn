@@ -21,6 +21,7 @@ gem 'jquery-ui-rails'
 gem 'foundation-rails', '~> 5.5.1.1'
 
 gem 'nominatim'
+gem 'textacular'
 
 gem 'omniauth'
 gem 'omniauth-facebook'
@@ -48,4 +49,5 @@ group :development, :test do
   gem 'quiet_assets', '~> 1.1.0'
   gem 'database_cleaner', '~> 1.4.1'
   gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'schema_plus'
 end

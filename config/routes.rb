@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :update, :destroy]
   end
 
-  resources :replies, only: [:update, :destroy]
+  resources :searches, only: [:index]
 
   get '/login' => 'user_sessions#new', as: :login
   get '/logout' => 'user_sessions#destroy', as: :logout

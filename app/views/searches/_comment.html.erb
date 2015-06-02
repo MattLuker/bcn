@@ -1,0 +1,38 @@
+<div class="comment">
+  <div class="row">
+    <div class="large-6 columns comment-meta">
+
+      <h4>Comment on Post: <%= link_to comment.root.post.title, comment.root.post %></h4>
+      <% if comment.user %>
+          <%= link_to comment.user do %>
+              <%= image_tag comment.user.photo.thumb('50x50#').url %>
+          <% end %>
+      <% else %>
+          <%= image_tag 'avatar.svg', size: '50x50' %>
+      <% end %>
+      <%= comment.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+      by
+      <% if comment.user %>
+          <%= link_to comment.user.username, comment.user %>
+      <% else %>
+          Anonymous
+      <% end %>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12 columns">
+      <%= comment.content %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12 columns image-row">
+      <% if comment.photo %>
+          <%= image_tag comment.photo.url, class: 'comment-photo' %>
+      <% end %>
+    </div>
+
+  </div>
+</div>

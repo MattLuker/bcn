@@ -26,6 +26,18 @@
           <!-- Right Nav Section -->
           <ul class="right">
             <li class="has-form">
+              <div class="row collapse">
+                <div class="large-8 small-9 columns">
+                  <input type="text" id="search_query" name="search[query]" placeholder="Find happiness">
+                </div>
+                <div class="large-4 small-3 columns">
+                  <a href="#" id='search_button' class="secondary button expand">
+                    <img src="/assets/search-icon.svg" width="15"/>
+                  </a>
+                </div>
+              </div>
+            </li>
+            <li class="has-form">
               <%= link_to new_post_path, class: 'button small new-post', title: 'New Post' do %>
                 <%= image_tag 'plus-icon.svg', size: '15x15' %>
               <% end %>
