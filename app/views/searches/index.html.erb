@@ -37,6 +37,27 @@
                 <% end %>
               </li>
             </ul>
+        <% elsif item.class.to_s == 'Community' %>
+            <ul class="no-disc comments">
+              <li>
+                <%= link_to item, class: 'community' do %>
+                    <%= item.name %>
+                <% end %>
+              </li>
+            </ul>
+        <% elsif item.class.to_s == 'Location' %>
+            <ul class="no-disc comments">
+              <li>
+                <strong>Post:</strong>
+
+                <%= link_to item.post, class: 'location' do %>
+                    <%= item.post.title %>
+                <% end %> at
+
+                <br/>
+                <%= item.name %>, <%= item.address %>
+              </li>
+            </ul>
         <% end %>
 
     <% end %>
