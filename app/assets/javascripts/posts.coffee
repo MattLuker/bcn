@@ -30,6 +30,39 @@ ready_post = ->
   $('.photo_upload').on 'change', (e) ->
     readURL(this);
 
+  # Subscribe button functionality.
+  #
+  # Not sure the button needs to be replaced since Turbolinks is refreshing the page, but maybge it'll be useful down
+  # the road...
+  #
+  $('.post-subscribe').on 'click', (e) ->
+    e.preventDefault()
+    console.log($(this).data())
+    $this = $(this)
+    data = $this.data()
+    if (data.status == 'unsubscribed')
+      $.post("/posts/#{data.postId}/subscribers", 'user_id=' + data.currentUserId).success (json) ->
+        button = """<a class="button tiny secondary icon post-subscribe" title="Unsubscrbie from Post"
+                       data-post-id="#{json.post_id}"
+                       data-current-user-id="#{json.user_id}" data-status="unsubscribed" href="#">
+                      <img class="icon" src="/assets/tack-icon-green.svg" alt="Tack icon">
+                    </a>
+                 """
+        $this.replaceWith(button)
+        Turbolinks.visit(window.location)
+
+    else
+      $.ajax({
+        url: "/posts/#{data.postId}/subscribers/#{data.currentUserId}",
+        type: 'delete'
+      }).success (json) ->
+        button = """<a class="button tiny icon post-subscribe" title="Subscribe to Post" data-post-id="#{json.post_id}"
+                       data-current-user-id="#{json.user_id}" data-status="unsubscribed" href="#">
+                      <img class="icon" src="/assets/tack-icon.svg" alt="Tack icon">
+                    </a>
+                 """
+        $this.replaceWith(button)
+        Turbolinks.visit(window.location)
 
 toggle_map = (e) ->
   e.preventDefault()

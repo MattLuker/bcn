@@ -9,7 +9,7 @@ class Post < ActiveRecord::Base
   validates :end_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :end_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
 
-
+  belongs_to :user
   has_many :locations
   has_many :comments
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "post_id"

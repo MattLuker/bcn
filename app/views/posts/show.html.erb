@@ -53,8 +53,22 @@
         <% end %>
 
         <% if current_user && @post.user != current_user %>
-            <%= link_to edit_post_path(@post), class: 'button tiny icon post-edit', title: 'Subscribe to Post' do %>
-                <%= image_tag 'tack-icon.svg', class: 'icon' %>
+            <% if current_user.subscriptions.find_by(post_id: @post.id) %>
+                <%= link_to '#',
+                    class: 'button tiny secondary icon post-subscribe',
+                    title: 'Unsubscribe from Post',
+                    data: { post_id: @post.id, current_user_id: current_user.id, status: 'subscribed' } do %>
+
+                    <%= image_tag 'tack-icon-green.svg', class: 'icon' %>
+                 <% end %>
+             <% else %>
+                <%= link_to '#',
+                            class: 'button tiny icon post-subscribe',
+                            title: 'Subscribe to Post',
+                            data: { post_id: @post.id, current_user_id: current_user.id, status: 'unsubscribed' } do %>
+                    <%= image_tag 'tack-icon.svg', class: 'icon' %>
+                <% end %>
+
             <% end %>
         <% end %>
       </div>
