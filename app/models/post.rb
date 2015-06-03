@@ -12,8 +12,8 @@ class Post < ActiveRecord::Base
 
   has_many :locations
   has_many :comments
+  has_many :subscribers, :class_name => "Subscriber", :foreign_key => "post_id"
   has_and_belongs_to_many :communities
-  belongs_to :user
 
   after_create do
     Log.create({post: self, action: "created"})

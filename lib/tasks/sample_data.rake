@@ -19,7 +19,7 @@ namespace :db do
                      state: 'North Carolina',
                      postcode: '28608',
                      county: 'Watauga County',
-                     county: 'United States of America'
+                     country: 'United States of America'
                     })
     Location.create({lat: 36.2165856654217,
                      lon: -81.686224937439,
@@ -29,7 +29,7 @@ namespace :db do
                      state: 'North Carolina',
                      postcode: '28608',
                      county: 'Watauga County',
-                     county: 'United States of America'
+                     country: 'United States of America'
                     })
     Location.create({lat: 36.2165099261701,
                      lon: -81.6720628738403,
@@ -39,7 +39,7 @@ namespace :db do
                      state: 'North Carolina',
                      postcode: '28608',
                      county: 'Watauga County',
-                     county: 'United States ogf America'
+                     country: 'United States of America'
                     })
 
 

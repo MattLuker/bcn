@@ -19,7 +19,11 @@ class User < ActiveRecord::Base
 
   has_many :posts
   has_many :comments
-  has_and_belongs_to_many :communitiesg
+  has_many :subscriptions, :class_name => "Subscriber", :foreign_key => "user_id"
+  has_and_belongs_to_many :communities
+
+  # I want Users to have many posts through subscriptions.
+  # I want Posts to have many Users named subscribers.
 
   before_save :downcase_email
   #before_validation :set_username
