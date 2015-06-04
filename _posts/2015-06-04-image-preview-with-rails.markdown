@@ -24,7 +24,8 @@ I imagine that's what Hacksaw Jim Duggan would say if he was a web developer ins
 
 Keeping things CoffeeScript oriented convert the JavaScript (well jQuery) from the Stackoverflow post into Coffeescript:
 
-{% highlight ruby %}
+
+```
 ready_post = ->
   # Display the image to be uploaded.
   $('.photo_upload').on 'change', (e) ->
@@ -44,8 +45,7 @@ ready_post = ->
 
 $(document).ready(ready_post)
 $(document).on('page:load', ready_post)
-{% endhighlight %}
-
+```
 
 
 I placed mine in a model specific coffee file, but as long as the code runs on load it should work fine anywhere.  Also, if you're averse to the hot black liquid version of JavaScript I guess you could blast it into your *app/assets/javascripts/application.js* file.
@@ -65,13 +65,13 @@ Time to config some elements.
 
 In the erb template for this file upload I used these elements:
 
-{% highlight ruby %}
+```
 <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
 <br/><br/>
 
 <%= f.label :image, 'Add a pic?'%>
 <%= f.file_field :image, class: 'photo_upload' %>
-{% endhighlight %}
+```
 
 As detailed above there is an img tag (using Rails helpers cause they're fun) with a class of **image_to_upload**, a file upload element with class **photo_upload** that is watched for a *change* event.
 
