@@ -52,15 +52,21 @@ class CommentsController < ApplicationController
 
   def destroy
     comment = Comment.find(params[:id])
-    post = comment.post
+
+    # Don't delete the children.
+    #
+    # Another way to handle this is to not allow deletion if a comment has children.
+    #
+    comment.raise_children
+    comment.reload
 
     if comment.user == current_user || current_user.admin?
       if comment.destroy
         flash[:success] = 'Comment deleted.'
-        redirect_to post
+        redirect_to comment.root.post
       else
         flash[:alert] = 'Sorry, there was a problem deleting your comment.'
-        redirect_to comment.post
+        redirect_to comment.root.post
       end
     end
   end

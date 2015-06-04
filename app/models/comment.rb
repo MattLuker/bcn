@@ -10,4 +10,19 @@ class Comment < ActiveRecord::Base
 
   belongs_to :post
   belongs_to :user
+
+  before_destroy :raise_children
+
+
+  def raise_children
+    children.each do |child|
+      if child.parent.parent
+        child.parent_id = child.parent.parent.id
+      else
+        child.post = child.root.post
+        child.parent_id = nil
+      end
+      child.save
+    end
+  end
 end

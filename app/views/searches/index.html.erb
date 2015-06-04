@@ -5,6 +5,8 @@
 
     <% @results.each do |item| %>
 
+        <%= item.class %>
+
         <% if item.class.to_s == 'Post' %>
 
             <ul class="posts no-disc">
@@ -62,6 +64,7 @@
 
     <% end %>
 
+
 <% else %>
-    <h5 class="grey">No results found</h5>
+    <h5 class="grey">No results found.</h5>
 <% end %>
