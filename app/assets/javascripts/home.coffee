@@ -175,7 +175,11 @@ window.ready_home = ->
                             </a>
                             </li>
                          """
-          $('#post_' + data.post.id).append(new_loc_html)
+          if ($('#post_' + data.post.id).length)
+            $('#post_' + data.post.id).append(new_loc_html)
+          else
+            $('#no-locations').replaceWith(new_loc_html)
+            Turbolinks.visit(window.location)
 
 
   # Remove all markers not in button's community.
