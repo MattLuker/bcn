@@ -1,0 +1,15 @@
+<p>Hi <%= @user.first_name %>,</p>
+
+<p>There is a new comment from <%= @commenter %> on post <%= @post.title %>:</p>
+
+<% if @comment.photo %>
+    <%= image_tag @comment.photo.thumb('100x100#').url %>
+<% end %>
+
+<p><%= @comment.content %></p>
+
+<p>
+  Click <%= link_to 'here', post_path(@post) %> to reply.
+</p>
+
+<p>Thanks,<br/>Boone Community Network Team</p>

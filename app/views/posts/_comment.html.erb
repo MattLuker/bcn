@@ -1,6 +1,4 @@
 <div class="comment">
-  Down: <%= comment.descendants.count %>, Up: <%= comment.ancestors.count %>
-
   <div class="row">
     <div class="large-6 columns comment-meta">
       <% if comment.user %>
@@ -43,6 +41,8 @@
                 >
                   <%= image_tag 'edit-icon-black.svg', class: 'icon toggle', data: { toggle: "#{dom_id(comment)}_edit" } %>
                 </a>
+                
+            <% else %>
 
                 <a href="#" class="button tiny secondary toggle comment-add icon"
                    data-toggle="<%= dom_id(comment) %>_new"

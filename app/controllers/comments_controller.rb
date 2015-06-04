@@ -16,6 +16,19 @@ class CommentsController < ApplicationController
     end
 
     if comment.save
+      # Send email to subscribers and Post User if there is one, Post User has an email, and
+      # Post User is not a Subscriber.
+      current_user.username.nil? ? commenter = 'Anonymous' : commenter = current_user.username
+      comment.root.post.subscribers.each do |subscriber|
+        unless current_user == subscriber.user
+          CommentMailer.new_comment(subscriber.user, comment.root.post, comment, commenter).deliver_now
+        end
+      end
+      if comment.root.post.user && comment.root.post.user.email &&
+          comment.root.post.subscribers.find_by(user_id: comment.root.post.user).nil?
+        CommentMailer.new_comment(comment.root.post.user, comment.root.post, comment, commenter).deliver_now
+      end
+
       flash[:success] = 'Comment added.'
     else
       flash[:info] = 'Problem adding comment.'
