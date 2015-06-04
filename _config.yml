@@ -12,6 +12,8 @@ github_username:  jekyll
 
 # Build settings
 markdown: kramdown
+  input: GFM
+  highlighter: pygments 
 
 excerpt_separator: <!--more-->
 
