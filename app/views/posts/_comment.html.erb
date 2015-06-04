@@ -41,8 +41,6 @@
                 >
                   <%= image_tag 'edit-icon-black.svg', class: 'icon toggle', data: { toggle: "#{dom_id(comment)}_edit" } %>
                 </a>
-                
-            <% else %>
 
                 <a href="#" class="button tiny secondary toggle comment-add icon"
                    data-toggle="<%= dom_id(comment) %>_new"
@@ -51,6 +49,14 @@
                 </a>
 
                 <%= render 'edit_comment_form', {:comment => comment}%>
+            <% else %>
+
+                <a href="#" class="button tiny secondary toggle comment-add icon"
+                   data-toggle="<%= dom_id(comment) %>_new"
+                   title="Reply to Comment">
+                  <%= image_tag 'reply-icon.svg', class: 'icon toggle', data: { toggle: "#{dom_id(comment)}_new" } %>
+                </a>
+
             <% end %>
         <% end %>
 
