@@ -56,12 +56,17 @@ class LocationsController < ApplicationController
 
   def destroy
     @location = @post.locations.find(params[:id])
-    if @location.destroy
-      flash[:success] = "Location was deleted."
+
+    if @post && current_user && current_user == @post.user
+      if @location.destroy
+        flash[:success] = 'Location was deleted.'
+      else
+        flash[:alert] = 'Location could not be deleted.'
+      end
     else
-      flash[:alert] = "Location could not be deleted."
+      flash[:alert] = 'Only post creator can delete Locations.'
     end
-    redirect_to "/posts/" + @post.id.to_s
+    redirect_to '/posts/' + @post.id.to_s
   end
 
   def url_options

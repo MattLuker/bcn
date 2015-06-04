@@ -143,7 +143,7 @@ window.ready_home = ->
   map.on 'popupopen', (e) ->
     $('#new_location').on 'click', (e) ->
       e.preventDefault()
-      console.log('new_location clicked...')
+       #console.log('new_location clicked...')
 #      console.log(window.coord)
       $.ajax
         url: "/api#{location.pathname}/locations"
@@ -151,7 +151,7 @@ window.ready_home = ->
         type: "post"
         data: "location[lat]=#{coord.lat}&location[lon]=#{coord.lng}"
         success: (data, status, jqXHR) ->
-          console.log(data)
+          #console.log(jqXHR.responseText)
 
           # Update the popup.
           data.locations.sort()
@@ -180,6 +180,10 @@ window.ready_home = ->
           else
             $('#no-locations').replaceWith(new_loc_html)
             Turbolinks.visit(window.location)
+        error: (data, status, jqXHR) ->
+          #console.log(data)
+          response = JSON.parse(data.responseText)
+          marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
 
 
   # Remove all markers not in button's community.
@@ -219,7 +223,7 @@ window.ready_home = ->
       type: "patch"
       data: "location[lat]=#{drop_coord.lat}&location[lon]=#{drop_coord.lng}&location[post_id]=#{post_id}"
       success: (updated_data, status, jqXHR) ->
-        console.log(updated_data)
+        #console.log(updated_data)
 
         # Flash a message either on the marker.
         marker.bindPopup("Location updated to:<br/> #{updated_data.location.name}").openPopup();
@@ -229,6 +233,10 @@ window.ready_home = ->
                     #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcodee}"""
         $("#location_" + marker.loc_id).html(updated_location)
 
+      error: (data, status, jqXHR) ->
+        #console.log(data)
+        response = JSON.parse(data.responseText)
+        marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
 
 
 # Fire the ready function on load and refresh.

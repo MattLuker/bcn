@@ -7,13 +7,13 @@ class Location < ActiveRecord::Base
   validates :lat, presence: true
   validates :lon, presence: true
 
-  after_create do
-    Log.create({location: self, action: 'created'})
-  end
-
-  after_update do
-    Log.create({location: self, action: 'updated'})
-  end
+  # after_create do
+  #   Log.create({location: self, action: 'created'})
+  # end
+  #
+  # after_update do
+  #   Log.create({location: self, action: 'updated'})
+  # end
 
   def lookup_name(params)
     Nominatim.configure do |config|

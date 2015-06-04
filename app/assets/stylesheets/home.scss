@@ -1,4 +1,5 @@
 @import 'application';
+@import 'colors';
 
 $black: #252525;
 #map {
@@ -58,4 +59,11 @@ $black: #252525;
     background: url(/videos/bcn_movie-2.mp4) no-repeat;
     background-size: cover;
   }
+}
+
+.alert {
+  background-color: $alert;
+  color: #ffffff;
+  padding: 5px;
+  font-size: 16px;
 }

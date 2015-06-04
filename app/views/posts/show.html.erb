@@ -129,13 +129,15 @@
 
                           &nbsp;&nbsp;
 
-                          <%= link_to post_location_path(@post.id, location.id),
-                                      method: :delete,
-                                      class: "button alert tiny remove_location icon",
-                                      title: 'Remove Location',
-                                      data: { confirm: 'Are you sure?' } do %>
-                            <%= image_tag 'trash-icon.svg', class: 'icon' %>
-                          <% end %>
+                          <% if @post.user == current_user || (current_user && current_user.admin?) %>
+                              <%= link_to post_location_path(@post.id, location.id),
+                                          method: :delete,
+                                          class: "button alert tiny remove_location icon",
+                                          title: 'Remove Location',
+                                          data: { confirm: 'Are you sure?' } do %>
+                                  <%= image_tag 'trash-icon.svg', class: 'icon' %>
+                              <% end %>
+                        <% end %>
                         </li>
 
                     <% end %>
@@ -151,13 +153,6 @@
                     <% @post.communities.each do |community| %>
                         <li>
                           <%= link_to community.name, community %>
-                          <!--<%= form_tag("/posts/#{@post.id}/community", method: 'delete') do |f| %>-->
-                              <!--<% if current_user %>-->
-                                  <!--<%= hidden_field_tag 'user_id', current_user.id %>-->
-                                  <!--<%= hidden_field_tag 'community_id', community.id %>-->
-                              <!--<% end %>-->
-                              <!--<%= submit_tag 'Remove Community', :class => 'button tiny secondary' %>-->
-                          <!--<% end %>-->
                         </li>
                     <% end %>
                   </ul>

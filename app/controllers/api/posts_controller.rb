@@ -3,12 +3,12 @@ class Api::PostsController < Api::ApiController
 
   def index
     posts = Post.all
-    render json: posts.as_json(include: :location, include: :communities)
+    render json: posts.as_json(include: :location)
   end
 
   def show
     post = Post.find(params[:id])
-    render json: post.as_json(include: :locations, include: :communities)
+    render json: post.as_json(include: :locations)
   end
 
   def create
