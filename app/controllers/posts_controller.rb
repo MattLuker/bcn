@@ -83,6 +83,12 @@ class PostsController < ApplicationController
     end
   end
 
+  def get_og_data
+    p = Post.new
+    og_data = p.get_og_attrs(params[:url])
+    render json: og_data
+  end
+
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
@@ -182,6 +188,10 @@ class PostsController < ApplicationController
                                     :end_time,
                                     :image,
                                     :community_names,
+                                    :og_url,
+                                    :og_image,
+                                    :og_title,
+                                    :og_description,
                                     :community_ids => [])
     end
 end

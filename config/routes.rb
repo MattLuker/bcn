@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :subscribers, only: [:create, :destroy]
     delete 'community', to: 'posts#remove_community'
     get :autocomplete_community_name, on: :collection
+    get :get_og_data, on: :collection
   end
 
   resources :comments, only: [:update, :destroy, :show] do

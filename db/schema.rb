@@ -11,19 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603113311) do
+ActiveRecord::Schema.define(version: 20150604140152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "posts", force: :cascade do |t|
-    t.string   "title",       index: {name: "index_posts_on_title"}
+    t.string   "title",          index: {name: "index_posts_on_title"}
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "communities"
-    t.datetime "deleted_at",  index: {name: "index_posts_on_deleted_at"}
-    t.integer  "user_id",     index: {name: "index_posts_on_user_id"}
+    t.datetime "deleted_at",     index: {name: "index_posts_on_deleted_at"}
+    t.integer  "user_id",        index: {name: "index_posts_on_user_id"}
     t.date     "start_date"
     t.date     "end_date"
     t.time     "start_time"
@@ -31,6 +31,10 @@ ActiveRecord::Schema.define(version: 20150603113311) do
     t.string   "image"
     t.string   "image_uid"
     t.string   "image_name"
+    t.string   "og_url",         index: {name: "index_posts_on_og_url"}
+    t.string   "og_title"
+    t.string   "og_image"
+    t.string   "og_description"
     t.index name: "index_posts_on_description", using: :gin, expression: "to_tsvector('english'::regconfig, description)"
   end
 

@@ -22,6 +22,7 @@ gem 'foundation-rails', '~> 5.5.1.1'
 
 gem 'nominatim'
 gem 'textacular'
+gem 'nokogiri'
 
 gem 'omniauth'
 gem 'omniauth-facebook'

@@ -19,6 +19,19 @@
           <%= @post.description %>
         </div>
       </div>
+      <br/><br/>
+
+      <% if @post.og_url %>
+          <div class="row og-row">
+            <div class="large-3 columns og-data">
+              <%= link_to @post.og_url, class: 'og-url', target: '_blank' do %>
+                  <%= image_tag @post.og_image, class: 'og-image' %>
+                  <h5 class="og-title"><%= @post.og_title %></h5>
+                  <p class="og-description"><%= @post.og_description %> </p>
+              <% end %>
+            </div>
+          </div>
+      <% end %>
     </div>
 
     <hr/>

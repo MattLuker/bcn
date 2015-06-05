@@ -342,6 +342,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   koala
+  nokogiri
   nominatim
   omniauth
   omniauth-facebook

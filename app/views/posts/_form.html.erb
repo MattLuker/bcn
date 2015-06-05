@@ -37,6 +37,29 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.text_field :og_url, id: 'post-link', placeholder: 'Link http://...' %>
+        <div id="link-meter" class="progress hidden">
+          <span class="meter" style="width: 0"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row og-row">
+      <div class="large-3 columns og-data hidden">
+        <a href="#" class="og-url" target="_blank">
+          <img src="#" class="th og-image"/>
+          <h5 class="og-title"></h5>
+          <p class="og-description"></p>
+        </a>
+        <p class="grey og-error hidden"></p>
+      </div>
+      <%= f.hidden_field :og_url %>
+      <%= f.hidden_field :og_image %>
+      <%= f.hidden_field :og_title %>
+      <%= f.hidden_field :og_description %>
+    </div>
+
     <br/>
     <div class="row">
       <div class="large-4 columns">

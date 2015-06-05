@@ -68,6 +68,46 @@ class Post < ActiveRecord::Base
     )
   end
 
+  def get_og_attrs(url)
+
+    data = {}
+    begin
+      doc = Nokogiri::HTML(open(url, 'User-Agent' => 'ruby'))
+
+      doc.css('meta').each do |node|
+        case node['property']
+          when 'og:title'
+            puts "title: #{node['content']}"
+            data[:og_title] = node['content']
+          when 'og:image'
+            puts "image: #{node['content']}"
+            data[:og_image] = node['content']
+          when 'og:url'
+            puts "url: #{node['content']}"
+            data[:og_url] = node['content']
+          when 'og:description'
+            puts "description: #{node['content']}"
+            data[:og_description] = node['content']
+        end
+        # Grab the rest of the attributes as best we can.
+        unless data[:og_description]
+          if node['name'] == 'description'
+            data[:og_description] = node['content']
+          end
+        end
+        data[:og_url] = url unless data[:og_url]
+        data[:og_image] = '//:0' unless data[:og_image]
+        data[:og_title] = doc.css('title').text unless data[:og_title]
+      end
+    rescue
+      data[:og_error] = 'Sorry no preview available.'
+      data[:og_url] = url
+      data[:og_image] = '//:0'
+      data[:og_title] = url
+      data[:og_description] = ' '
+    end
+    data
+  end
 
   def create_location(params)
     loc = Location.new.set_location_attrs(Location.new, params)

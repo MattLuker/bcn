@@ -64,6 +64,35 @@ ready_post = ->
         $this.replaceWith(button)
         Turbolinks.visit(window.location)
 
+  # Get the Open Graph data for the Link?
+  $('#post-link').on 'blur', (e) ->
+    console.log(this)
+    if (url != '' || url != undefined)
+      $('#link-meter').removeClass('hidden')
+      $(".meter").animate({width:"100%"});
+
+      url = $('#post-link').val()
+      $.get('/posts/get_og_data?url=' + url).success (data) ->
+        #console.log(data)
+        $error = $('.og-error')
+        if $error.is(':visible')
+          $error.toggle()
+
+        $('.og-url').attr('href', data.og_url)
+
+        $('.og-image').attr('src', data.og_image)
+        $('.og-title').text(data.og_title)
+        $('.og-description').text(data.og_description)
+        if (data.og_error != undefined)
+          $error.text(data.og_error).toggle()
+        $('.og-data').removeClass('hidden')
+
+        $('#post_og_url').val(data.og_url)
+        $('#post_og_image').val(data.og_image)
+        $('#post_og_title').val(data.og_title)
+        $('#post_og_description').val(data.og_description)
+
+
 toggle_map = (e) ->
   e.preventDefault()
   $map_container = $('.map-container')
