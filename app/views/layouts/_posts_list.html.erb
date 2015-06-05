@@ -15,6 +15,20 @@
         </div>
     <% end %>
 
+    <% if post.og_image and post.image.nil? %>
+        <% if action_name == 'home' || action_name == 'show' %>
+            <div class="large-2 columns">
+        <% else %>
+            <div class="large-1 columns">
+        <% end %>
+
+        <%= link_to post do %>
+            <%= image_tag post.og_image %>
+        <% end %>
+
+        </div>
+    <% end %>
+
     <% if action_name == 'home' || action_name == 'show' %>
         <div class="large-10 columns">
 
@@ -22,8 +36,23 @@
         <div class="large-11 columns">
     <% end %>
 
-    <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
-    <span class="post-text truncate" title="<%= post.description %>"><%= truncate(post.description, length: 50) %></span>
+    <% if post.title.blank? %>
+                <span class="post-title">
+          <%= link_to post.og_url, id: dom_id(post), target: '_blank' do %>
+          <%= post.og_title %>
+              <% end %>
+              </span>
+    <% else %>
+        <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
+    <% end %>
+
+    <% if post.description.blank?  %>
+        <span class="post-text truncate" title="<%= post.og_description %>">
+          <%= truncate(post.og_description, length: 50) %>
+        </span>
+    <% else %>
+        <span class="post-text truncate" title="<%= post.description %>"><%= truncate(post.description, length: 50) %></span>
+    <% end %>
 
     <br/>
 
@@ -39,8 +68,6 @@
         <% else %>
             <% if post.locations.count == 1 %>
                 <span class="post-location smaller-text"><%= post.locations[0].name %></span>
-            <% else %>
-                <span class="post-location smaller-text">No location set...</span>
             <% end %>
         <% end %>
     <% end %>
