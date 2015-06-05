@@ -3,14 +3,21 @@ ready_post = ->
   $('.datepicker').fdatepicker()
 
   $('.toggle').on 'click', (e) ->
+    console.log(e.target.dataset)
     e.preventDefault()
     e.stopPropagation()
     $form = $('.' + e.target.dataset.toggle)
     $form.toggle()
+    if $('#event').prop('checked') == true
+      $('#event').prop('checked', false)
+    else
+      $('#event').prop('checked', true)
 
-    # Expand text area to fit text.
-    tx = $form.find('textarea')
-    tx.height(tx.prop('scrollHeight'))
+
+
+  # Expand text area to fit text.
+  tx = $('#post_description').find('textarea')
+  tx.height(tx.prop('scrollHeight'))
 
   $('.clockpicker').clockpicker({
     align: 'left',
