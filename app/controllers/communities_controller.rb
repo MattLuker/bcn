@@ -1,11 +1,19 @@
 class CommunitiesController < ApplicationController
-  before_action :set_community, only: [:show, :edit, :update, :destroy]
+  before_action :set_community, only: [:show, :edit, :update, :destroy, :podcast]
   before_filter :require_user, only: [:new, :create, :update, :destroy, :add_user, :remove_user]
 
   # GET /communities
   # GET /communities.json
   def index
     @communities = Community.all
+  end
+
+  def podcast
+    puts "params #{params}"
+    @user = User.find(@community.created_by)
+    respond_to do |format|
+      format.rss { render :layout => false }
+    end
   end
 
   # GET /communities/1
@@ -115,7 +123,8 @@ class CommunitiesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_community
-      @community = Community.find(params[:id])
+      @community = Community.find(params[:id]) if params[:id]
+      @community = Community.find(params[:community_id]) if params[:community_id]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

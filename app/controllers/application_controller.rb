@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user
 
-  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  #rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -25,6 +25,9 @@ class ApplicationController < ActionController::Base
       end
       format.json do
         render status: 404, json: { message: 'Not found.' }
+      end
+      format.rss do
+        render status: 404, xml: '<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel>Not Found</channel></rss>'
       end
     end
   end

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :communities do
     patch 'users', to: 'communities#add_user'
     delete 'users', to: 'communities#remove_user'
+    get :podcast, to: 'communities#podcast'
   end
 
   resources :posts do
