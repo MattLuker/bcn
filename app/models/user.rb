@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
   validates :email, allow_nil: true, uniqueness: true,
    format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/ }
 
+  validates_property :ext, of: :photo, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz']
+  validates_property :mime_type, of: :photo, in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg']
+  validates_property :format, of: :photo, in: ['jpeg', 'png', 'gif', 'svg', 'svgz']
+
   after_create do
     downcase_email
     set_photo

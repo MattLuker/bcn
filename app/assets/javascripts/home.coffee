@@ -43,8 +43,6 @@ window.ready_home = ->
       if Object.prototype.toString.call(data) == '[object Array]'
         window.layers = []
         for community in data
-          #L.marker([post.location.lat, post.location.lon], {draggable:false}).addTo(map)
-          #  .bindPopup("<h3>#{post.title}</h3><p>#{post.description}</p>");
           markers = []
           for post in community.posts
             # Create markers for each post.
@@ -55,7 +53,7 @@ window.ready_home = ->
                 title: data.title,
                 riseOnHover: true,
               })
-              marker.bindPopup("<h3>#{post.title}</h3><p>#{post.description}</p>")
+              marker.bindPopup("<h3><a href='/posts/#{post.id}'>#{post.title}</a></h3><p>#{post.description}</p>")
               markers.push(marker)
 
           # Create a layerGroup for each Community.
