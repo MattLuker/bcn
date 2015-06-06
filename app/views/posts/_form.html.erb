@@ -128,6 +128,16 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="large-4 columns">
+        <br/><br/>
+
+        <%= f.label :audio, 'Add an audio file?'%>
+        <%= f.file_field :audio, class: 'audio_upload' %>
+        <%= hidden_field_tag :retained_photo %>
+      </div>
+    </div>
+
     <br/><br/>
 
     <div class="row">

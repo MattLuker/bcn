@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
   acts_as_paranoid
   dragonfly_accessor :image
+  dragonfly_accessor :audio
 
   validates :start_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :start_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }

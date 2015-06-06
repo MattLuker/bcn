@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604140152) do
+ActiveRecord::Schema.define(version: 20150606184152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,9 @@ ActiveRecord::Schema.define(version: 20150604140152) do
     t.string   "og_title"
     t.string   "og_image"
     t.string   "og_description"
+    t.string   "audio"
+    t.string   "audio_uid"
+    t.string   "audio_name"
     t.index name: "index_posts_on_description", using: :gin, expression: "to_tsvector('english'::regconfig, description)"
   end
 

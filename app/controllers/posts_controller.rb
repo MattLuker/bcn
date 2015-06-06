@@ -187,6 +187,7 @@ class PostsController < ApplicationController
                                     :start_time,
                                     :end_time,
                                     :image,
+                                    :audio,
                                     :community_names,
                                     :og_url,
                                     :og_image,
