@@ -31,6 +31,8 @@ class Post < ActiveRecord::Base
   #   Log.create({post: self, action: "updated"})
   # end
 
+  before_save :set_audio_duration
+
 
   def as_json(options={})
     super(:only => [
@@ -120,5 +122,14 @@ class Post < ActiveRecord::Base
   def create_location(params)
     loc = Location.new.set_location_attrs(Location.new, params)
     self.locations << loc
+  end
+
+  def set_audio_duration
+    require 'taglib'
+
+    if audio
+      file_path = Rails.root.join('public', 'system', 'dragonfly', Rails.env, audio_uid).to_s
+      TagLib::FileRef.open(file_path) { |f| self.audio_duration = f.audio_properties.length }
+    end
   end
 end

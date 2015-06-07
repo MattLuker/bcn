@@ -29,6 +29,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem "omniauth-google-oauth2"
 gem 'koala'
+gem 'taglib-ruby'
+
 
 gem 'sweet-alert'
 gem 'sweet-alert-confirm'
