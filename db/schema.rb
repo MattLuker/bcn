@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150607102920) do
+ActiveRecord::Schema.define(version: 20150607110558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,10 @@ ActiveRecord::Schema.define(version: 20150607102920) do
     t.integer  "created_by",       foreign_key: {references: "users", name: "fk_rails_3fb6963f4b", on_update: :no_action, on_delete: :no_action}
     t.string   "events_url"
     t.string   "events_sync_type", index: {name: "index_communities_on_events_sync_type"}
+    t.string   "image"
+    t.string   "image_uid"
+    t.string   "image_name"
+    t.boolean  "explicit"
     t.index name: "index_communities_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
   end
 

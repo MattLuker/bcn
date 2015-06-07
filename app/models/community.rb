@@ -1,6 +1,11 @@
 class Community < ActiveRecord::Base
   acts_as_paranoid
+  dragonfly_accessor :image
+
   validates :name, presence: true, uniqueness: true
+  validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz']
+  validates_property :mime_type, of: :image, in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg']
+  validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz']
 
   # after_create do
   #   Log.create({community: self, action: "created"})
