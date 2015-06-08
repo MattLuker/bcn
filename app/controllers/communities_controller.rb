@@ -136,6 +136,9 @@ class CommunitiesController < ApplicationController
                                         :events_url,
                                         :image,
                                         :explicit,
+                                        :facebook_link,
+                                        :twitter_link,
+                                        :google_link,
                                         :user_ids => [])
     end
 end

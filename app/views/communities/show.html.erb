@@ -35,8 +35,25 @@
 
     <div class="row">
       <div class="large-12 columns social">
-        <%= link_to @community.home_page, target: '_blank' do %>
-            <%= image_tag 'globe-icon.svg', class: 'icon' %>
+        <% unless @community.home_page.blank? %>
+            <%= link_to @community.home_page, target: '_blank' do %>
+                <%= image_tag 'globe-icon.svg', class: 'icon' %>
+            <% end %>
+        <% end %>
+        <% unless @community.facebook_link.blank? %>
+            <%= link_to @community.facebook_link, target: '_blank' do %>
+                <% image_tag 'facebook-icon.svg', class: 'image-link' %>
+            <% end %>
+        <% end %>
+        <% unless @community.twitter_link.blank? %>
+            <%= link_to @community.twitter_link, target: '_blank' do %>
+                <% image_tag 'twitter-icon.svg', class: 'image-link' %>
+            <% end %>
+        <% end %>
+        <% unless @community.google_link.blank? %>
+            <%= link_to @community.google_link, target: '_blank' do %>
+                <% image_tag 'google-icon.svg', class: 'image-link' %>
+            <% end %>
         <% end %>
         <br/><hr/><br/>
       </div>
