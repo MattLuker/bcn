@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150607110558) do
+ActiveRecord::Schema.define(version: 20150608205127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,9 @@ ActiveRecord::Schema.define(version: 20150607110558) do
     t.string   "image_uid"
     t.string   "image_name"
     t.boolean  "explicit"
+    t.string   "facebook_link"
+    t.string   "twitter_link"
+    t.string   "google_link"
     t.index name: "index_communities_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
   end
 
