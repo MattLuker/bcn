@@ -38,6 +38,7 @@ gem 'sweet-alert-confirm'
 gem 'dragonfly', '~> 1.0.8'
 
 gem 'sidekiq'
+gem 'schema_plus'
 
 group :development, :test do
   gem 'byebug'
@@ -52,5 +53,4 @@ group :development, :test do
   gem 'quiet_assets', '~> 1.1.0'
   gem 'database_cleaner', '~> 1.4.1'
   gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'schema_plus'
 end

@@ -12,7 +12,7 @@ class Post < ActiveRecord::Base
   validates_property :mime_type, of: :image, in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg']
   validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz']
 
-  validates_property :ext, of: :audio, in: ['mp3', 'ogg', 'wmv', 'm2a', 'midi', 'mpg', 'wav', 'mp4']
+  validates_property :ext, of: :audio, in: ['mp3', 'ogg', 'wmv', 'm2a', 'midi', 'mpg', 'wav', 'mp4', 'm4a']
   validates_property :mime_type, of: :audio, in: ['audio/mpeg', 'audio/ogg', 'audio/midi', 'audio/mpeg3', 'audio/wav',
                                                   'audio/mp4a-latm', 'application/ogg']
 

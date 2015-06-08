@@ -5,7 +5,7 @@ xml.rss 'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd", 'version
 
     xml.title @community.name
     xml.author fullname
-    xml.link 'http://' + request.domain + '/communities/' + @community.id.to_s
+    xml.link 'http://' + request.host + '/communities/' + @community.id.to_s
     xml.language 'en-us'
     xml.copyright '&#x2117; &amp; &#xA9; ' + DateTime.now.year.to_s + ' ' + @community.name
     xml.tag! "itunes:subtitle", @community.description
@@ -19,10 +19,10 @@ xml.rss 'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd", 'version
       xml.tag! 'itunes:email', @user.email
     end
 
-    #xml.tag! 'itunes:image', 'href' => @community.image.url
+    xml.tag! 'itunes:image', 'href' => 'http://' + request.host + @community.image.url if @community.image
 
     xml.tag! 'itunes:category', 'text' => 'Community' do
-      xml.tag! 'itunes:category', 'text' => 'Local'
+      xml.tag! 'itunes:category', 'text' => 'Community'
     end
 
     xml.tag! 'itunes:category', 'text' => 'Appalachia'
@@ -42,21 +42,21 @@ xml.rss 'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd", 'version
         xml.tag! 'itunes:summary' do
           xml.cdata! post.description
         end
-        xml.tag! 'itunes:image', 'href' => 'http://' + request.domain + post.image.url if post.image.url
+        xml.tag! 'itunes:image', 'href' => 'http://' + request.host + post.image.url if post.image
         xml.tag! 'itunes:explicit', post.explicit
 
-        xml.enclosure 'url' => 'http://' + request.domain + post.audio.url,
+        xml.enclosure 'url' => 'http://' + request.host + post.audio.url,
                       'length' => '8727310',
                       'type' => post.audio.mime_type
         xml.tag! 'itunes:duration', post.audio_duration
 
         xml.pubDate post.created_at.to_s(:rfc822)
-        xml.link 'http://' + request.domain + '/posts/' + post.id.to_s
+        xml.link 'http://' + request.host + '/posts/' + post.id.to_s
         xml.guid post.id
 
         text = post.description
         if post.image
-          image_tag = "<p><img src='" + 'http://' + request.domain + post.image.url + "' /></p>"
+          image_tag = "<p><img src='" + 'http://' + request.host + post.image.url + "' /></p>" if post.image
           text = image_tag + text
           puts text
         end
