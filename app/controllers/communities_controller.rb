@@ -9,7 +9,6 @@ class CommunitiesController < ApplicationController
   end
 
   def podcast
-    puts "params #{params}"
     @user = User.find(@community.created_by)
     respond_to do |format|
       format.rss { render :layout => false }
@@ -19,7 +18,6 @@ class CommunitiesController < ApplicationController
   # GET /communities/1
   # GET /communities/1.json
   def show
-    puts @community
   end
 
   # GET /communities/new

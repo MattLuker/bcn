@@ -11,7 +11,6 @@ ready_searches = ->
     Turbolinks.visit('/searches?query=' + $('#search_query').val())
 
 
-
 # Fire the ready function on load and refresh.
 $(document).ready(ready_searches)
 $(document).on('page:load', ready_searches)

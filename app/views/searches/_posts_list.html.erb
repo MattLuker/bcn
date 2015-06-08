@@ -25,7 +25,15 @@
 
   <br/>
 
-  <span class="grey post-date smaller-text"><%= post.created_at.strftime('%m/%d/%Y %I:%M%P') %></span>
+  <span class="grey post-date smaller-text">
+    <%= post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+    by
+    <% if post.created_by %>
+        <% post.created_by.username %>
+    <% else %>
+      Anonymous
+    <% end %>
+  </span>
 
   <% unless post.comments.blank? %>
       <span class="grey comment-count smaller-text"> &nbsp; <%= post.comments.count %> Comments</span>

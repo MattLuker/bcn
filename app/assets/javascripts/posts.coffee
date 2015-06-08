@@ -100,6 +100,15 @@ ready_post = ->
         $('#post_og_description').val(data.og_description)
 
 
+  # Start Communities field with community parameter.
+  query = window.location.search.substring(1)
+  if (query && query.includes('community'))
+    vars = query.split("&");
+    community = vars[0].split('=')[1]
+    community = community.replace('+', ' ')
+    $('#post_community_names').val(community)
+
+
 toggle_map = (e) ->
   e.preventDefault()
   $map_container = $('.map-container')
