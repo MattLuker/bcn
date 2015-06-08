@@ -73,6 +73,12 @@
     <div class="row">
       <div class="large-4 columns actions">
         <%= f.submit 'Save Community', :class => 'button small success' %>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <%= link_to 'Cancel', community_path(@community) %>
       </div>
     </div>
 <% end %>
+
+<br/>
+
+<%= link_to 'Delete', @community, method: :delete, class: 'grey', data: { confirm: 'Are you sure?' } %>

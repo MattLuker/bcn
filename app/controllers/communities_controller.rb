@@ -19,6 +19,7 @@ class CommunitiesController < ApplicationController
   # GET /communities/1
   # GET /communities/1.json
   def show
+    puts @community
   end
 
   # GET /communities/new
@@ -125,6 +126,7 @@ class CommunitiesController < ApplicationController
     def set_community
       @community = Community.find(params[:id]) if params[:id]
       @community = Community.find(params[:community_id]) if params[:community_id]
+      @creator = User.find(@community.created_by) if @community.created_by
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

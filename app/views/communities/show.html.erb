@@ -1,44 +1,105 @@
+<div class="row">
 
-<h2><%= @community.name %></h2>
+  <div class="large-8 columns">
+    <div class="row">
+      <div class="large-9 columns">
+        <h2 class="title">
+          <%= @community.name %>
+        </h2>
+      </div>
+      <div class="large-3 columns">
+        <% if current_user == @creator %>
+            <%= link_to edit_community_path(@community), class: 'button tiny icon', title: 'Edit Community' do %>
+                <% image_tag 'edit-icon.svg', class: 'icon' %>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @community.description %>
-</p>
+    <div class="row">
+      <div class="large-12 columns">
+        <% if @community.image %>
+            <%= image_tag @community.image.url, class: 'community-image',
+                          style: 'border: 5px solid ' + @community.color %>
+        <% end %>
+        <br/><br/>
+      </div>
+    </div>
 
-<p>
-  <strong>Home page:</strong>
- <%= link_to @community.home_page %>
-</p>
+    <div class="row">
+      <div class="large-12 columns">
+        <%= @community.description %>
+        <br/><br/>
+      </div>
+    </div>
 
-<p>
-  <strong>Color:</strong>
-  <span style="background: <%= @community.color %>; color: white; padding: 3px;"><%= @community.color %></span>
-</p>
+    <div class="row">
+      <div class="large-12 columns social">
+        <%= link_to @community.home_page, target: '_blank' do %>
+            <%= image_tag 'globe-icon.svg', class: 'icon' %>
+        <% end %>
+        <br/><hr/><br/>
+      </div>
+    </div>
 
-<p>
-  <strong>Events URL:</strong>
-  <%= @community.events_url %>
-</p>
+    <div class="row">
+      <div class="large-12 columns">
+        <% if current_user && !@community.users.include?(current_user) %>
+            <%= form_tag("/communities/#{@community.id}/users", method: 'patch') do |f| %>
+                <%= hidden_field_tag 'user_id', current_user.id %>
+                <%= submit_tag 'Join Community', :class => 'button small' %>
+            <% end %>
+        <% end %>
+        <br/><br/>
+      </div>
+    </div>
 
-<p>
-  <% if current_user %>
-      <%= form_tag("/communities/#{@community.id}/users", method: 'patch') do |f| %>
-          <%= hidden_field_tag 'user_id', current_user.id %>
-          <%= submit_tag 'Join Community', :class => 'button small' %>
-      <% end %>
-  <% end %>
-</p>
-<p>
-  <strong>Members:</strong>
-  <ul>
-    <% @community.users.each do |user| %>
-      <li><%= link_to "#{user.first_name} #{user.last_name}", user %></li>
-    <% end %>
-  </ul>
-</p>
+    <div class="row">
+      <div class="large-12 columns">
+        <ul class="tabs" data-tab>
+          <li class="tab-title active"><a href="#posts">Posts</a></li>
+          <li class="tab-title"><a href="#members">Members</a></li>
+        </ul>
+
+        <div class="tabs-content">
+          <div class="content active" id="posts">
+            <ul class="no-disc posts">
+              <% @community.posts.reverse_each do |post| %>
+                  <%= render 'layouts/posts_list', post: post %>
+              <% end %>
+
+              <% if @community.posts.blank? %>
+                  <span class="grey">Currently there are no posts.</span>
+              <% end %>
+            </ul>
+          </div>
+          <div class="content" id="members">
+            <ul class="no-disc">
+              <% @community.users.each do |user| %>
+                  <li>
+                    <% if user.photo %>
+                        <%= link_to user do %>
+                            <%= image_tag user.photo.thumb('75x75#').url %>
+                        <% end %>
+                        &nbsp;&nbsp;
+                    <% end %>
+                    <%= link_to "#{user.first_name} #{user.last_name}", user %>
+                  </li>
+              <% end %>
+
+              <% if @community.users.blank? %>
+                <span class="grey">Currently there are no members.</span>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <br/>
-
-<%= link_to 'Edit', edit_community_path(@community) %> |
-<%= link_to 'Destroy', @community, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', communities_path %>
+<br/>
