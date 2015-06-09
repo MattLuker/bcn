@@ -1,0 +1,11 @@
+Hi <%= @user.first_name %>,
+
+There is a new post from <%= @poster %> in <%= @community.name %>:
+
+<%= @post.description %>
+
+Browse here: <%= post_url(@post) %> to view.
+
+
+Thanks,
+Boone Community Network Team
