@@ -96,6 +96,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    puts "params: #{params}"
     if current_user == @user
       if @user.update(user_params)
           flash[:success] = 'Profile successfully updated.'

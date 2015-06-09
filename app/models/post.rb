@@ -8,13 +8,17 @@ class Post < ActiveRecord::Base
   validates :end_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :end_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
 
-  validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz']
-  validates_property :mime_type, of: :image, in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg']
-  validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz']
+  validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
+  validates_property :mime_type, of: :image,
+                     in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg'],
+                     if: :image_changed?
+  validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
 
-  validates_property :ext, of: :audio, in: ['mp3', 'ogg', 'wmv', 'm2a', 'midi', 'mpg', 'wav', 'mp4', 'm4a']
+  validates_property :ext, of: :audio,
+                     in: ['mp3', 'ogg', 'wmv', 'm2a', 'midi', 'mpg', 'wav', 'mp4', 'm4a'],
+                     if: :audio_changed?
   validates_property :mime_type, of: :audio, in: ['audio/mpeg', 'audio/ogg', 'audio/midi', 'audio/mpeg3', 'audio/wav',
-                                                  'audio/mp4a-latm', 'application/ogg']
+                                                  'audio/mp4a-latm', 'application/ogg'], if: :audio_changed?
 
 
   belongs_to :user

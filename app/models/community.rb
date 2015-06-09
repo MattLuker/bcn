@@ -3,9 +3,11 @@ class Community < ActiveRecord::Base
   dragonfly_accessor :image
 
   validates :name, presence: true, uniqueness: true
-  validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz']
-  validates_property :mime_type, of: :image, in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg']
-  validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz']
+  validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
+  validates_property :mime_type, of: :image,
+                     in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg'],
+                     if: :image_changed?
+  validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
 
   # after_create do
   #   Log.create({community: self, action: "created"})
