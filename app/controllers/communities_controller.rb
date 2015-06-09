@@ -89,7 +89,7 @@ class CommunitiesController < ApplicationController
   def remove_user
     community = Community.find(params[:community_id].to_i)
 
-    if current_user.id == params['user_id'].to_i
+    if current_user.id == params['user_id'].to_i || current_user.admin?
       @user = User.find(params['user_id'])
       if community.users.delete(@user)
         flash[:success] = "You have left the #{community.name} community."
