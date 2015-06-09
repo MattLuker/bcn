@@ -23,6 +23,12 @@ class Community < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "community_id"
 
+  scope :popularity, -> { order('posts_count + users_count desc') }
+
+  def self.popular
+    order('listens_count DESC').limit(5)
+  end
+
   def set_sync_type
     user = User.find(created_by)
     if !(user.facebook_id.nil?) and events_url.match(/facebook/i)

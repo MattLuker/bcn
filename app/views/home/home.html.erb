@@ -4,7 +4,7 @@
   <div id="map"></div>
 
   <br/>
-  <button class="all_communities tiny">All</button>
+  <button class="all_communities success tiny">All</button>
 
   <% @communities.each do |community| %>
       <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
