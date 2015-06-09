@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150608205127) do
+ActiveRecord::Schema.define(version: 20150609102153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,10 +152,11 @@ ActiveRecord::Schema.define(version: 20150608205127) do
 
   create_view "searches", " SELECT posts.id AS searchable_id,\n    'Post'::text AS searchable_type,\n    comments.content AS term\n   FROM (posts\n     JOIN comments ON ((posts.id = comments.post_id)))\nUNION\n SELECT comments.id AS searchable_id,\n    'Comment'::text AS searchable_type,\n    comments.content AS term\n   FROM comments\nUNION\n SELECT posts.id AS searchable_id,\n    'Post'::text AS searchable_type,\n    posts.description AS term\n   FROM posts\nUNION\n SELECT communities.id AS searchable_id,\n    'Community'::text AS searchable_type,\n    communities.name AS term\n   FROM communities\nUNION\n SELECT locations.id AS searchable_id,\n    'Location'::text AS searchable_type,\n    locations.name AS term\n   FROM locations\nUNION\n SELECT users.id AS searchable_id,\n    'User'::text AS searchable_type,\n    users.username AS term\n   FROM users\nUNION\n SELECT users.id AS searchable_id,\n    'User'::text AS searchable_type,\n    users.email AS term\n   FROM users", :force => true
   create_table "subscribers", force: :cascade do |t|
-    t.integer  "post_id",    index: {name: "index_subscribers_on_post_id"}, foreign_key: {references: "posts", name: "fk_subscribers_post_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "user_id",    index: {name: "index_subscribers_on_user_id"}, foreign_key: {references: "users", name: "fk_subscribers_user_id", on_update: :no_action, on_delete: :no_action}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "post_id",      index: {name: "index_subscribers_on_post_id"}, foreign_key: {references: "posts", name: "fk_subscribers_post_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "user_id",      index: {name: "index_subscribers_on_user_id"}, foreign_key: {references: "users", name: "fk_subscribers_user_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "community_id", index: {name: "fk__subscribers_community_id"}, foreign_key: {references: "communities", name: "fk_subscribers_community_id", on_update: :no_action, on_delete: :no_action}
   end
 
 end

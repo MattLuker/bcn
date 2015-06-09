@@ -1,5 +1,5 @@
 ready_post = ->
-  #console.log('post...')
+  console.log('post...')
   $('.datepicker').fdatepicker()
 
   $('.toggle').on 'click', (e) ->
@@ -44,7 +44,7 @@ ready_post = ->
   #
   $('.post-subscribe').on 'click', (e) ->
     e.preventDefault()
-    console.log($(this).data())
+    #console.log($(this).data())
     $this = $(this)
     data = $this.data()
     if (data.status == 'unsubscribed')

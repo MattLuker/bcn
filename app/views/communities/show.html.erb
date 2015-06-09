@@ -74,13 +74,30 @@
         <% end %>
 
         <% if current_user %>
-            <%= link_to '#', class: 'button small' do %>
-                <%= image_tag 'tack-icon.svg', class: 'ty-icon' %>
-                &nbsp;
-                Subscribe
+            <% if current_user.subscriptions.find_by(community_id: @community.id) %>
+                <%= link_to '#',
+                            class: 'button secondary small community-subscribe',
+                            title: 'Unsubscribe from Community',
+                            data: { community_id: @community.id, current_user_id: current_user.id,
+                                    status: 'subscribed' } do %>
 
+                    <%= image_tag 'tack-icon-green.svg', class: 'ty-icon' %>
+                    &nbsp;
+                    Unsubscribe
+                <% end %>
+                &nbsp;&nbsp;
+            <% else %>
+                <%= link_to '#',
+                            class: 'button small community-subscribe',
+                            title: 'Subscribe to Community',
+                            data: { community_id: @community.id, current_user_id: current_user.id,
+                                    status: 'unsubscribed' } do %>
+                    <%= image_tag 'tack-icon.svg', class: 'ty-icon' %>
+                    &nbsp;
+                    Subscribe
+                <% end %>
+                &nbsp;&nbsp;
             <% end %>
-            &nbsp;&nbsp;
         <% end %>
 
         <%= link_to new_post_path(community: @community.name), class: 'button small' do %>

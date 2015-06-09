@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     patch 'users', to: 'communities#add_user'
     delete 'users', to: 'communities#remove_user'
     get :podcast, to: 'communities#podcast'
+    resources :subscribers, only: [:create, :destroy]
   end
 
   resources :posts do

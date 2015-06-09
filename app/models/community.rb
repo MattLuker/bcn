@@ -19,6 +19,7 @@ class Community < ActiveRecord::Base
 
   has_and_belongs_to_many :posts
   has_and_belongs_to_many :users
+  has_many :subscribers, :class_name => "Subscriber", :foreign_key => "community_id"
 
   def set_sync_type
     user = User.find(created_by)
