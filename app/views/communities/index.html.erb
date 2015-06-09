@@ -2,21 +2,17 @@
 
 <h2 class="page-title">Communities</h2>
 
+<%= link_to new_community_path, class: 'button small' do %>
+    <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
+    &nbsp;
+    New Community
+<% end %>
 
-<ul class="communities no-bullet">
+<ul class="communities no-disc">
   <% @communities.each do |community| %>
-      <li class="clearfix">
-        <div class="community-title"><%= link_to community.name, community, {:style => "color: #{community.color}"} %></div>
-        <div class="community-details">
-          <ul class="vcard">
-            <li><%= community.description %></li>
-            <li><em>Home Page: </em><%= link_to community.home_page %></li>
-            <li><span style="background: <%= community.color %>; color: white; padding: 3px;"><%= community.color %></span></li>
-          </ul>
-        </div>
-      </li>
+    <%= render 'layouts/communities_list', community: community %>
   <% end %>
 </ul>
 
 
-<%= link_to 'New Community', new_community_path %>
+<br/><br/>

@@ -1,0 +1,35 @@
+<li class="clearfix">
+  <div class="row">
+    <% if community.image %>
+        <div class="large-2 columns">
+          <%= link_to community do %>
+              <%= image_tag community.image.thumb('150x150#').url if community.image %>
+          <% end %>
+        </div>
+    <% end %>
+    <div class="large-10 columns collapse">
+      <div class="row">
+        <div class="large-12 columns community-title">
+          <%= link_to community.name, community, {:style => "color: #{community.color}"} %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns">
+          <%= community.description %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns grey">
+          <%= community.users.count %>
+          <% if community.users.count == 1 %>
+              Member
+          <% else %>
+              Members
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

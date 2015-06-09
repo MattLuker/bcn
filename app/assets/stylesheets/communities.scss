@@ -9,12 +9,11 @@
 .communities {
   li {
     margin-top: 20px;
+    padding: 20px;
   }
 
-  ul.vcard {
-    li {
-      padding: 5px;
-    }
+  li:nth-child(odd) {
+    background: lighten($light-gray, 5);
   }
 
   .community-title {

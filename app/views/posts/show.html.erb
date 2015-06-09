@@ -166,11 +166,9 @@
 
             <section role="tabpanel" aria-hidden="true" class="content" id="communities">
               <% unless @post.communities.empty? %>
-                  <ul class="no-disc">
+                  <ul class="communities no-disc">
                     <% @post.communities.each do |community| %>
-                        <li>
-                          <%= link_to community.name, community %>
-                        </li>
+                        <%= render 'layouts/communities_list', community: community %>
                     <% end %>
                   </ul>
               <% else %>
