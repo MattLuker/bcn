@@ -82,7 +82,6 @@
                                     status: 'subscribed' } do %>
 
                     <%= image_tag 'tack-icon-green.svg', class: 'ty-icon' %>
-                    &nbsp;
                     Unsubscribe
                 <% end %>
                 &nbsp;&nbsp;
@@ -138,7 +137,19 @@
                         <% end %>
                         &nbsp;&nbsp;
                     <% end %>
-                    <%= link_to "#{user.first_name} #{user.last_name}", user %>
+                    <%= link_to user.username, user %>
+
+                    <% if current_user && current_user.admin? %>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <%= form_tag("/communities/#{@community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
+                            <%= hidden_field_tag 'user_id', user.id %>
+                            <%= image_submit_tag 'trash-icon.svg', :class => 'button alert tiny remove_user icon',
+                                                 :alt => 'Remove User',
+                                                 :value => 'Remove User',
+                                                 :title => 'Remove User' %>
+                        <% end %>
+                    <% end %>
+
                   </li>
               <% end %>
 

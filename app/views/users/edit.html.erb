@@ -1,6 +1,17 @@
 <h3>Edit Profile</h3>
+<ul class="tabs" data-tab>
+  <li class="tab-title active"><a href="#settings">Settings</a></li>
+  <li class="tab-title"><a href="#cp">Change Password</a></li>
+</ul>
+<div class="tabs-content">
+  <div class="content active" id="settings">
+    <%= render 'edit_form' %>
+  </div>
+  <div class="content" id="cp">
+    <%= render 'change_password_form' %>
+  </div>
+</div>
 
-<%= render 'edit_form' %>
 
 <%= link_to 'Cancel', user_path(@user) %>
 <br/><br/>
