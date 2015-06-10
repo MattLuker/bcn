@@ -28,8 +28,8 @@
   <span class="grey post-date smaller-text">
     <%= post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
     by
-    <% if post.created_by %>
-        <% post.created_by.username %>
+    <% if post.user %>
+        <% post.user.username %>
     <% else %>
       Anonymous
     <% end %>

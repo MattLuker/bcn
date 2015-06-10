@@ -5,7 +5,7 @@ class CommunitiesController < ApplicationController
   # GET /communities
   # GET /communities.json
   def index
-    @communities = Community.all.popularity
+    @communities = Community.popularity.all
   end
 
   def podcast
