@@ -60,24 +60,30 @@ class CreateSearchView < ActiveRecord::Migration
     users.name AS term
   FROM users
 VIEW
-
-      #CREATE VIEW searches AS
+      #SELECT
+      #posts.id AS searchable_id,
+      #            'Post' AS searchable_type,
+      #                      comments.content AS term
+      #FROM posts
+      #JOIN comments ON posts.id = comments.post_id
+      #
+      #UNION
+      #
+      #SELECT
+      #posts.id AS searchable_id,
+      #            'Post' AS searchable_type,
+      #                      comments.content AS term
+      #FROM posts
+      #JOIN comments ON posts.id = comments.post_id
+      #
+      #UNION
 
       view2 = <<-VIEW2
   SELECT
     posts.id AS searchable_id,
     'Post' AS searchable_type,
-    comments.content AS term
+    posts.title AS term
   FROM posts
-  JOIN comments ON posts.id = comments.post_id
-
-  UNION
-
-  SELECT
-    comments.id AS searchable_id,
-    'Comment' AS searchable_type,
-    comments.content AS term
-  FROM comments
 
   UNION
 
@@ -86,6 +92,14 @@ VIEW
     'Post' AS searchable_type,
     posts.description AS term
   FROM posts
+
+  UNION
+
+  SELECT
+    comments.id AS searchable_id,
+    'Comment' AS searchable_type,
+    comments.content AS term
+  FROM comments
 
   UNION
 
@@ -130,6 +144,7 @@ VIEW
       remove_index :users, :username
       remove_index :users, :email
 
+      execute %q{create index index_posts_on_title on "posts" using gin(to_tsvector('english', title))}
       execute %q{create index index_posts_on_description on "posts" using gin(to_tsvector('english', description))}
       execute %q{create index index_comments_on_content on "comments" using gin(to_tsvector('english', content))}
       execute %q{create index index_communities_on_name on "communities" using gin(to_tsvector('english', name))}
