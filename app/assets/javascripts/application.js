@@ -26,6 +26,7 @@
 //= require sweet-alert
 //= require sweet-alert-confirm
 //= require leaflet
+//= require colpick
 
 
 $(function(){

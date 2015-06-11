@@ -1,5 +1,4 @@
 ready_post = ->
-  console.log('post...')
   $('.datepicker').fdatepicker()
 
   $('.toggle').on 'click', (e) ->

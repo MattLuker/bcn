@@ -1,5 +1,4 @@
 ready_community = ->
-  console.log('community ready...')
   # Subscribe button functionality.
   #
   # This should probalby combined with the Post subscribe functions and integrated into a generic function...
@@ -36,7 +35,32 @@ ready_community = ->
                    """
         $this.replaceWith(button)
         Turbolinks.visit(window.location)
-  console.log('community ready... end.')
+
+  $('#community_color').on 'focus', (e) ->
+
+    if $('.colpick').is(':hidden')
+      $('.colpick').show()
+      $('#community_color').css('margin-bottom', '3px')
+    else
+      $input = $('#community_color')
+      $input.css('margin-bottom', '3px')
+
+      $(this).parent().colpick({
+        flat: true,
+        layout: 'hex',
+        submit: 1,
+        onChange: (hsb, hex, rgb, el, bySetColor) ->
+          $input = $($(el).children()[0])
+          $input.css('border-color','#' + hex)
+          $input.css('border-bottom-width', '5px')
+          # Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+          if (!bySetColor)
+            $input.val('#' + hex)
+        onSubmit: () ->
+          $('.colpick').hide()
+          $input.css('margin-bottom', '16px')
+      })
+
 
 
 # Fire the ready function on load and refresh.
