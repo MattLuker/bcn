@@ -2,8 +2,11 @@
   <div class="row">
     <% if community.image %>
         <div class="large-2 columns">
-          <%= link_to community do %>
-              <%= image_tag community.image.thumb('150x150#').url if community.image %>
+          <% if community.image %>
+              <%= link_to community do %>
+                  <%= image_tag community.image.thumb('150x150#').url,
+                                {:style => "border: 5px solid #{community.color}"} %>
+              <% end %>
           <% end %>
         </div>
     <% end %>
