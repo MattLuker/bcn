@@ -83,40 +83,39 @@
   </div>
 </div>
 
-<div>
-  <h3>Communities:</h3>
-  <% if @user.communities %>
-      <ul class="communities">
-        <% @user.communities.each do |community| %>
-            <li>
-              <h4><%= link_to community.name, community %></h4>
-              <%= form_tag("/communities/#{community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
-                  <%= hidden_field_tag 'user_id', current_user.id %>
-                  <%= image_submit_tag 'exit-icon.svg', :class => 'button tiny secondary icon leave-community',
-                                       :alt => 'Leave Community',
-                                       :value => 'Leave',
-                                       :title => 'Leave Community' %>
-              <% end %>
-            </li>
+<ul class="tabs" data-tab>
+  <li class="tab-title active"><a href="#posts">Posts</a></li>
+  <li class="tab-title"><a href="#communities">Communities</a></li>
+</ul>
+<div class="tabs-content">
+  <div class="content active" id="posts">
+    <div class="large-6 columns">
+      <ul class="posts no-bullet">
+        <% @user.posts.reverse_each do |post| %>
+            <%= render 'layouts/posts_list', post: post %>
         <% end %>
       </ul>
-  <% end %>
-</div>
-
-<div class="row">
-  <div class="large-6 columns">
-    <br/><hr/><br/>
+    </div>
   </div>
-</div>
 
-<div>
-  <h3>Posts:</h3>
-
-  <div class="large-6 columns">
-    <ul class="posts no-bullet">
-      <% @user.posts.reverse_each do |post| %>
-          <%= render 'layouts/posts_list', post: post %>
+  <div class="content" id="communities">
+    <div>
+      <% if @user.communities %>
+          <ul class="communities">
+            <% @user.communities.each do |community| %>
+                <li>
+                  <h4><%= link_to community.name, community %></h4>
+                  <%= form_tag("/communities/#{community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
+                      <%= hidden_field_tag 'user_id', current_user.id %>
+                      <%= image_submit_tag 'exit-icon.svg', :class => 'button tiny secondary icon leave-community',
+                                           :alt => 'Leave Community',
+                                           :value => 'Leave',
+                                           :title => 'Leave Community' %>
+                  <% end %>
+                </li>
+            <% end %>
+          </ul>
       <% end %>
-    </ul>
+    </div>
   </div>
 </div>
