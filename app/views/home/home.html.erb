@@ -3,12 +3,13 @@
 
   <div id="map"></div>
 
-  <br/>
+  <br/><br/>
   <button class="all_communities success tiny">All</button>
 
   <% @communities.each do |community| %>
       <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
   <% end %>
+
 </div>
 
 <div class="large-6 columns">
@@ -27,6 +28,5 @@
   <br/><br/>
 
 </div>
-
 
 
