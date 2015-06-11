@@ -13,20 +13,20 @@ class User < ActiveRecord::Base
                      if: :photo_changed?
   validates_property :format, of: :photo, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :photo_changed?
 
-  after_create do
-    downcase_email
-    set_photo
-    Log.create({user: self, action: "created"})
-  end
-
-  after_update do
-    Log.create({user: self, action: "updated"})
-  end
+  # after_create do
+  #   downcase_email
+  #   set_photo
+  #   Log.create({user: self, action: "created"})
+  # end
+  #
+  # after_update do
+  #   Log.create({user: self, action: "updated"})
+  # end
 
   has_many :posts
   has_many :comments
   has_many :subscriptions, :class_name => "Subscriber", :foreign_key => "user_id"
-  has_and_belongs_to_many :communities, counter_cache: true
+  has_and_belongs_to_many :communities, before_add: :inc_users_count, before_remove: :dec_users_count
 
   # I want Users to have many posts through subscriptions.
   # I want Posts to have many Users named subscribers.
@@ -137,5 +137,16 @@ class User < ActiveRecord::Base
         :photo_name,
         :role
     ])
+  end
+
+  private
+  def inc_users_count(model)
+    puts "model.inspect: #{model.inspect}"
+    Community.increment_counter('users_count', model.id)
+  end
+
+  def dec_users_count(model)
+    puts "dec_posts_count: #{model.inspect}"
+    Community.decrement_counter('users_count', model.id)
   end
 end

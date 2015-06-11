@@ -9,25 +9,11 @@ class Community < ActiveRecord::Base
                      if: :image_changed?
   validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
 
-  # after_create do
-  #   Log.create({community: self, action: "created"})
-  # end
-  #
-  # after_update do
-  #   Log.create({community: self, action: "updated"})
-  # end
-
-  #before_save :set_sync_type
-
   has_and_belongs_to_many :posts
   has_and_belongs_to_many :users
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "community_id"
 
   scope :popularity, -> { order('posts_count + users_count desc') }
-
-  def self.popular
-    order('listens_count DESC').limit(5)
-  end
 
   def set_sync_type
     user = User.find(created_by)
@@ -91,6 +77,5 @@ class Community < ActiveRecord::Base
   def auto_value
     value = id
     label = name
-
   end
 end

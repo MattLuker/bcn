@@ -25,18 +25,10 @@ class Post < ActiveRecord::Base
   has_many :locations
   has_many :comments
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "post_id"
-  has_and_belongs_to_many :communities, counter_cache: true
+  has_and_belongs_to_many :communities, before_add: :inc_posts_count, before_remove: :dec_posts_count
 
-  # after_create do
-  #   Log.create({post: self, action: "created"})
-  # end
-  #
-  # after_update do
-  #   Log.create({post: self, action: "updated"})
-  # end
 
   before_save :set_audio_duration
-
 
   def as_json(options={})
     super(:only => [
@@ -135,5 +127,16 @@ class Post < ActiveRecord::Base
       file_path = Rails.root.join('public', 'system', 'dragonfly', Rails.env, audio_uid).to_s
       TagLib::FileRef.open(file_path) { |f| self.audio_duration = f.audio_properties.length }
     end
+  end
+
+  private
+  def inc_posts_count(model)
+    puts "model.inspect: #{model.inspect}"
+    Community.increment_counter('posts_count', model.id)
+  end
+
+  def dec_posts_count(model)
+    puts "dec_posts_count: #{model.inspect}"
+    Community.decrement_counter('posts_count', model.id)
   end
 end
