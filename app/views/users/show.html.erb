@@ -1,3 +1,13 @@
+<%= content_for(:title) do %><%= @user.username if @user.username %> | <% end %>
+<%= content_for(:meta_og) do %>
+    <meta property="og:title" content="<%= @user.username %>" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:first_name" content="<%= @user.first_name %>" />
+    <meta property="og:last_name" content="<%= @user.last_name %>" />
+    <meta property="og:username" content="<%= @user.username %>" />
+    <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@user.photo.url}" %>
+<% end %>
+
 <div class="row">
 
   <div class="large-2 columns">

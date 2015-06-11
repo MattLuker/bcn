@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BcnRails</title>
+  <title><%= yield :title %>BCN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -10,6 +10,16 @@
   <%= stylesheet_link_tag 'foundation-datepicker', media: 'all' %>
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  <% if content_for?(:meta_og) %>
+      <%= yield :meta_og %>
+  <% else %>
+      <meta property="og:title" content="Boone Community Network" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="http://boonecommunitynetwork.com" />
+      <%= tag :meta, property: 'og:image', content: image_url('bcn_logo.png') %>
+  <% end %>
+
   <%= csrf_meta_tags %>
 </head>
 <body>

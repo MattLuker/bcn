@@ -1,3 +1,15 @@
+<%= content_for(:title) do %><%= @post.title if @post.title %> | <% end %>
+<%= content_for(:meta_og) do %>
+    <meta property="og:title" content="<%= @post.title %>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:published_time" content="<%= @post.created_at.strftime('%Y-%m-%d %H:%M') %>" />
+    <meta property="og:author" content="<%= @post.user.username if @post.user && @post.user.username %>" />
+    <meta property="og:description" content="<%= truncate(@post.description, length: 50) %>" />
+    <% if @post.image %>
+        <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@post.image.url}" %>
+    <% end %>
+<% end %>
+
 <div class="row">
 
   <div class="large-8 columns">

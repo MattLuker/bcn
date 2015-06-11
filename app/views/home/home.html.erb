@@ -1,3 +1,11 @@
+<%= content_for(:title) do %> Home | <% end %>
+<%= content_for(:meta_og) do %>
+    <meta property="og:title" content="Home | BCN" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Find the latest interests, events, and goings on in the Boone, NC area." />
+    <%= tag :meta, property: 'og:image', content: image_url('bcn_logo.png') %>
+<% end %>
+
 <div class="large-6 columns">
   <h2>Boone</h2>
 
