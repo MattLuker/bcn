@@ -5,7 +5,7 @@ xml.rss 'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd", 'version
 
     xml.title @community.name
     xml.author fullname
-    xml.link 'http://' + request.host + '/communities/' + @community.id.to_s
+    xml.link 'http://' + request.host + '/communities/' + @community.slug
     xml.language 'en-us'
     xml.copyright '&#x2117; &amp; &#xA9; ' + DateTime.now.year.to_s + ' ' + @community.name
     xml.tag! "itunes:subtitle", @community.description
