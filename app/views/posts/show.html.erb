@@ -1,4 +1,10 @@
-<%= content_for(:title) do %><%= @post.title if @post.title %> | <% end %>
+<%= content_for(:title) do %>
+    <% unless @post.title.blank? %>
+        <%= @post.title %> |
+    <% else %>
+        Post |
+    <% end %>
+<% end %>
 <%= content_for(:meta_og) do %>
     <meta property="og:title" content="<%= @post.title %>" />
     <meta property="og:type" content="article" />
@@ -37,17 +43,28 @@
           <%= audio_tag @post.audio.url, controls: true %>
       <% end %>
 
-      <% unless @post.og_url.blank? %>
-          <div class="row og-row">
-            <div class="large-3 columns og-data">
-              <%= link_to @post.og_url, class: 'og-url', target: '_blank' do %>
-                  <%= image_tag @post.og_image, class: 'og-image' %>
-                  <h5 class="og-title"><%= @post.og_title %></h5>
-                  <p class="og-description"><%= @post.og_description %> </p>
-              <% end %>
-            </div>
-          </div>
-      <% end %>
+      <div class="row">
+        <div class="large-10 columns">
+          <% unless @post.og_url.blank? %>
+              <div class="row og-row">
+                <div class="large-4 columns og-data">
+                  <%= link_to @post.og_url, class: 'og-url', target: '_blank' do %>
+                      <%= image_tag @post.og_image, class: 'og-image' %>
+                      <h5 class="og-title"><%= @post.og_title %></h5>
+                      <p class="og-description"><%= @post.og_description %> </p>
+                  <% end %>
+                </div>
+              </div>
+          <% end %>
+        </div>
+        <div class="large-2 columns">
+          <%= link_to "https://twitter.com/intent/tweet?url=#{request.original_url}&text=#{truncate(@post.description, length: 25)}&hashtags=boone,bcn",
+                      target: '_blank', class: 'share' do %>
+              <%= image_tag 'twitter-icon.svg', class: 'icon' %>
+          <% end %>
+        </div>
+      </div>
+
     </div>
 
     <hr/>
