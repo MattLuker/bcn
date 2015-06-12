@@ -13,23 +13,10 @@ class User < ActiveRecord::Base
                      if: :photo_changed?
   validates_property :format, of: :photo, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :photo_changed?
 
-  # after_create do
-  #   downcase_email
-  #   set_photo
-  #   Log.create({user: self, action: "created"})
-  # end
-  #
-  # after_update do
-  #   Log.create({user: self, action: "updated"})
-  # end
-
   has_many :posts
   has_many :comments
   has_many :subscriptions, :class_name => "Subscriber", :foreign_key => "user_id"
   has_and_belongs_to_many :communities, before_add: :inc_users_count, before_remove: :dec_users_count
-
-  # I want Users to have many posts through subscriptions.
-  # I want Posts to have many Users named subscribers.
 
   before_save :downcase_email
   #before_validation :set_username

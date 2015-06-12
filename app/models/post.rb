@@ -30,6 +30,7 @@ class Post < ActiveRecord::Base
 
   before_save :set_audio_duration
 
+
   def as_json(options={})
     super(:only => [
         :id,
@@ -129,7 +130,7 @@ class Post < ActiveRecord::Base
     end
   end
 
-  private
+
   def inc_posts_count(model)
     puts "model.inspect: #{model.inspect}"
     Community.increment_counter('posts_count', model.id)

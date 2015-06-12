@@ -1,6 +1,7 @@
 class Community < ActiveRecord::Base
   acts_as_paranoid
   dragonfly_accessor :image
+  #attr_accessor :slug
 
   validates :name, presence: true, uniqueness: true
   validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
@@ -14,6 +15,18 @@ class Community < ActiveRecord::Base
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "community_id"
 
   scope :popularity, -> { order('posts_count + users_count desc') }
+
+  before_save :set_slug
+  before_update :set_slug
+
+  def to_param
+    slug
+  end
+
+  def set_slug
+    # Remove non-alphanumeric characters, but leave spaces.  Then replaces spaces with '-'.
+    self.slug = name.downcase.gsub(/[^a-z0-9\s]/i, '').gsub(' ', '-')
+  end
 
   def set_sync_type
     user = User.find(created_by)

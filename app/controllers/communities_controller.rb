@@ -122,8 +122,10 @@ class CommunitiesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_community
-      @community = Community.find(params[:id]) if params[:id]
-      @community = Community.find(params[:community_id]) if params[:community_id]
+      @community = Community.find_by_slug(params[:id]) if params[:id]
+      #@community = Community.find(params[:id]) if params[:id]
+      #@community = Community.find(params[:community_id]) if params[:community_id]
+      @community = Community.find_by_slug(params[:community_id]) if params[:community_id]
       @creator = User.find(@community.created_by) if @community.created_by
     end
 
