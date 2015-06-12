@@ -10,7 +10,7 @@ class Community < ActiveRecord::Base
                      if: :image_changed?
   validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
 
-  has_and_belongs_to_many :posts
+  has_and_belongs_to_many :posts#, before_add: :inc_posts_count, before_remove: :dec_posts_count
   has_and_belongs_to_many :users
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "community_id"
 
@@ -91,4 +91,14 @@ class Community < ActiveRecord::Base
     value = id
     label = name
   end
+
+  # def inc_posts_count(model)
+  #   puts "model.inspect: #{model.inspect}"
+  #   Community.increment_counter('posts_count', model.id)
+  # end
+  #
+  # def dec_posts_count(model)
+  #   puts "dec_posts_count: #{model.inspect}"
+  #   Community.decrement_counter('posts_count', model.id)
+  # end
 end

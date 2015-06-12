@@ -11,40 +11,15 @@ describe "Creating posts" do
   it "succeeds when creating a post by clicking on the map then the New Post popup link", :js => true do
     visit "/home"
     find("#map").click
+    find("#map").click
 
     expect(page).to have_content("New Post")
     find("#new_post").click
 
     fill_in "Title", with: "My Location Post"
-    fill_in "Description", with: "Great new post."
+    fill_in "What's on your mind?", with: "Great new post."
     click_button "Save Post"
     expect(page).to have_content("My Location Post")
-  end
-
-  it "displays an error when the Post has no title" do
-    expect(Post.count).to eq(0)
-
-    create_post title: ""
-
-    expect(page).to have_content("error")
-    expect(Post.count).to eq(0)
-
-    visit "/posts"
-    expect(page).to_not have_content("Great new post.")
-
-  end
-
-  it "displays an error when the Post has no description" do
-    expect(Post.count).to eq(0)
-
-    create_post description: ""
-
-    expect(page).to have_content("error")
-    expect(Post.count).to eq(0)
-
-    visit "/posts"
-    expect(page).to_not have_content("Great new post.")
-
   end
 
   it "success when creating a post with a community" do
@@ -57,24 +32,12 @@ describe "Creating posts" do
     expect(page).to have_content("New Post")
 
     fill_in "Title", with: "My Location Post"
-    fill_in "Description", with: "Great new post."
+    fill_in "What's on your mind?", with: "Great new post."
 
-    within("div.communities") do
-      select 'Boone Community Network'
-    end
-
+    fill_in 'Communities (in a comma separated list)', with: 'Boone Community Network'
     click_button "Save Post"
 
-
-    expect(page).to have_content("Description: Great new post.")
-  end
-
-  it 'has a log entry after creation' do
-    create_post
-    log = Log.last
-
-    expect(log.post).to eq(Post.last)
-    expect(log.action).to eq("created")
+    expect(page).to have_content("Great new post.")
   end
 
   it 'creates a post for the current user' do
@@ -91,17 +54,19 @@ describe "Creating posts" do
 
     visit "/home"
     find("#map").click
+    find("#map").click
 
     expect(page).to have_content("New Post")
     find("#new_post").click
 
     fill_in "Title", with: "My Location Post"
-    fill_in "Description", with: "Great new post."
+    fill_in "What's on your mind?", with: "Great new post."
     click_button "Save Post"
     expect(page).to have_content("My Location Post")
     post = Post.last
 
     # visit "/home"
+    find("#map").click
     find("#map").click
     #
     expect(page).to have_content("Add Location")
@@ -122,11 +87,16 @@ describe "Creating posts" do
     expect(page).to have_content('New Post')
 
     fill_in 'Title', with: 'Event Post'
-    fill_in 'Description', with: 'This is a great event!'
-    fill_in 'Start date', with: '2015-05-25'
-    fill_in 'post[start_time]', with: '05:05'
-    fill_in 'End date', with: '2015-05-25'
-    fill_in 'post[end_time]', with: '06:05'
+    fill_in "What's on your mind?", with: 'This is a great event!'
+    find('#post_start_date').set('2015-05-25')
+    #fill_in 'Start date', with: '2015-05-25'
+    #fill_in 'post[start_time]', with: '05:05'
+    find('#post_start_time').set('05:05')
+    #fill_in 'End date', with: '2015-05-25'
+    find('#post_end_date').set('2015-05-25')
+    #fill_in 'post[end_time]', with: '06:05'
+    find('#post_end_time').set('06:05')
+
     click_button 'Save Post'
     post = Post.last
 
@@ -142,12 +112,13 @@ describe "Creating posts" do
 
     visit '/home'
     find('#map').click
+    find('#map').click
 
     expect(page).to have_content('New Post')
     find('#new_post').click
 
     fill_in 'Title', with: 'My Location Post'
-    fill_in "Description", with: 'Great new post.'
+    fill_in "What's on your mind?", with: 'Great new post.'
 
     find(:css, '#event').set(true)
     find(:css, '#post_start_date').click
@@ -179,16 +150,13 @@ describe "Creating posts" do
     expect(page).to have_content("New Post")
 
     fill_in "Title", with: "My Location Post"
-    fill_in "Description", with: "Great new post."
+    fill_in "What's on your mind?", with: "Great new post."
 
-    within("div.communities") do
-      select 'Boone Community Network'
-    end
-
+    fill_in 'Communities (in a comma separated list)', with: 'Boone Community Network'
     click_button "Save Post"
 
 
-    expect(page).to have_content("Description: Great new post.")
+    expect(page).to have_content("Great new post.")
     expect(community.posts_count).to eq(1)
   end
 end

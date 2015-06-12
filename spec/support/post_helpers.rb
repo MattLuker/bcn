@@ -8,7 +8,7 @@ module PostHelpers
     expect(page).to have_content('New Post')
 
     fill_in 'Title', with: options[:title]
-    fill_in 'Description', with: options[:description]
+    fill_in "What's on your mind?", with: options[:description]
     click_button 'Save Post'
 
     return Post.last

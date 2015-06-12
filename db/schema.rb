@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150612093933) do
+ActiveRecord::Schema.define(version: 20150612174856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,14 +114,14 @@ ActiveRecord::Schema.define(version: 20150612093933) do
     t.index name: "index_communities_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
   end
 
-  create_table "community_posts", id: false, force: :cascade do |t|
-    t.integer "post_id",      index: {name: "index_community_posts_on_post_id"}
-    t.integer "community_id", index: {name: "index_community_posts_on_community_id"}
+  create_table "communities_posts", force: :cascade do |t|
+    t.integer "post_id",      index: {name: "index_communities_posts_on_post_id"}
+    t.integer "community_id", index: {name: "index_communities_posts_on_community_id"}
   end
 
-  create_table "community_users", force: :cascade do |t|
-    t.integer "community_id", index: {name: "index_community_users_on_community_id"}
-    t.integer "user_id",      index: {name: "index_community_users_on_user_id"}
+  create_table "communities_users", force: :cascade do |t|
+    t.integer "community_id", index: {name: "index_communities_users_on_community_id"}
+    t.integer "user_id",      index: {name: "index_communities_users_on_user_id"}
   end
 
   create_table "locations", force: :cascade do |t|
