@@ -7,7 +7,7 @@ class Comment < ActiveRecord::Base
   acts_as_tree order: 'created_at'
 
   validates :content, presence: true
-  validates_property :ext, of: :photo, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz'], if: :photo_changed?
+  validates_property :ext, of: :photo, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz', 'JPG', 'PNG'], if: :photo_changed?
   validates_property :mime_type, of: :photo,
                      in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg'],
                      if: :photo_changed?

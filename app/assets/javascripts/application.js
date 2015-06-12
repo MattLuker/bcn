@@ -27,6 +27,8 @@
 //= require sweet-alert-confirm
 //= require leaflet
 //= require colpick
+//= require transition
+//= require zoom
 
 
 $(function(){

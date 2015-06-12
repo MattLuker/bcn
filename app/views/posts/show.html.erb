@@ -27,7 +27,7 @@
       <div class="row">
         <div class="large-12 columns">
           <% if @post.image %>
-              <%= image_tag @post.image.url %>
+              <%= image_tag @post.image.url, class: 'post-image', data: { action: 'zoom' } %>
           <% end %>
           <br/><br/>
         </div>

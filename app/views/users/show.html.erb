@@ -22,7 +22,7 @@
 
   <div class="large-2 columns">
     <% if @user.photo %>
-        <%= image_tag @user.photo.thumb('150x150#').url, :class => 'avatar' %>
+        <%= image_tag @user.photo.thumb('150x150#').url, :class => 'avatar', data: { action: 'zoom' } %>
     <% else %>
         <%= image_tag 'avatar.svg', :class => 'avatar' %>
     <% end %>

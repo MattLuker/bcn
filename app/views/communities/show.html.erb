@@ -30,6 +30,7 @@
       <div class="large-12 columns">
         <% if @community.image %>
             <%= image_tag @community.image.url, class: 'community-image',
+                          data: { action: 'zoom' },
                           style: 'border: 5px solid ' + @community.color %>
         <% end %>
         <br/><br/>

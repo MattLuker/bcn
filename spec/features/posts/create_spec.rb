@@ -167,4 +167,28 @@ describe "Creating posts" do
     click_button 'Save Post'
     expect(page).to have_content("My Location Post")
   end
+
+  it 'creates a post with a community and increments the community posts_counter' do
+    sign_in user, password: 'beans'
+    create_community
+    community = Community.last
+    expect(page).to have_content('Community was successfully created.')
+
+    visit "/posts"
+    click_link "New Post"
+    expect(page).to have_content("New Post")
+
+    fill_in "Title", with: "My Location Post"
+    fill_in "Description", with: "Great new post."
+
+    within("div.communities") do
+      select 'Boone Community Network'
+    end
+
+    click_button "Save Post"
+
+
+    expect(page).to have_content("Description: Great new post.")
+    expect(community.posts_count).to eq(1)
+  end
 end
