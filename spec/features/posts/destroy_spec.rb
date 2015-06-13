@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Deleting posts" do
+describe 'Deleting posts' do
 
   context 'authenticated' do
     let!(:user) { create(:user) }
@@ -9,7 +9,7 @@ describe "Deleting posts" do
     end
     let!(:post) { Post.create(title: 'Great Post', description: 'Great job!', user_id: user.id) }
 
-    it "is successful when clicking the destroy link", :js => true do
+    it 'is successful when clicking the destroy link', :js => true do
       visit "/posts"
 
       click_link 'Great Post'
@@ -47,18 +47,18 @@ describe "Deleting posts" do
       community = Community.last
       expect(page).to have_content('Community was successfully created.')
 
-      visit "/posts"
-      click_link "New Post"
-      expect(page).to have_content("New Post")
+      visit '/posts'
+      click_link 'New Post'
+      expect(page).to have_content('New Post')
 
-      fill_in "Title", with: "My Location Post"
-      fill_in "What's on your mind?", with: "Great new post."
+      fill_in 'Title', with: 'My Location Post'
+      fill_in "What's on your mind?", with: 'Great new post.'
 
       fill_in 'Communities (in a comma separated list)', with: 'Boone Community Network'
-      click_button "Save Post"
+      click_button 'Save Post'
 
       community.reload
-      expect(page).to have_content("Great new post.")
+      expect(page).to have_content('Great new post.')
       expect(community.posts_count).to eq(1)
 
       find('.post-edit').click

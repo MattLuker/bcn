@@ -138,7 +138,6 @@ class Post < ActiveRecord::Base
   end
 
   def dec_posts_count(model)
-    puts "dec_posts_count: #{model.inspect}"
     Community.decrement_counter('posts_count', model.id)
   end
 
