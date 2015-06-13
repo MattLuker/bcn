@@ -91,14 +91,4 @@ class Community < ActiveRecord::Base
     value = id
     label = name
   end
-
-  # def inc_posts_count(model)
-  #   puts "model.inspect: #{model.inspect}"
-  #   Community.increment_counter('posts_count', model.id)
-  # end
-  #
-  # def dec_posts_count(model)
-  #   puts "dec_posts_count: #{model.inspect}"
-  #   Community.decrement_counter('posts_count', model.id)
-  # end
 end

@@ -25,12 +25,13 @@ class Post < ActiveRecord::Base
   has_many :locations
   has_many :comments
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "post_id"
-  has_and_belongs_to_many :communities#, before_add: :inc_posts_count, before_remove: :dec_posts_count
+  has_and_belongs_to_many :communities, before_add: :inc_posts_count, before_remove: :dec_posts_count
   # has_many :communities, before_add: :inc_posts_count, before_remove: :dec_posts_count
   # belongs_to :communities
 
 
   before_save :set_audio_duration
+  before_destroy :dec_all_posts_count
 
   def as_json(options={})
     super(:only => [
@@ -133,13 +134,17 @@ class Post < ActiveRecord::Base
 
 
   def inc_posts_count(model)
-    puts "posts inc_posts_count..."
-    #Community.increment_counter('posts_count', model.id)
-    puts "model.inspect: #{model.inspect}"
+    Community.increment_counter('posts_count', model.id)
   end
 
   def dec_posts_count(model)
     puts "dec_posts_count: #{model.inspect}"
     Community.decrement_counter('posts_count', model.id)
+  end
+
+  def dec_all_posts_count
+    self.communities.each do |community|
+      Community.decrement_counter('posts_count', community.id)
+    end
   end
 end

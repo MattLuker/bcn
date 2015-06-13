@@ -155,7 +155,7 @@ describe "Creating posts" do
     fill_in 'Communities (in a comma separated list)', with: 'Boone Community Network'
     click_button "Save Post"
 
-
+    community.reload
     expect(page).to have_content("Great new post.")
     expect(community.posts_count).to eq(1)
   end
