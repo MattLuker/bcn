@@ -19,27 +19,6 @@ describe "Editing posts" do
       expect(post.description).to eq("Great New Job! and stuff...")
     end
 
-    it "displays an error if no title" do
-      update_post(title: "", description: "Great New Job! and stuff...", post: post)
-      expect(page).to have_content("error")
-    end
-
-    it "displays an error if no description" do
-      update_post(title: "Great New Title", description: "", post: post)
-      expect(page).to have_content("error")
-    end
-
-    it 'has a log entry after creation' do
-      update_post(title: "Great New Title", description: "Great New Job! and stuff...", post: post)
-
-      post.reload
-
-      log = Log.last
-
-      expect(log.post).to eq(Post.last)
-      expect(log.action).to eq("updated")
-    end
-
     it 'updates the event fields' do
       update_post(start_date: '2015-05-25', start_time: '05:05', end_date: '2015-05-25', end_time: '07:05', post: post)
 
@@ -55,12 +34,14 @@ describe "Editing posts" do
   context 'authenticated non-post user' do
     let!(:post) { Post.create(title: "Great Post", description: "Great job!") }
 
-    it 'will not let non-post user edit post' do
+    it 'edit button will not be displayed for non-post user' do
       user = User.create({email: 'bob@thehoick.com', password: 'beans'})
       sign_in(user, {password: 'beans'})
 
-      update_post(title: "Great New Title", description: "Great New Job! and stuff...", post: post)
-      expect(page).to have_content('You can only update your posts.')
+      visit '/posts'
+      click_link 'Great Post'
+
+      expect(page).to_not have_css('.post-edit')
     end
   end
 
