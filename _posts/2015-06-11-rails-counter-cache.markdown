@@ -4,10 +4,8 @@ title:  "Poor Man's counter_cache for HABTM"
 date:   2015-06-11 07:00:00
 categories: bcn rails
 author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
-img: <img src="http://www.thehoick.com/images/bcn_blog/counting.png" title="Rails Counting" alt='rails image counting' class="post-image"/>
+image: counting.png
 ---
-
-<img src="http://www.thehoick.com/images/bcn_blog/counting.png" title="Rails Counting" alt='rails image counting' class="post-image"/>
 
 ## Counters for Me, but not for You
 

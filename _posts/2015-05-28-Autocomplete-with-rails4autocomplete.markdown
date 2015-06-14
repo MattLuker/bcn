@@ -3,11 +3,8 @@ layout: post
 title:  "Autocomplete with rails4-autocomplete"
 date:   2015-05-28 07:00:00
 categories: bcn rails
-author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
-img: <img src="http://www.thehoick.com/images/bcn_blog/rails_autocomplete.png" title="Rails Autocomplete" alt='rails autocomplete' class="post-image"/>
+image: rails_autocomplete.png
 ---
-
-<img src="http://www.thehoick.com/images/bcn_blog/rails_autocomplete.png" title="Rails Autocomplete" alt='rails autocomplete' class="post-image"/>
 
 # You Autocomplete Me 
 

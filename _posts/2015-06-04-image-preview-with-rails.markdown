@@ -3,11 +3,8 @@ layout: post
 title:  "Rails Image Upload Preview"
 date:   2015-06-04 07:00:00
 categories: bcn rails
-author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
-img: <img src="http://www.thehoick.com/images/bcn_blog/image_preview.png" title="Rails Image Preview" alt='rails image preview' class="post-image"/>
+image: image_preview.png
 ---
-
-<img src="http://www.thehoick.com/images/bcn_blog/image_preview.png" title="Rails Image Preview" alt='rails image preview' class="post-image"/>
 
 # Image Preview With Rails and JavaScript (well mostly JavaScript)
 

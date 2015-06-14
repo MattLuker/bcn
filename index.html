@@ -11,13 +11,16 @@ layout: default
         <h2>
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
+
         <br/>
+        <img class="post-image" src="/img/{{ post.image }}" />
+        <br/>
+
         {{ post.excerpt }}
         <span class="post-meta"></span>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">Read More</a>
+        <a class="post-link button small" href="{{ post.url | prepend: site.baseurl }}">Read More</a>
       </li>
     {% endfor %}
   </ul>
-
 
 </div>

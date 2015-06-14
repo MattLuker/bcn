@@ -3,11 +3,9 @@ layout: post
 title:  "Rails Vendor Assets"
 date:   2015-05-03 08:56:44
 categories: rails
-author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
-image: <img src="http://www.thehoick.com/images/bcn_blog/bw_cleaner.jpg" title="BCN Cleaner" alt='bcn cleaner' class="post-image"/>
+image: bw_cleaner.jpg
 ---
 
-<img src="http://www.thehoick.com/images/bcn_blog/bw_cleaner.jpg" title="BCN Cleaner" alt='bcn cleaner' class="post-image"/>
 
 # Vendor Assets
 

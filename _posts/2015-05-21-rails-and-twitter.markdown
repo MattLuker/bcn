@@ -3,11 +3,8 @@ layout: post
 title:  "Rails and Twitter"
 date:   2015-05-21 07:00:00
 categories: bcn rails
-author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
-img: <img src="http://www.thehoick.com/images/bcn_blog/twitter_and_rails.png" title="Rails and Twitter" alt='rails and twitter' class="post-image"/>
+image: twitter_and_rails.png
 ---
-
-<img src="http://www.thehoick.com/images/bcn_blog/twitter_and_rails.png" title="Rails and Twitter" alt='rails and twitter' class="post-image"/>
 
 # Rails Twitter Authentication
 

@@ -3,11 +3,8 @@ layout: post
 title:  "Facebook API"
 date:   2015-05-19 07:00:00
 categories: bcn
-author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
-image: <img src="http://www.thehoick.com/images/bcn_blog/api_gears.png" title="API Gears" alt='api gears' class="post-image"/>
+image: api_gears.png
 ---
-
-<img src="http://www.thehoick.com/images/bcn_blog/api_gears.png" title="API Gears" alt='api gears' class="post-image"/>
 
 ## Facebook API Authentication Tokens
 

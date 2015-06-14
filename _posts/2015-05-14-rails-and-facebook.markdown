@@ -3,11 +3,8 @@ layout: post
 title:  "Rails and Facebook"
 date:   2015-05-14 07:00:00
 categories: rails
-author: <a href='https://twitter.com/asommer' target='_blannk'>Adam Sommer</a>
-image: <img src="http://www.thehoick.com/images/bcn_blog/facebook_and_rails.jpg" title="Facebook and Rails" alt='facebook and rails' class="post-image"/>
+image: facebook_and_rails.jpg
 ---
-
-<img src="http://www.thehoick.com/images/bcn_blog/facebook_and_rails.jpg" title="Facebook and Rails" alt='facebook and rails' class="post-image"/>
 
 
 What we’re going to try and do is two things:
