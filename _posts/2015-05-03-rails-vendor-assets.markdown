@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Rails Vendor Assets"
 date:   2015-05-03 08:56:44
 categories: rails
