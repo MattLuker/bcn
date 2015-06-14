@@ -1,86 +1,35 @@
-<%= form_for(@community) do |f| %>
-  <% if @community.errors.any? %>
-    <div id="error_explanation" class="alert-box alert radius">
-      <h5><%= pluralize(@community.errors.count, "error") %> prohibited this community from being saved:</h5>
+<%= form_for(@community, :builder => FoundationFormBuilder) do |f| %>
 
-      <ul>
-      <% @community.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+    <%= f.text_field :name, placeholder: :name, autofocus: 'autofocus', actionname: action_name %>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :name if action_name == 'edit' %>
-        <%= f.text_field :name, placeholder: :name %>
-      </div>
-    </div>
+    <%= f.text_field :description, placeholder: :description, actionname: action_name %>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :description if action_name == 'edit' %>
-        <%= f.text_field :description, placeholder: :description %>
-      </div>
-    </div>
+    <%= f.text_field :home_page, placeholder: 'http://community_website', actionname: action_name %>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :home_page if action_name == 'edit' %>
-        <%= f.text_field :home_page, placeholder: 'http://community_website' %>
-      </div>
-    </div>
+    <%= f.text_field :facebook_link, placeholder: 'http://facebook_page', actionname: action_name %>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :facebook_link if action_name == 'edit' %>
-        <%= f.text_field :facebook_link, placeholder: 'http://facebook_page' %>
-      </div>
-    </div>
+    <%= f.text_field :twitter_link, placeholder: 'http://twitter_page', actionname: action_name %>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :twitter_link if action_name == 'edit' %>
-        <%= f.text_field :twitter_link, placeholder: 'http://twitter_page' %>
-      </div>
-    </div>
+    <%= f.text_field :google_link, placeholder: 'http://google_plus_page', actionname: action_name %>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :google_link if action_name == 'edit' %>
-        <%= f.text_field :google_link, placeholder: 'http://google_plus_page' %>
-      </div>
-    </div>
+    <%= f.text_field :color, placeholder: :color, actionname: action_name %>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :color if action_name == 'edit' %>
-        <%= f.text_field :color, placeholder: :color %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.label :events_url  if action_name == 'edit' %>
-        <%= f.text_field :events_url, placeholder: :events_url %>
-      </div>
-    </div>
+    <%= f.text_field :events_url, placeholder: :events_url, actionname: action_name %>
 
     <div class="row">
       <div class="large-4 columns">
         <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
         <br/><br/>
 
-        <%= f.label :image, 'Add a pic?'%>
         <%= f.file_field :image, class: 'photo_upload' %>
         <%= hidden_field_tag :retained_photo %>
       </div>
     </div>
 
+
     <br/>
     <div class="row">
-      <div class="large-4 columns actions">
+      <div class="large-4 columns">
         Explicit?
         <div class="switch">
           <%= f.check_box :explicit %>
@@ -91,16 +40,12 @@
 
     <br/><br/>
 
-    <div class="row">
-      <div class="large-4 columns actions">
-        <%= f.submit 'Save Community', :class => 'button small success' %>
+        <%= f.submit 'Save Community' %>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <%= link_to 'Cancel', request.referrer %>
-      </div>
-    </div>
+    <%= link_to 'Cancel', request.referrer %>
 <% end %>
 
-<br/>
+<br/><br/>
 
 <% if action_name == 'edit' %>
 <%= link_to 'Delete', @community, method: :delete, class: 'grey', data: { confirm: 'Are you sure?' } %>

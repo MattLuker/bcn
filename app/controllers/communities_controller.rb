@@ -22,6 +22,7 @@ class CommunitiesController < ApplicationController
 
   # GET /communities/new
   def new
+    @params = params
     @community = Community.new
   end
 
