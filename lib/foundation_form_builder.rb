@@ -46,7 +46,7 @@ class FoundationFormBuilder < ActionView::Helpers::FormBuilder
 
   def errors_for_field(attribute, options={})
     return "" if object.errors[attribute].empty?
-    content_tag(:small, object.errors[attribute].to_sentence.capitalize, class: "error")
+    content_tag(:small, attribute.to_s.capitalize + ' ' + object.errors[attribute].to_sentence, class: "error")
   end
 
 end
