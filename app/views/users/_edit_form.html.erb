@@ -17,32 +17,32 @@
     </div>
     <br/>
 
-        <%= f.text_field :first_name, actionname: action_name %>
+    <%= f.text_field :first_name, actionname: action_name %>
 
-        <%= f.text_field :last_name, actionname: action_name %>
+    <%= f.text_field :last_name, actionname: action_name %>
 
 
 
-        <%= f.text_field :email, actionname: action_name %>
+    <%= f.text_field :email, actionname: action_name %>
 
     <div class="row">
       <div class="large-4 columns actions">
-    <% if  @user.errors[:email].include?('has already been taken') %>
-        <% if !current_user.facebook_id.nil? || !current_user.twitter_id.nil? %>
-            <%= link_to 'Click Here To Request Merge', send_merge_path,
-                        :id => 'merge_link',
-                        :class => 'button tiny' %>
+        <% if  @user.errors[:email].include?('has already been taken') %>
+            <% if !current_user.facebook_id.nil? || !current_user.twitter_id.nil? %>
+                <%= link_to 'Click Here To Request Merge', send_merge_path,
+                            :id => 'merge_link',
+                            :class => 'button tiny' %>
+            <% end %>
         <% end %>
-    <% end %>
-        </div>
       </div>
+    </div>
 
 
-        <%= f.text_field :username, actionname: action_name %>
+    <%= f.text_field :username, actionname: action_name %>
 
+    <%= f.text_field :web_link, actionname: action_name %>
 
-        <%= f.text_field :web_link, actionname: action_name %>
-
+    <br/>
 
     <div class="row">
       <div class="large-4 columns actions">

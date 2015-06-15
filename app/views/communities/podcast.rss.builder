@@ -11,7 +11,7 @@ xml.rss 'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd", 'version
     xml.tag! "itunes:subtitle", @community.description
     xml.tag! 'itunes:author', fullname
     xml.tag! 'itunes:summary', @community.description
-    #xml.tag! 'itunes:explicit', @community.explicit
+    xml.tag! 'itunes:explicit', 'clean'
     xml.description @community.description
 
     xml.tag! 'itunes:owner' do
@@ -43,7 +43,7 @@ xml.rss 'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd", 'version
           xml.cdata! post.description
         end
         xml.tag! 'itunes:image', 'href' => 'http://' + request.host + post.image.url if post.image
-        xml.tag! 'itunes:explicit', post.explicit
+        xml.tag! 'itunes:explicit', 'clean'
 
         xml.enclosure 'url' => 'http://' + request.host + post.audio.url,
                       'length' => '8727310',

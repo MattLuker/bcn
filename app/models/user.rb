@@ -106,6 +106,10 @@ class User < ActiveRecord::Base
     true if role == 'admin'
   end
 
+  def explicit?
+    true if explicit
+  end
+
   def as_json(options={})
     super(:only => [
         :id,

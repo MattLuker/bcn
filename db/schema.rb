@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150612174856) do
+ActiveRecord::Schema.define(version: 20150614192956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20150612174856) do
     t.string   "photo_uid"
     t.string   "photo_name"
     t.string   "role",                 index: {name: "index_users_on_role"}
+    t.boolean  "explicit"
     t.index name: "index_users_on_email", using: :gin, expression: "to_tsvector('english'::regconfig, (email)::text)"
     t.index name: "index_users_on_username", using: :gin, expression: "to_tsvector('english'::regconfig, (username)::text)"
   end
@@ -114,7 +115,7 @@ ActiveRecord::Schema.define(version: 20150612174856) do
     t.index name: "index_communities_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
   end
 
-  create_table "communities_posts", force: :cascade do |t|
+  create_table "communities_posts", id: false, force: :cascade do |t|
     t.integer "post_id",      index: {name: "index_communities_posts_on_post_id"}
     t.integer "community_id", index: {name: "index_communities_posts_on_community_id"}
   end
