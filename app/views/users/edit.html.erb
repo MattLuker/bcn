@@ -15,3 +15,13 @@
 
 <%= link_to 'Cancel', user_path(@user) %>
 <br/><br/>
+
+<% if current_user == @user || (current_user && current_user.admin?) %>
+    <h5><small>
+      <%= link_to 'Delete Account', @user, method: :delete,
+                  data: { confirm: 'Are you sure?' },
+                  class: 'delete' %>
+    </small></h5>
+<% end %>
+
+<br/><br/>

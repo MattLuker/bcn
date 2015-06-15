@@ -83,16 +83,12 @@ class Post < ActiveRecord::Base
       doc.css('meta').each do |node|
         case node['property']
           when 'og:title'
-            puts "title: #{node['content']}"
             data[:og_title] = node['content']
           when 'og:image'
-            puts "image: #{node['content']}"
             data[:og_image] = node['content']
           when 'og:url'
-            puts "url: #{node['content']}"
             data[:og_url] = node['content']
           when 'og:description'
-            puts "description: #{node['content']}"
             data[:og_description] = node['content']
         end
         # Grab the rest of the attributes as best we can.

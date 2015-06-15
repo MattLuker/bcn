@@ -7,9 +7,10 @@ class User < ActiveRecord::Base
   validates :email, allow_nil: true, uniqueness: true,
    format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/ }
 
-  validates_property :ext, of: :photo, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz'], if: :photo_changed?
+  # TODO: Figure out how to validate, or skip validation, for gravatar URL images.
+  #validates_property :ext, of: :photo, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz', 'JPG'], if: :photo_changed?
   validates_property :mime_type, of: :photo,
-                     in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg'],
+                     in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg', 'application/octet-stream'],
                      if: :photo_changed?
   validates_property :format, of: :photo, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :photo_changed?
 
@@ -18,8 +19,9 @@ class User < ActiveRecord::Base
   has_many :subscriptions, :class_name => "Subscriber", :foreign_key => "user_id"
   has_and_belongs_to_many :communities, before_add: :inc_users_count, before_remove: :dec_users_count
 
+  #before_create :set_photo
   before_save :downcase_email
-  #before_validation :set_username
+  before_validation :set_photo
 
   def self.facebook(auth)
     @facebook = Koala::Facebook::API.new(auth['token'])
@@ -132,12 +134,10 @@ class User < ActiveRecord::Base
 
   private
   def inc_users_count(model)
-    puts "model.inspect: #{model.inspect}"
     Community.increment_counter('users_count', model.id)
   end
 
   def dec_users_count(model)
-    puts "dec_posts_count: #{model.inspect}"
     Community.decrement_counter('users_count', model.id)
   end
 end

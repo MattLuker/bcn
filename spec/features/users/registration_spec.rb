@@ -29,6 +29,7 @@ describe 'Signing Up' do
     user = User.find_by(email: GOOGLE_CONFIG['username'])
     hash = Digest::MD5.hexdigest(GOOGLE_CONFIG['username'])
 
+    #sleep(1)
     expect(page).to have_content('Welcome you have successfully registered.')
     expect(user.photo.name).to eq(hash)
   end

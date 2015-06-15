@@ -11,9 +11,9 @@ describe 'Editing User' do
   it 'allow edit if logged in and current_user' do
     sign_in user, password: 'beans'
     visit "/users/#{user.id}/edit"
-    expect(find_field('Last name').value).to eq('Slidell')
+    expect(find_field('Last Name').value).to eq('Slidell')
 
-    fill_in 'Last name', with: 'Barker'
+    fill_in 'Last Name', with: 'Barker'
     fill_in 'Username', with: 'bob_barker'
     click_button 'Update Profile'
 
@@ -35,7 +35,7 @@ describe 'Editing User' do
 
     sign_in user, password: 'beans'
     visit "/users/#{user.id}/edit"
-    expect(find_field('Last name').value).to eq('Slidell')
+    expect(find_field('Last Name').value).to eq('Slidell')
 
     attach_file('user[photo]', Rails.root.join('app/assets/images/test_avatar.jpg'))
     click_button 'Update Profile'

@@ -91,12 +91,12 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to home_path, notice: 'Welcome you have successfully registered.'
     else
+      puts "There was a problem registering: #{@user.errors.full_messages}"
       render :new
     end
   end
 
   def update
-    puts "params: #{params}"
     if current_user == @user
       if @user.update(user_params)
           flash[:success] = 'Profile successfully updated.'
@@ -121,10 +121,14 @@ class UsersController < ApplicationController
   def destroy
     if current_user == @user
       @user.destroy
-      redirect_to users_url, notice: 'User was successfully destroyed.'
+      session[:user_id] = nil
+      reset_session
+      redirect_to home_path, notice: 'User was successfully destroyed.'
     elsif current_user.admin?
       @user.destroy
-      redirect_to users_url, notice: 'User was successfully destroyed.'
+      session[:user_id] = nil
+      reset_session
+      redirect_to home_path, notice: 'User was successfully destroyed.'
     else
       flash[:error] = 'You can only delete your account.'
       redirect_to '/users/' + @user.id.to_s

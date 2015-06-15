@@ -14,6 +14,7 @@ describe 'Signing Up with Google' do
     #find('#password').set(TWITTER_CONFIG['password'])
     #find('#allow').click # 'Log In' button element.
     fill_in 'Email', with: GOOGLE_CONFIG['username']
+    click_button 'Next'
     fill_in 'Password', with: GOOGLE_CONFIG['password']
     click_button 'Sign in'
 

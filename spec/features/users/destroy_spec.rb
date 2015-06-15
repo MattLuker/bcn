@@ -14,6 +14,7 @@ describe 'Deleting User' do
 
     visit "/users/#{user.id}"
     expect(page).to have_content('Name: Bob Slidell')
+    find('.edit-profile').click
     click_link 'Delete Account'
 
     expect(User.count).to eq(0)
@@ -24,10 +25,8 @@ describe 'Deleting User' do
     sign_in(new_user, {password: 'beans'})
 
     visit "/users/#{user.id}"
-    click_link 'Delete Account'
-
+    expect(page).to_not have_css('.edit-profile')
     expect(User.count).to eq(2)
-    expect(page).to have_content('You can only delete your account.')
   end
 
 end

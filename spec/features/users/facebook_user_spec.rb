@@ -38,7 +38,7 @@ describe 'Signing Up with Facebook' do
 
     click_link 'Communities'
     click_link 'BCN Rails'
-    click_button 'Join Community'
+    click_button 'Join BCN Rails'
 
     click_link 'Log Out'
     click_link 'Login'

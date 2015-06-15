@@ -6,7 +6,6 @@ class FoundationFormBuilder < ActionView::Helpers::FormBuilder
   attr_accessor :output_buffer
   %w(email_field text_field password_field).each do |form_method|
     define_method(form_method) do |*args|
-      puts "args: #{args}"
       attribute = args[0]
       options   = args[1] || {}
       options[:label] ||= attribute.to_s.titleize
