@@ -18,7 +18,11 @@ class CommentsController < ApplicationController
     if comment.save
       # Send email to subscribers and Post User if there is one, Post User has an email, and
       # Post User is not a Subscriber.
-      current_user.username.nil? ? commenter = 'Anonymous' : commenter = current_user.username
+      if current_user
+        current_user.username.nil? ? commenter = 'Anonymous' : commenter = current_user.username
+      else
+        commenter = 'Anonymous'
+      end
       comment.root.post.subscribers.each do |subscriber|
         unless current_user == subscriber.user
           CommentMailer.new_comment(subscriber.user, comment.root.post, comment, commenter).deliver_now

@@ -19,7 +19,7 @@
       </div>
       <div class="large-3 columns">
         <% if current_user == @creator %>
-            <%= link_to edit_community_path(@community), class: 'button tiny icon', title: 'Edit Community' do %>
+            <%= link_to edit_community_path(@community), class: 'button tiny icon edit-community', title: 'Edit Community' do %>
                 <% image_tag 'edit-icon.svg', class: 'icon' %>
             <% end %>
         <% end %>

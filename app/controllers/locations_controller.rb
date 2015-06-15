@@ -24,10 +24,7 @@ class LocationsController < ApplicationController
   end
 
   def create
-    #puts "location params: #{params}"
     @locations = @post.create_location(location_params)
-    #@post.create_location(location_params)
-    #puts "@locations[1].name: #{@locations[0].name}"
 
     if @locations
       flash[:success] = "Post location added."

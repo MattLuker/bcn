@@ -5,7 +5,7 @@ describe "Viewing locations" do
 
   it "displays the title of the post" do
     visit('/posts/' + post.id.to_s)
-    expect(page).to have_content('Title: ' + post.title)
+    expect(page).to have_content(post.title)
   end
 
   it "displays no items when locations is empty" do
@@ -19,8 +19,9 @@ describe "Viewing locations" do
     post.locations << location
 
     visit('/posts/' + post.id.to_s)
+    click_link 'Locations'
 
-    expect(page).to have_content('Locations: Watauga County Public Library')
+    expect(page).to have_content('Watauga County Public Library')
   end
 
 
@@ -45,6 +46,7 @@ describe "Viewing locations" do
 
   it 'displays a list of posts based on a location', :js => true do
       visit '/home'
+      find('#map').click
       find('#map').click
       sleep(1)
       find('#posts_here').click

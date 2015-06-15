@@ -28,7 +28,7 @@ describe 'Deleting comments' do
     visit post_path(post)
     expect(page).to have_content('Good Post')
 
-    click_button 'Edit'
+    find('.comment-edit').click
     find("#comment_#{comment.id}_delete").click
     sleep(0.5)
     click_button 'Ok'
@@ -51,7 +51,7 @@ describe 'Deleting comments' do
     visit post_path(post)
     expect(page).to have_content('Good Post')
 
-    click_button 'Edit'
+    find('.comment-edit').click
     find("#comment_#{comment.id}_delete").click
     sleep(0.5)
     click_button 'Ok'

@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   #before_create :set_photo
   before_save :downcase_email
   before_validation :set_photo
+  before_destroy :dec_all_users_count
 
   def self.facebook(auth)
     @facebook = Koala::Facebook::API.new(auth['token'])
@@ -134,10 +135,17 @@ class User < ActiveRecord::Base
 
   private
   def inc_users_count(model)
+    puts "model.inspect: #{model.inspect}"
     Community.increment_counter('users_count', model.id)
   end
 
   def dec_users_count(model)
     Community.decrement_counter('users_count', model.id)
+  end
+
+  def dec_all_users_count
+    self.communities.each do |community|
+      Community.decrement_counter('users_count', community.id)
+    end
   end
 end

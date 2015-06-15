@@ -8,7 +8,7 @@ describe 'Creating comments' do
     visit post_path(post)
     expect(page).to have_content('Good Post')
 
-    click_button 'Comment?'
+    find('.comment-button').click
     find('#comment_content').set('This is fun!!!')
     click_button 'Save Comment'
 
@@ -25,7 +25,7 @@ describe 'Creating comments' do
     visit post_path(post)
     expect(page).to have_content('Good Post')
 
-    click_button 'Comment?'
+    find('.comment-button').click
     find('#comment_content').set('This is fun!!!')
     click_button 'Save Comment'
 
@@ -43,7 +43,7 @@ describe 'Creating comments' do
     visit post_path(post)
     expect(page).to have_content('Good Post')
 
-    click_button 'Comment?'
+    find('.comment-button').click
     find('#comment_content').set('This is fun!!!')
     attach_file('comment[photo]', Rails.root.join('app/assets/images/test_avatar.jpg'))
     click_button 'Save Comment'
@@ -52,11 +52,13 @@ describe 'Creating comments' do
     expect(page).to have_content('Good Post')
   end
 
-  it 'can comment on a comment' do
+  it 'can comment on a comment', :js => true do
+    sign_in user, password: 'beans'
+
     visit post_path(post)
     expect(page).to have_content('Good Post')
 
-    click_button 'Comment?'
+    find('.comment-button').click
     find('#comment_content').set('This is fun!!!')
     click_button 'Save Comment'
 
@@ -65,9 +67,9 @@ describe 'Creating comments' do
 
     comment = Comment.last
     expect(page).to have_content(comment.content)
-
-    click_button 'Reply?'
+    find('.comment-add').click # Reply? button
     find("#content_comment_#{comment.id}").set('This is more Comment fun...')
+
     find("#save_comment_#{comment.id}" ).click
 
     expect(comment.children.count).to eq(1)

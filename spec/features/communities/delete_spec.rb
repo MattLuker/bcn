@@ -10,7 +10,8 @@ describe "Delete communities" do
     expect(page).to have_content("Boone Community Network")
     expect(page).to have_content('Community was successfully created.')
 
-    click_link "Destroy"
+    find('.edit-community').click
+    click_link "Delete"
 
     visit('/communities')
 
@@ -22,7 +23,8 @@ describe "Delete communities" do
     sign_in user, password: 'beans'
     create_community
 
-    click_link "Destroy"
+    find('.edit-community').click
+    click_link "Delete"
 
     del_community = Community.only_deleted.last
 
@@ -42,9 +44,7 @@ describe "Delete communities" do
     fill_in 'Password', with: 'beans'
     click_button 'Log In'
 
-    visit '/communities/' + community.id.to_s
-    click_link 'Destroy'
-
-    expect(page).to have_content('Community can only be deleted by creator.')
+    visit '/communities/' + community.slug
+    expect(page).to_not have_css('.edit-community')
   end
 end

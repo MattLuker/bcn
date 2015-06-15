@@ -10,7 +10,7 @@ describe '"Updating communities" 'do
     expect(page).to have_content('Boone Community Network')
     expect(page).to have_content('Community was successfully created.')
 
-    click_link 'Edit'
+    find('.edit-community').click
 
     fill_in 'Color', with: '#ffffff'
     click_button 'Save Community'
@@ -29,9 +29,7 @@ describe '"Updating communities" 'do
     fill_in 'Password', with: 'beans'
     click_button 'Log In'
 
-    visit '/communities/' + community.id.to_s
-    click_link 'Edit'
-
-    expect(page).to have_content('Must be the creator of the Community to update it.')
+    visit '/communities/' + community.slug
+    expect(page).to_not have_css('.edit-community')
   end
 end

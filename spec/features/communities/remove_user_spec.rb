@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "Removing User from communities" do
   let(:user) { create(:user) }
 
-  it "is successful with valid content" do
+  it "is successful with valid content", :js => true do
     sign_in user, password: 'beans'
     create_community
     expect(page).to have_content("We're all part of the Boone community!")
@@ -14,15 +14,20 @@ describe "Removing User from communities" do
     cheese = User.create(email: 'cheese@thehoick.com', password: 'beans', first_name: 'Cheese', last_name: 'Cheeese')
     sign_in cheese, password: 'beans'
 
-    visit '/communities/' + community.id.to_s
-    click_button 'Join Community'
+    visit '/communities/' + community.slug
+    click_button 'Join ' + community.name
 
     expect(page).to have_content("You are now part of the #{community.name} community.")
     expect(community.users.count).to eq(2)
+    expect(community.users_count).to eq(1)
 
-    click_link "#{cheese.first_name} #{cheese.last_name}"
-    click_button 'Leave Community'
+    visit('/users/' + cheese.id.to_s)
+    find('.communities-tab').click
+    find('.leave-community').click
+    sleep(0.3)
+    click_button 'Yes, Leave!'
 
     expect(page).to have_content("You have left the #{community.name} community.")
+    expect(community.users_count).to eq(1)
   end
 end

@@ -27,9 +27,9 @@ describe 'Updating comments' do
     visit post_path(post)
     expect(page).to have_content('Good Post')
 
-    click_button 'Edit'
+    find('.comment-edit').click
     find("#comment_#{comment.id}_content").set('This is funny!!!')
-    find("#save_comment_#{comment.id}").click
+    find('#update_comment_' + comment.id.to_s).click
 
     expect(page).to have_content('Good Post')
 
@@ -49,10 +49,10 @@ describe 'Updating comments' do
     visit post_path(post)
     expect(page).to have_content('Good Post')
 
-    click_button 'Edit'
+    find('.comment-edit').click
     find("#comment_#{comment.id}_content").set('This is funny!!!')
     attach_file("comment_#{comment.id}_photo", Rails.root.join('app/assets/images/test_avatar.jpg'))
-    find("#save_comment_#{comment.id}").click
+    find("#update_comment_#{comment.id}").click
 
     expect(page).to have_content('Good Post')
 
