@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 100 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g id="Layer1">
+        <rect x="-7.15231" y="94.0963" width="107.738" height="105.936" style="fill:rgb(0,156,154);"/>
+        <g transform="matrix(1,0,0,1,-11.1833,22.4535)">
+            <text x="14.9136px" y="127.31px" style="font-family:Arial;font-size:25px;fill:rgb(58,58,58);">With  </text>
+            <text x="14.9136px" y="153.128px" style="font-family:Arial;font-size:25px;fill:rgb(58,58,58);">Ruby</text>
+        </g>
+        <image x="-21" y="-6" width="139px" height="119px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIsAAAB3CAYAAAAzSbOdAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAEKklEQVR4nO3YQW4bNxSH8f8jKU7kNNkY2aRdt4fpEXqKnrLoGbo30H0T29KQr4vRjEdSUryiqQVb3w8QLEg04IE+P3Jk7q4Ijy7Ei2NmFllXTl+Yo5jbcNHIq3f4kE1TM3M7pxEdxeITuVzeXe7HD7xOZnb8SDaH4+tglljmULq7emtqran3rtaaptf7Ja4DzyBZUkpPj5yzUs5K09tLMOtY1N3VxlHjOGq/32s8PJ/DmacOXgfTNEnmQEopKqWo1qrsLpWipKdtqUiHqSKXHybJbrfT4+OjHh4etNvtjoKROMe8BvP5ZB1KrVVv3ryRyzXUQSkleU5ydzczW00WqbWm/X6vx92j7u7udH9/f7GLwWXc3Nzo48ePyikrpSRLSYeupm3J3aXDuaS1pt3jNE1wfcZxXHaT7l1a3dykeZH7dAc0n1daaxf7g3E58+7SWlvuiGdHsfTe1b1rbCPnkivl7kc3NGvpfLXk3UUr18nd1Xqfvmvzr0yWeSFfwkHSF4fF+WQBvjIoiAVhxIIwYkEYsSCMWBBGLAgjFoQRC8KIBWHEgjBiQRixIIxYEEYsCCMWhBELwogFYcSCMGJBGLEgjFgQRiwIIxaEEQvCiAVhxIIwYkEYsSCMWBBGLAgjFoQRC8KIBWHEgjBiQRixIIxYEEYsCCMWhBELwogFYcSCMGJBGLEgjFgQRiwIIxaEEQvCiAVhxIIwYkEYsSCMWBBGLAgjFoQRC8KIBWHEgjBiQRixIIxYEEYsCCMWhBELwogFYcSCMGJBGLEgjFgQRiwIIxaEEQvCiAVhxIIwYkEYsSCMWBBGLAgjFoQRC8KIBWHEgjBiQRixIIxYEEYsCCMWhBELwogFYcSCMGJBGLEgjFgQRiwIIxaEHcViZsvP+Tmu0Fc++7PJYslkySRauUpmpnQYFqdDI60XTQuTcsoyarlKZqZSilJKZ7vLUSwpJeWctakbpcRx5hrlnFVKUc552mVOJ4uZSatY6qaqlHKxPxiXk3NWrVU5ZyVL0morWoowk1JK2mw26r3rw4cPun+4136319hG9dbl7nJ3/fn5s379/beLXRD+nZ+//0G//PjT2evL0SMnlVxUa9V2u9UwDKut6Gn9UyxaTZZa9e7dOw3DoNaaxnFUd5cOsXyqVX+M7VkuFP/dX8Og29vbs9eXHeVwTimlaFM3y86S8vHZtRx+ySS5pemXltpKUWttmSjuLkn6TpK22+e4TnwDw9u3ev/+/RffW6ZLStOwKFk55cM2tNwRmXS0DZklJffkU219Gk299yUS1/RzO+6lof7vF4lvowyDtjdf/ueeJ8c6GB3fPi+j5egUO0+YbCY3k8uVlXVoZbGpVeIA/GLkulGtwz+umZMwPR1o7eTe+ewTnxeYmXweKSdfucynZLwMKWXl4Fchp4Gs/Q0RL3dajznylAAAAABJRU5ErkJggg=="/>
+        <g transform="matrix(0.91482,0,0,1.82371,-12.7684,-10.1851)">
+            <text x="18.0349px" y="25.9431px" style="font-family:Arial;font-size:25px;fill:rgb(58,58,58);">Software  </text>
+            <text x="18.0349px" y="51.761px" style="font-family:Arial;font-size:25px;fill:rgb(58,58,58);">W<tspan x="41.1794px 49.5046px " y="51.761px 51.761px ">ri</tspan>ting </text>
+        </g>
+    </g>
+</svg>
