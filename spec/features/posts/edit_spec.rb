@@ -29,6 +29,40 @@ describe "Editing posts" do
       expect((post.start_time).to_s(:time)).to eq('05:05')
       expect((post.end_time).to_s(:time)).to eq('07:05')
     end
+
+    it 'updates the pic and displays it' do
+      FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+      file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+      visit '/posts'
+      click_link post.title
+      find('.post-edit').click
+
+      attach_file('post[image]', Rails.root.join('app/assets/images/bcn_logo.png'))
+      click_button 'Save Post'
+
+      post = Post.last
+      new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+      expect(find('.post-image')[:src]).to eq(post.image.url)
+      expect(file_count).to be < new_file_count
+    end
+
+    it 'updates the audio file and displays controls' do
+      FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+      file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+      visit '/posts'
+      click_link post.title
+      find('.post-edit').click
+
+      attach_file('post[audio]', Rails.root.join('app/assets/resisters_15_s.ogg'))
+      click_button 'Save Post'
+
+      post = Post.last
+      new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+      expect(find('audio')[:src]).to eq(post.audio.url)
+      expect(file_count).to be < new_file_count
+    end
   end
 
   context 'authenticated non-post user' do
