@@ -58,7 +58,6 @@ xml.rss 'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd", 'version
         if post.image
           image_tag = "<p><img src='" + 'http://' + request.host + post.image.url + "' /></p>" if post.image
           text = image_tag + text
-          puts text
         end
         xml.description "<p>" + text + "</p>"
 

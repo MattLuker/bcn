@@ -91,7 +91,6 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to home_path, notice: 'Welcome you have successfully registered.'
     else
-      puts "There was a problem registering: #{@user.errors.full_messages}"
       render :new
     end
   end

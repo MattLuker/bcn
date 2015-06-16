@@ -26,7 +26,6 @@ class Api::LocationsController < Api::ApiController
     locations << Location.new.create(location_params)
 
     if locations[0].save
-      puts "@post.user: #{@post.user.username}, current_user: #{@current_user.username}"
       if @post && @current_user && @post.user == @current_user
         @post.locations << locations[0]
         @post.save

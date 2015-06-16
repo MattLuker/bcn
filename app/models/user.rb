@@ -135,7 +135,6 @@ class User < ActiveRecord::Base
 
   private
   def inc_users_count(model)
-    puts "model.inspect: #{model.inspect}"
     Community.increment_counter('users_count', model.id)
   end
 

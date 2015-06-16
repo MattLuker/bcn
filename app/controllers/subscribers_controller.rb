@@ -3,7 +3,6 @@ class SubscribersController < ApplicationController
   before_filter :require_user, only: [:create, :destroy]
 
   def create
-    puts params
     if params[:user_id] != current_user.id.to_s
       render json: {subscriber: nil, status: 'error'}
     end
