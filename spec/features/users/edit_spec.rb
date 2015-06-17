@@ -46,4 +46,17 @@ describe 'Editing User' do
     expect(user.photo.name).to eq('test_avatar.jpg')
     expect(file_count).to be < new_file_count
   end
+
+  it 'will update web link and place link in icon' do
+    sign_in user, password: 'beans'
+    visit "/users/#{user.id}/edit"
+    expect(find_field('Last Name').value).to eq('Slidell')
+
+    fill_in 'Web Link', with: 'http://devblog.boonecommunitynetwork.com'
+    click_button 'Update Profile'
+
+    user.reload
+    expect(user.web_link).to eq('http://devblog.boonecommunitynetwork.com')
+    expect(find('.web-link')[:href]).to eq('http://devblog.boonecommunitynetwork.com')
+  end
 end

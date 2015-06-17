@@ -52,7 +52,7 @@
     <div>
       <strong>Links:</strong><br/>
       <% if @user.web_link %>
-          <%= link_to @user.web_link, target: '_blank' do %>
+          <%= link_to @user.web_link, class: 'web-link', target: '_blank' do %>
               <% image_tag 'globe-icon.svg', class: 'image-link' %>
           <% end %>
       <% end %>
@@ -97,7 +97,7 @@
 
 <ul class="tabs" data-tab>
   <li class="tab-title active"><a href="#posts">Posts</a></li>
-  <li class="tab-title"><a href="#communities" class="communities-tab">Communities</a></li>
+  <li class="tab-title"><a href="#communities" class="">Communities</a></li>
 </ul>
 <div class="tabs-content">
   <div class="content active" id="posts">
