@@ -5,6 +5,8 @@ describe 'Location API', :type => :api do
   # Watauga County, North Carolina, 28607,
   # United States of America (library)
   # 36.22005255, -81.6826246249324
+  let(:user) { create(:user) }
+
   let!(:location) { Location.create(
       lat: 36.21991,
       lon: -81.68261,
@@ -14,10 +16,12 @@ describe 'Location API', :type => :api do
       state: 'North Carolina',
       postcode: '28607',
       county: 'Watauga',
-      country: 'us'
+      country: 'us',
   ) }
 
   it 'creates a location and has valid response' do
+    basic_authorize(user.email, 'beans')
+
     post '/api/locations', format: :json, :location => {lat: 36.2168215386211, lon: -81.682448387146}
 
     expect(last_response.status).to eq(200)
@@ -29,6 +33,7 @@ describe 'Location API', :type => :api do
   end
 
   it 'updates a location and has valid response' do
+    basic_authorize(user.email, 'beans')
     patch '/api/locations/' + location.id.to_s, format: :json, :location => {lat: 36.2168215386211,
                                                                              lon: -81.682448387146}
 
@@ -39,8 +44,14 @@ describe 'Location API', :type => :api do
     expect(json['location']['name']).to eq('Kenneth E. Peacock Hall')
   end
 
-  it 'deletes a post and has valid response' do
-    delete '/api/locations/' + location.id.to_s, format: :json
+  it 'deletes a location from a post and has valid response' do
+    basic_authorize(user.email, 'beans')
+    post = Post.create(title: 'Location Post',
+                       description: 'Great job location!',
+                       user: user,
+                       locations: [location])
+
+    delete "/api/locations/#{location.id}", format: :json, post_id: post.id
 
     expect(last_response.status).to eq(200)
 

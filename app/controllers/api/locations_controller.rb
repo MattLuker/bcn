@@ -1,5 +1,6 @@
 class Api::LocationsController < Api::ApiController
   before_filter :find_post
+  before_filter :authenticate, only: [:create, :update, :destroy]
 
   def show
     name = Location.new.lookup_name(params)
@@ -60,7 +61,7 @@ class Api::LocationsController < Api::ApiController
   def update
     location = Location.find(params[:id])
 
-    if location.post.user != @current_user
+    if location.post && location.post.user && location.post.user != @current_user
       render status: 401, json: {
                             message: 'Only the post creator can update this.',
                             post: @post,
@@ -86,15 +87,14 @@ class Api::LocationsController < Api::ApiController
   end
 
   def destroy
-    if @post && @current_user && @current_user == @post.user
-      @post.location = location
-      @post.location.destroy
+    location = Location.find(params[:id])
+
+    if @post && current_user && current_user == @post.user
+      location.destroy
       render status: 200, json: {
                             message: 'Location deleted.'
                         }.to_json
     else
-      location = Location.find(params[:id])
-      location.destroy
       render status: 401, json: {
                             message: 'Only post creator can delete that.'
                         }.to_json
