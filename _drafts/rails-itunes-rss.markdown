@@ -2,7 +2,7 @@
 title: "Rails iTunes and Rss"
 date: 2015-06-18 07:00
 categories: bcn rails
-image: itunes_rss.jpg
+image: itunes_rss.png
 ---
 
 ## Feed the RSS
