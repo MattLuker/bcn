@@ -25,9 +25,6 @@ module Api
 
     def basic_auth
       authenticate_or_request_with_http_basic do |email, password|
-        #authenticate_with_http_basic do |email, password|
-
-        Rails.logger.info "API authentication: #{email}, #{password}"
         user = User.find_by(email: email)
 
         if user && user.authenticate(password)

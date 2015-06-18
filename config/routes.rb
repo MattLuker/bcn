@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     resources :posts do
       resources :locations, only: [:create, :update, :destroy]
       resources :communities, only: [:create, :update, :destroy]
+      resources :subscribers, only: [:create, :destroy]
     end
 
     resources :communities do

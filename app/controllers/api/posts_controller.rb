@@ -17,10 +17,6 @@ class Api::PostsController < Api::ApiController
       lon = params[:post].delete :lon
     end
 
-    if post_params[:image]
-      puts "image here..."
-    end
-
     if current_user
       post = current_user.posts.new(post_params)
     else
