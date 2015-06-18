@@ -9,6 +9,8 @@ image: itunes_rss.png
 
 I was tasked with adding the ability to host audio files on the BCN website.  So that pretty much means that [BCN Rails](https://github.com/asommer70/bcn) needs to be able to stream audio files. 
 
+<!--more-->
+
 Streaming audio files has become a very simple (well moslty simple) feature since the new HTML5 audio tag became supported by the major browsers.  Just add an audio tag and set the controls property and Blam!  You've got an embedded streaming audio player on your site. 
 
 Woo, fells good!
