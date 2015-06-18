@@ -17,6 +17,10 @@ class Api::PostsController < Api::ApiController
       lon = params[:post].delete :lon
     end
 
+    if post_params[:image]
+      puts "image here..."
+    end
+
     if current_user
       post = current_user.posts.new(post_params)
     else
@@ -89,6 +93,13 @@ class Api::PostsController < Api::ApiController
                                   :start_time,
                                   :end_date,
                                   :end_time,
+                                  :image,
+                                  :audio,
+                                  :community_names,
+                                  :og_url,
+                                  :og_image,
+                                  :og_title,
+                                  :og_description,
                                   :community_ids => [])
   end
 end

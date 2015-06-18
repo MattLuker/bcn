@@ -55,7 +55,7 @@ describe "Editing posts" do
       click_link post.title
       find('.post-edit').click
 
-      attach_file('post[audio]', Rails.root.join('app/assets/resisters_15_s.ogg'))
+      attach_file('post[audio]', Rails.root.join('spec/fixtures/files/dickson.m4a'))
       click_button 'Save Post'
 
       post = Post.last

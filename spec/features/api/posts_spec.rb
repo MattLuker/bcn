@@ -149,4 +149,104 @@ describe 'Posts API', :type => :api do
     expect((post.start_time).to_s(:time)).to eq('05:05')
     expect((post.end_time).to_s(:time)).to eq('06:05')
   end
+
+  it 'creates a post with a pic' do
+    extend ActionDispatch::TestProcess
+    FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+    file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    basic_authorize(user.email, 'beans')
+
+    post '/api/posts', :post => {:title => 'JSON Post',
+                                                :description => 'Great job JSON!',
+                                                :user_id => user.id,
+                                                :image =>  fixture_file_upload('files/test_avatar.jpg')
+                     }
+
+    expect(last_response.status).to eq(200)
+
+    new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+    post = Post.last
+
+    expect(post.image).to_not eq(nil)
+    expect(post.image.name).to eq('test_avatar.jpg')
+    expect(file_count).to be < new_file_count
+  end
+
+  it 'creates a post with an audio file' do
+    extend ActionDispatch::TestProcess
+    FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+    file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    basic_authorize(user.email, 'beans')
+
+    post '/api/posts', :post => {:title => 'JSON Post',
+                                 :description => 'Great job JSON!',
+                                 :user_id => user.id,
+                                 :image => fixture_file_upload('files/test_avatar.jpg'),
+                                 :audio => fixture_file_upload('files/resisters_15_s.ogg')
+                     }
+
+    expect(last_response.status).to eq(200)
+
+    new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+    post = Post.last
+
+    expect(post.image).to_not eq(nil)
+    expect(post.image.name).to eq('test_avatar.jpg')
+
+    expect(post.audio).to_not eq(nil)
+    expect(post.audio.name).to eq('resisters_15_s.ogg')
+    expect(file_count).to be < new_file_count
+  end
+
+  it 'updates a post with an audio file' do
+    extend ActionDispatch::TestProcess
+    FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+    file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    basic_authorize(user.email, 'beans')
+
+    post '/api/posts', format: :json, :post => {:title => 'JSON Post',
+                                                :description => 'Great job JSON!'}
+
+    expect(last_response.status).to eq(200)
+    post = Post.last
+
+    patch '/api/posts/' + post.id.to_s, :post => { :audio => fixture_file_upload('files/dickson.m4a') }
+
+    expect(last_response.status).to eq(200)
+
+    post.reload
+    new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    expect(post.audio).to_not eq(nil)
+    expect(post.audio.name).to eq('dickson.m4a')
+    expect(file_count).to be < new_file_count
+  end
+
+  it 'updates a post with an image file' do
+    extend ActionDispatch::TestProcess
+    FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+    file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    basic_authorize(user.email, 'beans')
+
+    post '/api/posts', format: :json, :post => {:title => 'JSON Post',
+                                                :description => 'Great job JSON!'}
+
+    expect(last_response.status).to eq(200)
+    post = Post.last
+
+    patch '/api/posts/' + post.id.to_s, :post => { :image => fixture_file_upload('files/bcn_logo.png') }
+
+    expect(last_response.status).to eq(200)
+
+    post.reload
+    new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    expect(post.image).to_not eq(nil)
+    expect(post.image.name).to eq('bcn_logo.png')
+    expect(file_count).to be < new_file_count
+  end
 end

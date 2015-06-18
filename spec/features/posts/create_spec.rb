@@ -203,7 +203,7 @@ describe "Creating posts" do
     find('.new-post').click
     expect(page).to have_content('New Post')
 
-    attach_file('post[audio]', Rails.root.join('app/assets/resisters_15_s.ogg'))
+    attach_file('post[audio]', Rails.root.join('spec/fixtures/files/resisters_15_s.ogg'))
     click_button 'Save Post'
 
     new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length

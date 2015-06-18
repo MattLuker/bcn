@@ -62,6 +62,7 @@ RSpec.configure do |config|
   config.include Requests::JsonHelpers
   config.include AuthenticationHelpers, type: :feature
   config.include UserHelpers
+  config.include ActionDispatch::TestProcess, type: :feature
 
   config.include FactoryGirl::Syntax::Methods
 
