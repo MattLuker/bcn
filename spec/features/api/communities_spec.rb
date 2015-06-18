@@ -117,4 +117,26 @@ describe 'Community API', :type => :api do
     expect(json['message']).to eq('Community deleted.')
   end
 
+  it 'updates social links' do
+    basic_authorize(user.email, 'beans')
+
+    facebook = 'https://www.facebook.com/pages/Boone-Community-Network/334012336716987?fref=ts'
+    twitter = 'https://twitter.com/asommer'
+    google = 'https://plus.google.com/108906335613240420220/about'
+
+    patch '/api/communities/' + community.id.to_s,
+          format: :json, :community => {:facebook_link => facebook,
+                                        :twitter_link => twitter,
+                                        :google_link => google
+        }
+
+    expect(last_response.status).to eq(200)
+
+    expect(json.length).to eq(3)
+    expect(json['message']).to eq('Community updated.')
+    expect(json['community']['facebook_link']).to eq(facebook)
+    expect(json['community']['twitter_link']).to eq(twitter)
+    expect(json['community']['google_link']).to eq(google)
+  end
+
 end

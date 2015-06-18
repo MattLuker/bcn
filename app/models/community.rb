@@ -48,7 +48,10 @@ class Community < ActiveRecord::Base
             :description,
             :home_page,
             :color,
-            :created_by
+            :created_by,
+            :facebook_link,
+            :twitter_link,
+            :google_link
       ],
       :include => {
         :posts => {
