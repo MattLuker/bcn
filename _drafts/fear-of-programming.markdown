@@ -25,3 +25,30 @@ sometimes the best thing to do is to sleep on it.  this works especially well if
 ## Work on Something Else
 
 If it's still early in the day and you're jammed up, take a minute and work on some thing else.  There are always a bunch if little problems to solve, or features to impliment.
+
+Another task that usually doesn't get enough love is writing documentation for your project.  when stuck it might be the perfect time to go back and document those features that do work.  
+
+After a short pause and the feeling of accomplishment from completing some other task, the solution to original problem might be right there in front of you.
+
+## Ask for Help
+
+If you're really in a jam maybe the only solution is to get another set of eyes on the problem. Some great places for help are mailing lists, Stack overflow and other forums, and a code mentor if you have one.
+
+Having someone live to talk to might also make the connection needed to blast through the problem.
+
+## Review the Documentation
+
+We're all guity of skimming the docs to find the quickest way to learn what we need, but when that's not enough take a few minutes and really grok the documentation.
+
+For example, it's hard to fully understand how a complex topic like recursive functions work the first time through (or maybe the third or fifth time).
+
+# Make Mistakes
+
+Your program isn't going to work the first time you run it, almost guarantee it, so get used to the code > run > debug iteration.
+
+It can take quite a few times through the loop to get something working the way you need.
+
+
+# Keep the End in Mind
+
+Remember why you're working on the project. Think of how much better your life will be when you've solved the problem in a way that can be repeated the next time.
