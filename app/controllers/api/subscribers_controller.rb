@@ -13,7 +13,7 @@ class Api::SubscribersController < Api::ApiController
     if subscriber
       render status: 200, json: {
                             message: 'User subscribed.',
-                            post: @sub,
+                            @type => @sub,
                             user: subscriber.user,
                             @type + '_id' => @sub.id
                         }.to_json
@@ -30,7 +30,7 @@ class Api::SubscribersController < Api::ApiController
 
     render status: 200, json: {
                           message: 'User unsubscribed.',
-                          post: @sub,
+                          @type => @sub,
                           user: subscriber.user,
                           @type + '_id' => @sub.id
                       }.to_json

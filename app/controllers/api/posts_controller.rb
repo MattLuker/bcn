@@ -25,6 +25,23 @@ class Api::PostsController < Api::ApiController
     post.create_location({lat: lat, lon: lon}) if lat and lon
 
     if post.save
+
+      # Notify Community subscribers.
+      unless post.communities.blank?
+        if current_user
+          current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
+        else
+          poster = 'Anonymous'
+        end
+        post.communities.each do |community|
+          community.subscribers.each do |subscriber|
+            unless current_user == subscriber.user
+              PostMailer.new_post(subscriber.user, post, community, poster).deliver_now
+            end
+          end
+        end
+      end
+
       render status: 200, json: {
         message: 'Post created.',
         post: post,
