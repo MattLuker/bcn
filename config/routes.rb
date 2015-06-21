@@ -63,6 +63,8 @@ Rails.application.routes.draw do
     resources :users do
       resources :posts, only: [:create, :update, :destroy]
     end
+
+    resources :searches, only: [:index]
   end
 
   get 'auth/facebook', as: 'auth_provider'
