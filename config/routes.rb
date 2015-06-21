@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   end
 
   resources :comments, only: [:update, :destroy, :show] do
-    resources :replies, only: [:create]
     resources :comments, only: [:create, :update, :destroy]
   end
 
@@ -43,6 +42,11 @@ Rails.application.routes.draw do
       resources :locations, only: [:create, :update, :destroy]
       resources :communities, only: [:create, :update, :destroy]
       resources :subscribers, only: [:create, :destroy]
+      resources :comments, only: [:create]
+    end
+
+    resources :comments, only: [:update, :destroy, :show] do
+      resources :comments, only: [:create, :update, :destroy]
     end
 
     resources :communities do

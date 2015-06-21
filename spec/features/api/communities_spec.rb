@@ -138,4 +138,7 @@ describe 'Community API', :type => :api do
     expect(json['community']['twitter_link']).to eq(twitter)
     expect(json['community']['google_link']).to eq(google)
   end
+
+  # TODO test image upload.
+  # TODO test Community subscriber emails.
 end
