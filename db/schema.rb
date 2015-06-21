@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150614192956) do
+ActiveRecord::Schema.define(version: 20150621100621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,16 +140,6 @@ ActiveRecord::Schema.define(version: 20150614192956) do
     t.string   "country"
     t.datetime "deleted_at", index: {name: "index_locations_on_deleted_at"}
     t.index name: "index_locations_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
-  end
-
-  create_table "logs", force: :cascade do |t|
-    t.integer  "post_id",      index: {name: "index_logs_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_79e6782e3b", on_update: :no_action, on_delete: :no_action}
-    t.integer  "location_id",  index: {name: "index_logs_on_location_id"}, foreign_key: {references: "locations", name: "fk_rails_526e01d2ef", on_update: :no_action, on_delete: :no_action}
-    t.integer  "community_id", index: {name: "index_logs_on_community_id"}, foreign_key: {references: "communities", name: "fk_rails_a6f7ddf4ba", on_update: :no_action, on_delete: :no_action}
-    t.string   "action"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "user_id"
   end
 
   create_table "search_views", force: :cascade do |t|
