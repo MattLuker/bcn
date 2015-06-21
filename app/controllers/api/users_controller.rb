@@ -25,6 +25,9 @@ class Api::UsersController < Api::ApiController
   def create
     user = User.new(user_params)
     if user.save
+      # Send welcome email.
+      Notifier.send_welcome(user).deliver_now
+
       render status: 200, json: {
                             message: 'User created.',
                             user: user

@@ -33,6 +33,21 @@ describe 'User API', :type => :api do
     expect(json['user']['email']).to eq('bob@example.com')
   end
 
+  it 'creates a user and sends an email' do
+    expect {
+      post '/api/users', format: :json, :user => {
+                           :email => 'bob@example.com',
+                           :password => 'beans'
+                       }
+
+      expect(last_response.status).to eq(200)
+
+      expect(json.length).to eq(2)
+      expect(json['message']).to eq('User created.')
+      expect(json['user']['email']).to eq('bob@example.com')
+    }.to change{ ActionMailer::Base.deliveries.size }.by(1)
+  end
+
   it 'fails to create a user with no email and has a valid response' do
     post '/api/users', format: :json, :user => {
                          :email => '',

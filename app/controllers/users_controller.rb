@@ -88,6 +88,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      # Send welcome email.
+      Notifier.send_welcome(@user).deliver_now
+
       session[:user_id] = @user.id
       redirect_to home_path, notice: 'Welcome you have successfully registered.'
     else

@@ -33,4 +33,25 @@ describe 'Signing Up' do
     expect(page).to have_content('Welcome you have successfully registered.')
     expect(user.photo.name).to eq(hash)
   end
+
+  it 'sends welcome email to new user' do
+    expect(User.count).to eq(0)
+
+    visit '/'
+
+    expect(page).to have_content('Register')
+    click_link 'Register'
+
+    fill_in 'Email', with: 'adam@thehoick.com'
+    fill_in 'Password', with: 'beans'
+
+    expect {
+       click_button 'Register'
+       expect(User.count).to eq(1)
+    }.to change{ ActionMailer::Base.deliveries.size }.by(1)
+
+    user = User.last
+    open_email(user.email)
+    expect(current_email.body).to have_content('http://localhost:3000/users/' + user.id.to_s)
+  end
 end
