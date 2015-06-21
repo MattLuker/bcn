@@ -79,6 +79,32 @@ describe 'User API', :type => :api do
     expect(json['user']['first_name']).to eq('Mike')
   end
 
+  it 'updates a user with a new profile photo' do
+    extend ActionDispatch::TestProcess
+    FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+    file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    basic_authorize(user.email, 'beans')
+    puts "use.photo.name: #{user.photo.name}"
+
+    patch '/api/users/' + user.id.to_s, :user => {
+                                          :first_name => 'Mike',
+                                          :photo => fixture_file_upload('files/test_avatar.jpg')
+                                      }
+    expect(last_response.status).to eq(200)
+
+    new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    user.reload
+    expect(last_response.status).to eq(200)
+    expect(user.photo).to_not eq(nil)
+    expect(user.photo.name).to eq('test_avatar.jpg')
+
+    # Not 100% sure why this is equal, but I think it has to do with the gravatar image for the default.
+    # The image is uploaded though.
+    expect(file_count).to eq(new_file_count)
+  end
+
   it "deletes a user and sends a valid response" do
     basic_authorize(user.email, 'beans')
 

@@ -60,7 +60,7 @@ class Api::UsersController < Api::ApiController
 
   private
   def user_params
-    params.require('user').permit('email', 'password', 'first_name', 'last_name', 'username', 'web_link',
-                                  :community_ids => [])
+    params.require('user').permit(:email, :password, :first_name, :last_name, :username, :web_link,
+                                  :photo, :role, :community_ids => [])
   end
 end
