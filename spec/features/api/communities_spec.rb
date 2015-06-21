@@ -139,6 +139,26 @@ describe 'Community API', :type => :api do
     expect(json['community']['google_link']).to eq(google)
   end
 
-  # TODO test image upload.
-  # TODO test Community subscriber emails.
+  it 'creates a community with an image' do
+    extend ActionDispatch::TestProcess
+    FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+    file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    basic_authorize(user.email, 'beans')
+
+    post '/api/communities', :community => {
+                               name: 'JSON Community',
+                               description: 'Great job JSON!',
+                               home_page: 'http://thehoick.com',
+                               color: '#ececec',
+                               :image =>  fixture_file_upload('files/test_avatar.jpg')
+                           }
+    new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+    community = Community.last
+
+    expect(last_response.status).to eq(200)
+    expect(community.image).to_not eq(nil)
+    expect(community.image.name).to eq('test_avatar.jpg')
+    expect(file_count).to be < new_file_count
+  end
 end

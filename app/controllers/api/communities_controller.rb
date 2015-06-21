@@ -122,12 +122,16 @@ class Api::CommunitiesController < Api::ApiController
 
   private
   def community_params
-    params.require('community').permit('name',
-                                       'description',
-                                       'created_by',
-                                       'facebook_link',
-                                       'twitter_link',
-                                       'google_link',
+    params.require('community').permit(:name,
+                                       :description,
+                                       :home_page,
+                                       :color,
+                                       :events_url,
+                                       :image,
+                                       :created_by,
+                                       :facebook_link,
+                                       :twitter_link,
+                                       :google_link,
                                        :user_ids => [])
   end
 end

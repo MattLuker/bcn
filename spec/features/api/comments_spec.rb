@@ -91,10 +91,30 @@ describe 'Comments API', :type => :api do
     expect(new_json['message']).to eq('Comment deleted.')
   end
 
-  let!(:user2) { User.create(email: 'bob@thehoick.com', password: 'beans', first_name: 'Bob', last_name: 'Slidell')}
-
   it 'creates a comment with an image' do
     extend ActionDispatch::TestProcess
+    FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
+    file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+
+    basic_authorize(user2.email, 'beans')
+
+    post "/api/posts/#{new_post.id}/comments", format: :json, :comment => {
+                                                 :content => 'Good content for a comment.',
+                                                 :photo =>  fixture_file_upload('files/test_avatar.jpg')
+                                             }
+
+    new_file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
+    comment = Comment.last
+
+    expect(last_response.status).to eq(200)
+    expect(comment.photo).to_not eq(nil)
+    expect(comment.photo.name).to eq('test_avatar.jpg')
+    expect(file_count).to be < new_file_count
+  end
+
+  let!(:user2) { User.create(email: 'bob@thehoick.com', password: 'beans', first_name: 'Bob', last_name: 'Slidell')}
+
+  it 'sends email to post subscribers' do
     basic_authorize(user2.email, 'beans')
 
     post "/api/posts/#{new_post.id}/subscribers", format: :json, :user_id => user2.id
