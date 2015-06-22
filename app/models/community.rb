@@ -2,6 +2,7 @@ class Community < ActiveRecord::Base
   acts_as_paranoid
   dragonfly_accessor :image
   #attr_accessor :slug
+  attr_accessor :image_web_url
 
   validates :name, presence: true, uniqueness: true
   validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz', 'JPG', 'PNG'], if: :image_changed?
@@ -42,7 +43,9 @@ class Community < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(:only => [
+    self.image_web_url = self.image.url if self.image
+
+    super(methods: :image_web_url, :only => [
             :id,
             :name,
             :description,
@@ -51,7 +54,8 @@ class Community < ActiveRecord::Base
             :created_by,
             :facebook_link,
             :twitter_link,
-            :google_link
+            :google_link,
+            :image_web_url
       ],
       :include => {
         :posts => {

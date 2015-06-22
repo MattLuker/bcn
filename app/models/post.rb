@@ -3,6 +3,8 @@ class Post < ActiveRecord::Base
   dragonfly_accessor :image
   dragonfly_accessor :audio
 
+  attr_accessor :image_url
+
   validates :start_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :start_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
   validates :end_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
@@ -31,12 +33,15 @@ class Post < ActiveRecord::Base
   before_destroy :dec_all_posts_count
 
   def as_json(options={})
-    super(:only => [
+    self.image_web_url = self.image.url if self.image
+
+    super(methods: :image_web_url, :only => [
         :id,
         :title,
         :description,
         :start_date,
-        :end_date
+        :end_date,
+        :image_web_url
       ],
       :include => {
         :locations => {
@@ -124,7 +129,6 @@ class Post < ActiveRecord::Base
       TagLib::FileRef.open(file_path) { |f| self.audio_duration = f.audio_properties.length }
     end
   end
-
 
   def inc_posts_count(model)
     Community.increment_counter('posts_count', model.id)

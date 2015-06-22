@@ -1,6 +1,7 @@
 class Comment < ActiveRecord::Base
   extend ActsAsTree::TreeWalker
   attr_accessor :comments
+  attr_accessor :photo_web_url
 
   acts_as_paranoid
   dragonfly_accessor :photo
@@ -17,6 +18,18 @@ class Comment < ActiveRecord::Base
   belongs_to :user
 
   before_destroy :raise_children
+
+  def as_json(options={})
+    self.photo_web_url = self.photo.url if self.photo
+    super(methods: :photo_web_url, :only => [
+                                     :id,
+                                     :content,
+                                     :created_at,
+                                     :photo_name,
+                                     :photo_web_url,
+                                     :parent_id
+                                 ])
+  end
 
 
   def raise_children

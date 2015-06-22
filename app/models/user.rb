@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   has_secure_password
   dragonfly_accessor :photo
 
+  attr_accessor :photo_web_url
+
   validates :username, allow_nil: true, uniqueness: true
   validates :email, allow_nil: true, uniqueness: true,
    format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/ }
@@ -19,7 +21,6 @@ class User < ActiveRecord::Base
   has_many :subscriptions, :class_name => "Subscriber", :foreign_key => "user_id"
   has_and_belongs_to_many :communities, before_add: :inc_users_count, before_remove: :dec_users_count
 
-  #before_create :set_photo
   before_save :downcase_email
   before_validation :set_photo
   before_destroy :dec_all_users_count
@@ -114,7 +115,8 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(:only => [
+    self.photo_web_url = self.photo.url if self.photo
+    super(methods: :photo_web_url, :only => [
         :id,
         :first_name,
         :last_name,
@@ -129,6 +131,7 @@ class User < ActiveRecord::Base
         :google_link,
         :web_link,
         :photo_name,
+        :photo_web_url,
         :role
     ])
   end
