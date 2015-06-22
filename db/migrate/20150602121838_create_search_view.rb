@@ -143,6 +143,7 @@ VIEW
       remove_index :locations, :name
       remove_index :users, :username
       remove_index :users, :email
+      remove_index :posts, :title
 
       execute %q{create index index_posts_on_title on "posts" using gin(to_tsvector('english', title))}
       execute %q{create index index_posts_on_description on "posts" using gin(to_tsvector('english', description))}
