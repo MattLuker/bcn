@@ -3372,6 +3372,7 @@ L.Icon = L.Class.extend({
 		    size = L.point(options[name + 'Size']),
 		    anchor;
 
+
 		if (name === 'shadow') {
 			anchor = L.point(options.shadowAnchor || options.iconAnchor);
 		} else {
@@ -3435,17 +3436,22 @@ L.Icon.Default = L.Icon.extend({
 			return this.options[key];
 		}
 
-		if (L.Browser.retina && name === 'icon') {
-			name += '-2x';
-		}
+		var path = image_path('marker-icon.png');
 
-		var path = L.Icon.Default.imagePath;
+		if (L.Browser.retina && name === 'icon') {
+			//name += '-2x';
+			path = image_path('marker-icon-2x.png');
+		} else if (name == 'shadow') {
+			path = image_path('marker-shadow.png')
+		}
+		//var path = L.Icon.Default.imagePath;
 
 		if (!path) {
 			throw new Error('Couldn\'t autodetect L.Icon.Default.imagePath, set it manually.');
 		}
 
-		return path + '/marker-' + name + '.png';
+		//return path + '/marker-' + name + '.png';
+		return path
 	}
 });
 

@@ -8,7 +8,7 @@ window.ready_home = ->
   initialize_map = ->
     # Initialize the Open Street Map map.
     map = new L.Map('map');
-    L.Icon.Default.imagePath = '/assets'
+    #L.Icon.Default.imagePath = '/assets'
 
     # Create the tile layer with correct attribution.
     osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
