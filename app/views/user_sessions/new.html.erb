@@ -1,40 +1,44 @@
-<h4>Sign In with your Social account:</h4>
+<div class="small-12 large-12 columns">
 
-<%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small facebook', :id => 'facebook_login' %>
+  <h4>Sign In with your Social account:</h4>
 
-<%= link_to "Login with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
+  <%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small facebook', :id => 'facebook_login' %>
 
-<%= link_to "Login with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
+  <%= link_to "Login with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
 
-<hr/>
-<p>Or</p>
-<h4>Sign In With Email</h4>
+  <%= link_to "Login with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
 
-<%= form_tag user_sessions_path do %>
+  <hr/>
+  <p>Or</p>
+  <h4>Sign In With Email</h4>
 
-    <div class="row">
-      <div class="large-4 columns">
-         <%= label_tag :email, 'Email' %>
-         <%= text_field_tag :email, params[:email] %>
+  <%= form_tag user_sessions_path do %>
+
+      <div class="row">
+        <div class="large-4 columns">
+          <%= label_tag :email, 'Email' %>
+          <%= text_field_tag :email, params[:email] %>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= label_tag :password, 'Password' %>
-        <%= password_field_tag :password %>
+      <div class="row">
+        <div class="large-4 columns">
+          <%= label_tag :password, 'Password' %>
+          <%= password_field_tag :password %>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="large-4 columns actions">
-        <%= submit_tag 'Log In', :class => 'button small success' %>
+      <div class="row">
+        <div class="large-4 columns actions">
+          <%= submit_tag 'Log In', :class => 'button small success' %>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="large-4 columns actions">
-        <h4><small><%= link_to 'Forgot Password?', new_password_reset_path %></small></h4>
+      <div class="row">
+        <div class="large-4 columns actions">
+          <h4><small><%= link_to 'Forgot Password?', new_password_reset_path %></small></h4>
+        </div>
       </div>
-    </div>
-<% end %>
+  <% end %>
+  <br/><br/>
+</div>

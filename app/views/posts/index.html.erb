@@ -1,12 +1,13 @@
-<p id="notice"><%= notice %></p>
+<div class="small-12 large-12 columns">
 
-<h1>Posts</h1>
+  <h1>Posts</h1>
 
-<ul class="posts no-bullet">
-  <% @posts.each do |post| %>
-      <%= render 'layouts/posts_list', post: post %>
-  <% end %>
-</ul>
+  <ul class="posts no-bullet">
+    <% @posts.each do |post| %>
+        <%= render 'layouts/posts_list', post: post %>
+    <% end %>
+  </ul>
 
 
-<br/><br/>
+  <br/><br/>
+</div>

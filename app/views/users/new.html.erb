@@ -1,18 +1,21 @@
-<h4>Do you have one of these Social accounts?</h4>
+<div class="small-12 large-12 columns">
 
-<%= link_to "Register with Facebook", '/auth/facebook', :class => 'button small facebook' %>
+  <h4>Do you have one of these Social accounts?</h4>
 
-
-<%= link_to "Register with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
-
-
-<%= link_to "Register with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
+  <%= link_to "Register with Facebook", '/auth/facebook', :class => 'button small facebook' %>
 
 
-<hr/>
-<p>Or</p>
+  <%= link_to "Register with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
 
-<h4>Register With Email</h4>
 
-<%= render 'form' %>
+  <%= link_to "Register with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
 
+
+  <hr/>
+  <p>Or</p>
+
+  <h4>Register With Email</h4>
+
+  <%= render 'form' %>
+  <br/><br/>
+</div>

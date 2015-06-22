@@ -1,9 +1,9 @@
-<%= form_for(@user, :builder => FoundationFormBuilder) do |f| %>
+  <%= form_for(@user, :builder => FoundationFormBuilder) do |f| %>
 
-    <%= f.text_field :email, placeholder: 'Email' %>
+      <%= f.text_field :email, placeholder: 'Email' %>
 
-    <%= f.password_field :password, placeholder: 'Password' %>
+      <%= f.password_field :password, placeholder: 'Password' %>
 
-    <%= f.submit 'Register', :class => 'button small success' %>
+      <%= f.submit 'Register', :class => 'button small success' %>
 
-<% end %>
+  <% end %>

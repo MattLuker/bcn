@@ -35,7 +35,7 @@ class FoundationFormBuilder < ActionView::Helpers::FormBuilder
 
   def wrapper(options={}, &block)
     content_tag(:div, class: "row") do
-      content_tag(:div, capture(&block), class: "small-4 columns #{options[:wrapper_classes]}")
+      content_tag(:div, capture(&block), class: "large-4 small-8 columns #{options[:wrapper_classes]}")
     end
   end
 

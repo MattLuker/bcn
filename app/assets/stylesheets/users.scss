@@ -12,7 +12,8 @@
 
 .icon.leave-community {
   margin-bottom: 0;
-  margin-left: 20px;
+  margin-top: 3px;
+  //margin-left: 20px;
 }
 
 ul.communities {
@@ -67,4 +68,8 @@ ul.communities {
     padding: 10px 5px;
     margin: 20px 0px;
   }
+}
+
+.tiny.icon.edit-profile {
+  margin-top: 40px;
 }

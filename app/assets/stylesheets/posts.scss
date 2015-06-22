@@ -159,3 +159,14 @@ button.hidden {
 .post-image {
   max-width: 300px;
 }
+
+@media only screen and (max-width: 40em) {
+  .social-share {
+    margin-top: 40px;
+  }
+
+  .comments {
+    margin-left: 10px;
+    max-width: 380px;
+  }
+}

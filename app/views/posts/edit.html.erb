@@ -1,7 +1,10 @@
-<h2>Editing Post: <span class='title'><%= @post.title %></span></h2>
+<div class="small-12 large-12 columns">
 
-<%= render 'form' %>
+  <h2>Editing Post: <span class='title'><%= @post.title %></span></h2>
 
-<%= link_to 'Delete', @post, method: :delete, :class => 'delete', data: { confirm: 'Are you sure?' } %>
+  <%= render 'form' %>
 
-<br/><br/>
+  <%= link_to 'Delete', @post, method: :delete, :class => 'delete', data: { confirm: 'Are you sure?' } %>
+
+  <br/><br/>
+</div>

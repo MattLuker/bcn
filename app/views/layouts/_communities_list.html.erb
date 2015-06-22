@@ -10,7 +10,7 @@
           <% end %>
         </div>
     <% end %>
-    <div class="large-10 columns collapse">
+    <div class="large-10 columns collapse community-meta">
       <div class="row">
         <div class="large-12 columns community-title">
           <%= link_to community.name, community, {:style => "color: #{community.color}"} %>
@@ -37,6 +37,17 @@
               Post
           <% else %>
               Posts
+          <% end %>
+
+          <br/>
+          <% if action_name == 'show' && controller_name == 'users' %>
+              <%= form_tag("/communities/#{community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
+                  <%= hidden_field_tag 'user_id', current_user.id %>
+                  <%= image_submit_tag 'exit-icon.svg', :class => 'button tiny secondary icon leave-community',
+                                       :alt => 'Leave Community',
+                                       :value => 'Leave',
+                                       :title => 'Leave Community' %>
+              <% end %>
           <% end %>
         </div>
       </div>

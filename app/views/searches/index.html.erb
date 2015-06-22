@@ -1,70 +1,77 @@
-<% if @results %>
+<div class="small-12 large-12 columns">
 
-    <h4>Found <%= @results.size %> results</h4>
-    <br/>
+  <% if @results %>
 
-    <% @results.each do |item| %>
+      <h4>Found <%= @results.size %> results</h4>
+      <br/>
 
-        <%= item.class %>
+      <% @results.each_with_index do |item, index| %>
 
-        <% if item.class.to_s == 'Post' %>
-
-            <ul class="posts no-disc">
-              <li>
-                <%= render 'posts_list', post: item %>
-              </li>
-            </ul>
-
-        <% elsif item.class.to_s == 'Comment' %>
-
-            <ul class="no-disc comments">
-              <li>
-                <%= render 'comment', comment: item %>
-              </li>
-            </ul>
-        <% elsif item.class.to_s == 'User' %>
-            <ul class="no-disc comments">
-              <li>
-                <%= link_to item, class: 'user' do %>
-
-                    <% if item.photo %>
-                        <%= image_tag item.photo.thumb('50x50#').url %>
-                    <% end %>
-                    <% if item.username %>
-                        <%= item.username %>
-                    <% else %>
-                        <%= item.first_name if item.first_name %>
-                        <%= item.last_name if item.last_name %>
-                    <% end %>
-                <% end %>
-              </li>
-            </ul>
-        <% elsif item.class.to_s == 'Community' %>
-            <ul class="no-disc comments">
-              <li>
-                <%= link_to item, class: 'community' do %>
-                    <%= item.name %>
-                <% end %>
-              </li>
-            </ul>
-        <% elsif item.class.to_s == 'Location' %>
-            <ul class="no-disc comments">
-              <li>
-                <strong>Post:</strong>
-
-                <%= link_to item.post, class: 'location' do %>
-                    <%= item.post.title %>
-                <% end %> at
-
-                <br/>
-                <%= item.name %>, <%= item.address %>
-              </li>
-            </ul>
-        <% end %>
-
-    <% end %>
+          <% if @results[index - 1].class != item.class %>
+              <%= item.class %>s
+              <br/><br/>
+          <% end %>
 
 
-<% else %>
-    <h5 class="grey">No results found.</h5>
-<% end %>
+          <% if item.class.to_s == 'Post' %>
+
+              <ul class="posts no-disc">
+                <li>
+                  <%= render 'posts_list', post: item %>
+                </li>
+              </ul>
+
+          <% elsif item.class.to_s == 'Comment' %>
+
+              <ul class="no-disc comments">
+                <li>
+                  <%= render 'comment', comment: item %>
+                </li>
+              </ul>
+          <% elsif item.class.to_s == 'User' %>
+              <ul class="no-disc comments">
+                <li>
+                  <%= link_to item, class: 'user' do %>
+
+                      <% if item.photo %>
+                          <%= image_tag item.photo.thumb('50x50#').url %>
+                      <% end %>
+                      <% if item.username %>
+                          <%= item.username %>
+                      <% else %>
+                          <%= item.first_name if item.first_name %>
+                          <%= item.last_name if item.last_name %>
+                      <% end %>
+                  <% end %>
+                </li>
+              </ul>
+          <% elsif item.class.to_s == 'Community' %>
+              <ul class="no-disc comments">
+                <li>
+                  <%= link_to item, class: 'community' do %>
+                      <%= item.name %>
+                  <% end %>
+                </li>
+              </ul>
+          <% elsif item.class.to_s == 'Location' %>
+              <ul class="no-disc comments">
+                <li>
+                  <strong>Post:</strong>
+
+                  <%= link_to item.post, class: 'location' do %>
+                      <%= item.post.title %>
+                  <% end %> at
+
+                  <br/>
+                  <%= item.name %>, <%= item.address %>
+                </li>
+              </ul>
+          <% end %>
+
+      <% end %>
+
+
+  <% else %>
+      <h5 class="grey">No results found.</h5>
+  <% end %>
+</div>

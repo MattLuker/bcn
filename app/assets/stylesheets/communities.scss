@@ -21,6 +21,11 @@
   }
 }
 
+@media only screen and (max-width: 40em) {
+  .communities { margin: 0 }
+  .community-meta { margin-top: 10px; }
+}
+
 .community-image {
   max-width: 300px;
 }
@@ -52,3 +57,5 @@
     background: lighten($light-gray, 5);
   }
 }
+
+.columns.community-meta { padding-left: 0; }
