@@ -7,9 +7,8 @@ class Api::PostsController < Api::ApiController
   end
 
   def show
-    @post = Post.find(params[:id])
-    #render json: post.as_json(include: :locations, methods: :image_url)
-    render :json => @post.to_json
+    post = Post.find(params[:id])
+    render json: post.as_json(include: :locations)
   end
 
   def create
