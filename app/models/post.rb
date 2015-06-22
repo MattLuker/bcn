@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
   dragonfly_accessor :image
   dragonfly_accessor :audio
 
-  attr_accessor :image_url
+  attr_accessor :image_web_url, :audio_web_url
 
   validates :start_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :start_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
@@ -34,14 +34,16 @@ class Post < ActiveRecord::Base
 
   def as_json(options={})
     self.image_web_url = self.image.url if self.image
+    self.audio_web_url = self.audio.url if self.audio
 
-    super(methods: :image_web_url, :only => [
+    super(methods: [:image_web_url, :audio_web_url], :only => [
         :id,
         :title,
         :description,
         :start_date,
         :end_date,
-        :image_web_url
+        :image_web_url,
+        :audio_web_url
       ],
       :include => {
         :locations => {
