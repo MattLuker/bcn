@@ -1,5 +1,5 @@
 class CommentMailer < ApplicationMailer
-  default_url_options[:host] = "localhost:3000"
+  #default_url_options[:host] = "bcn.thehoick.com"
   default from: 'robot@boonecommunitynetwork.com'
 
   def new_comment(user, post, comment, commenter)

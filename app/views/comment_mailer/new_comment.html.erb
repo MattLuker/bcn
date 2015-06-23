@@ -9,7 +9,7 @@
 <p><%= @comment.content %></p>
 
 <p>
-  Click <%= link_to 'here', post_path(@post) %> to reply.
+  Click <%= link_to 'here', post_url(@post, host: 'bcn.thehoick.com') %> to reply.
 </p>
 
 <p>Thanks,<br/>Boone Community Network Team</p>
