@@ -1,22 +1,25 @@
-<h1><%= @post.title %></h1>
+<div class="small-12 large-12 columns">
 
-<ul class="location">
-  <% if @post.location %>
-    <li id="<%= dom_id(@post.location) %>">
-    <strong>Name:</strong><%= @post.location.name %>
-    <br/><br/>
-<% if @post.location %>
-    latitude: <%= @post.location.lat %>, longitude: <%= @post.location.lon %>
-    <%= link_to "Edit", edit_post_location_path(@post.location) %>
-    <%= link_to "Delete", post_location_path(@post.location), method: :delete, data: { confirm: "Are you sure?" } %>
-<% end %>
-    </li>
-  <% end %>
-</ul>
+  <h1><%= @post.title %></h1>
 
-<p>
-<%= link_to "Back", posts_path %>
-<% if not @post.location %>
-  <%= link_to "New Location", new_post_location_path %>
-<% end %>
-</p>
+  <ul class="location">
+    <% if @post.location %>
+        <li id="<%= dom_id(@post.location) %>">
+          <strong>Name:</strong><%= @post.location.name %>
+          <br/><br/>
+          <% if @post.location %>
+              latitude: <%= @post.location.lat %>, longitude: <%= @post.location.lon %>
+              <%= link_to "Edit", edit_post_location_path(@post.location) %>
+              <%= link_to "Delete", post_location_path(@post.location), method: :delete, data: { confirm: "Are you sure?" } %>
+          <% end %>
+        </li>
+    <% end %>
+  </ul>
+
+  <p>
+    <%= link_to "Back", posts_path %>
+    <% if not @post.location %>
+        <%= link_to "New Location", new_post_location_path %>
+    <% end %>
+  </p>
+</div>

@@ -1,22 +1,27 @@
-<%= content_for(:title) do %><%= @location.name %> | <% end %>
-<%= content_for(:meta_og) do %>
-    <meta property="og:title" content="<%= @location.name %>" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="<%= @location.name + ' ' +  @location.address + ' ' + @location.city + ' ' + @location.state %>" />
-    <%= tag :meta, property: 'og:image', content: image_url('bcn_logo.png') %>
-<% end %>
-
-<h3>Posts For: <span class="title"><%= @location.name %></span></h3>
-<br/><br/>
-
-<div class="row">
-  <div class="large-6 columns">
-    <ul class="posts no-bullet">
-      <% @posts.each do |post| %>
-          <%= render 'layouts/posts_list', post: post %>
+<div class="small-12 large-12 columns">
+  <% if @location %>
+      <%= content_for(:title) do %><%= @location.name %> | <% end %>
+      <%= content_for(:meta_og) do %>
+          <meta property="og:title" content="<%= @location.name %>" />
+          <meta property="og:type" content="website" />
+          <meta property="og:description" content="<%= @location.name + ' ' +  @location.address + ' ' + @location.city + ' ' + @location.state %>" />
+          <%= tag :meta, property: 'og:image', content: image_url('bcn_logo.png') %>
       <% end %>
-    </ul>
-  </div>
-</div>
 
-<br/><br/>
+      <h3>Posts For: <span class="title"><%= @location.name %></span></h3>
+      <br/><br/>
+
+      <div class="row">
+        <div class="large-6 columns">
+          <ul class="posts no-bullet">
+            <% @posts.each do |post| %>
+                <%= render 'layouts/posts_list', post: post %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+  <% else %>
+      <p class="grey">No posts at this location... yet.</p>
+  <% end %>
+  <br/><br/>
+</div>
