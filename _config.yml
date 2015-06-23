@@ -8,6 +8,7 @@ url: "http://devblog.boonecommunitynetwork.com" # the base hostname & protocol f
 # Build settings
 markdown: kramdown
 permalink: /:title/
+paginate: 5
 
 excerpt_separator: <!--more-->
 
