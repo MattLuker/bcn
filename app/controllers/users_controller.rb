@@ -94,7 +94,18 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to home_path, notice: 'Welcome you have successfully registered.'
     else
-      render :new
+      @user = User.only_deleted.find_by(email: user_params[:email])
+      if @user
+        User.restore(@user)
+        @user.password = user_params[:password]
+        @user.save
+
+        Notifier.send_welcome(@user).deliver_now
+        session[:user_id] = @user.id
+        redirect_to home_path, notice: 'Welcome you have successfully registered.'
+      else
+        render :new
+      end
     end
   end
 
