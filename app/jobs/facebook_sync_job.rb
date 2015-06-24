@@ -38,6 +38,14 @@ class FacebookSyncJob < ActiveJob::Base
       end
     end
 
+    #
+    # This code subscribes the BCN Facebook App to app user event changes.  In case it ever needs to be re-subscribed.
+    #
+    # @updates = Koala::Facebook::RealtimeUpdates.new(:app_id => FACEBOOK_CONFIG['app_id'],
+    #                                                 :secret => FACEBOOK_CONFIG['secret'])
+    # fb_sub = FacebookSubscription.create(verify_token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join, user: user)
+    # @updates.subscribe('user', 'events', 'http://bcndev.thehoick.com/facebook_subscriptions/', fb_sub.verify_token)
+
     user.event_sync_time = Time.now
     user.save
   end

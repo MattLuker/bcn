@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :posts
   has_many :comments
   has_many :subscriptions, :class_name => "Subscriber", :foreign_key => "user_id"
+  has_many :facebook_subscriptions
   has_and_belongs_to_many :communities, before_add: :inc_users_count, before_remove: :dec_users_count
 
   before_save :downcase_email

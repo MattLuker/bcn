@@ -1,4 +1,8 @@
-FactoryGirl.define do  factory :create_reply do
+FactoryGirl.define do  factory :facebook_subscription do
+    verify_token "MyString"
+references ""
+  end
+  factory :create_reply do
     
   end
   factory :comment do

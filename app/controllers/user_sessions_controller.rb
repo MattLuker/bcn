@@ -29,11 +29,11 @@ class UserSessionsController < ApplicationController
 
     @facebook = User.facebook(request.env['omniauth.auth']['credentials'])
 
-    # Save the access token for later.
-    session[:facebook_auth] = @facebook.access_token
-
     fb_user = @facebook.get_object("me?fields=id,name,picture,first_name,last_name,link")
     user = User.find_by(facebook_id: fb_user['id']) unless fb_user['id'].nil?
+
+    # Save the access token for later.
+    user.facebook_token = @facebook.access_token if user
 
     if user.nil?
       user = User.new({facebook_id: fb_user['id'],

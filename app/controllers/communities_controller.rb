@@ -77,7 +77,7 @@ class CommunitiesController < ApplicationController
       @community.users << user
       if @community.save
         flash[:success] = "You are now part of the #{@community.name} community."
-        FacebookSyncJob.perform_now(session[:facebook_auth], user) unless session[:facebook_auth].nil?
+        FacebookSyncJob.perform_now(user.facebook_token, user) if user.facebook_token
         redirect_to @community
       else
         redirect_to @community, notice: 'There was a problem adding you to the community'

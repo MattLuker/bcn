@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150621100621) do
+ActiveRecord::Schema.define(version: 20150624151721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20150621100621) do
     t.string   "photo_name"
     t.string   "role",                 index: {name: "index_users_on_role"}
     t.boolean  "explicit"
+    t.string   "facebook_token"
     t.index name: "index_users_on_email", using: :gin, expression: "to_tsvector('english'::regconfig, (email)::text)"
     t.index name: "index_users_on_username", using: :gin, expression: "to_tsvector('english'::regconfig, (username)::text)"
   end
@@ -123,6 +124,13 @@ ActiveRecord::Schema.define(version: 20150621100621) do
   create_table "communities_users", force: :cascade do |t|
     t.integer "community_id", index: {name: "index_communities_users_on_community_id"}
     t.integer "user_id",      index: {name: "index_communities_users_on_user_id"}
+  end
+
+  create_table "facebook_subscriptions", force: :cascade do |t|
+    t.string   "verify_token"
+    t.integer  "user_id",      index: {name: "index_facebook_subscriptions_on_user_id"}, foreign_key: {references: "users", name: "fk_facebook_subscriptions_user_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "locations", force: :cascade do |t|
