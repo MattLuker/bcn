@@ -6,13 +6,18 @@ class FacebookSyncJob < ActiveJob::Base
     events = @graph.get_connections(user.facebook_id, 'events')
 
     events.each do |event|
-      fb_event = @graph.get_object(event['id'])
+      #fb_event = @graph.get_object(event['id']
+      fb_event = @graph.get_connection(event['id'], nil,
+                                       {'fields' => 'name,owner,start_time,end_time,cover,place,description'})
       community = user.communities.where(name: fb_event['owner']['name']) unless user.communities.blank?
       unless community.blank?
         start_date = Date.parse(event['start_time']) unless event['start_time'].nil?
         start_time = Time.parse(event['start_time']) unless event['start_time'].nil?
         end_date = Date.parse(event['end_time']) unless event['end_time'].nil?
         end_time = Time.parse(event['end_time']) unless event['end_time'].nil?
+        image = fb_event['cover']['source'] unless fb_event['cover'].nil?
+        lat = fb_event['place']['location']['latitude'] unless fb_event['place'].nil?
+        lon = fb_event['place']['location']['longitude'] unless fb_event['place'].nil?
 
         post = Post.find_by(title: event['name'])
 
@@ -25,14 +30,19 @@ class FacebookSyncJob < ActiveJob::Base
                                      end_date: end_date,
                                      end_time: end_time,
                                      communities: [community[0]],
-                                     user: user
+                                     user: user,
                                  })
+          new_post.image_url = image
+          new_post.create_location({lat: lat, lon: lon})
+          new_post.save
         else
           post.description = fb_event['description']
           post.start_date = start_date
           post.start_time = start_time
           post.end_date = end_date
           post.end_time = end_time
+          post.image_url = image if image
+          post.create_location({lat: lat, lon: lon}) if lat && lon
           post.save
         end
       end
@@ -44,7 +54,7 @@ class FacebookSyncJob < ActiveJob::Base
     # @updates = Koala::Facebook::RealtimeUpdates.new(:app_id => FACEBOOK_CONFIG['app_id'],
     #                                                 :secret => FACEBOOK_CONFIG['secret'])
     # fb_sub = FacebookSubscription.create(verify_token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join, user: user)
-    # @updates.subscribe('user', 'events', 'http://bcndev.thehoick.com/facebook_subscriptions/', fb_sub.verify_token)
+    # @updates.subscribe('user', 'events,notifications', 'http://bcndev.thehoick.com/facebook_subscriptions/', fb_sub.verify_token)
 
     user.event_sync_time = Time.now
     user.save
