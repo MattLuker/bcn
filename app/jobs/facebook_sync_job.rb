@@ -1,5 +1,4 @@
 class FacebookSyncJob < ActiveJob::Base
-  include ActionView::Helpers::AssetUrlHelper
 
   queue_as :default
 
@@ -37,7 +36,7 @@ class FacebookSyncJob < ActiveJob::Base
                                      user: user,
                                      og_url: "https://www.facebook.com/events/#{event['id']}",
                                      og_title: event['name'],
-                                     og_image: image_url('facebook-social.svg'),
+                                     og_image: ActionController::Base.helpers.asset_path('facebook-social.svg'),
                                      image_url: image
                                  })
           #new_post.image_url = image if image
@@ -51,7 +50,7 @@ class FacebookSyncJob < ActiveJob::Base
           post.end_time = end_time
           post.og_url = "https://www.facebook.com/events/#{event['id']}"
           post.og_title = event['name']
-          post.og_image = image_url('facebook-social.svg')
+          post.og_image = ActionController::Base.helpers.asset_path('facebook-social.svg')
           post.image_url = image if image
           post.create_location({lat: lat, lon: lon}) if lat && lon
           post.save
