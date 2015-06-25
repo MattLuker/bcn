@@ -1,7 +1,10 @@
 class FacebookSyncJob < ActiveJob::Base
+  include ActionView::Helpers::AssetUrlHelper
+
   queue_as :default
 
   def perform(token, user)
+
     @graph = Koala::Facebook::API.new(token)
     events = @graph.get_connections(user.facebook_id, 'events')
 
@@ -16,8 +19,9 @@ class FacebookSyncJob < ActiveJob::Base
         end_date = Date.parse(event['end_time']) unless event['end_time'].nil?
         end_time = Time.parse(event['end_time']) unless event['end_time'].nil?
         image = fb_event['cover']['source'] unless fb_event['cover'].nil?
-        lat = fb_event['place']['location']['latitude'] unless fb_event['place'].nil?
-        lon = fb_event['place']['location']['longitude'] unless fb_event['place'].nil?
+        #puts "fb_event: #{fb_event.inspect}"
+        lat = fb_event['place']['location']['latitude'] if fb_event['place'] && fb_event['place']['location']
+        lon = fb_event['place']['location']['longitude'] if fb_event['place'] && fb_event['place']['location']
 
         post = Post.find_by(title: event['name'])
 
@@ -31,8 +35,12 @@ class FacebookSyncJob < ActiveJob::Base
                                      end_time: end_time,
                                      communities: [community[0]],
                                      user: user,
+                                     og_url: "https://www.facebook.com/events/#{event['id']}",
+                                     og_title: event['name'],
+                                     og_image: image_url('facebook-social.svg'),
+                                     image_url: image
                                  })
-          new_post.image_url = image
+          #new_post.image_url = image if image
           new_post.create_location({lat: lat, lon: lon})
           new_post.save
         else
@@ -41,6 +49,9 @@ class FacebookSyncJob < ActiveJob::Base
           post.start_time = start_time
           post.end_date = end_date
           post.end_time = end_time
+          post.og_url = "https://www.facebook.com/events/#{event['id']}"
+          post.og_title = event['name']
+          post.og_image = image_url('facebook-social.svg')
           post.image_url = image if image
           post.create_location({lat: lat, lon: lon}) if lat && lon
           post.save
