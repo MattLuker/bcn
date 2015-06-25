@@ -30,7 +30,7 @@ gem 'omniauth-twitter'
 gem "omniauth-google-oauth2"
 gem 'koala'
 gem 'taglib-ruby'
-
+gem 'icalendar'
 
 gem 'sweet-alert'
 gem 'sweet-alert-confirm'
