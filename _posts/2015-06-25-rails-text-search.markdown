@@ -1,4 +1,10 @@
-# Full Text Search with PostgreSQL and Rails
+---
+title: "Full Text Search with PostgreSQL and Rails"
+date: 2015-06-25 07:00
+categories: rails bcn
+image: search_image.png
+---
+
 
 ## Why Can't I Find My Keys
 
@@ -6,6 +12,7 @@ Ha, *index* keys?  Or maybe the keys to the universe?
 
 We're talking about search here people, and since the budget is pretty much nonexistent we're going to use the [full text search](http://www.postgresql.org/docs/9.2/static/textsearch.html) feature of PostgreSQL.  Though another good Open Source search engine is [Elasticsearch](https://github.com/elastic/elasticsearch), I figured keep things "lean" and just use the built in stuff.
 
+<!--more-->
 ## Setting Things Up
 
 For [BCN Rails](https://github.com/asommer70/bcn) I followed [this great Thoughtbot post](https://robots.thoughtbot.com/implementing-multi-table-full-text-search-with-postgres) on the subject.  I might go back and do some of the things talked about in [this article](http://blog.lostpropertyhq.com/postgres-full-text-search-is-good-enough/) that Thoughtbot also linked to in their post, but this simple solution works for now.
