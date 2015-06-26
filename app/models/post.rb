@@ -133,6 +133,7 @@ class Post < ActiveRecord::Base
   end
 
   def inc_posts_count(model)
+    puts "inc_posts_count..."
     Community.increment_counter('posts_count', model.id)
   end
 

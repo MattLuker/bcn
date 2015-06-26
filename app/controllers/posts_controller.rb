@@ -56,6 +56,16 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
 
+        if post_params[:community_ids]
+          post_params[:community_ids].each do |c|
+            unless c.blank?
+            community = Community.find(c)
+            Community.increment_counter('posts_count', community.id)
+              community.save
+              end
+          end
+        end
+
         # Notify Community subscribers.
         unless @post.communities.blank?
           if current_user

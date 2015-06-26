@@ -8,7 +8,7 @@ module PostHelpers
     expect(page).to have_content('New Post')
 
     fill_in 'Title', with: options[:title]
-    fill_in "What's on your mind?", with: options[:description]
+    fill_in "What's happening?", with: options[:description]
     click_button 'Save Post'
 
     return Post.last
@@ -25,7 +25,7 @@ module PostHelpers
     find('.post-edit').click
 
     fill_in 'Title', with: options[:title]
-    fill_in "What's on your mind?", with: options[:description]
+    fill_in "What's happening?", with: options[:description]
     fill_in 'post[start_date]', with: options[:start_date] if options[:start_date]
     fill_in 'post[end_date]', with: options[:end_date] if options[:end_date]
     fill_in 'post[start_time]', with: options[:start_time] if options[:start_time]
