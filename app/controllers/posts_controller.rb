@@ -2,21 +2,13 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_filter :require_user, only: [:edit, :update, :destroy, :remove_community]
 
-  autocomplete :community, :name, :full => true
-
-  # GET /posts
-  # GET /posts.json
   def index
-    #@posts = Post.order('created_at DESC').all
     @posts = Post.order('created_at DESC').paginate(:page => params[:page], :per_page => 20)
   end
 
-  # GET /posts/1
-  # GET /posts/1.json
   def show
   end
 
-  # GET /posts/new
   def new
     @communities = Community.all
 
@@ -28,7 +20,6 @@ class PostsController < ApplicationController
     @community_names = []
   end
 
-  # GET /posts/1/edit
   def edit
     @communities = Community.all
     @community_names = @post.communities.map { |c| c.name }.join(',') + ','
@@ -44,26 +35,16 @@ class PostsController < ApplicationController
     end
   end
 
-  # POST /posts
-  # POST /posts.json
   def create
     if post_params[:lat] and post_params[:lon]
       lat = params[:post].delete :lat
       lon = params[:post].delete :lon
     end
 
-    communities = set_communities
-
     if current_user
       @post = current_user.posts.new(post_params)
     else
       @post = Post.new(post_params)
-    end
-
-    if communities
-      communities.each do |community|
-        @post.communities << Community.find_by_name(community)
-      end
     end
 
     if lat and lon
@@ -109,21 +90,7 @@ class PostsController < ApplicationController
     render json: og_data
   end
 
-  # PATCH/PUT /posts/1
-  # PATCH/PUT /posts/1.json
   def update
-    communities = set_communities
-    if communities
-      new_communities = []
-      communities.each do |community|
-        # unless @post.communities.any? { |c| c.name == community }
-        #   @post.communities << Community.find_by_name(community)
-        # end
-        new_communities.push(Community.find_by_name(community))
-      end
-      @post.communities = new_communities
-    end
-
     if current_user != @post.user
       flash[:error] = 'You can only update your posts.'
       redirect_to home_index_path
@@ -156,8 +123,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
   def destroy
     respond_to do |format|
       if current_user.posts.find(params[:id]).destroy
@@ -172,7 +137,6 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_post
       if current_user
         begin
@@ -186,14 +150,6 @@ class PostsController < ApplicationController
       end
     end
 
-    def set_communities
-      if post_params[:community_names]
-        communities = params[:post].delete :community_names
-        communities = communities.split(',')
-      end
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require('post').permit(:title,
                                     :description,
@@ -207,7 +163,7 @@ class PostsController < ApplicationController
                                     :end_time,
                                     :image,
                                     :audio,
-                                    :communities,
+                                    :community_ids,
                                     :og_url,
                                     :og_image,
                                     :og_title,

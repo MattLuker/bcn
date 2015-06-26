@@ -28,7 +28,7 @@
     <div class="row">
       <div class="large-4 columns communities">
         <%= f.label :communities if action_name == 'edit' %>
-        <%= f.select :communities,
+        <%= f.select :community_ids,
                      @communities.map { |u| [u.name, u.id] },
                      { include_blank: true },
                      { class: 'chosen-select',
