@@ -21,18 +21,20 @@
     <div class="row">
       <div class="large-4 columns">
         <%= f.label 'Content' if action_name == 'edit' %>
-        <%= f.text_area :description, :placeholder => "What's on your mind?" %>
+        <%= f.text_area :description, :placeholder => "What's happening?" %>
       </div>
     </div>
 
     <div class="row">
       <div class="large-4 columns communities">
         <%= f.label :communities if action_name == 'edit' %>
-        <%= autocomplete_field_tag 'post[community_names]',
-                                   @community_names,
-                                   '/posts/autocomplete_community_name',
-                                   'data-delimiter' => ',', :multiple => true,
-                                   :placeholder => 'Communities (in a comma separated list)'
+        <%= f.select :communities,
+                     @communities.map { |u| [u.name, u.id] },
+                     { include_blank: true },
+                     { class: 'chosen-select',
+                       multiple: true,
+                       data: { 'placeholder' => 'Select Communities (or start typing their name) ' }
+                     }
         %>
       </div>
     </div>

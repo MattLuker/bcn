@@ -51,7 +51,7 @@ ready_post = ->
         button = """<a class="button tiny secondary icon post-subscribe" title="Unsubscrbie from Post"
                        data-post-id="#{json.post_id}"
                        data-current-user-id="#{json.user_id}" data-status="unsubscribed" href="#">
-                      <img class="icon" src="/assets/tack-icon-green.svg" alt="Tack icon">
+                      <img class="icon" src="/assets/tack-icon-green.svg" alt="Unsubscribe">
                     </a>
                  """
         $this.replaceWith(button)
@@ -64,7 +64,7 @@ ready_post = ->
       }).success (json) ->
         button = """<a class="button tiny icon post-subscribe" title="Subscribe to Post" data-post-id="#{json.post_id}"
                        data-current-user-id="#{json.user_id}" data-status="unsubscribed" href="#">
-                      <img class="icon" src="/assets/tack-icon.svg" alt="Tack icon">
+                      <img class="icon" src="/assets/tack-icon.svg" alt="Subscribe">
                     </a>
                  """
         $this.replaceWith(button)
@@ -106,6 +106,16 @@ ready_post = ->
     community = vars[0].split('=')[1]
     community = community.replace('+', ' ')
     $('#post_community_names').val(community)
+
+#
+#  $(".js-example-basic-multiple").select2({
+#    placeholder: "Select Communities",
+#    allowClear: true
+#  })
+
+  $('.chosen-select').chosen
+    allow_single_deselect: true
+    no_results_text: 'No results matched'
 
 
 toggle_map = (e) ->

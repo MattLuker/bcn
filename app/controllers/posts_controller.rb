@@ -18,6 +18,8 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
+    @communities = Community.all
+
     if current_user
       @post = current_user.posts.new
     else
@@ -205,7 +207,7 @@ class PostsController < ApplicationController
                                     :end_time,
                                     :image,
                                     :audio,
-                                    :community_names,
+                                    :communities,
                                     :og_url,
                                     :og_image,
                                     :og_title,

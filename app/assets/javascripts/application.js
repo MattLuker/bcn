@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
 //= require autocomplete-rails
+//= require twitter/typeahead
+//= require chosen.jquery
 //= require modernizr
 //= require foundation/foundation
 //= require foundation
