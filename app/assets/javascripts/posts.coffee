@@ -2,21 +2,22 @@ ready_post = ->
   $('.datepicker').fdatepicker()
 
   $('.toggle').on 'click', (e) ->
-    console.log(e.target.dataset)
     e.preventDefault()
     e.stopPropagation()
     $form = $('.' + e.target.dataset.toggle)
     $form.toggle()
-    if $('#event').prop('checked') == true
-      $('#event').prop('checked', false)
-    else
-      $('#event').prop('checked', true)
-
+#    if $('#event').prop('checked') == true
+#      $('#event').prop('checked', false)
+#    else
+#      $('#event').prop('checked', true)
 
 
   # Expand text area to fit text.
-  tx = $('#post_description').find('textarea')
-  tx.height(tx.prop('scrollHeight'))
+#  for textarea in $('textarea')
+#    console.log($(textarea).prop('scrollHeight'))
+#    $(textarea).height($(textarea).prop('scrollHeight'))
+  #tx = $('#post_description').find('textarea')
+  #tx.height(tx.prop('scrollHeight'))
 
   $('.clockpicker').clockpicker({
     align: 'left',
@@ -113,10 +114,21 @@ ready_post = ->
     no_results_text: 'No results matched'
 
   # Setup Markdown editor for description.
-  editor = new Editor({
-    element: document.getElementById('post_description'),
-  })
-  editor.render()
+#  post_editor = new Editor({
+#    element: document.getElementById('post_description'),
+#  })
+#  post_editor.render()
+
+
+  #for textarea in $('textarea')
+  $.each $('textarea'), (index, element) ->
+    console.log('index:', index)
+    console.log($(element).attr('id'))
+    id = $(element).attr('id')
+    editor = new Editor({
+      element: document.getElementById(id)
+    })
+    editor.render()
 
 
 toggle_map = (e) ->
