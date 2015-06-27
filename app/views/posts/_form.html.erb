@@ -1,85 +1,99 @@
 <%= form_for(@post, multipart: true)  do |f| %>
-  <% if @post.errors.any? %>
-    <div id="error_explanation" class="alert-box alert radius">
-      <h5><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h5>
+    <% if @post.errors.any? %>
+        <div id="error_explanation" class="alert-box alert radius">
+          <h5><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h5>
 
-      <ul>
-      <% @post.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+          <ul>
+            <% @post.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
 
     <div class="row">
       <div class="large-4 columns">
+        <fieldset>
+          <legend>Details</legend>
+
+    <div class="row">
+      <div class="large-12 columns">
         <%= f.label :title if action_name == 'edit' %>
         <%= f.text_field :title, :placeholder => 'Title' %>
       </div>
     </div>
 
+          <div class="row">
+            <div class="large-12 columns communities">
+              <%= f.label :communities if action_name == 'edit' %>
+              <%= f.select :community_ids,
+                           @communities.map { |u| [u.name, u.id] },
+                           { include_blank: true },
+                           { class: 'chosen-select',
+                             multiple: true,
+                             data: { 'placeholder' => 'Select Communities (or start typing their name)' }
+                           }
+              %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.text_field :og_url, id: 'post-link', placeholder: 'Link http://...' %>
+              <div id="link-meter" class="progress hidden">
+                <span class="meter" style="width: 0"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row og-row">
+            <div class="large-8 columns og-data hidden">
+              <a href="#" class="og-url" target="_blank">
+                <img src="#" class="th og-image"/>
+                <h5 class="og-title"></h5>
+                <p class="og-description"></p>
+              </a>
+              <p class="grey og-error hidden"></p>
+            </div>
+            <%= f.hidden_field :og_url %>
+            <%= f.hidden_field :og_image %>
+            <%= f.hidden_field :og_title %>
+            <%= f.hidden_field :og_description %>
+          </div>
+</fieldset>
+      </div>
+    </div>
+
     <div class="row">
-      <div class="large-4 columns">
+      <div class="large-6 columns">
         <%= f.label 'Content' if action_name == 'edit' %>
         <%= f.text_area :description, :placeholder => "What's happening?" %>
       </div>
     </div>
 
-    <div class="row">
-      <div class="large-4 columns communities">
-        <%= f.label :communities if action_name == 'edit' %>
-        <%= f.select :community_ids,
-                     @communities.map { |u| [u.name, u.id] },
-                     { include_blank: true },
-                     { class: 'chosen-select',
-                       multiple: true,
-                       data: { 'placeholder' => 'Select Communities (or start typing their name)' }
-                     }
-        %>
-      </div>
-    </div>
+
+    <!--<br/>-->
+    <!--<div class="row">-->
+      <!--<div class="large-4 columns">-->
+        <!--<input id="event" type="checkbox" class="toggle" data-toggle="eventBox" />-->
+        <!--<label for="event" class="toggle" data-toggle="eventBox">Event?</label>-->
+      <!--</div>-->
+    <!--</div>-->
 
     <div class="row">
       <div class="large-4 columns">
-        <%= f.text_field :og_url, id: 'post-link', placeholder: 'Link http://...' %>
-        <div id="link-meter" class="progress hidden">
-          <span class="meter" style="width: 0"></span>
-        </div>
-      </div>
-    </div>
-    <div class="row og-row">
-      <div class="large-3 columns og-data hidden">
-        <a href="#" class="og-url" target="_blank">
-          <img src="#" class="th og-image"/>
-          <h5 class="og-title"></h5>
-          <p class="og-description"></p>
-        </a>
-        <p class="grey og-error hidden"></p>
-      </div>
-      <%= f.hidden_field :og_url %>
-      <%= f.hidden_field :og_image %>
-      <%= f.hidden_field :og_title %>
-      <%= f.hidden_field :og_description %>
-    </div>
+        <fieldset>
+          <legend>Event?</legend>
 
-    <br/>
-    <div class="row">
-      <div class="large-4 columns">
-        <input id="event" type="checkbox" class="toggle" data-toggle="eventBox" />
-        <label for="event" class="toggle" data-toggle="eventBox">Event?</label>
-      </div>
-    </div>
-
-    <div class="eventBox hidden">
+    <!--<div class="eventBox">-->
       <div class="row">
         <div class="large-12 columns">
-          <div class="large-2 columns">
+          <div class="large-6 columns">
             <%= f.label 'Start date' %>
             <%= f.text_field :start_date, :class => 'datepicker',
                              :placeholder => DateTime.now.strftime('%Y-%m-%d'),
                              'data-date-format' => 'yyyy-mm-dd' %>
           </div>
-          <div class="large-2 columns left">
+          <div class="large-6 columns left">
             <%= f.label 'Start time' %>
             <% if @post.start_time %>
                 <%= f.text_field :start_time,
@@ -96,13 +110,13 @@
 
       <div class="row">
         <div class="large-12 columns">
-          <div class="large-2 columns">
+          <div class="large-6 columns">
             <%= f.label :end_date %>
             <%= f.text_field :end_date, :class => 'datepicker',
                              :placeholder => DateTime.now.strftime('%Y-%m-%d'),
                              'data-date-format' => 'yyyy-mm-dd' %>
           </div>
-          <div class="large-2 columns left">
+          <div class="large-6 columns left">
             <%= f.label 'End time' %>
             <% if @post.end_time %>
                 <%= f.text_field :end_time,
@@ -116,27 +130,35 @@
           </div>
         </div>
       </div>
-    </div>
-    <br/><br/>
-
-    <div class="row">
-      <div class="large-4 columns">
-        <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
-        <br/><br/>
-
-        <%= f.label :image, 'Add a pic?'%>
-        <%= f.file_field :image, class: 'photo_upload' %>
-        <%= hidden_field_tag :retained_photo %>
       </div>
     </div>
+    <!--</div>-->
 
     <div class="row">
       <div class="large-4 columns">
-        <br/><br/>
+        <fieldset>
+          <legend>Upload File</legend>
+          <div class="row">
+            <div class="large-12 columns">
+              <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
 
-        <%= f.label :audio, 'Add an audio file?'%>
-        <%= f.file_field :audio, class: 'audio_upload' %>
-        <%= hidden_field_tag :retained_photo %>
+              <%= f.label :image, 'Add a pic?'%>
+              <%= f.file_field :image, class: 'photo_upload' %>
+              <%= hidden_field_tag :retained_photo %>
+            </div>
+          </div>
+
+          <br/><br/>
+
+          <div class="row">
+            <div class="large-12 columns">
+
+              <%= f.label :audio, 'Add an audio file?'%>
+              <%= f.file_field :audio, class: 'audio_upload' %>
+              <%= hidden_field_tag :retained_photo %>
+            </div>
+          </div>
+        </fieldset>
       </div>
     </div>
 
@@ -155,9 +177,9 @@
       </div>
     </div>
 
-  <br/>
-  <% if params[:lat] and params[:lon] %>
-    <%= f.hidden_field :lat, :value => params[:lat] %>
-    <%= f.hidden_field :lon, :value => params[:lon] %>
-  <% end %>
+    <br/>
+    <% if params[:lat] and params[:lon] %>
+        <%= f.hidden_field :lat, :value => params[:lat] %>
+        <%= f.hidden_field :lon, :value => params[:lon] %>
+    <% end %>
 <% end %>
