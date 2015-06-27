@@ -1,0 +1,53 @@
+@import 'colors';
+
+@mixin editor-icon($icon) {
+  background: image-url($icon);
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-bold {
+  @include editor-icon('bold-icon.svg');
+}
+
+.icon-italic {
+  @include editor-icon('italic-icon.svg');
+}
+
+.icon-quote {
+  @include editor-icon('quote-icon.svg');
+
+}
+
+.icon-unordered-list {
+  @include editor-icon('unordered-list-icon.svg');
+}
+
+.icon-ordered-list {
+  @include editor-icon('ordered-list-icon.svg');
+}
+
+.icon-link {
+  @include editor-icon('link-icon.svg');
+}
+
+.icon-image {
+  @include editor-icon('picture-icon.svg');
+}
+
+.icon-info {
+  @include editor-icon('info-icon.svg');
+}
+
+.icon-preview {
+  @include editor-icon('eye-open-icon.svg');
+}
+
+.icon-fullscreen {
+  @include editor-icon('expand-icon.svg');
+}
