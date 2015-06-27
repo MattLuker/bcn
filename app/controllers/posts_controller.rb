@@ -76,7 +76,9 @@ class PostsController < ApplicationController
           @post.communities.each do |community|
             community.subscribers.each do |subscriber|
               unless current_user == subscriber.user
-                PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
+                if subscriber.user && subscriber.user.email
+                  PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
+                end
               end
             end
           end

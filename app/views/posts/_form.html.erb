@@ -16,12 +16,12 @@
         <fieldset>
           <legend>Details</legend>
 
-    <div class="row">
-      <div class="large-12 columns">
-        <%= f.label :title if action_name == 'edit' %>
-        <%= f.text_field :title, :placeholder => 'Title' %>
-      </div>
-    </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :title if action_name == 'edit' %>
+              <%= f.text_field :title, :placeholder => 'Title' %>
+            </div>
+          </div>
 
           <div class="row">
             <div class="large-12 columns communities">
@@ -59,7 +59,7 @@
             <%= f.hidden_field :og_title %>
             <%= f.hidden_field :og_description %>
           </div>
-</fieldset>
+        </fieldset>
       </div>
     </div>
 
@@ -73,10 +73,10 @@
 
     <!--<br/>-->
     <!--<div class="row">-->
-      <!--<div class="large-4 columns">-->
-        <!--<input id="event" type="checkbox" class="toggle" data-toggle="eventBox" />-->
-        <!--<label for="event" class="toggle" data-toggle="eventBox">Event?</label>-->
-      <!--</div>-->
+    <!--<div class="large-4 columns">-->
+    <!--<input id="event" type="checkbox" class="toggle" data-toggle="eventBox" />-->
+    <!--<label for="event" class="toggle" data-toggle="eventBox">Event?</label>-->
+    <!--</div>-->
     <!--</div>-->
 
     <div class="row">
@@ -84,52 +84,52 @@
         <fieldset>
           <legend>Event?</legend>
 
-    <!--<div class="eventBox">-->
-      <div class="row">
-        <div class="large-12 columns">
-          <div class="large-6 columns">
-            <%= f.label 'Start date' %>
-            <%= f.text_field :start_date, :class => 'datepicker',
-                             :placeholder => DateTime.now.strftime('%Y-%m-%d'),
-                             'data-date-format' => 'yyyy-mm-dd' %>
+          <!--<div class="eventBox">-->
+          <div class="row">
+            <div class="large-12 columns">
+              <div class="large-6 columns">
+                <%= f.label 'Start date' %>
+                <%= f.text_field :start_date, :class => 'datepicker',
+                                 :placeholder => DateTime.now.strftime('%Y-%m-%d'),
+                                 'data-date-format' => 'yyyy-mm-dd' %>
+              </div>
+              <div class="large-6 columns left">
+                <%= f.label 'Start time' %>
+                <% if @post.start_time %>
+                    <%= f.text_field :start_time,
+                                     :value => "#{(@post.start_time).to_s(:time)}",
+                                     :class => 'clockpicker' %>
+                <% else %>
+                    <%= f.text_field :start_time, :class => 'clockpicker',
+                                     :placeholder => Time.now.to_s(:time)
+                    %>
+                <% end %>
+              </div>
+            </div>
           </div>
-          <div class="large-6 columns left">
-            <%= f.label 'Start time' %>
-            <% if @post.start_time %>
-                <%= f.text_field :start_time,
-                                 :value => "#{(@post.start_time).to_s(:time)}",
-                                 :class => 'clockpicker' %>
-            <% else %>
-                <%= f.text_field :start_time, :class => 'clockpicker',
-                                 :placeholder => Time.now.to_s(:time)
-                %>
-            <% end %>
-          </div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="large-12 columns">
-          <div class="large-6 columns">
-            <%= f.label :end_date %>
-            <%= f.text_field :end_date, :class => 'datepicker',
-                             :placeholder => DateTime.now.strftime('%Y-%m-%d'),
-                             'data-date-format' => 'yyyy-mm-dd' %>
+          <div class="row">
+            <div class="large-12 columns">
+              <div class="large-6 columns">
+                <%= f.label :end_date %>
+                <%= f.text_field :end_date, :class => 'datepicker',
+                                 :placeholder => DateTime.now.strftime('%Y-%m-%d'),
+                                 'data-date-format' => 'yyyy-mm-dd' %>
+              </div>
+              <div class="large-6 columns left">
+                <%= f.label 'End time' %>
+                <% if @post.end_time %>
+                    <%= f.text_field :end_time,
+                                     :value => "#{(@post.end_time).to_s(:time)}",
+                                     :class => 'clockpicker' %>
+                <% else %>
+                    <%= f.text_field :end_time, :class => 'clockpicker',
+                                     :placeholder => Time.now.to_s(:time)
+                    %>
+                <% end %>
+              </div>
+            </div>
           </div>
-          <div class="large-6 columns left">
-            <%= f.label 'End time' %>
-            <% if @post.end_time %>
-                <%= f.text_field :end_time,
-                                 :value => "#{(@post.end_time).to_s(:time)}",
-                                 :class => 'clockpicker' %>
-            <% else %>
-                <%= f.text_field :end_time, :class => 'clockpicker',
-                                 :placeholder => Time.now.to_s(:time)
-                %>
-            <% end %>
-          </div>
-        </div>
-      </div>
       </div>
     </div>
     <!--</div>-->

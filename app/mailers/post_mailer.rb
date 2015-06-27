@@ -7,6 +7,9 @@ class PostMailer < ApplicationMailer
     @post = post
     @community = community
     @poster = poster
-    mail(to: "#{user.first_name} #{user.last_name} <#{user.email}>", subject: "New post in #{@community.name}")
+
+    mail(to: "#{user.first_name if @user.first_name} #{user.last_name if @user.last_name} <#{user.email}>",
+         subject: "New post in #{@community.name}")
+
   end
 end
