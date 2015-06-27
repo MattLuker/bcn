@@ -107,15 +107,16 @@ ready_post = ->
     community = community.replace('+', ' ')
     $('#post_community_names').val(community)
 
-#
-#  $(".js-example-basic-multiple").select2({
-#    placeholder: "Select Communities",
-#    allowClear: true
-#  })
-
+  # Setup multi-select goodness with Chosen.
   $('.chosen-select').chosen
     allow_single_deselect: true
     no_results_text: 'No results matched'
+
+  # Setup Markdown editor for description.
+  editor = new Editor({
+    element: document.getElementById('post_description'),
+  })
+  editor.render()
 
 
 toggle_map = (e) ->

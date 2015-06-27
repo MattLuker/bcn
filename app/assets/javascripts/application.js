@@ -28,6 +28,8 @@
 //= require transition
 //= require zoom
 //= require chosen.jquery
+//= require editor
+//= require marked
 
 $(function(){
     $(document).foundation();

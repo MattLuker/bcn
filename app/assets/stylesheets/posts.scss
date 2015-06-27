@@ -178,3 +178,113 @@ button.hidden {
 #post-link {
   margin-top:16px;
 }
+
+.icon-bold {
+  background: image-url('bold-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-italic {
+  background: image-url('italic-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-quote {
+  background: image-url('quote-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-unordered-list {
+  background: image-url('unordered-list-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-ordered-list {
+  background: image-url('ordered-list-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-link {
+  background: image-url('link-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-image {
+  background: image-url('picture-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-info {
+  background: image-url('info-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-preview {
+  background: image-url('eye-open-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
+
+.icon-fullscreen {
+  background: image-url('expand-icon.svg');
+  background-size: 15px 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border: 1px solid $oil;
+  }
+}
