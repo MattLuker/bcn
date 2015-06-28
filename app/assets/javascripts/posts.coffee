@@ -114,21 +114,21 @@ ready_post = ->
     no_results_text: 'No results matched'
 
   # Setup Markdown editor for description.
-#  post_editor = new Editor({
-#    element: document.getElementById('post_description'),
-#  })
-#  post_editor.render()
+  post_editor = new Editor({
+    element: document.getElementById('post_description'),
+  })
+  post_editor.render()
 
 
-  #for textarea in $('textarea')
-  $.each $('textarea'), (index, element) ->
-    console.log('index:', index)
-    console.log($(element).attr('id'))
-    id = $(element).attr('id')
-    editor = new Editor({
-      element: document.getElementById(id)
-    })
-    editor.render()
+#  #for textarea in $('textarea')
+#  $.each $('textarea'), (index, element) ->
+#    console.log('index:', index)
+#    console.log($(element).attr('id'))
+#    id = $(element).attr('id')
+#    editor = new Editor({
+#      element: document.getElementById(id)
+#    })
+#    editor.render()
 
 
 toggle_map = (e) ->

@@ -61,6 +61,11 @@ ready_community = ->
           $input.css('margin-bottom', '16px')
       })
 
+  # Setup Markdown editor for description.
+  post_editor = new Editor({
+    element: document.getElementById('community_description'),
+  })
+  post_editor.render()
 
 
 # Fire the ready function on load and refresh.

@@ -1,20 +1,64 @@
-<%= form_for(@community, :builder => FoundationFormBuilder) do |f| %>
+<%= form_for(@community) do |f| %>
 
-    <%= f.text_field :name, placeholder: :name, autofocus: 'autofocus', actionname: action_name %>
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.text_field :name, placeholder: :name, autofocus: 'autofocus', actionname: action_name %>
+      </div>
+    </div>
 
-    <%= f.text_field :description, placeholder: :description, actionname: action_name %>
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.label :description %>
+        <%= f.text_area :description, placeholder: :description %>
+      </div>
+    </div>
 
-    <%= f.text_field :home_page, placeholder: 'http://community_website', actionname: action_name %>
+    <div class="row">
+      <div class="large-4 columns">
+        <%= f.text_field :color, placeholder: :color, actionname: action_name %>
+      </div>
+    </div>
 
-    <%= f.text_field :facebook_link, placeholder: 'http://facebook_page', actionname: action_name %>
+    <div class="row">
+      <div class="large-4 columns">
+        <fieldset>
+          <legend>Web Links</legend>
 
-    <%= f.text_field :twitter_link, placeholder: 'http://twitter_page', actionname: action_name %>
+          <div class="row">
+            <div class="large-12 columns">
 
-    <%= f.text_field :google_link, placeholder: 'http://google_plus_page', actionname: action_name %>
+              <%= f.text_field :home_page, placeholder: 'http://community_website', actionname: action_name %>
+            </div>
+          </div>
 
-    <%= f.text_field :color, placeholder: :color, actionname: action_name %>
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.text_field :facebook_link, placeholder: 'http://facebook_page', actionname: action_name %>
+            </div>
+          </div>
 
-    <%= f.text_field :events_url, placeholder: :events_url, actionname: action_name %>
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.text_field :twitter_link, placeholder: 'http://twitter_page' %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.text_field :google_link, placeholder: 'http://google_plus_page', actionname: action_name %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.text_field :events_url, placeholder: :events_url, actionname: action_name %>
+            </div>
+          </div>
+
+        </fieldset>
+      </div>
+    </div>
+
 
     <div class="row">
       <div class="large-4 columns">
@@ -28,13 +72,22 @@
 
     <br/><br/>
 
-        <%= f.submit 'Save Community' %>
+    <div class="row">
+      <div class="large-4 columns actions">
+        <%= button_tag type: 'submit', class: 'button small success' do %>
+            <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
+            &nbsp;
+            Save Community
+        <% end %>
+
         &nbsp;&nbsp;&nbsp;&nbsp;
-    <%= link_to 'Cancel', request.referrer %>
+        <%= link_to 'Cancel', request.referrer %>
+      </div>
+    </div>
 <% end %>
 
 <br/><br/>
 
 <% if action_name == 'edit' %>
-<%= link_to 'Delete', @community, method: :delete, class: 'grey', data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Delete', @community, method: :delete, class: 'grey', data: { confirm: 'Are you sure?' } %>
 <% end %>
