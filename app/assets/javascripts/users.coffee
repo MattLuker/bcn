@@ -22,6 +22,12 @@ ready_user = ->
           $form.submit()
     );
 
+#  # Setup Markdown editor for description.
+#  bio_editor = new Editor({
+#    element: document.getElementById('user_bio'),
+#  })
+#  bio_editor.render()
+
 
 # Fire the ready function on load and refresh.
 $(document).ready(ready_user)

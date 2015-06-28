@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150624151721) do
+ActiveRecord::Schema.define(version: 20150628201428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20150624151721) do
     t.string   "role",                 index: {name: "index_users_on_role"}
     t.boolean  "explicit"
     t.string   "facebook_token"
+    t.string   "bio"
     t.index name: "index_users_on_email", using: :gin, expression: "to_tsvector('english'::regconfig, (email)::text)"
     t.index name: "index_users_on_username", using: :gin, expression: "to_tsvector('english'::regconfig, (username)::text)"
   end
