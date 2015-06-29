@@ -9,6 +9,11 @@ class Post < ActiveRecord::Base
   validates :start_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
   validates :end_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :end_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
+  validates :title, length: { in: 0..140 }, format: { without: /https?:\/\/[\S]+/, message: 'cannot be a URL.' }
+
+  def not_url
+    return title =~ /https?:\/\/[\S]+/
+  end
 
   validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
   validates_property :mime_type, of: :image,

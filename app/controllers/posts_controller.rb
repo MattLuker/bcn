@@ -67,22 +67,7 @@ class PostsController < ApplicationController
         end
 
         # Notify Community subscribers.
-        unless @post.communities.blank?
-          if current_user
-            current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
-          else
-            poster = 'Anonymous'
-          end
-          @post.communities.each do |community|
-            community.subscribers.each do |subscriber|
-              unless current_user == subscriber.user
-                if subscriber.user && subscriber.user.email
-                  PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
-                end
-              end
-            end
-          end
-        end
+        notify_subscribers('create')
 
         format.html {
           flash[:success] = 'Post was successfully created.'
@@ -109,6 +94,8 @@ class PostsController < ApplicationController
     else
       respond_to do |format|
         if @post.update(post_params)
+          notify_subscribers('update')
+
           format.html { redirect_to @post, notice: 'Post was successfully updated.' }
           format.json { render :show, status: :ok, location: @post }
         else
@@ -149,6 +136,29 @@ class PostsController < ApplicationController
   end
 
   private
+    def notify_subscribers(method)
+      unless @post.communities.blank?
+        if current_user
+          current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
+        else
+          poster = 'Anonymous'
+        end
+        @post.communities.each do |community|
+          community.subscribers.each do |subscriber|
+            unless current_user == subscriber.user
+              if subscriber.user && subscriber.user.email
+                if method = 'create'
+                  PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
+                else
+                  PostMailer.post_updated(subscriber.user, @post, community, poster).deliver_now
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
     def set_post
       if current_user
         begin
