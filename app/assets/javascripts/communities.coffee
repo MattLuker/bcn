@@ -62,10 +62,11 @@ ready_community = ->
       })
 
   # Setup Markdown editor for description.
-  desc_editor = new Editor({
-    element: document.getElementById('community_description'),
-  })
-  desc_editor.render()
+  if $('#community_description').length
+    desc_editor = new Editor({
+      element: document.getElementById('community_description'),
+    })
+    desc_editor.render()
 
 
 # Fire the ready function on load and refresh.
