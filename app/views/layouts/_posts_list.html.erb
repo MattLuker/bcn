@@ -11,7 +11,7 @@
             <%= link_to post do %>
                 <%= image_tag post.image.thumb('75x75#').url %>
             <% end %>
-        <% elsif post.og_image && post.og_image != '//:0' %>
+        <% elsif post.og_image && post.og_image != '//:0' && !post.og_image.blank? %>
             <%= link_to post do %>
                 <%= image_tag post.og_image %>
             <% end %>
