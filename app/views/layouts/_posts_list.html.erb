@@ -1,33 +1,30 @@
 
 <li class="<%= dom_id(post) %> post row">
   <div class="row">
-    <% if post.image %>
-        <% if action_name == 'home' || action_name == 'show' %>
-            <div class="large-2 columns">
-        <% else %>
-            <div class="large-1 columns">
-        <% end %>
-
-        <%= link_to post do %>
-            <%= image_tag post.image.thumb('75x75#').url %>
-        <% end %>
-
-        </div>
+    <% if action_name == 'home' || action_name == 'show' %>
+        <div class="large-2 columns">
+    <% else %>
+        <div class="large-1 columns">
     <% end %>
 
-    <% if post.og_image and post.image.nil? %>
-        <% if action_name == 'home' || action_name == 'show' %>
-            <div class="large-2 columns">
+        <% if post.image %>
+            <%= link_to post do %>
+                <%= image_tag post.image.thumb('75x75#').url %>
+            <% end %>
+        <% elsif post.og_image && post.og_image != '//:0' %>
+            <%= link_to post do %>
+                <%= image_tag post.og_image %>
+            <% end %>
+        <% elsif post.start_date %>
+            <%= link_to post do %>
+                <%= image_tag 'calendar-icon.svg', size: '75x75', alt: post.title %>
+            <% end %>
         <% else %>
-            <div class="large-1 columns">
+            <%= link_to post do %>
+                <%= image_tag 'bcn_logo_black.svg', size: '75x75', alt: post.title %>
+            <% end %>
         <% end %>
-
-        <%= link_to post do %>
-            <%= image_tag post.og_image %>
-        <% end %>
-
-        </div>
-    <% end %>
+  </div>
 
     <% if action_name == 'home' || action_name == 'show' %>
         <div class="large-10 columns">
