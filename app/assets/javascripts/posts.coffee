@@ -52,7 +52,7 @@ ready_post = ->
         button = """<a class="button tiny secondary icon post-subscribe" title="Unsubscrbie from Post"
                        data-post-id="#{json.post_id}"
                        data-current-user-id="#{json.user_id}" data-status="unsubscribed" href="#">
-                      <img class="icon" src="/assets/tack-icon-green.svg" alt="Unsubscribe">
+                      <img class="icon" src="/assets/tack-icon-green.svg" alt="Unsubscribe", title="Unsubscribe">
                     </a>
                  """
         $this.replaceWith(button)
@@ -65,7 +65,7 @@ ready_post = ->
       }).success (json) ->
         button = """<a class="button tiny icon post-subscribe" title="Subscribe to Post" data-post-id="#{json.post_id}"
                        data-current-user-id="#{json.user_id}" data-status="unsubscribed" href="#">
-                      <img class="icon" src="/assets/tack-icon.svg" alt="Subscribe">
+                      <img class="icon" src="/assets/tack-icon.svg" alt="Subscribe", title="Subscribe">
                     </a>
                  """
         $this.replaceWith(button)

@@ -126,14 +126,14 @@
                             title: 'Unsubscribe from Post',
                             data: { post_id: @post.id, current_user_id: current_user.id, status: 'subscribed' } do %>
 
-                    <%= image_tag 'tack-icon-green.svg', class: 'icon' %>
+                    <%= image_tag 'tack-icon-green.svg', class: 'icon', title: 'Unsubscribe from Post' %>
                 <% end %>
             <% else %>
                 <%= link_to '#',
                             class: 'button tiny icon post-subscribe',
                             title: 'Subscribe to Post',
                             data: { post_id: @post.id, current_user_id: current_user.id, status: 'unsubscribed' } do %>
-                    <%= image_tag 'tack-icon.svg', class: 'icon' %>
+                    <%= image_tag 'tack-icon.svg', class: 'icon', title: 'Subscribe to Post' %>
                 <% end %>
 
             <% end %>

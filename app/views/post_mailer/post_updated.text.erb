@@ -1,0 +1,18 @@
+Hi <%= @user.first_name %>,
+
+The post <%= @post.title %> from <%= @poster %> has been updated.
+
+<%= @post.description %>
+
+<% if @post.start_date %>
+  Starting: <%= @post.start_date.strftime('%m/%d/%Y') %> at <%= @post.start_time.to_s(:time) if @post.start_time %>
+<% end %>
+
+<% if @post.end_date %>
+  Ending: <%= @post.end_date.strftime('%m/%d/%Y') %> at <%= @post.end_time.to_s(:time) if @post.end_time %>
+<% end %>
+
+Browse here: <%= post_url(@post, host: 'bcn.thehoick.com') %> to view.
+
+Thanks,
+Boone Community Network Team

@@ -48,7 +48,9 @@
           <%= truncate(post.og_description, length: 50) %>
         </span>
     <% else %>
-        <span class="post-text truncate" title="<%= post.description %>"><%= truncate(post.description, length: 50) %></span>
+        <span class="post-text truncate" title="<%= post.description %>">
+          <%= truncate( strip_tags( markdown(post.description) ), length: 50) %>
+        </span>
     <% end %>
 
     <br/>

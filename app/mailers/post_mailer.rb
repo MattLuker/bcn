@@ -12,4 +12,14 @@ class PostMailer < ApplicationMailer
          subject: "New post in #{@community.name}")
 
   end
+
+  def post_updated(user, post, poster)
+    @user = user
+    @post = post
+    @poster = poster
+
+    mail(to: "#{user.first_name if @user.first_name} #{user.last_name if @user.last_name} <#{user.email}>",
+         subject: "#{@post.title} has been updated.")
+
+  end
 end

@@ -1,4 +1,6 @@
 class Post < ActiveRecord::Base
+  include ActiveModel::Dirty
+
   acts_as_paranoid
   dragonfly_accessor :image
   dragonfly_accessor :audio
