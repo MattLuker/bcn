@@ -3,11 +3,16 @@ class Api::LocationsController < Api::ApiController
   before_filter :authenticate, only: [:create, :update, :destroy]
 
   def show
-    name = Location.new.lookup_name(params)
-    loc = Location.find_by(name: name)
+    nom = Location.new.lookup_name(params)
+
+    if nom[:lat].nil?
+      loc = Location.find_by(name: nom[:name])
+    else
+      loc = nom
+    end
 
     posts = []
-    Location.where(name: name).find_each do |location|
+    Location.where(name: nom[:name]).find_each do |location|
       if location.post.nil?
         next
       else

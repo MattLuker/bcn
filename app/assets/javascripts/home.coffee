@@ -5,7 +5,7 @@
 
 
 window.ready_home = ->
-  initialize_map = ->
+  initialize_map = (lat = 36.2168253, lon = -81.6824657, zoom = 15) ->
     # Initialize the Open Street Map map.
     map = new L.Map('map');
     #L.Icon.Default.imagePath = '/assets'
@@ -16,7 +16,7 @@ window.ready_home = ->
     osm = new L.TileLayer(osmUrl, {minZoom: 6, maxZoom: 19, attribution: osmAttrib});
 
     # Start the map over Boone, Appalachina Street to be exact.
-    map.setView(new L.LatLng(36.2168253, -81.6824657), 15);
+    map.setView(new L.LatLng(lat, lon), zoom);
     map.addLayer(osm);
     return map
 
@@ -239,5 +239,10 @@ window.ready_home = ->
 
 
 # Fire the ready function on load and refresh.
-$(document).ready(window.ready_home)
-$(document).on('page:load', window.ready_home)
+$(document).ready(->
+  if $('#map').length
+    window.ready_home()
+)
+$(document).on('page:load', ->
+  window.ready_home()
+)

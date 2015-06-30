@@ -113,7 +113,16 @@ ready_post = ->
   # Lookup Location by name and set hidden fields.
   if window.location.pathname == '/posts/new'
     $('.new-post-location').on 'blur', (e) ->
-      console.log(e)
+      $loc_input = $(e.target)
+      if $loc_input.val() != ''
+        $.get('/api/locations/show?name=' + $loc_input.val()).success (data) ->
+          console.log(data)
+          $loc_input.val(data.location.name)
+          $('#new_post').append("<input value='#{data.location.lat}' type='hidden' name='post[lat]' id='post_lat'>
+           <input value='#{data.location.lon}' type='hidden' name='post[lat]' id='post_lat'>")
+
+          $('.map-row').toggle()
+          window.ready_home() #.initialize_map(data.location.lat, data.location.lon, 9)
 
 
 toggle_map = (e) ->
