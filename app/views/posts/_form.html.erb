@@ -61,9 +61,25 @@
             <%= f.hidden_field :og_title %>
             <%= f.hidden_field :og_description %>
           </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= text_field_tag 'Location Name', '', placeholder: 'Location Name', class: 'new-post-location' %>
+            </div>
+          </div>
+
         </fieldset>
       </div>
     </div>
+
+    <!--<div class="row hidden">-->
+      <!--<div class="large-4 columns">-->
+        <!--<fieldset>-->
+          <!--<legend>Location</legend>-->
+          <!--<div id="map" class="new-post-map"></div>-->
+        <!--</fieldset>-->
+      <!--</div>-->
+    <!--</div>-->
 
     <div class="row">
       <div class="large-6 columns">

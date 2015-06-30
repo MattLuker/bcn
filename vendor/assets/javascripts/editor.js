@@ -5295,7 +5295,6 @@
                 e.value = a.getValue()
             }
             if (!t) t = {};
-            console.log('e.value:', e.value);
             t.value = e.value;
             if (!t.tabindex && e.tabindex) t.tabindex = e.tabindex;
             if (!t.placeholder && e.placeholder) t.placeholder = e.placeholder;
@@ -5304,7 +5303,6 @@
                 try {
                     n = document.activeElement
                 } catch (r) {}
-                console.log(e);
                 t.autofocus = n == e || e.getAttribute("autofocus") != null && n == document.body
             }
             if (e.form) {

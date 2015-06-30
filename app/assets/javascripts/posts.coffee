@@ -6,18 +6,7 @@ ready_post = ->
     e.stopPropagation()
     $form = $('.' + e.target.dataset.toggle)
     $form.toggle()
-#    if $('#event').prop('checked') == true
-#      $('#event').prop('checked', false)
-#    else
-#      $('#event').prop('checked', true)
 
-
-  # Expand text area to fit text.
-#  for textarea in $('textarea')
-#    console.log($(textarea).prop('scrollHeight'))
-#    $(textarea).height($(textarea).prop('scrollHeight'))
-  #tx = $('#post_description').find('textarea')
-  #tx.height(tx.prop('scrollHeight'))
 
   $('.clockpicker').clockpicker({
     align: 'left',
@@ -73,7 +62,6 @@ ready_post = ->
 
   # Get the Open Graph data for the Link?
   $('#post-link').on 'blur', (e) ->
-    console.log(this)
     if (url != '' || url != undefined)
       $('#link-meter').removeClass('hidden')
       $(".meter").animate({width:"100%"});
@@ -122,15 +110,10 @@ ready_post = ->
     post_editor.render()
 
 
-#  #for textarea in $('textarea')
-#  $.each $('textarea'), (index, element) ->
-#    console.log('index:', index)
-#    console.log($(element).attr('id'))
-#    id = $(element).attr('id')
-#    editor = new Editor({
-#      element: document.getElementById(id)
-#    })
-#    editor.render()
+  # Lookup Location by name and set hidden fields.
+  if window.location.pathname == '/posts/new'
+    $('.new-post-location').on 'blur', (e) ->
+      console.log(e)
 
 
 toggle_map = (e) ->
