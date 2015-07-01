@@ -1,15 +1,14 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-#$(document).ready ->
-
-
 ready_home = ->
-  if $('#map').length
+  if $('#map').length && $('#map').is(':visible')
     map = initialize_map()
 
+    map_helpers.marker_filter(map)
+    map_helpers.new_location_popup(map, post_path)
+
   # Add all event pop-ups if on the home page else just add the specific post.
-  if location.pathname == '/home'
+  if location.pathname == '/posts/new'
+    console.log('New post...')
+  else if location.pathname == '/home'
     post_path = 'home'
     url = "/api/communities"
   else

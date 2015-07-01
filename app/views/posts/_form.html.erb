@@ -27,15 +27,15 @@
             <div class="large-12 columns communities">
               <%= f.label :communities if action_name == 'edit' %>
               <% if @communities %>
-              <%= f.select :community_ids,
-                           @communities.map { |u| [u.name, u.id] },
-                           { include_blank: true },
-                           { class: 'chosen-select',
-                             multiple: true,
-                             data: { 'placeholder' => 'Select Communities (or start typing their name)' }
-                           }
-              %>
-                  <% end %>
+                  <%= f.select :community_ids,
+                               @communities.map { |u| [u.name, u.id] },
+                               { include_blank: true },
+                               { class: 'chosen-select',
+                                 multiple: true,
+                                 data: { 'placeholder' => 'Select Communities (or start typing their name)' }
+                               }
+                  %>
+              <% end %>
             </div>
           </div>
 
@@ -62,21 +62,35 @@
             <%= f.hidden_field :og_description %>
           </div>
 
-          <div class="row">
-            <div class="large-12 columns">
-              <%= text_field_tag 'Location Name', '', placeholder: 'Location Name', class: 'new-post-location' %>
-            </div>
-          </div>
+          <% if action_name == 'new' %>
+              <div class="row">
+                <div class="large-12 columns">
+
+                  <div class="row collapse">
+                    <div class="small-10 columns">
+                      <%= text_field_tag 'Location Name', '', placeholder: 'Location Name', class: 'new-post-location' %>
+                    </div>
+                    <div class="small-2 columns">
+                      <a href="#" class="button postfix post-location-button">
+                        <%= image_tag 'map-pin-icon.svg', class: 'post-location-icon' %>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <% end %>
 
         </fieldset>
       </div>
     </div>
 
     <div class="row map-row hidden">
-      <div class="large-4 columns">
+      <div class="large-6 columns">
         <fieldset>
           <legend>Location</legend>
-          <div id="map" class="new-post-map"></div>
+          <div class="map-container">
+            <div id="map" class="new-post-map"></div>
+          </div>
         </fieldset>
       </div>
     </div>

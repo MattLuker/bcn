@@ -3,7 +3,8 @@ class Api::LocationsController < Api::ApiController
   before_filter :authenticate, only: [:create, :update, :destroy]
 
   def show
-    nom = Location.new.lookup_name(params)
+    nom = Location.lookup_name(params)
+    puts "nom.inspect: #{nom.inspect}"
 
     if nom[:lat].nil?
       loc = Location.find_by(name: nom[:name])

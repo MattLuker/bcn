@@ -29,6 +29,7 @@
 
   markerDrop: (e, marker, loc, post_id) ->
     drop_coord = e.target._latlng
+    console.log("latlng:", e.target._latlng)
 
     # Send an $.ajax request to update the location.
     $.ajax
@@ -46,6 +47,36 @@
         updated_location = """#{updated_data.location.name} <br/> #{updated_data.location.address}
                     #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcodee}"""
         $("#location_" + marker.loc_id).html(updated_location)
+
+      error: (data, status, jqXHR) ->
+        #console.log(data)
+        response = JSON.parse(data.responseText)
+        marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
+
+
+  postMarkerDrop: (e, marker, loc_input) ->
+    drop_coord = e.target._latlng
+    console.log("latlng:", e.target._latlng)
+
+    # Send an $.ajax request to update the location.
+    $.ajax
+      url: '/api/locations/show?lat=' + drop_coord.lat + '&lon=' + drop_coord.lng
+      dataType: "JSON"
+      success: (updated_data, status, jqXHR) ->
+        console.log(updated_data)
+
+        # Flash a message either on the marker.
+        marker.bindPopup("Location updated to:<br/> #{updated_data.location.name}").openPopup();
+
+        # Update the location name, address, etc.
+        updated_location = """#{updated_data.location.name} <br/> #{updated_data.location.address}
+                    #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcodee}"""
+        loc_input.val(updated_data.location.name)
+
+        $('#post_lat').remove()
+        $('#post_lon').remove()
+        $('#new_post').append("<input value='#{drop_coord.lat}' type='hidden' name='post[lat]' id='post_lat'>
+           <input value='#{drop_coord.lng}' type='hidden' name='post[lon]' id='post_lon'>")
 
       error: (data, status, jqXHR) ->
         #console.log(data)
@@ -80,7 +111,6 @@
 
       marker.bindPopup(markerHtml).openPopup()
 
-    console.log(map)
     map.on 'popupopen', (e) ->
       $('#new_location').on 'click', (e) ->
         e.preventDefault()
@@ -149,6 +179,4 @@
     post_path = 'post'
     url = "/api#{location.pathname}"
 
-  map_helpers.marker_filter(map)
-  map_helpers.new_location_popup(map, post_path)
   return map

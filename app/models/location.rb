@@ -7,19 +7,26 @@ class Location < ActiveRecord::Base
   validates :lat, presence: true
   validates :lon, presence: true
 
-  def lookup_name(params)
+  def self.lookup_name(params)
     Nominatim.configure do |config|
       config.email = Rails.application.config_for(:nominatim)['email']
       config.endpoint = Rails.application.config_for(:nominatim)['host']
     end
+    puts "params: #{params}"
 
     if params[:name]
       places = Nominatim.search("#{params[:name]}").limit(10).address_details(true)
+      puts "places.inspect: #{places.count}"
     else
       places = Nominatim.search("#{params[:lat]},#{params[:lon]}").limit(10).address_details(true)
     end
-    for place in places
-      return { name: place.display_name.split(',')[0], lat: place.lat, lon: place.lon }
+    if places.count != 0
+      places.each do |place|
+        puts "place.inspect: #{place.inspect} "
+        return { name: place.display_name.split(',')[0], lat: place.lat, lon: place.lon }
+      end
+    else
+      return { name: '', lat: 36.2114, lon: -81.6686 }
     end
   end
 
