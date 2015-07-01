@@ -122,7 +122,8 @@ ready_post = ->
            <input value='#{data.location.lon}' type='hidden' name='post[lat]' id='post_lat'>")
 
           $('.map-row').toggle()
-          window.ready_home() #.initialize_map(data.location.lat, data.location.lon, 9)
+          #window.ready_home()
+          initialize_map(data.location.lat, data.location.lon, 9)
 
 
 toggle_map = (e) ->
