@@ -17,6 +17,7 @@
 //= require foundation
 //= require foundation/foundation.alert
 //= require foundation/foundation.tab
+//= require foundation/foundation.abide
 //= require turbolinks
 //= require foundation-datepicker
 //= require clockpicker
@@ -33,6 +34,7 @@
 
 $(function(){
     $(document).foundation();
+
     $('.copyright-year').html(new Date().getFullYear());
 });
 
@@ -41,6 +43,7 @@ $(window).on('page:load', function() {
     $('.copyright-year').html(new Date().getFullYear());
     stickyFooter();
     $(document).foundation('tab', 'reflow');
+    $(document).foundation('abide', 'reflow');
 });
 
 
