@@ -169,10 +169,12 @@ toggle_map = (e) ->
 
 
   $('#map').remove()
-  $map_container.append('<div id="map" class="post-map"></div>')
-
+  $map_container.append('<div id="map" class="post-map-large"></div>')
   $('#map').css('height', height)
-  initialize_map()
+
+  map = initialize_map()
+  map_helpers.set_markers(map, 'post-map-large')
+
 
 readURL = (input) ->
   if (input.files && input.files[0])
