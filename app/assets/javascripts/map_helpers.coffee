@@ -159,7 +159,7 @@
 
 
 @initialize_map = (lat = 36.2168253, lon = -81.6824657, zoom = 15) ->
-# Initialize the Open Street Map map.
+  # Initialize the Open Street Map map.
   map = new L.Map('map');
 
   # Create the tile layer with correct attribution.

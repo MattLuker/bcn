@@ -15,12 +15,16 @@ ready_home = ->
       post_path = 'post'
       url = "/api#{location.pathname}"
 
+    console.log('paths:', post_path, url)
     $.ajax
       url: url
       dataType: "JSON"
       success: (data, status, jqXHR) ->
-  #      console.log(data)
-  #      console.log(Object.prototype.toString.call(data))
+        # If Post show center map.
+        if post_path == 'post' && data.locations.length > 0
+          $('#map').remove()
+          $('.map-container').append('<div id="map" class="post-map"></div>')
+          map = initialize_map(data.locations[0].lat, data.locations[0].lon)
 
         # If Main page array of objects is returned else add the edit functionality.
         if Object.prototype.toString.call(data) == '[object Array]'
