@@ -42,8 +42,7 @@ $(window).on('page:load', function() {
     // Set the year in the footer copyright statement.
     $('.copyright-year').html(new Date().getFullYear());
     stickyFooter();
-    $(document).foundation('tab', 'reflow');
-    $(document).foundation('abide', 'reflow');
+    $(document).foundation('reflow');
 });
 
 
