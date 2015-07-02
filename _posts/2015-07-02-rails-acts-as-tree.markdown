@@ -1,4 +1,11 @@
-# Acts as Tree Rails Style
+---
+title: "Acts as Tree Rails Style"
+layout: post
+date:   2015-07-02 14:30:00
+categories: bcn rails
+image: tree_cover.png
+---
+
 
 ## The Gem
 
@@ -7,6 +14,7 @@ A parent child relationship can be very complicated.  Sometimes the parent likes
 I wanted to take about a parent child relationship in Rails and not my own baggage.
 
 Setting up a parent-child for your Rails models is pretty easy thanks to the [acts-as-tree](https://github.com/amerine/acts_as_tree) gem.  There are other Ruby libraries out there that can accomplish the same thing, but this is one of the first ones I tried.  And you know what things worked out great.
+<!--more-->
 
 ## Installation and Configuration
 
@@ -51,7 +59,7 @@ Another great feature is the **root** method.  This lets you get the first ances
 comment.root.post.user
 ```
 
-Like user information.
+As in this case the user information for the Post that the original Comment belongs to.
 
 
 ## Conclusion
