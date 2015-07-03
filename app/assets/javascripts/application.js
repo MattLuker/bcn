@@ -19,6 +19,7 @@
 //= require foundation/foundation.tab
 //= require foundation/foundation.abide
 //= require turbolinks
+//= require_tree .
 //= require foundation-datepicker
 //= require clockpicker
 //= require sweet-alert
@@ -30,7 +31,7 @@
 //= require chosen.jquery
 //= require editor
 //= require marked
-//= require_tree .
+//= require sisyphus
 
 $(function(){
     $(document).foundation();

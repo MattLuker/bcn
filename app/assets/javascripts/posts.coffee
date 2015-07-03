@@ -151,6 +151,12 @@ ready_post = ->
           marker.on "dragend", (e) ->
             map_helpers.postMarkerDrop(e, marker, $loc_input)
 
+  $('#new_post').sisyphus({
+    onRelase: ->
+      localStorage['new_postundefinedpost[lon]'] = ''
+      localStorage['new_postundefinedpost[lat]'] = ''
+  })
+
 
 toggle_map = (e) ->
   e.preventDefault()
