@@ -34,7 +34,14 @@
 //= require sisyphus
 
 $(function(){
-    $(document).foundation();
+    $(document).foundation({
+        abide : {
+            patterns : {
+                noturl: /^((?!((https?|ftp|file|ssh):\/\/)).)*$/,
+                limit: /^[0-9A-Za-z!@.,;:'"?-]{1,100}\z/
+            }
+        }
+        });
 
     $('.copyright-year').html(new Date().getFullYear());
 });
