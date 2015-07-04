@@ -111,10 +111,13 @@
   <div class="content active" id="posts">
     <div class="large-6 columns">
       <ul class="posts no-bullet">
-        <% @user.posts.reverse_each do |post| %>
+        <% @posts.each do |post| %>
             <%= render 'layouts/posts_list', post: post %>
         <% end %>
       </ul>
+
+      <br/><br/>
+      <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
     </div>
   </div>
 

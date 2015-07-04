@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @posts = @user.posts.order('created_at DESC').paginate(:page => params[:page], :per_page => 10)
   end
 
   # GET /users/new
