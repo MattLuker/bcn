@@ -36,14 +36,19 @@ class PostsController < ApplicationController
   end
 
   def create
+    puts "params: #{params}"
     if post_params[:lat] and post_params[:lon]
       lat = params[:post].delete :lat
       lon = params[:post].delete :lon
     end
 
+    # Remove community_ids if field not filled out on iOS cause it sends "null" anyway.
+    params[:post].delete :community_ids if params[:post][:community_ids] == ["null"]
+
     if current_user
       @post = current_user.posts.new(post_params)
     else
+      puts "post_params: #{post_params}"
       @post = Post.new(post_params)
     end
 
