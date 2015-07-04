@@ -34,13 +34,17 @@
     <% end %>
 
     <% if post.title.blank? %>
-                <span class="post-title">
+        <span class="post-title">
           <%= link_to post.og_url, id: dom_id(post), target: '_blank' do %>
-          <%= post.og_title %>
-              <% end %>
-              </span>
+            <%= post.og_title %>
+          <% end %>
+        </span>
     <% else %>
-        <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
+        <% if post.title.length > 100 %>
+            <span class="post-title"><%= link_to truncate(post.title, length: 50), post, :id => dom_id(post) %></span>
+        <% else %>
+            <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
+        <% end %>
     <% end %>
 
     <% if post.description.blank?  %>

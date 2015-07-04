@@ -36,9 +36,19 @@
 $(function(){
     $(document).foundation({
         abide : {
-            patterns : {
-                noturl: /^((?!((https?|ftp|file|ssh):\/\/)).)*$/,
-                limit: /^[0-9A-Za-z!@.,;:'"?-]{1,100}\z/
+            validators: {
+                notUrl140Max: function(el, required, parent) {
+                    $value = $(el).val();
+                    url = /^((?!((https?|ftp|file|ssh):\/\/)).)*$/;
+
+                    noturl = url.exec($value);
+
+                    if (noturl && $value.length < 141) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
             }
         }
         });
