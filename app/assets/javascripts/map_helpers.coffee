@@ -198,7 +198,13 @@
                   title: data.title,
                   riseOnHover: true,
                 })
-                marker.bindPopup("<h3><a href='/posts/#{post.id}'>#{post.title}</a></h3><p>#{marked(post.description)}</p>")
+                marker.bindPopup("""
+                <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
+                <p>#{marked(post.description)}</p>
+                <a href='/posts/#{post.id}/edit' class='button tiny icon'>
+                  <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon'/>
+                </a>
+                """)
                 markers.push(marker)
 
             # Create a layerGroup for each Community.

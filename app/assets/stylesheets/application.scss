@@ -88,6 +88,9 @@ a.grey-link {
 .ty-icon {
   width: 13px;
 }
+div.leaflet-popup-content-wrapper > div > a > img.ty-icon {
+  width: 13px;
+}
 
 .sm-icon {
   width: 35px !important;
