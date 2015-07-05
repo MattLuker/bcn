@@ -1,46 +1,110 @@
-<%= form_for(@user, :builder => FoundationFormBuilder) do |f| %>
+<%= form_for(@user, data: {'abide' => true}) do |f| %>
 
     <div class="row">
       <div class="large-4 columns">
-        <% if @user.photo  %>
-            <%= image_tag @user.photo.thumb('150x150#').url, :class => 'avatar' %>
-        <% else %>
-            <%= image_tag 'avatar.svg', :class => 'avatar' %>
-        <% end %>
+        <fieldset>
+          <legend>Details</legend>
 
-        <%= image_tag 'swap-icon.svg', size: '75x75', class: 'hidden swap' %>
-        <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
+          <div class="row">
+            <div class="large-12 columns">
+              <% if @user.photo  %>
+                  <%= image_tag @user.photo.thumb('150x150#').url, :class => 'avatar' %>
+              <% else %>
+                  <%= image_tag 'avatar.svg', :class => 'avatar' %>
+              <% end %>
 
-        <%= f.file_field :photo, class: 'photo_upload' %>
-        <%= f.hidden_field :retained_photo %>
+              <%= image_tag 'swap-icon.svg', size: '75x75', class: 'hidden swap' %>
+              <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
+
+              <%= f.file_field :photo, class: 'photo_upload' %>
+              <%= f.hidden_field :retained_photo %>
+            </div>
+          </div>
+          <br/>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :first_name %>
+              <%= f.text_field :first_name, actionname: action_name %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :last_name %>
+              <%= f.text_field :last_name, actionname: action_name %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :email %>
+              <%= f.text_field :email, actionname: action_name %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-4 columns actions">
+              <% if  @user.errors[:email].include?('has already been taken') %>
+                  <% if !current_user.facebook_id.nil? || !current_user.twitter_id.nil? %>
+                      <%= link_to 'Click Here To Request Merge', send_merge_path,
+                                  :id => 'merge_link',
+                                  :class => 'button tiny' %>
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :username %>
+              <%= f.text_field :username %>
+            </div>
+          </div>
+        </fieldset>
       </div>
     </div>
-    <br/>
-
-    <%= f.text_field :first_name, actionname: action_name %>
-
-    <%= f.text_field :last_name, actionname: action_name %>
-
-
-
-    <%= f.text_field :email, actionname: action_name %>
 
     <div class="row">
-      <div class="large-4 columns actions">
-        <% if  @user.errors[:email].include?('has already been taken') %>
-            <% if !current_user.facebook_id.nil? || !current_user.twitter_id.nil? %>
-                <%= link_to 'Click Here To Request Merge', send_merge_path,
-                            :id => 'merge_link',
-                            :class => 'button tiny' %>
-            <% end %>
-        <% end %>
+      <div class="large-4 columns">
+        <fieldset>
+          <legend>Links</legend>
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :web_link %>
+              <%= f.text_field :web_link, pattern: 'url', placeholder: 'http://$your_domain.com' %>
+              <small class="error">Must be full URL, for example: http://google.com</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :facebook_link %>
+              <%= f.text_field :facebook_link, pattern: 'url', placeholder: 'https://www.facebook.com/$your_username' %>
+              <small class="error">Must be full URL, for example: http://google.com</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :twitter_link %>
+              <%= f.text_field :twitter_link, pattern: 'url', placeholder: 'https://twitter.com/$your_username' %>
+              <small class="error">Must be full URL, for example: http://google.com</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.label :google_link %>
+              <%= f.text_field :google_link, pattern: 'url', placeholder: 'https://plus.google.com/$your_username' %>
+              <small class="error">Must be full URL, for example: http://google.com</small>
+            </div>
+          </div>
+        </fieldset>
       </div>
     </div>
 
-
-    <%= f.text_field :username, actionname: action_name %>
-
-    <%= f.text_field :web_link, actionname: action_name %>
+    <br/>
 
     <div class="row">
       <div class="large-4 columns actions">

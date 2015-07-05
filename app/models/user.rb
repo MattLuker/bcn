@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   validates :username, allow_nil: true, uniqueness: true
   validates :email, allow_nil: true, uniqueness: true,
    format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/ }
+  validates :web_link, allow_nil: true, format: { with: /(https?|ftp|file|ssh):\/\// }
 
   # TODO: Figure out how to validate, or skip validation, for gravatar URL images.
   #validates_property :ext, of: :photo, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz', 'JPG'], if: :photo_changed?

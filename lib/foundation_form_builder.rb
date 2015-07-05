@@ -13,7 +13,7 @@ class FoundationFormBuilder < ActionView::Helpers::FormBuilder
       label_options ||= {}
       wrapper_options ||= {}
       if errors_on?(attribute)
-        wrapper_options = { wrapper_classes: "error" }
+        wrapper_options = { wrapper_classes: 'error' }
       end
       wrapper(wrapper_options) do
         if options[:actionname] == 'edit'
@@ -27,14 +27,14 @@ class FoundationFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def submit(text, options={})
-    options[:class] ||= "button small success"
+    options[:class] ||= 'button small success'
     wrapper do
       super(text, options)
     end
   end
 
   def wrapper(options={}, &block)
-    content_tag(:div, class: "row") do
+    content_tag(:div, class: 'row') do
       content_tag(:div, capture(&block), class: "large-4 small-8 columns #{options[:wrapper_classes]}")
     end
   end
@@ -45,7 +45,7 @@ class FoundationFormBuilder < ActionView::Helpers::FormBuilder
 
   def errors_for_field(attribute, options={})
     return "" if object.errors[attribute].empty?
-    content_tag(:small, attribute.to_s.capitalize + ' ' + object.errors[attribute].to_sentence, class: "error")
+    content_tag(:small, attribute.to_s.capitalize + ' ' + object.errors[attribute].to_sentence, class: 'error')
   end
 
 end

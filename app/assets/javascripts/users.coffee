@@ -29,6 +29,10 @@ ready_user = ->
     })
     bio_editor.render()
 
+  if $('.edit_user').length
+    $('.edit_user').sisyphus()
+
+
 
 # Fire the ready function on load and refresh.
 $(document).ready(ready_user)

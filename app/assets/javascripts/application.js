@@ -36,6 +36,7 @@
 $(function(){
     $(document).foundation({
         abide : {
+
             validators: {
                 notUrl140Max: function(el, required, parent) {
                     $value = $(el).val();
