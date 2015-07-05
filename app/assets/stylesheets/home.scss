@@ -70,3 +70,9 @@ $black: #252525;
   padding: 5px;
   font-size: 16px;
 }
+
+.leaflet-popup-content {
+  img {
+    width: 130px;
+  }
+}

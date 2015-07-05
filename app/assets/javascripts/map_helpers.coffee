@@ -198,7 +198,7 @@
                   title: data.title,
                   riseOnHover: true,
                 })
-                marker.bindPopup("<h3><a href='/posts/#{post.id}'>#{post.title}</a></h3><p>#{post.description}</p>")
+                marker.bindPopup("<h3><a href='/posts/#{post.id}'>#{post.title}</a></h3><p>#{marked(post.description)}</p>")
                 markers.push(marker)
 
             # Create a layerGroup for each Community.
@@ -218,7 +218,7 @@
                 title: loc.name,
                 riseOnHover: true,
               })
-              marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{data.description}</p>")
+              marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{marked(data.description)}</p>")
               marker['loc_id'] = loc.id
               #console.log(marker)
 
