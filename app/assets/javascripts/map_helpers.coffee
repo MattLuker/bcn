@@ -207,7 +207,8 @@
 
                 divIcon = L.divIcon({
                   className: 'marker-div-icon',
-                  html: get_svg(community.color, 50, 50)
+                  html: get_svg(community.color, 50, 50),
+                  popupAnchor: [26, 3],
                 });
 
                 marker = new L.Marker([loc.lat, loc.lon], {
