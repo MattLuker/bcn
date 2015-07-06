@@ -193,10 +193,23 @@
               # Create markers for each post.
               #console.log(post, community.name)
               for loc in post.locations
+                myIcon = L.icon({
+                  iconUrl: window.image_path('map-pin-icon.svg'),
+                  iconRetinaUrl: window.image_path('map-pin-icon.svg'),
+                  iconSize: [68, 95],
+                  iconAnchor: [22, 94],
+                  popupAnchor: [12, -70],
+                  shadowUrl: window.image_path('map-pin-icon.svg'),
+                  shadowRetinaUrl: window.image_path('map-pin-icon.svg'),
+                  shadowSize: [58, 95],
+                  shadowAnchor: [19, 94]
+                });
+
                 marker = new L.Marker([loc.lat, loc.lon], {
                   draggable: false,
                   title: data.title,
                   riseOnHover: true,
+                  icon: myIcon
                 })
                 marker.bindPopup("""
                 <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
