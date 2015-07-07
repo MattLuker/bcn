@@ -197,7 +197,7 @@
                 divCommunityIcon = L.divIcon({
                   className: 'marker-div-icon',
                   html: get_svg(community.color, 50, 50),
-                  popupAnchor: [26, 3],
+                  popupAnchor: [8, -3],
                 });
 
                 marker = new L.Marker([loc.lat, loc.lon], {
@@ -298,8 +298,8 @@
   @divDefaultIcon = L.divIcon({
     className: 'marker-div-icon',
     html: get_svg('#008CBA', 30, 55),
-    popupAnchor: [40, -5],
-    iconAnchor: [22, 94],
+    popupAnchor: [-9, -53],
+    iconAnchor: [20, 55],
   });
 
   return map
