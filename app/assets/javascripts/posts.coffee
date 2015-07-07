@@ -144,6 +144,7 @@ ready_post = ->
             draggable: true,
             title: data.location.name,
             riseOnHover: true,
+            icon: divDefaultIcon
           })
           marker.bindPopup("<h4>#{data.location.name}</h4>").openPopup()
           map.addLayer(marker);

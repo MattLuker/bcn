@@ -104,7 +104,7 @@
         markerHtml = "<br/><a id='new_location' href='#'>Add Location</a>"
 
       if (typeof(marker) == 'undefined')
-        marker = new L.Marker(e.latlng);
+        marker = new L.Marker(e.latlng, { icon: divDefaultIcon });
         map.addLayer(marker);
       else
         marker.setLatLng(e.latlng)
@@ -193,19 +193,8 @@
               # Create markers for each post.
               #console.log(post, community.name)
               for loc in post.locations
-                myIcon = L.icon({
-                  iconUrl: window.image_path('map-pin-icon.svg'),
-                  iconRetinaUrl: window.image_path('map-pin-icon.svg'),
-                  iconSize: [68, 95],
-                  iconAnchor: [22, 94],
-                  popupAnchor: [12, -70],
-                  shadowUrl: window.image_path('map-pin-shadow-icon.svg'),
-                  shadowRetinaUrl: window.image_path('map-pin-shadow-icon.svg'),
-                  shadowSize: [58, 95],
-                  shadowAnchor: [19, 94]
-                });
 
-                divIcon = L.divIcon({
+                divCommunityIcon = L.divIcon({
                   className: 'marker-div-icon',
                   html: get_svg(community.color, 50, 50),
                   popupAnchor: [26, 3],
@@ -215,7 +204,7 @@
                   draggable: false,
                   title: data.title,
                   riseOnHover: true,
-                  icon: divIcon
+                  icon: divCommunityIcon
                 })
                 marker.bindPopup("""
                 <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
@@ -242,6 +231,7 @@
                 draggable: true,
                 title: loc.name,
                 riseOnHover: true,
+                icon: divDefaultIcon
               })
               marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{marked(data.description)}</p>")
               marker['loc_id'] = loc.id
@@ -258,6 +248,7 @@
 
               marker = new L.Marker([set_coord.lat, set_coord.lng], {
                 draggable: true,
+                icon: divDefaultIcon
               });
               map.addLayer(marker);
 
@@ -302,5 +293,13 @@
   else
     post_path = 'post'
     url = "/api#{location.pathname}"
+
+
+  @divDefaultIcon = L.divIcon({
+    className: 'marker-div-icon',
+    html: get_svg('#008CBA', 30, 55),
+    popupAnchor: [40, -5],
+    iconAnchor: [22, 94],
+  });
 
   return map
