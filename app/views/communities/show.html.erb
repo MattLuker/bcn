@@ -16,13 +16,13 @@
         <h2 class="title">
           <%= @community.name %>
         </h2>
-      </div>
-      <div class="large-3 columns">
-        <% if current_user == @creator %>
-            <%= link_to edit_community_path(@community), class: 'button tiny icon edit-community', title: 'Edit Community' do %>
-                <% image_tag 'edit-icon.svg', class: 'icon' %>
-            <% end %>
-        <% end %>
+        <div class="large-3 columns">
+          <% if current_user == @creator %>
+              <%= link_to edit_community_path(@community), class: 'button tiny icon edit-community', title: 'Edit Community' do %>
+                  <% image_tag 'edit-icon.svg', class: 'icon' %>
+              <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
 
@@ -173,7 +173,9 @@
 
       </div>
     </div>
-
+  </div>
+  <div class="large-4 columns map-container">
+    <div id="map" class="community-map"></div>
   </div>
 </div>
 

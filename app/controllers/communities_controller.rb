@@ -2,8 +2,6 @@ class CommunitiesController < ApplicationController
   before_action :set_community, only: [:show, :edit, :update, :destroy, :podcast]
   before_filter :require_user, only: [:new, :create, :update, :destroy, :add_user, :remove_user]
 
-  # GET /communities
-  # GET /communities.json
   def index
     @communities = Community.popularity.all
   end
@@ -15,58 +13,53 @@ class CommunitiesController < ApplicationController
     end
   end
 
-  # GET /communities/1
-  # GET /communities/1.json
   def show
   end
 
-  # GET /communities/new
   def new
     @params = params
     @community = Community.new
   end
 
-  # GET /communities/1/edit
   def edit
     if @community.created_by != current_user.id
       redirect_to @community, notice: 'Must be the creator of the Community to update it.'
     end
   end
 
-  # POST /communities
-  # POST /communities.json
   def create
+    if community_params[:lat] and community_params[:lon]
+      lat = params[:community].delete :lat
+      lon = params[:community].delete :lon
+    end
+
     @community = Community.new(community_params)
     @community.created_by = current_user.id
     @community.users << current_user
 
-    respond_to do |format|
-      if @community.save
-        format.html { redirect_to @community, notice: 'Community was successfully created.' }
-        format.json { render :show, status: :created, location: @community }
-      else
-        format.html { render :new }
-        format.json { render json: @community.errors, status: :unprocessable_entity }
-      end
+    if lat and lon
+      @community.create_location({lat: lat, lon: lon})
+    else
+      @community.location = nil
+    end
+
+    if @community.save
+      redirect_to @community, notice: 'Community was successfully created.'
+    else
+      render :new
     end
   end
 
-  # PATCH/PUT /communities/1
-  # PATCH/PUT /communities/1.json
   def update
-    respond_to do |format|
       if @community.created_by != current_user.id
-        format.html { redirect_to @community, notice: 'Must be the creator of the Community to update it.' }
+        redirect_to @community, notice: 'Must be the creator of the Community to update it.'
       else
         if @community.update(community_params)
-          format.html { redirect_to @community, notice: 'Community was successfully updated.' }
-          format.json { render :show, status: :ok, location: @community }
+          redirect_to @community, notice: 'Community was successfully updated.'
         else
-          format.html { render :edit }
-          format.json { render json: @community.errors, status: :unprocessable_entity }
+          render :edit, status: :unprocessable_entity
         end
       end
-    end
   end
 
   def add_user
@@ -103,20 +96,16 @@ class CommunitiesController < ApplicationController
     end
   end
 
-  # DELETE /communities/1
-  # DELETE /communities/1.json
   def destroy
     if @community.created_by == current_user.id
-      @community.destroy
-      respond_to do |format|
-        format.html { redirect_to communities_url, notice: 'Community was successfully deleted.' }
-        format.json { head :no_content }
+      if @community.destroy
+        redirect_to communities_url, notice: 'Community was successfully deleted.'
+      else
+        flash[:alert] = 'There was a problem deleting the community.'
+        redirect_to @community
       end
     else
-      respond_to do |format|
-        format.html { redirect_to @community, notice: 'Community can only be deleted by creator.' }
-        format.json { head :no_content }
-      end
+      redirect_to @community, notice: 'Community can only be deleted by creator.'
     end
   end
 
@@ -124,8 +113,6 @@ class CommunitiesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_community
       @community = Community.find_by_slug(params[:id]) if params[:id]
-      #@community = Community.find(params[:id]) if params[:id]
-      #@community = Community.find(params[:community_id]) if params[:community_id]
       @community = Community.find_by_slug(params[:community_id]) if params[:community_id]
       @creator = User.find(@community.created_by) if @community.created_by
     end
@@ -142,6 +129,8 @@ class CommunitiesController < ApplicationController
                                         :facebook_link,
                                         :twitter_link,
                                         :google_link,
+                                        :lat,
+                                        :lon,
                                         :user_ids => [])
     end
 end

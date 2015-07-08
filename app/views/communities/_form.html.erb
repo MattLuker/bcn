@@ -1,5 +1,17 @@
 <%= form_for(@community) do |f| %>
 
+    <% if @community.errors.any? %>
+        <div id="error_explanation" class="alert-box alert radius">
+          <h5><%= pluralize(@community.errors.count, "error") %> prohibited this post from being saved:</h5>
+
+          <ul>
+            <% @community.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
     <div class="row">
       <div class="large-4 columns">
         <fieldset>
@@ -39,7 +51,7 @@
     </div>
 
     <div class="row map-row hidden">
-      <div class="large-6 columns">
+      <div class="large-4 columns">
         <fieldset>
           <legend>Location</legend>
           <div class="map-container">
@@ -53,17 +65,6 @@
       <div class="large-4 columns">
         <%= f.label :description %>
         <%= f.text_area :description, placeholder: :description %>
-      </div>
-    </div>
-
-    <div class="row map-row hidden">
-      <div class="large-6 columns">
-        <fieldset>
-          <legend>Location</legend>
-          <div class="map-container">
-            <div id="map" class="new-post-map"></div>
-          </div>
-        </fieldset>
       </div>
     </div>
 

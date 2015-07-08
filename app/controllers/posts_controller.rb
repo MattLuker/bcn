@@ -36,7 +36,6 @@ class PostsController < ApplicationController
   end
 
   def create
-    puts "params: #{params}"
     if post_params[:lat] and post_params[:lon]
       lat = params[:post].delete :lat
       lon = params[:post].delete :lon

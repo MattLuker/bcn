@@ -19,6 +19,9 @@ ready_post = ->
   $('.contract-map').on 'click', (e) ->
     toggle_map(e)
 
+
+  map_helpers.form_map('post', '#new_post')
+
   # Set the Post edit form textarea height.
   $('#post_description').height($('#post_description').prop('scrollHeight'))
 
@@ -109,16 +112,12 @@ ready_post = ->
     })
     post_editor.render()
 
-#  action_name = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)
-#  console.log(action_name)
-  map_helpers.form_map('posts', '#new_post')
-
-  if $('#new_post').length
-    $('#new_post').sisyphus({
-      onRelase: ->
-        localStorage['new_postundefinedpost[lon]'] = ''
-        localStorage['new_postundefinedpost[lat]'] = ''
-    })
+#  if $('#new_post').length
+#    $('#new_post').sisyphus({
+#      onRelase: ->
+#        localStorage['new_postundefinedpost[lon]'] = ''
+#        localStorage['new_postundefinedpost[lat]'] = ''
+#    })
 
 
 toggle_map = (e) ->

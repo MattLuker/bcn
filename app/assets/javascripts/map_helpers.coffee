@@ -158,14 +158,20 @@
 
 
   set_markers: (map, map_class = 'post-map') ->
+    #
     # Add all event pop-ups if on the home page else just add the specific post.
-    if location.pathname == '/posts/new'
-      console.log('New post...')
+    #
+
+    if location.pathname == '/posts/new' || location.pathname == '/communities/new'
+      console.log('New post... or community')
     else if location.pathname == '/home'
       post_path = 'home'
       url = "/api/communities"
     else
-      post_path = 'post'
+      if map_helpers.model_name == 'posts'
+        path = 'post'
+      else
+        path = 'community'
       url = "/api#{location.pathname}"
 
     map_helpers.marker_filter(map)
@@ -177,7 +183,7 @@
       success: (data, status, jqXHR) ->
 
         # If Post show center map.
-        if post_path == 'post' && data.locations.length > 0
+        if path == 'post' && data.locations.length > 0
           $('#map').remove()
           $('.map-container').append("<div id='map' class='#{map_class}'></div>")
           map = initialize_map(data.locations[0].lat, data.locations[0].lon)
@@ -271,6 +277,8 @@
 
   form_map: (type, form_tag) ->
     # Lookup Location by name and set hidden fields.
+    action_name = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)
+
     if action_name == 'new'
       $('.location-button').on 'click', (e) ->
         e.preventDefault();
@@ -279,11 +287,17 @@
 
         if $loc_input.val() != ''
           $.get('/api/locations/show?name=' + $loc_input.val()).success (data) ->
-            console.log(data)
+            #console.log(data)
 
             # Append the latitude and longitude fields to the form.
-            $(form_tag).append("<input value='#{data.location.lat}' type='hidden' name='#{type}[lat]' id='#{type}_lat'>
-               <input value='#{data.location.lon}' type='hidden' name='#{type}[lon]' id='#{type}_lon'>")
+            if $('.form-lat').length && $('.form-lon').length
+              $('.form-lat').val(data.location.lat)
+              $('.form-lon').val(data.location.lon)
+            else
+              $(form_tag).append("""
+                 <input value='#{data.location.lat}' type='hidden' name='#{type}[lat]' id='#{type}_lat' class='form-lat' />
+                 <input value='#{data.location.lon}' type='hidden' name='#{type}[lon]' id='#{type}_lon' class='form-lon' />
+                 """)
 
             # Show and initialize the map, then add a marker.
             if $('#map').is(':hidden')
@@ -313,6 +327,8 @@
               map_helpers.postMarkerDrop(e, marker, $loc_input)
 
 
+  action_name: window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)
+  model_name: window.location.pathname.split('/')[1]
 
 
 @initialize_map = (lat = 36.2168253, lon = -81.6824657, zoom = 15) ->

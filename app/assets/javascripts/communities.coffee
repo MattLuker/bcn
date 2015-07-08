@@ -69,7 +69,7 @@ ready_community = ->
     desc_editor.render()
 
   # Handle the Default Location map.
-  map_helpers.form_map('communities', '#new_community')
+  map_helpers.form_map('community', '#new_community')
 
 
 

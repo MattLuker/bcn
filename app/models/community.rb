@@ -91,6 +91,20 @@ class Community < ActiveRecord::Base
               :last_name
             ],
           },
+        :location => {
+            :only => [
+                :id,
+                :lat,
+                :lon,
+                :name,
+                :address,
+                :city,
+                :state,
+                :postcode,
+                :county,
+                :country
+            ]
+        },
         },
     )
   end
@@ -98,6 +112,11 @@ class Community < ActiveRecord::Base
   def auto_value
     value = id
     label = name
+  end
+
+  def create_location(params)
+    loc = Location.new.set_location_attrs(Location.new, params)
+    self.location = loc
   end
 
   def inc_users_count(model)

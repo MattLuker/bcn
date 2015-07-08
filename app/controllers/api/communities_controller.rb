@@ -7,7 +7,7 @@ class Api::CommunitiesController < Api::ApiController
   end
 
   def show
-    community = Community.find(params[:id])
+    community = Community.find_by_slug(params[:id])
     render json: community.as_json(include: :posts)
   end
 

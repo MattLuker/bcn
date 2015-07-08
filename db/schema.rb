@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708104717) do
+ActiveRecord::Schema.define(version: 20150708155237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20150708104717) do
     t.integer  "posts_count",      default: 0
     t.integer  "users_count",      default: 0
     t.string   "slug",             index: {name: "index_communities_on_slug"}
-    t.integer  "default_location"
+    t.integer  "location_id"
     t.index name: "index_communities_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
   end
 
@@ -136,11 +136,11 @@ ActiveRecord::Schema.define(version: 20150708104717) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.integer  "post_id",    index: {name: "index_locations_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_d5678e2098", on_update: :no_action, on_delete: :no_action}
+    t.integer  "post_id",      index: {name: "index_locations_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_d5678e2098", on_update: :no_action, on_delete: :no_action}
     t.float    "lat"
     t.float    "lon"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "name"
     t.string   "address"
     t.string   "city"
@@ -148,7 +148,8 @@ ActiveRecord::Schema.define(version: 20150708104717) do
     t.string   "postcode"
     t.string   "county"
     t.string   "country"
-    t.datetime "deleted_at", index: {name: "index_locations_on_deleted_at"}
+    t.datetime "deleted_at",   index: {name: "index_locations_on_deleted_at"}
+    t.integer  "community_id", index: {name: "fk__locations_community_id"}, foreign_key: {references: "communities", name: "fk_locations_community_id", on_update: :no_action, on_delete: :no_action}
     t.index name: "index_locations_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
   end
 

@@ -36,7 +36,6 @@
 $(function(){
     $(document).foundation({
         abide : {
-
             validators: {
                 notUrl140Max: function(el, required, parent) {
                     $value = $(el).val();
@@ -52,7 +51,7 @@ $(function(){
                 }
             }
         }
-        });
+    });
 
     $('.copyright-year').html(new Date().getFullYear());
 });
