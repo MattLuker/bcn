@@ -68,6 +68,10 @@ ready_community = ->
     })
     desc_editor.render()
 
+  # Handle the Default Location map.
+  map_helpers.form_map('communities', '#new_community')
+
+
 
 # Fire the ready function on load and refresh.
 $(document).ready(ready_community)

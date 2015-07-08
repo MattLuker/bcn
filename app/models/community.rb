@@ -14,6 +14,7 @@ class Community < ActiveRecord::Base
   has_and_belongs_to_many :posts, before_add: :inc_posts_count, before_remove: :dec_posts_count
   has_and_belongs_to_many :users, before_add: :inc_users_count, before_remove: :dec_users_count
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "community_id"
+  has_one :location
 
   scope :popularity, -> { order('posts_count + users_count desc') }
 

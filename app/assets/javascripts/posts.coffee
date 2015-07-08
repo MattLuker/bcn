@@ -109,48 +109,9 @@ ready_post = ->
     })
     post_editor.render()
 
-
-  # Lookup Location by name and set hidden fields.
-  if window.location.pathname == '/posts/new'
-    $('.post-location-button').on 'click', (e) ->
-      e.preventDefault();
-
-      $loc_input = $('#Location_Name')
-
-      if $loc_input.val() != ''
-        $.get('/api/locations/show?name=' + $loc_input.val()).success (data) ->
-          console.log(data)
-
-          # Append the latitude and longitude fields to the form.
-          $('#new_post').append("<input value='#{data.location.lat}' type='hidden' name='post[lat]' id='post_lat'>
-           <input value='#{data.location.lon}' type='hidden' name='post[lon]' id='post_lon'>")
-
-          # Show and initialize the map, then add a marker.
-          if $('#map').is(':hidden')
-            $('.map-row').toggle()
-          else
-            $('#map').remove()
-            $('.map-container').append('<div id="map" class="new-post-map"></div>')
-
-
-          # Update the input value if name is set.
-          if data.location.name != ''
-            $loc_input.val(data.location.name)
-            map = initialize_map(data.location.lat, data.location.lon, 17)
-          else
-            map = initialize_map(data.location.lat, data.location.lon, 12)
-
-          marker = new L.Marker([data.location.lat, data.location.lon], {
-            draggable: true,
-            title: data.location.name,
-            riseOnHover: true,
-            icon: divDefaultIcon
-          })
-          marker.bindPopup("<h4>#{data.location.name}</h4>").openPopup()
-          map.addLayer(marker);
-
-          marker.on "dragend", (e) ->
-            map_helpers.postMarkerDrop(e, marker, $loc_input)
+#  action_name = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)
+#  console.log(action_name)
+  map_helpers.form_map('posts', '#new_post')
 
   if $('#new_post').length
     $('#new_post').sisyphus({

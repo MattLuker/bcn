@@ -2,7 +2,50 @@
 
     <div class="row">
       <div class="large-4 columns">
-        <%= f.text_field :name, placeholder: :name, autofocus: 'autofocus', actionname: action_name %>
+        <fieldset>
+          <legend>Details</legend>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.text_field :name, placeholder: :name, autofocus: 'autofocus', actionname: action_name %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 columns">
+              <%= f.text_field :color, placeholder: :color, actionname: action_name %>
+            </div>
+          </div>
+
+          <% if action_name == 'new' %>
+              <div class="row">
+                <div class="large-12 columns">
+
+                  <div class="row collapse">
+                    <div class="small-10 columns">
+                      <%= text_field_tag 'Default Location', '', placeholder: 'Default Location',
+                                         class: 'new-location' %>
+                    </div>
+                    <div class="small-2 columns">
+                      <a href="#" class="button postfix location-button">Search</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <% end %>
+
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="row map-row hidden">
+      <div class="large-6 columns">
+        <fieldset>
+          <legend>Location</legend>
+          <div class="map-container">
+            <div id="map" class="new-map"></div>
+          </div>
+        </fieldset>
       </div>
     </div>
 
@@ -13,9 +56,14 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <%= f.text_field :color, placeholder: :color, actionname: action_name %>
+    <div class="row map-row hidden">
+      <div class="large-6 columns">
+        <fieldset>
+          <legend>Location</legend>
+          <div class="map-container">
+            <div id="map" class="new-post-map"></div>
+          </div>
+        </fieldset>
       </div>
     </div>
 
@@ -62,11 +110,20 @@
 
     <div class="row">
       <div class="large-4 columns">
-        <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
-        <br/><br/>
+        <fieldset>
+          <legend>Upload Photo</legend>
 
-        <%= f.file_field :image, class: 'photo_upload' %>
-        <%= hidden_field_tag :retained_photo %>
+          <div class="row">
+            <div class="large-12 columns">
+              <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
+              <br/><br/>
+
+              <%= f.file_field :image, class: 'photo_upload' %>
+              <%= hidden_field_tag :retained_photo %>
+            </div>
+          </div>
+
+        </fieldset>
       </div>
     </div>
 
