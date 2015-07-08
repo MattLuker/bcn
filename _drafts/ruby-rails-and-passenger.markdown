@@ -194,5 +194,137 @@ Things should now be ready to setup Apache and serve our project to the web.
 
 ## Passenger
 
+Not sure if I'm getting old, but when it comes to web servers my go to server is good ol' Apache.  I've used Nginx a few times, well more of tried it out, and I have no doubt that it does a fine job.  For me Apache is **the** web server.
 
+In light of this fact we're going to setup Phusion Passenger according to the [Apache Documentation](https://www.phusionpassenger.com/documentation/Users%20guide%20Apache.html#installation).
+
+### Installation
+
+First off, add the Passenger APT repository:
+
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
+```
+
+Then add the HTTPS support:
+
+```
+sudo apt-get install apt-transport-https ca-certificates
+```
+
+And create the config file ```/etc/apt/sources.list.d/passenger.list```:
+
+```
+# Ubuntu 14.04
+deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main
+```
+
+Adjust the config file permissions and update *apt-get*:
+
+```
+sudo chown root: /etc/apt/sources.list.d/passenger.list
+sudo chmod 600 /etc/apt/sources.list.d/passenger.list
+sudo apt-get update
+```
+
+Install the package:
+
+```
+sudo apt-get install libapache2-mod-passenger
+```
+
+Now restart Apache:
+
+```
+sudo service apache2 restart
+```
+
+Alright, Passenger is now installed and ready to be configured for your Rails app.  Woo!
+
+### Configuration
+
+I like to the Ubuntu (and Debian) convention of creating separate *VirtualHosts* for each site on an Apache server. So I'm going to create a new config file in ```/etc/apache2/sites-available/bcn.conf``` and clone, or move, my Rails app to ```/var/www/```. 
+
+That way the *DocumentRoot* option won't be pointing to my home directory on the server. 
+
+Create the file and add:
+
+```
+<VirtualHost *:80>
+  ServerName bcn.thehoick.com
+  DocumentRoot /var/www/bcn/public
+
+  <Directory /var/www/bcn/public>
+    Allow from all
+    Options -MultiViews
+    Require all granted
+  </Directory>
+</VirtualHost>
+```
+
+Because we're using an **rbenv** version of Ruby we need to tell Passenger where it is.  At least that has been my experience because without specifying it Passenger uses the gems installed with the system Ruby (usually version 1.9.3, or something similar) instead of the new versions.
+
+Edit */etc/apache2/mods-available/passenger.conf`*:
+
+```
+<IfModule mod_passenger.c>
+    PassengerRoot /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini
+    PassengerDefaultRuby /home/$YOUR_HOME_DIRECTORY/.rbenv/shims/ruby
+ </IfModule>
+```
+
+**Note:** you could also specify a specific deployment user if you don't want to use your user account to setup the Rails app.
+
+Finally, enable the site and restart Apache:
+
+```
+sudo a2ensite bcn.conf
+sudo service apache2 restart
+```
+
+If all goes well you should see an **OK** message that Apache has restarted.  Check the **var/log/apache2/error.log** file for any errors.
+
+Now the moment of truth, browse to the new server and hopefully you will see the Rails app you've been working on just like in development.
+
+If you see a Passenger error page take a look at the error log:
+
+```
+tail -f /var/log/apache2/error.log
+```
+
+There should be some output that will point you in the right direction.
+
+## App Updates
+
+From here on out any updates to you app can be handled with a few commands:
+
+```
+cd /var/www/$APP_ROOT
+git pull
+RAILS_ENV=production bin/rake assets:precompile
+sudo service apache2 restart
+```
+
+If you make changes to the database you may have to also run the migrations:
+
+```
+cd /var/www/$APP_ROOT
+git pull
+RAILS_ENV=production bin/rake db:migrate
+RAILS_ENV=production bin/rake assets:precompile
+sudo service apache2 restart
+```
+
+And POW! your updates will be live.
+
+
+## Conclusion
+
+Hopefully you now have a production Rails app up and running and hopefully things are working fast and looking great!
+
+There are a lot of other ways to deploy production Rails apps and I'm sure some of them might even be easier.  I found this method useful because I can ensure that my development Ruby and gem versions match the server's versions.
+
+Also, be sure to check out the Passenger documentation cause there are a lot of options for fine turning as well as additional things that you may want to configure.
+
+Party on!
 
