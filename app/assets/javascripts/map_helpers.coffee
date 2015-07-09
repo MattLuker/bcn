@@ -1,10 +1,11 @@
 @map_helpers =
-  marker_filter: (map) ->
+  marker_filter: (map, model, models) ->
     # Remove all markers not in button's community.
-      $('.community').on "click", (e) ->
+      $('.' + model).on "click", (e) ->
 
         toggleLayers = $.grep window.layers, (layer) ->
-          return layer.community_id != e.target.id;
+          #return layer.community_id != e.target.id
+          return layer[model + '_id'] != e.target.id
 
         for layer in window.layers
           layer.onMap = true
@@ -21,13 +22,13 @@
       # Change the button color when selected.
 
       # Add all markers to the map.
-      $('.all_communities').on "click", (e) ->
+      $('.all_' + models).on "click", (e) ->
         for layer in window.layers
           layer.onMap = true
           map.addLayer(layer)
 
 
-  markerDrop: (e, marker, loc, post_id) ->
+  marker_drop: (e, marker, loc, model_id) ->
     drop_coord = e.target._latlng
     #console.log("latlng:", e.target._latlng)
 
@@ -36,7 +37,7 @@
       url: '/api' + location.pathname + '/locations/' + marker.loc_id
       dataType: "JSON"
       type: "patch"
-      data: "location[lat]=#{drop_coord.lat}&location[lon]=#{drop_coord.lng}&location[post_id]=#{post_id}"
+      data: "location[lat]=#{drop_coord.lat}&location[lon]=#{drop_coord.lng}&location[#{model_id}]=#{model_id}"
       success: (updated_data, status, jqXHR) ->
         #console.log(updated_data)
 
@@ -45,7 +46,8 @@
 
         # Update the location name, address, etc.
         updated_location = """#{updated_data.location.name} <br/> #{updated_data.location.address}
-                    #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcodee}"""
+                    #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcode}"""
+
         $("#location_" + marker.loc_id).html(updated_location)
 
       error: (data, status, jqXHR) ->
@@ -54,7 +56,7 @@
         marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
 
 
-  postMarkerDrop: (e, marker, loc_input) ->
+  new_form_marker_drop: (e, marker, loc_input) ->
     drop_coord = e.target._latlng
     console.log("latlng:", e.target._latlng)
 
@@ -70,7 +72,7 @@
 
         # Update the location name, address, etc.
         updated_location = """#{updated_data.location.name} <br/> #{updated_data.location.address}
-                    #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcodee}"""
+                    #{updated_data.location.city} #{updated_data.location.state} #{updated_data.location.postcode}"""
         loc_input.val(updated_data.location.name)
 
         $('#post_lat').remove()
@@ -85,7 +87,9 @@
 
 
   new_location_popup: (map, path) ->
-    # Bind clicks to new marker on the main map, if marker is already there update it.
+    #
+    # Main map click bindings, if marker is already there update it.
+    #
     marker = undefined
     map.on "click", (e) ->
       coord = e.latlng;
@@ -106,15 +110,18 @@
       if (typeof(marker) == 'undefined')
         marker = new L.Marker(e.latlng, { icon: divDefaultIcon });
         map.addLayer(marker);
+        map_helpers.new_location_for_post(map, marker)
       else
         marker.setLatLng(e.latlng)
 
       marker.bindPopup(markerHtml).openPopup()
 
+
+  new_location_for_post: (map, marker) ->
     map.on 'popupopen', (e) ->
       $('#new_location').on 'click', (e) ->
         e.preventDefault()
-        #console.log('new_location clicked...')
+        console.log('new_location clicked...')
         #      console.log(window.coord)
         $.ajax
           url: "/api#{location.pathname}/locations"
@@ -174,7 +181,7 @@
         path = 'community'
       url = "/api#{location.pathname}"
 
-    map_helpers.marker_filter(map)
+    map_helpers.marker_filter(map, 'community', )
     map_helpers.new_location_popup(map, path)
 
     $.ajax
@@ -190,7 +197,7 @@
           $('.map-container').append("<div id='map' class='#{map_class}'></div>")
           map = initialize_map(data.locations[0].lat, data.locations[0].lon)
           map_helpers.new_location_popup(map, path)
-        if path == 'community' && data.location.lat != undefined
+        if path == 'community' && data.hasOwnProperty('location')
           console.log('centering community location...')
           $('#map').remove()
           $('.map-container').append("<div id='map' class='#{map_class}'></div>")
@@ -253,7 +260,7 @@
 
               marker.on "dragend", (e) ->
                 console.log(this)
-                map_helpers.markerDrop(e, this, loc, data.id)
+                map_helpers.marker_drop(e, this, loc, data.id)
             else
               # Update existing Location/s.
               for loc in data.locations
@@ -268,7 +275,7 @@
                 #console.log(marker)
 
                 marker.on "dragend", (e) ->
-                  map_helpers.markerDrop(e, this, loc, data.id)
+                  map_helpers.marker_drop(e, this, loc, data.id)
 
 
           catch error
@@ -290,14 +297,19 @@
                 type: "post"
                 data: "location[lat]=#{set_coord.lat}&location[lon]=#{set_coord.lng}&location[post_id]=#{data.id}"
                 success: (data, status, jqXHR) ->
-                  console.log(data)
+                  console.log('location data:', data)
 
-                  marker.bindPopup("Location Set to:<br/> #{data.location.name}").openPopup();
+                  if data.hasOwnProperty('locations')
+                    loc = data.locations[0]
+                  else
+                    loc = data.location
+
+                  marker.bindPopup("Location Set to:<br/> #{loc.name}").openPopup();
 
                   # Update the location name, address, etc.
-                  updated_location = """#{data.location.name} <br/> #{data.location.address}
-                      #{data.location.city} #{data.location.state} #{data.location.postcode}"""
-                  $("#location_" + data.location.id).html(updated_location)
+                  updated_location = """#{loc.name} <br/> #{loc.address}
+                      #{loc.city} #{loc.state} #{loc.postcode}"""
+                  $("#location_" + loc.id).html(updated_location)
 
 
   form_map: (type, form_tag) ->
@@ -349,7 +361,7 @@
             map.addLayer(marker);
 
             marker.on "dragend", (e) ->
-              map_helpers.postMarkerDrop(e, marker, $loc_input)
+              map_helpers.new_form_marker_drop(e, marker, $loc_input)
 
 
   action_name: window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)

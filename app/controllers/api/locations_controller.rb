@@ -43,7 +43,17 @@ class Api::LocationsController < Api::ApiController
                               locations: locations
                           }.to_json
 
-      elsif @post && @post.user != @current_user
+      elsif @community && @current_user && @community.created_by == @current_user.id
+        @community.location = locations[0]
+        @community.save
+
+        render status: 200, json: {
+                              message: 'Location created.',
+                              community: @community,
+                              locations: locations
+                          }.to_json
+
+        elsif @post && @post.user != @current_user
         render status: 401, json: {
                               message: 'Only the post creator can add this.',
                               post: @post,
