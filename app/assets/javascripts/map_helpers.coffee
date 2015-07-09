@@ -161,13 +161,14 @@
     #
     # Add all event pop-ups if on the home page else just add the specific post.
     #
-
+    console.log('setting markers...')
     if location.pathname == '/posts/new' || location.pathname == '/communities/new'
       console.log('New post... or community')
     else if location.pathname == '/home'
-      post_path = 'home'
+      path = 'home'
       url = "/api/communities"
     else
+      console.log('model', map_helpers.model_name)
       if map_helpers.model_name == 'posts'
         path = 'post'
       else
@@ -175,20 +176,27 @@
       url = "/api#{location.pathname}"
 
     map_helpers.marker_filter(map)
-    map_helpers.new_location_popup(map, post_path)
+    map_helpers.new_location_popup(map, path)
 
     $.ajax
       url: url
       dataType: "JSON"
       success: (data, status, jqXHR) ->
+        console.log('data.location:', data.location)
+        console.log('url:', url, 'path:', path)
 
         # If Post show center map.
         if path == 'post' && data.locations.length > 0
           $('#map').remove()
           $('.map-container').append("<div id='map' class='#{map_class}'></div>")
           map = initialize_map(data.locations[0].lat, data.locations[0].lon)
-          map_helpers.marker_filter(map)
-          map_helpers.new_location_popup(map, post_path)
+          map_helpers.new_location_popup(map, path)
+        if path == 'community' #&& data.location.length != undefined
+          console.log('centering community location...')
+          $('#map').remove()
+          $('.map-container').append("<div id='map' class='#{map_class}'></div>")
+          map = initialize_map(data.location.lat, data.location.lon, 17)
+          #map_helpers.new_location_popup(map, path)
 
         # If Main page array of objects is returned else add the edit functionality.
         if Object.prototype.toString.call(data) == '[object Array]'
@@ -230,9 +238,10 @@
             window.layers.push(layer)
 
         else
+          # Add all Post locations, or if there aren't any catch the error and get ready to add one.
           try
-            # Update existing Location/s.
-            for loc in data.locations
+            if path == 'community'
+              loc = data.location
               marker = new L.Marker([loc.lat, loc.lon], {
                 draggable: true,
                 title: loc.name,
@@ -244,10 +253,27 @@
               #console.log(marker)
 
               marker.on "dragend", (e) ->
+                console.log(this)
                 map_helpers.markerDrop(e, this, loc, data.id)
+            else
+              # Update existing Location/s.
+              for loc in data.locations
+                marker = new L.Marker([loc.lat, loc.lon], {
+                  draggable: true,
+                  title: loc.name,
+                  riseOnHover: true,
+                  icon: divDefaultIcon
+                })
+                marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{marked(data.description)}</p>")
+                marker['loc_id'] = loc.id
+                #console.log(marker)
+
+                marker.on "dragend", (e) ->
+                  map_helpers.markerDrop(e, this, loc, data.id)
 
 
           catch error
+            console.log('there was an erorr somewhere...', error)
             # If no location set for post allow marker to be set.
             map.on "click", (e) ->
               set_coord = e.latlng;
@@ -344,13 +370,13 @@
   map.setView(new L.LatLng(lat, lon), zoom);
   map.addLayer(osm);
 
-  # Add all event pop-ups if on the home page else just add the specific post.
-  if location.pathname == '/home'
-    post_path = 'home'
-    url = "/api/communities"
-  else
-    post_path = 'post'
-    url = "/api#{location.pathname}"
+#  # Add all event pop-ups if on the home page else just add the specific post.
+#  if location.pathname == '/home'
+#    post_path = 'home'
+#    url = "/api/communities"
+#  else
+#    post_path = 'post'
+#    url = "/api#{location.pathname}"
 
 
   @divDefaultIcon = L.divIcon({

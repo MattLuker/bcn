@@ -124,6 +124,7 @@
         <ul class="tabs" data-tab>
           <li class="tab-title active"><a href="#posts">Posts</a></li>
           <li class="tab-title"><a href="#members">Members</a></li>
+          <li class="tab-title"><a href="#location">Default Location</a></li>
         </ul>
 
         <div class="tabs-content">
@@ -165,8 +166,28 @@
               <% end %>
 
               <% if @community.users.blank? %>
-                <span class="grey">Currently there are no members.</span>
+                  <span class="grey">Currently there are no members.</span>
               <% end %>
+            </ul>
+          </div>
+          <div class="content" id="location">
+            <ul class="no-disc">
+              <li>
+                <% if @community.location %>
+                  <span id="<%= dom_id(@community.location) %>">
+                    <strong><%= @community.location.name %></strong>
+                    <br/>
+                    <span class="location-details">
+                      <%= @community.location.address %>
+                      <%= @community.location.city %>,
+                      <%= @community.location.state %>
+                      <%= @community.location.postcode %>
+                    </span>
+                  </span>
+                <% else %>
+                    <p class="grey">No default location set.</p>
+                <% end %>
+              </li>
             </ul>
           </div>
         </div>

@@ -53,6 +53,7 @@ Rails.application.routes.draw do
 
     resources :communities do
       resources :posts, only: [:create, :update, :destroy]
+      resources :locations, only: [:create, :update]
       patch 'users', to: 'communities#add_user'
       delete 'users', to: 'communities#remove_user'
       resources :subscribers, only: [:create, :destroy]
