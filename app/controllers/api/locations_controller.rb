@@ -66,11 +66,18 @@ class Api::LocationsController < Api::ApiController
 
   def update
     location = Location.find(params[:id])
+    puts "@current_user: #{@current_user.inspect}"
 
     if location.post && location.post.user && location.post.user != @current_user
       render status: 401, json: {
                             message: 'Only the post creator can update this.',
                             post: @post,
+                            locations: location
+                        }.to_json
+    elsif location.community && location.community.created_by && location.community.created_by != @current_user.id
+      render status: 401, json: {
+                            message: 'Only the community creator can update this.',
+                            community: @community,
                             locations: location
                         }.to_json
     else
@@ -116,6 +123,9 @@ class Api::LocationsController < Api::ApiController
   def find_post
     if params[:post_id]
       @post = Post.find(params[:post_id])
+      @current_user = User.find(session[:user_id]) if session[:user_id]
+    elsif params[:community_id]
+      @community = Community.find_by_slug(params[:community_id])
       @current_user = User.find(session[:user_id]) if session[:user_id]
     else
       @post = nil
