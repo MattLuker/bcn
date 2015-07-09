@@ -129,15 +129,18 @@
 
         <div class="tabs-content">
           <div class="content active" id="posts">
-            <ul class="no-disc posts">
-              <% @community.posts.reverse_each do |post| %>
+            <ul class="posts no-bullet">
+              <% @posts.each do |post| %>
                   <%= render 'layouts/posts_list', post: post %>
               <% end %>
-
-              <% if @community.posts.blank? %>
-                  <span class="grey">Currently there are no posts.</span>
-              <% end %>
             </ul>
+
+            <br/><br/>
+            <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
+
+            <% if @community.posts.blank? %>
+                <span class="grey">Currently there are no posts.</span>
+            <% end %>
           </div>
           <div class="content" id="members">
             <ul class="no-disc member-list">

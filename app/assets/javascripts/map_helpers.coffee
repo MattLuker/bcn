@@ -29,7 +29,7 @@
 
   markerDrop: (e, marker, loc, post_id) ->
     drop_coord = e.target._latlng
-    console.log("latlng:", e.target._latlng)
+    #console.log("latlng:", e.target._latlng)
 
     # Send an $.ajax request to update the location.
     $.ajax
@@ -161,7 +161,6 @@
     #
     # Add all event pop-ups if on the home page else just add the specific post.
     #
-    console.log('setting markers...')
     if location.pathname == '/posts/new' || location.pathname == '/communities/new'
       console.log('New post... or community')
     else if location.pathname == '/home'
@@ -169,7 +168,7 @@
       url = "/api/communities"
     else
       console.log('model', map_helpers.model_name)
-      if map_helpers.model_name == 'posts'
+      if window.location.pathname.split('/')[1] == 'posts'
         path = 'post'
       else
         path = 'community'
@@ -191,7 +190,7 @@
           $('.map-container').append("<div id='map' class='#{map_class}'></div>")
           map = initialize_map(data.locations[0].lat, data.locations[0].lon)
           map_helpers.new_location_popup(map, path)
-        if path == 'community' #&& data.location.length != undefined
+        if path == 'community' && data.location.lat != undefined
           console.log('centering community location...')
           $('#map').remove()
           $('.map-container').append("<div id='map' class='#{map_class}'></div>")

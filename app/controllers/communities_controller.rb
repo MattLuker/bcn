@@ -14,6 +14,7 @@ class CommunitiesController < ApplicationController
   end
 
   def show
+    @posts = @community.posts.order('created_at DESC').paginate(:page => params[:page], :per_page => 10)
   end
 
   def new
