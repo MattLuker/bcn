@@ -1,4 +1,21 @@
-# Installing Ruby, Rails, and Passenger on Ubuntu (an Admin's Guide)
+---
+title: "Installing Ruby, Rails, and Passenger on Ubuntu (an Admin's Guide)"
+layout: post
+date:   2015-07-08 14:30:00
+categories: rails bcn
+image: rails_passenger.jpg
+---
+
+## Admins are People Too
+
+There are many ways to deploy Rails, but this one is mine.  Err, this is the one I learned and so far it's worked great.  I like being a Passenger on Rails.
+
+Oh, I slay me.  This isn't a Rails development post per say, but if you are ready to deploy your Ruby on Rails application on Ubuntu 14.04 LTS, then this is one way to do it.
+
+Hold onto your butts cause we're going to install the latest Ruby with rbenv, install Ruby on Rails via gems, and install and configure Passenger with Apache.
+
+<!--more-->
+
 
 ## rbenv 
 
