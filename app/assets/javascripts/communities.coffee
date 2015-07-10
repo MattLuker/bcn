@@ -36,41 +36,53 @@ ready_community = ->
         $this.replaceWith(button)
         Turbolinks.visit(window.location)
 
-  $('#community_color').on 'focus', (e) ->
 
-    if $('.colpick').is(':hidden')
-      $('.colpick').show()
-      $('#community_color').css('margin-bottom', '3px')
-    else
-      $input = $('#community_color')
-      $input.css('margin-bottom', '3px')
+  #
+  # Form functionality.
+  #
+  if location.pathname == '/communities/new'
+    $('#community_color').on 'focus', (e) ->
 
-      $(this).parent().colpick({
-        flat: true,
-        layout: 'hex',
-        submit: 1,
-        onChange: (hsb, hex, rgb, el, bySetColor) ->
-          $input = $($(el).children()[0])
-          $input.css('border-color','#' + hex)
-          $input.css('border-bottom-width', '5px')
-          # Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
-          if (!bySetColor)
-            $input.val('#' + hex)
-        onSubmit: () ->
-          $('.colpick').hide()
-          $input.css('margin-bottom', '16px')
+      if $('.colpick').is(':hidden')
+        $('.colpick').show()
+        $('#community_color').css('margin-bottom', '3px')
+      else
+        $input = $('#community_color')
+        $input.css('margin-bottom', '3px')
+
+        $(this).parent().colpick({
+          flat: true,
+          layout: 'hex',
+          submit: 1,
+          onChange: (hsb, hex, rgb, el, bySetColor) ->
+            $input = $($(el).children()[0])
+            $input.css('border-color','#' + hex)
+            $input.css('border-bottom-width', '5px')
+            # Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+            if (!bySetColor)
+              $input.val('#' + hex)
+          onSubmit: () ->
+            $('.colpick').hide()
+            $input.css('margin-bottom', '16px')
+        })
+
+    # Setup Markdown editor for description.
+    if $('#community_description').length
+      desc_editor = new Editor({
+        element: document.getElementById('community_description'),
       })
+      desc_editor.render()
 
-  # Setup Markdown editor for description.
-  if $('#community_description').length
-    desc_editor = new Editor({
-      element: document.getElementById('community_description'),
-    })
-    desc_editor.render()
+    # Handle the Default Location map.
+    map_helpers.form_map('community', '#new_community')
 
-  # Handle the Default Location map.
-  map_helpers.form_map('community', '#new_community')
 
+  #
+  # Map functionality.
+  #
+  if $('#map').length && $('#map').is(':visible') && location.pathname.split('/')[1] == 'communities'
+    map = initialize_map()
+    map_helpers.set_community_markers(map)
 
 
 # Fire the ready function on load and refresh.

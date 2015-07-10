@@ -4,8 +4,7 @@
       $('.' + model).on "click", (e) ->
 
         toggleLayers = $.grep window.layers, (layer) ->
-          #return layer.community_id != e.target.id
-          return layer[model + '_id'] != e.target.id
+          return layer[model + '_id'] != this.id
 
         for layer in window.layers
           layer.onMap = true
@@ -39,7 +38,7 @@
       type: "patch"
       data: "location[lat]=#{drop_coord.lat}&location[lon]=#{drop_coord.lng}&location[#{model_id}]=#{model_id}"
       success: (updated_data, status, jqXHR) ->
-        #console.log(updated_data)
+        console.log(updated_data)
 
         # Flash a message either on the marker.
         marker.bindPopup("Location updated to:<br/> #{updated_data.location.name}").openPopup();
@@ -51,7 +50,7 @@
         $("#location_" + marker.loc_id).html(updated_location)
 
       error: (data, status, jqXHR) ->
-        #console.log(data)
+        console.log(data)
         response = JSON.parse(data.responseText)
         marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
 
@@ -167,7 +166,7 @@
     path = 'home'
     url = "/api/communities"
 
-    map_helpers.marker_filter(map, 'community', )
+    map_helpers.marker_filter(map, 'community', 'communities')
     map_helpers.new_location_popup(map, path)
 
     $.ajax
@@ -212,6 +211,7 @@
 
           window.layers.push(layer)
 
+
   set_post_markers: (map) ->
     path = 'post'
     map_helpers.marker_filter(map, 'post', 'posts')
@@ -238,6 +238,39 @@
             icon: divDefaultIcon
           })
           marker.addTo(map).bindPopup("<h5>#{loc.name}</h5>")
+          marker['loc_id'] = loc.id
+          #console.log(marker)
+
+          marker.on "dragend", (e) ->
+            map_helpers.marker_drop(e, this, loc, data.id)
+
+
+  set_community_markers: (map) ->
+    path = 'community'
+    map_helpers.marker_filter(map, 'community', 'communities')
+    map_helpers.new_location_popup(map, path)
+
+    url = "/api#{location.pathname}"
+
+    $.ajax
+      url: url
+      dataType: "JSON"
+      success: (data, status, jqXHR) ->
+        # Now that we have the Post Locations center map on the first location and zoom.
+        if path == 'community' && data.hasOwnProperty('location')
+          console.log('centering community location...')
+          $('#map').remove()
+          $('.map-container').append("<div id='map' class='community-map'></div>")
+          map = initialize_map(data.location.lat, data.location.lon, 17)
+
+          loc = data.location
+          marker = new L.Marker([loc.lat, loc.lon], {
+            draggable: true,
+            title: loc.name,
+            riseOnHover: true,
+            icon: divDefaultIcon
+          })
+          marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{marked(data.description)}</p>")
           marker['loc_id'] = loc.id
           #console.log(marker)
 
@@ -451,6 +484,10 @@
   map = new L.Map('map');
 
   # Create the tile layer with correct attribution.
+  #
+  # Need to figure out how to use our own service for the tile PNG files.
+  # If at any way possible.
+  #
   osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
   osm = new L.TileLayer(osmUrl, {minZoom: 6, maxZoom: 19, attribution: osmAttrib});
@@ -459,15 +496,7 @@
   map.setView(new L.LatLng(lat, lon), zoom);
   map.addLayer(osm);
 
-#  # Add all event pop-ups if on the home page else just add the specific post.
-#  if location.pathname == '/home'
-#    post_path = 'home'
-#    url = "/api/communities"
-#  else
-#    post_path = 'post'
-#    url = "/api#{location.pathname}"
-
-
+  # Set the marker icon to custom SVG.
   @divDefaultIcon = L.divIcon({
     className: 'marker-div-icon',
     html: get_svg('#008CBA', 30, 55),

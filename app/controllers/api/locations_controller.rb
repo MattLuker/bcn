@@ -53,7 +53,7 @@ class Api::LocationsController < Api::ApiController
                               locations: locations
                           }.to_json
 
-        elsif @post && @post.user != @current_user
+      elsif @post && @post.user != @current_user
         render status: 401, json: {
                               message: 'Only the post creator can add this.',
                               post: @post,
@@ -76,36 +76,43 @@ class Api::LocationsController < Api::ApiController
 
   def update
     location = Location.find(params[:id])
-    puts "@current_user: #{@current_user.inspect}"
 
-    if location.post && location.post.user && location.post.user != @current_user
-      render status: 401, json: {
-                            message: 'Only the post creator can update this.',
+    case @belongs
+      when 'post'
+        if location.post && location.post.user && location.post.user != @current_user
+          render status: 401, json: {
+                                message: 'Only the post creator can update this.',
+                                post: @post,
+                                locations: location
+                            }.to_json
+        end
+
+      when 'community'
+        if location.community && location.community.created_by && location.community.created_by != @current_user.id
+          render status: 401, json: {
+                                message: 'Only the community creator can update this.',
+                                community: @community,
+                                locations: location
+                            }.to_json
+        end
+    end
+
+    if location.update_attributes(params[:id], location_params)
+      location.reload
+
+      render status: 200, json: {
+                            message: 'Location updated.',
                             post: @post,
-                            locations: location
-                        }.to_json
-    elsif location.community && location.community.created_by && location.community.created_by != @current_user.id
-      render status: 401, json: {
-                            message: 'Only the community creator can update this.',
                             community: @community,
-                            locations: location
+                            location: location
                         }.to_json
     else
-      if location.update_attributes(params[:id], location_params)
-        location.reload
-
-        render status: 200, json: {
-                              message: 'Location updated.',
-                              post: @post,
-                              location: location
-                          }.to_json
-      else
-        render status: 422, json: {
-                              message: 'Location could not be updated.',
-                              post: @post,
-                              location: location
-                          }.to_json
-      end
+      render status: 422, json: {
+                            message: 'Location could not be updated.',
+                            post: @post,
+                            community: @community,
+                            location: location
+                        }.to_json
     end
   end
 
@@ -133,9 +140,11 @@ class Api::LocationsController < Api::ApiController
   def find_post
     if params[:post_id]
       @post = Post.find(params[:post_id])
+      @belongs = 'post'
       @current_user = User.find(session[:user_id]) if session[:user_id]
     elsif params[:community_id]
       @community = Community.find_by_slug(params[:community_id])
+      @belongs = 'community'
       @current_user = User.find(session[:user_id]) if session[:user_id]
     else
       @post = nil

@@ -125,7 +125,6 @@ ready_post = ->
   # Show page map functionality.
   #
   if $('#map').length && $('#map').is(':visible') && location.pathname.split('/')[1] == 'posts'
-    #map = initialize_map(data.locations[0].lat, data.locations[0].lon)
     map = initialize_map()
     map_helpers.set_post_markers(map)
 
