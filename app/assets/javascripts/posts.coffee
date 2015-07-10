@@ -126,7 +126,7 @@ ready_post = ->
   #
   if $('#map').length && $('#map').is(':visible') && location.pathname.split('/')[1] == 'posts'
     map = initialize_map()
-    map_helpers.set_post_markers(map)
+    map_helpers.set_post_markers(map, 'post-map')
 
     $('.expand-map').on 'click', (e) ->
       toggle_map(e)
@@ -135,30 +135,41 @@ ready_post = ->
 
 
 toggle_map = (e) ->
+  #
+  # Make the map big, or small.
+  #
   e.preventDefault()
   $map_container = $('.map-container')
+  $map = $('#map')
 
   if ($map_container.hasClass('large-3'))
     $('.map-container').removeClass('large-3').addClass('large-12')
     height = '550px'
     $('.expand-map').addClass('hidden')
     $('.contract-map').removeClass('hidden')
+    $map.removeClass('post-map-large')
+    $map.addClass('post-map')
+    map_class = 'post-map-large'
   else
     $('.map-container').removeClass('large-12').addClass('large-3')
     height = '300px'
     $('.expand-map').removeClass('hidden')
     $('.contract-map').addClass('hidden')
+    map_class = 'post-map'
 
-
-  $('#map').remove()
+  $map.remove()
   $map_container.append('<div id="map" class="post-map-large"></div>')
-  $('#map').css('height', height)
+  $map.css('height', height)
 
   map = initialize_map()
-  map_helpers.set_markers(map, 'post-map-large')
+  #map_helpers.set_markers(map, 'post-map-large')
+  map_helpers.set_post_markers(map, map_class)
 
 
 readURL = (input) ->
+  #
+  # Read the contents of the image file to be uploaded and display it.
+  #
   if (input.files && input.files[0])
     reader = new FileReader()
 
