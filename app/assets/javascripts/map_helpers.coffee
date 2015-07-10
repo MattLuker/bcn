@@ -163,6 +163,88 @@
             response = JSON.parse(data.responseText)
             marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
 
+  set_home_markers: (map) ->
+    path = 'home'
+    url = "/api/communities"
+
+    map_helpers.marker_filter(map, 'community', )
+    map_helpers.new_location_popup(map, path)
+
+    $.ajax
+      url: url
+      dataType: "JSON"
+      success: (data, status, jqXHR) ->
+
+        window.layers = []
+        for community in data
+          markers = []
+          for post in community.posts
+            # Create markers for each post.
+            #console.log(post, community.name)
+            for loc in post.locations
+
+              divCommunityIcon = L.divIcon({
+                className: 'marker-div-icon',
+                html: get_svg(community.color, 50, 50),
+                popupAnchor: [8, -3],
+              });
+
+              marker = new L.Marker([loc.lat, loc.lon], {
+                draggable: false,
+                title: data.title,
+                riseOnHover: true,
+                icon: divCommunityIcon
+              })
+              marker.bindPopup("""
+                    <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
+                    <p>#{marked(post.description)}</p>
+                    <a href='/posts/#{post.id}/edit' class='button tiny icon'>
+                      <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon'/>
+                    </a>
+                    """)
+              markers.push(marker)
+
+          # Create a layerGroup for each Community.
+          layer = L.layerGroup(markers)
+          layer.community_id = "community_" + community.id
+          layer.onMap = true
+          layer.addTo(map);
+
+          window.layers.push(layer)
+
+  set_post_markers: (map) ->
+    path = 'post'
+    map_helpers.marker_filter(map, 'post', 'posts')
+    map_helpers.new_location_popup(map, path)
+
+    url = "/api#{location.pathname}"
+
+    $.ajax
+      url: url
+      dataType: "JSON"
+      success: (data, status, jqXHR) ->
+        # Now that we have the Post Locations center map on the first location and zoom.
+        $('#map').remove()
+        $('.map-container').append("<div id='map' class='post-map'></div>")
+        map = initialize_map(data.locations[0].lat, data.locations[0].lon, 17)
+        map_helpers.new_location_popup(map, path)
+
+        # Update existing Location/s.
+        for loc in data.locations
+          marker = new L.Marker([loc.lat, loc.lon], {
+            draggable: true,
+            title: loc.name,
+            riseOnHover: true,
+            icon: divDefaultIcon
+          })
+          marker.addTo(map).bindPopup("<h5>#{loc.name}</h5>")
+          marker['loc_id'] = loc.id
+          #console.log(marker)
+
+          marker.on "dragend", (e) ->
+            map_helpers.marker_drop(e, this, loc, data.id)
+
+
 
   set_markers: (map, map_class = 'post-map') ->
     #
@@ -174,20 +256,20 @@
       path = 'home'
       url = "/api/communities"
     else
-      console.log('model', map_helpers.model_name)
       if window.location.pathname.split('/')[1] == 'posts'
         path = 'post'
       else
         path = 'community'
       url = "/api#{location.pathname}"
 
-    map_helpers.marker_filter(map, 'community', )
+    map_helpers.marker_filter(map, 'community', 'communities')
     map_helpers.new_location_popup(map, path)
 
     $.ajax
       url: url
       dataType: "JSON"
       success: (data, status, jqXHR) ->
+        console.log('set_markers data:', data)
         console.log('data.location:', data.location)
         console.log('url:', url, 'path:', path)
 
@@ -362,10 +444,6 @@
 
             marker.on "dragend", (e) ->
               map_helpers.new_form_marker_drop(e, marker, $loc_input)
-
-
-  action_name: window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)
-  model_name: window.location.pathname.split('/')[1]
 
 
 @initialize_map = (lat = 36.2168253, lon = -81.6824657, zoom = 15) ->

@@ -1,7 +1,7 @@
 ready_home = ->
-  if $('#map').length && $('#map').is(':visible')
+  if $('#map').length && $('#map').is(':visible') && location.pathname.split('/')[1] == 'home'
     map = initialize_map()
-    map_helpers.set_markers(map)
+    map_helpers.set_home_markers(map)
 
 
 # Fire the ready function on load and refresh.

@@ -1,34 +1,82 @@
 ready_post = ->
-  $('.datepicker').fdatepicker()
+  #
+  # Form functionality.
+  #
+  if location.pathname == '/posts/new'
+    $('.datepicker').fdatepicker()
 
-  $('.toggle').on 'click', (e) ->
-    e.preventDefault()
-    e.stopPropagation()
-    $form = $('.' + e.target.dataset.toggle)
-    $form.toggle()
-
-
-  $('.clockpicker').clockpicker({
-    align: 'left',
-    autoclose: true,
-    donetext: 'OK'
-  });
-
-  $('.expand-map').on 'click', (e) ->
-    toggle_map(e)
-  $('.contract-map').on 'click', (e) ->
-    toggle_map(e)
+    $('.toggle').on 'click', (e) ->
+      e.preventDefault()
+      e.stopPropagation()
+      $form = $('.' + e.target.dataset.toggle)
+      $form.toggle()
 
 
-  map_helpers.form_map('post', '#new_post')
+    $('.clockpicker').clockpicker({
+      align: 'left',
+      autoclose: true,
+      donetext: 'OK'
+    })
 
-  # Set the Post edit form textarea height.
-  $('#post_description').height($('#post_description').prop('scrollHeight'))
+    map_helpers.form_map('post', '#new_post')
 
-  # Display the image to be uploaded.
-  $('.photo_upload').on 'change', (e) ->
-    readURL(this);
+    # Set the Post edit form textarea height.
+    $('#post_description').height($('#post_description').prop('scrollHeight'))
 
+    # Display the image to be uploaded.
+    $('.photo_upload').on 'change', (e) ->
+      readURL(this);
+
+    # Get the Open Graph data for the Link?
+    $('#post-link').on 'blur', (e) ->
+      if (url != '' || url != undefined)
+        $('#link-meter').removeClass('hidden')
+        $(".meter").animate({width:"100%"});
+
+        url = $('#post-link').val()
+        $.get('/posts/get_og_data?url=' + url).success (data) ->
+  #console.log(data)
+          $error = $('.og-error')
+          if $error.is(':visible')
+            $error.toggle()
+
+          $('.og-url').attr('href', data.og_url)
+
+          $('.og-image').attr('src', data.og_image)
+          $('.og-title').text(data.og_title)
+          $('.og-description').text(data.og_description)
+          if (data.og_error != undefined)
+            $error.text(data.og_error).toggle()
+          $('.og-data').removeClass('hidden')
+
+          $('#post_og_url').val(data.og_url)
+          $('#post_og_image').val(data.og_image)
+          $('#post_og_title').val(data.og_title)
+          $('#post_og_description').val(data.og_description)
+
+
+    # Start Communities field with community parameter.
+    query = window.location.search.substring(1)
+    if (query && query.includes('community'))
+      vars = query.split("&");
+      community = vars[0].split('=')[1]
+      community = community.replace('+', ' ')
+      $('#post_community_names').val(community)
+
+    # Setup multi-select goodness with Chosen.
+    $('.chosen-select').chosen
+      allow_single_deselect: true
+      no_results_text: 'No results matched'
+
+
+    # Setup Markdown editor for description.
+    if $('#post_description').length
+      post_editor = new Editor({
+        element: document.getElementById('post_description'),
+      })
+      post_editor.render()
+
+  #
   # Subscribe button functionality.
   #
   # Not sure the button needs to be replaced since Turbolinks is refreshing the page, but maybge it'll be useful down
@@ -63,61 +111,28 @@ ready_post = ->
         $this.replaceWith(button)
         Turbolinks.visit(window.location)
 
-  # Get the Open Graph data for the Link?
-  $('#post-link').on 'blur', (e) ->
-    if (url != '' || url != undefined)
-      $('#link-meter').removeClass('hidden')
-      $(".meter").animate({width:"100%"});
-
-      url = $('#post-link').val()
-      $.get('/posts/get_og_data?url=' + url).success (data) ->
-        #console.log(data)
-        $error = $('.og-error')
-        if $error.is(':visible')
-          $error.toggle()
-
-        $('.og-url').attr('href', data.og_url)
-
-        $('.og-image').attr('src', data.og_image)
-        $('.og-title').text(data.og_title)
-        $('.og-description').text(data.og_description)
-        if (data.og_error != undefined)
-          $error.text(data.og_error).toggle()
-        $('.og-data').removeClass('hidden')
-
-        $('#post_og_url').val(data.og_url)
-        $('#post_og_image').val(data.og_image)
-        $('#post_og_title').val(data.og_title)
-        $('#post_og_description').val(data.og_description)
-
-
-  # Start Communities field with community parameter.
-  query = window.location.search.substring(1)
-  if (query && query.includes('community'))
-    vars = query.split("&");
-    community = vars[0].split('=')[1]
-    community = community.replace('+', ' ')
-    $('#post_community_names').val(community)
-
-  # Setup multi-select goodness with Chosen.
-  $('.chosen-select').chosen
-    allow_single_deselect: true
-    no_results_text: 'No results matched'
-
-
-  # Setup Markdown editor for description.
-  if $('#post_description').length
-    post_editor = new Editor({
-      element: document.getElementById('post_description'),
-    })
-    post_editor.render()
-
+# #
+# # Auto-save form functionality... maybe.
+# #
 #  if $('#new_post').length
 #    $('#new_post').sisyphus({
 #      onRelase: ->
 #        localStorage['new_postundefinedpost[lon]'] = ''
 #        localStorage['new_postundefinedpost[lat]'] = ''
 #    })
+
+  #
+  # Show page map functionality.
+  #
+  if $('#map').length && $('#map').is(':visible') && location.pathname.split('/')[1] == 'posts'
+    #map = initialize_map(data.locations[0].lat, data.locations[0].lon)
+    map = initialize_map()
+    map_helpers.set_post_markers(map)
+
+    $('.expand-map').on 'click', (e) ->
+      toggle_map(e)
+    $('.contract-map').on 'click', (e) ->
+      toggle_map(e)
 
 
 toggle_map = (e) ->
