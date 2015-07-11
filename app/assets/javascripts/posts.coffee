@@ -5,13 +5,6 @@ ready_post = ->
   if location.pathname == '/posts/new'
     $('.datepicker').fdatepicker()
 
-    $('.toggle').on 'click', (e) ->
-      e.preventDefault()
-      e.stopPropagation()
-      $form = $('.' + e.target.dataset.toggle)
-      $form.toggle()
-
-
     $('.clockpicker').clockpicker({
       align: 'left',
       autoclose: true,
@@ -31,7 +24,7 @@ ready_post = ->
 
 
 
-# Set the Post edit form textarea height.
+    # Set the Post edit form textarea height.
     $('#post_description').height($('#post_description').prop('scrollHeight'))
 
     # Display the image to be uploaded.
@@ -46,7 +39,7 @@ ready_post = ->
 
         url = $('#post-link').val()
         $.get('/posts/get_og_data?url=' + url).success (data) ->
-  #console.log(data)
+          #console.log(data)
           $error = $('.og-error')
           if $error.is(':visible')
             $error.toggle()
@@ -133,7 +126,7 @@ ready_post = ->
 #    })
 
   #
-  # Show page map functionality.
+  # Show page functionality.
   #
   if $('#map').length && $('#map').is(':visible') && location.pathname.split('/')[1] == 'posts'
     map = initialize_map()
@@ -143,6 +136,13 @@ ready_post = ->
       toggle_map(e)
     $('.contract-map').on 'click', (e) ->
       toggle_map(e)
+
+  # Handle hidden elements and the buttons that reveal them.
+  $('.toggle').on 'click', (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    $form = $('.' + e.target.dataset.toggle)
+    $form.toggle()
 
 
 toggle_map = (e) ->

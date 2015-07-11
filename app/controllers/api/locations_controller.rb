@@ -4,7 +4,6 @@ class Api::LocationsController < Api::ApiController
 
   def show
     nom = Location.lookup_name(params)
-    puts "nom.inspect: #{nom.inspect}"
 
     if nom[:lat].nil?
       loc = Location.find_by(name: nom[:name])

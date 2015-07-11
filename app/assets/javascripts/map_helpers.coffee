@@ -38,8 +38,6 @@
       type: "patch"
       data: "location[lat]=#{drop_coord.lat}&location[lon]=#{drop_coord.lng}&location[#{model_id}]=#{model_id}"
       success: (updated_data, status, jqXHR) ->
-        console.log(updated_data)
-
         # Flash a message either on the marker.
         marker.bindPopup("Location updated to:<br/> #{updated_data.location.name}").openPopup();
 
@@ -50,21 +48,18 @@
         $("#location_" + marker.loc_id).html(updated_location)
 
       error: (data, status, jqXHR) ->
-        console.log(data)
         response = JSON.parse(data.responseText)
         marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
 
 
   new_form_marker_drop: (e, marker, loc_input) ->
     drop_coord = e.target._latlng
-    console.log("latlng:", e.target._latlng)
 
     # Send an $.ajax request to update the location.
     $.ajax
       url: '/api/locations/show?lat=' + drop_coord.lat + '&lon=' + drop_coord.lng
       dataType: "JSON"
       success: (updated_data, status, jqXHR) ->
-        console.log(updated_data)
 
         # Flash a message either on the marker.
         marker.bindPopup("Location updated to:<br/> #{updated_data.location.name}").openPopup();
@@ -120,16 +115,13 @@
     map.on 'popupopen', (e) ->
       $('#new_location').on 'click', (e) ->
         e.preventDefault()
-        console.log('new_location clicked...')
-        #      console.log(window.coord)
+
         $.ajax
           url: "/api#{location.pathname}/locations"
           dataType: "JSON"
           type: "post"
           data: "location[lat]=#{coord.lat}&location[lon]=#{coord.lng}"
           success: (data, status, jqXHR) ->
-            #console.log(jqXHR.responseText)
-            console.log(data)
 
             # Update the popup.
             data.locations.sort()
@@ -142,7 +134,6 @@
             else if data.hasOwnProperty('organization')
               model = 'organization'
 
-            console.log('new_loc', new_loc)
             marker.bindPopup("Location Set to:<br/> #{new_loc.name}").openPopup();
 
             # Update the Locations <ul>.
@@ -238,7 +229,6 @@
       url: url
       dataType: "JSON"
       success: (data, status, jqXHR) ->
-        console.log(data)
 
         if data.locations.length > 0
           # Now that we have the Post Locations center map on the first location and zoom.
@@ -257,7 +247,6 @@
           })
           marker.addTo(map).bindPopup("<h5>#{loc.name}</h5>")
           marker['loc_id'] = loc.id
-          #console.log(marker)
 
           marker.on "dragend", (e) ->
             map_helpers.marker_drop(e, this, loc, data.id)
@@ -276,7 +265,6 @@
       success: (data, status, jqXHR) ->
         # Now that we have the Post Locations center map on the first location and zoom.
         if path == 'community' && data.hasOwnProperty('location')
-          console.log('centering community location...')
           $('#map').remove()
           $('.map-container').append("<div id='map' class='community-map'></div>")
           map = initialize_map(data.location.lat, data.location.lon, 17)
@@ -290,7 +278,6 @@
           })
           marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{marked(data.description)}</p>")
           marker['loc_id'] = loc.id
-          #console.log(marker)
 
           marker.on "dragend", (e) ->
             map_helpers.marker_drop(e, this, loc, data.id)

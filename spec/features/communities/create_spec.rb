@@ -64,9 +64,10 @@ describe 'Adding communities' do
     visit('/communities/new')
 
     fill_in 'Name', with: 'Boone Community Network'
-    fill_in 'Description', with: "We're all part of the Boone community!"
+    find('.CodeMirror-code').set("We're all part of the Boone community!")
 
     find('#community_color').click
+    sleep(0.3)
     find('.colpick_color_overlay2').click
     find('.colpick_submit').click
 
@@ -74,5 +75,22 @@ describe 'Adding communities' do
 
     community = Community.last
     expect(community.color).to eq('#406580')
+  end
+
+  it 'sets a default location for a community', :js => true do
+    sign_in user, password: 'beans'
+
+    visit('/communities/new')
+
+    fill_in 'Name', with: 'Boone Community Network'
+    find('.CodeMirror-code').set("We're all part of the Boone community!")
+
+    fill_in 'Default Location', with: 'Watauga Library'
+    click_link 'Search'
+    sleep(1)
+    click_button 'Save Community'
+
+    community = Community.last
+    expect(community.location.name).to eq('Watauga County Public Library')
   end
 end
