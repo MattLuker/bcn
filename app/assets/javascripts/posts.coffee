@@ -20,7 +20,18 @@ ready_post = ->
 
     map_helpers.form_map('post', '#new_post')
 
-    # Set the Post edit form textarea height.
+    #
+    # Maybe figure out how to only call the /api/locations/show once some day
+    #
+    queryParams = $.getQueryParameters()
+    if queryParams.hasOwnProperty('lat') && queryParams.hasOwnProperty('lon')
+      $.get("/api/locations/show?lat=#{queryParams['lat']}&lon=#{queryParams['lon']}").success (data) ->
+        $('#Location_Name').val(data.location.name)
+        $('.location-button').click()
+
+
+
+# Set the Post edit form textarea height.
     $('#post_description').height($('#post_description').prop('scrollHeight'))
 
     # Display the image to be uploaded.
