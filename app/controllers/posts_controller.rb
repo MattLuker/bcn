@@ -64,6 +64,10 @@ class PostsController < ApplicationController
           post_params[:community_ids].each do |c|
             unless c.blank?
             community = Community.find(c)
+
+            @post.locations << community.location if community.location
+            @post.save
+
             Community.increment_counter('posts_count', community.id)
               community.save
               end
