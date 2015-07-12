@@ -4,6 +4,7 @@ module AuthenticationHelpers
     # controller.stub(:user_id).and_return(user.id)
 
     visit '/login'
+    sleep(0.3)
     fill_in 'Email', with: user.email
     fill_in 'Password', with: options[:password]
     click_button 'Log In'

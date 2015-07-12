@@ -13,17 +13,14 @@ class Location < ActiveRecord::Base
       config.email = Rails.application.config_for(:nominatim)['email']
       config.endpoint = Rails.application.config_for(:nominatim)['host']
     end
-    puts "params: #{params}"
 
     if params[:name]
       places = Nominatim.search("#{params[:name]}").limit(10).address_details(true)
-      puts "places.inspect: #{places.count}"
     else
       places = Nominatim.search("#{params[:lat]},#{params[:lon]}").limit(10).address_details(true)
     end
     if places.count != 0
       places.each do |place|
-        puts "place.inspect: #{place.inspect} "
         return { name: place.display_name.split(',')[0], lat: place.lat, lon: place.lon }
       end
     else

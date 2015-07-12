@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe 'Subscribing to Community' do
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, :browser => :chrome)
+  end
+
+
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
 
@@ -72,7 +77,7 @@ describe 'Subscribing to Community' do
     expect(page).to have_content("New Post")
 
     fill_in "Title", with: "My Location Post"
-    fill_in "What's on your mind?", with: "Great new post."
+    #fill_in "What's on your mind?", with: "Great new post."
 
     fill_in 'Communities (in a comma separated list)', with: 'Boone Community Network'
     click_button "Save Post"
