@@ -1,4 +1,4 @@
-# Export Your Friends From Facebook
+# Export Your Friends From Facebook... Well Most of Them
 
 Keeping your friends close and your enemies closer is a saying.  Someone said it, others have repeated it.  Using the [Koala](https://github.com/arsduo/koala) gem we're going to get a list of our Facebook friends and save it to a CSV file. 
 
@@ -33,26 +33,99 @@ gem install koala
 
 Pow! You're all set on the workstation end.
 
+## Get an Access Token
+
+Before you go running the script you need to copy and paste in the OAuth access key in the **Koala::Facebook::API.new** method.  
+
+Since this is a simple script that probably won't be executed often we'll get a key from the [Graph API Explorer](https://developers.facebook.com/tools/explorer/) utility.
+
+* Browse to the link above.
+* In the "Application" dropdown select your new app.
+* Click the "Get Token" button and in the dropdown select the "Get Access Token" link.
+* Make sure **user_friends** is checked, and check it if it is not.
+* Click the "Get Access Token" button.
+* Copy and paste the "Access Token:" string from the field.
+
+Once you done these steps you can return to the Graph API Explorer and just select your app to get the appropriate access token.
+
 ## Fire up the Script
 
 Time to execute something.  Create a new Ruby file, I named mine **get_friends.rb**, and add the following:
 
 ```
+#
+# Get a list of Facebook Friends
+#
+
 require 'koala'
+require 'csv'
 
-@graph = Koala::Facebook::API.new($YOUR_AUTH_KEY)
+# Connect to Facebook.
+@graph = Koala::Facebook::API.new('$YOUR_ACCESS_TOKEN')
+friends = @graph.get_connections("me", "taggable_friends")
 
-friends = @graph.get_connections("me", "friends")
+# Setup an array to hold the friend data.
+output_friends = []
 
+# Get a total friends count.
+friend_count = @graph.get_connection("me", "friends",api_version:"v2.0").raw_response["summary"]["total_count"]
+
+# Get the first "page" of friends.
 friends.each do |friend|
   puts friend['name']
-  
-  puts friend.inspect
+  puts friend['picture']['data']['url']
+  output_friends.push( [ friend['name'], friend['picture']['data']['url'] ] )
 end
+
+# Loop through the rest of the pages (expend the 30 to include all of your friends if needed).
+(0..30).each do |i|
+  friends = friends.next_page
+
+  # Stop the loop if the number of pages is less then the loop number.
+  if friends.nil?
+    break
+  end
+
+  # Add the friend data to the output array.
+  friends.each do |friend|
+    puts friend['name']
+    puts friend['picture']['data']['url']
+    output_friends.push( [ friend['name'], friend['picture']['data']['url'] ] )
+  end
+end
+
+# Open the CSV file and write the header row then parse the data rows and write them.
+header_row = ['name', 'pic_url']
+CSV.open("output_files/facebook_friends.csv", "wb") do |csv|
+  # Write the header row.
+  csv << header_row
+
+  output_friends.each do |friend|
+    # Write it to the file.
+    csv << friend
+  end
+end
+
+puts "\n"
+puts "\n"
+puts "----------------------------------------------"
+puts "\n"
+puts "Total friends: #{friend_count}"
+puts "Total taggable friends: #{output_friends.count}"
 ```
 
-Before you go running the script you need to copy and paste in the OAuth access key in the **Koala::Facebook::API.new** method.  Since this is a simple script that probably won't be executed often we'll get a key from the [Graph API Explorer](https://developers.facebook.com/tools/explorer/) utility.
+**Note:** don't forget to replace the string *$YOUR_ACCESS_TOKEN* with your actual access token string.
 
-* Browse to the Graph API Explorer page linked above.
-* Copy and paste the "Access Token" string into the script.
+Run the script with:
 
+```
+ruby get_friends.rb
+```
+
+You should see a list of your friend's names with the URL to their profile picture and at the end a print out of the total number of friends as well as the friends that are "taggable".  Also, in the *output_files* directory there should be a new CSV file with the name and pic_url for each friend.
+
+The way the current version of the [Facebook API](https://developers.facebook.com/docs/apps/faq#friends_permissions) works won't allow you to get a list of all your friends, but it will let you get a list of "taggable" friends.  
+
+To be honest I'm not 100% sure what the difference between a friend and a taggable friend is, but I'm sure it's something to do with permissions.  Even though it's sometimes inconvenient I'm all for enhanced permissions when it comes to my social networking.
+
+Party On!
