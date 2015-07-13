@@ -18,7 +18,7 @@ describe "Searches index" do
     expect(page).to have_content('Found 1 results')
   end
 
-  it 'returns one post on pressing enter', :js => true do
+  it 'returns one post on pressing enter', :js => true, :visual => true, :firefox => true do
     visit '/'
 
     fill_in 'Find happiness', with: 'location'
@@ -28,7 +28,7 @@ describe "Searches index" do
     expect(page).to have_content('Found 1 results')
   end
 
-  it 'returns two posts on pressing enter', :js => true do
+  it 'returns two posts on pressing enter', :js => true, :visual => true, :firefox => true  do
     visit '/'
 
     fill_in 'Find happiness', with: 'Event'
@@ -39,7 +39,7 @@ describe "Searches index" do
     expect(page).to have_content('Found 2 results')
   end
 
-  it 'returns two comments on pressing enter', :js => true do
+  it 'returns two comments on pressing enter', :js => true, :visual => true, :firefox => true  do
     visit '/'
 
     fill_in 'Find happiness', with: 'Comment'
