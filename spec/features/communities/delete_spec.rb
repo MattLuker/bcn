@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "Delete communities" do
   let(:user) { create(:user) }
 
-  it "is successful with valid content" do
+  it "is successful with valid content", :js => true do
     sign_in user, password: 'beans'
     create_community
 
@@ -12,6 +12,8 @@ describe "Delete communities" do
 
     find('.edit-community').click
     click_link "Delete"
+    sleep(0.5)
+    click_button 'Ok'
 
     visit('/communities')
 
@@ -19,12 +21,15 @@ describe "Delete communities" do
     expect(Community.count).to eq(0)
   end
 
-  it "is successful with valid content and appropriate log" do
+  it "is successful with valid content and appropriate log", :js => true do
     sign_in user, password: 'beans'
     create_community
 
     find('.edit-community').click
     click_link "Delete"
+    sleep(0.5)
+    click_button 'Ok'
+
 
     del_community = Community.only_deleted.last
 
@@ -32,7 +37,7 @@ describe "Delete communities" do
     expect(del_community.deleted_at).to_not eq(nil)
   end
 
-  it 'will not allow non-creator user to delete community' do
+  it 'will not allow non-creator user to delete community', :js => true do
     sign_in user, password: 'beans'
     create_community
     community = Community.last

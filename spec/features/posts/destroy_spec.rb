@@ -16,7 +16,7 @@ describe 'Deleting posts' do
       find('.post-edit').click
 
       click_link 'Delete'
-      sleep(0.3)
+      sleep(0.5)
       click_button 'Ok'
 
       expect(page).to_not have_content(post.title)
@@ -65,9 +65,9 @@ describe 'Deleting posts' do
       find('.post-edit').click
 
       click_link 'Delete'
-      sleep(0.3)
+      sleep(0.5)
       click_button 'Ok'
-      sleep(0.3)
+      sleep(0.5)
 
       community.reload
       expect(community.posts_count).to eq(0)

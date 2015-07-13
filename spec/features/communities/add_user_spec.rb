@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "Adding User to communities" do
   let(:user) { create(:user) }
 
-  it "is successful with valid content" do
+  it "is successful with valid content", :js => true do
     sign_in user, password: 'beans'
     create_community
     #expect(page).to have_content("We're all part of the Boone community!")

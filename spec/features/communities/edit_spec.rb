@@ -3,7 +3,7 @@ require 'rails_helper'
 describe '"Updating communities" 'do
   let(:user) { create(:user) }
 
-  it 'is successful with valid content' do
+  it 'is successful with valid content', :js => true do
     sign_in user, password: 'beans'
     create_community
 
@@ -17,7 +17,7 @@ describe '"Updating communities" 'do
     expect(page).to have_content('Community was successfully updated.')
   end
 
-  it 'will not allow updating Community if user is not the creator' do
+  it 'will not allow updating Community if user is not the creator', :js => true do
     sign_in user, password: 'beans'
     create_community
     community = Community.last

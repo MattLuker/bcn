@@ -64,7 +64,6 @@ describe 'Subscribing to Community' do
     find('.community-subscribe').click
     sleep(0.3)
     expect(community.subscribers[0].user).to eq(user2)
-    puts "Subscribed... #{community.subscribers.count}"
 
     click_link 'Log Out'
     sign_in user, password: 'beans'

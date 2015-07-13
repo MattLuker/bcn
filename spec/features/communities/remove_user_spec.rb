@@ -23,7 +23,7 @@ describe "Removing User from communities" do
     visit('/users/' + cheese.id.to_s)
     find('.communities-tab').click
     find('.leave-community').click
-    sleep(0.3)
+    sleep(0.5)
     click_button 'Yes, Leave!'
 
     expect(page).to have_content("You have left the #{community.name} community.")
