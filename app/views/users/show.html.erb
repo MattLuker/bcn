@@ -16,6 +16,9 @@
     <% if @user.photo %>
         <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@user.photo.url}" %>
     <% end %>
+    <% if @user.bio %>
+        <meta property="og:description" content="<%= truncate(strip_tags( markdown(@user.bio) ), length: 50) %>" />
+    <% end %>
 <% end %>
 
 <div class="row">
