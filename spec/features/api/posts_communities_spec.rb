@@ -120,7 +120,7 @@ describe 'Post Communities API', :type => :api do
     expect(del_json.length).to eq(1)
     expect(del_json['message']).to eq('Post removed from Community.')
 
-    get '/api/communities/' + community.id.to_s
+    get '/api/communities/' + community.slug
     expect(last_response.status).to eq(200)
     # Not sure why, but the request_helper isn't correctly getting the JSON from last_response.body.
     get_json ||= JSON.parse(last_response.body)

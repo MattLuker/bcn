@@ -39,7 +39,7 @@ describe 'Location API', :type => :api do
 
     expect(last_response.status).to eq(200)
 
-    expect(json.length).to eq(3)
+    expect(json.length).to eq(4)
     expect(json['message']).to eq('Location updated.')
     expect(json['location']['name']).to eq('Kenneth E. Peacock Hall')
   end

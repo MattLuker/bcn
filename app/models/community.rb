@@ -5,6 +5,10 @@ class Community < ActiveRecord::Base
   attr_accessor :image_web_url
 
   validates :name, presence: true, uniqueness: true
+  validates :facebook_link, presence: true, allow_blank: true
+  validates :twitter_link, presence: true, allow_blank: true
+  validates :google_link, presence: true, allow_blank: true
+  validates :image_web_url, presence: true, allow_blank: true
   validates_property :ext, of: :image, in: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'svgz', 'JPG', 'PNG'], if: :image_changed?
   validates_property :mime_type, of: :image,
                      in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg'],

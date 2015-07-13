@@ -12,6 +12,7 @@ class Api::CommunitiesController < Api::ApiController
   end
 
   def create
+    puts
     community = current_user.communities.new(community_params)
     community.created_by = current_user.id
     if community.save

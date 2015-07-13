@@ -21,7 +21,7 @@ describe 'Community API', :type => :api do
   end
 
   it 'shows community details' do
-    get '/api/communities/' + community.id.to_s
+    get '/api/communities/' + community.slug
 
     expect(last_response.status).to eq(200)
 
