@@ -3,9 +3,10 @@ require 'rails_helper'
 describe 'Adding communities' do
   let(:user) { create(:user) }
 
-  it 'is successful with valid content' do
+  it 'is successful with valid content', :js => true do
     sign_in user, password: 'beans'
     create_community
+
     community = Community.last
 
     expect(page).to have_content("Boone Community Network")
@@ -13,13 +14,13 @@ describe 'Adding communities' do
     expect(community.created_by).to eq(user.id)
   end
 
-  it 'is able to add and display pic' do
+  it 'is able to add and display pic', :js => true do
     sign_in user, password: 'beans'
 
     visit('/communities/new')
 
     fill_in 'Name', with: 'Boone Community Network'
-    fill_in 'Description', with: "We're all part of the Boone community!"
+    page.execute_script("window.desc_editor.codemirror.setValue('We are all part of the Boone community!')")
     find('#community_home_page').set('http://boonecommunitynetwork.com')
     fill_in 'Color', with: '#000000'
 
@@ -31,13 +32,13 @@ describe 'Adding communities' do
     expect(find('.community-image')[:src]).to eq(community.image.url)
   end
 
-  it 'shows social icons when social links are set' do
+  it 'shows social icons when social links are set', :js => true do
     sign_in user, password: 'beans'
 
     visit('/communities/new')
 
     fill_in 'Name', with: 'Boone Community Network'
-    fill_in 'Description', with: "We're all part of the Boone community!"
+    page.execute_script("window.desc_editor.codemirror.setValue('We are all part of the Boone community!')")
     find('#community_home_page').set('http://boonecommunitynetwork.com')
     fill_in 'http://facebook_page', with: 'https://www.facebook.com/pages/Boone-Community-Network/334012336716987?fref=ts'
     fill_in 'http://twitter_page', with: 'https://twitter.com/asommer'
@@ -64,7 +65,7 @@ describe 'Adding communities' do
     visit('/communities/new')
 
     fill_in 'Name', with: 'Boone Community Network'
-    find('.CodeMirror-code').set("We're all part of the Boone community!")
+    page.execute_script("window.desc_editor.codemirror.setValue('We are all part of the Boone community!')")
 
     find('#community_color').click
     sleep(0.3)
@@ -83,7 +84,8 @@ describe 'Adding communities' do
     visit('/communities/new')
 
     fill_in 'Name', with: 'Boone Community Network'
-    find('.CodeMirror-code').set("We're all part of the Boone community!")
+    page.execute_script("window.desc_editor.codemirror.setValue('We are all part of the Boone community!')")
+
 
     fill_in 'Default Location', with: 'Watauga Library'
     click_link 'Search'
@@ -94,21 +96,18 @@ describe 'Adding communities' do
     expect(community.location.name).to eq('Watauga County Public Library')
   end
 
-  it 'uses the markdown editor to add a description' do
-    pending 'Need to fidn a way to add text to the Lepture Editor using Capybara.'
-
+  it 'uses the markdown editor to add a description', :js => true do
+    sign_in user, password: 'beans'
     visit('/communities/new')
 
     fill_in 'Name', with: 'Boone Community Network'
-    fill_in 'Description', with: "We're all part of the Boone community!"
+    page.execute_script("window.desc_editor.codemirror.setValue('We are all part of the Boone community!')")
+
+    sleep(3)
     find('#community_home_page').set('http://boonecommunitynetwork.com')
     fill_in 'Color', with: '#000000'
     click_button 'Save Community'
 
-    # Until there's a better way to set text with Selenium on the Lepture Editor...
-    # community = Community.last
-    # community.description = "We're all part of the Boone community!"
-    # community.save
-    # page.driver.browser.navigate.refresh
+    expect(page).to have_content('We are all part of the Boone community!')
   end
 end

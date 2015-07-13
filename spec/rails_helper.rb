@@ -7,6 +7,8 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'capybara/email/rspec'
+require 'capybara/poltergeist'
+require 'phantomjs'
 #include Capybara::DSL
 
 
@@ -72,4 +74,9 @@ RSpec.configure do |config|
   Capybara.app_host = 'http://localhost'
   Capybara.server_port = 10000
   Capybara.always_include_port = true
+
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path)
+  end
+  Capybara.javascript_driver = :poltergeist
 end

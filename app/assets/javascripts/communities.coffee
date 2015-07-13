@@ -68,10 +68,19 @@ ready_community = ->
 
     # Setup Markdown editor for description.
     if $('#community_description').length
-      desc_editor = new Editor({
+      window.desc_editor = new Editor({
         element: document.getElementById('community_description'),
       })
-      desc_editor.render()
+      window.desc_editor.render()
+#      simplemde = new SimpleMDE({
+#        element: document.getElementById('community_description'),
+#        autosave: {
+#          enabled: true,
+#          unique_id: 'community_description',
+#          delay: 1000,
+#        },
+#      });
+#      simplemde.render();
 
     # Handle the Default Location map.
     map_helpers.form_map('community', '#new_community')

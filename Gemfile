@@ -53,4 +53,6 @@ group :development, :test do
   gem 'quiet_assets', '~> 1.1.0'
   gem 'database_cleaner', '~> 1.4.1'
   gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'poltergeist'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
 end
