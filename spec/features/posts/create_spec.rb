@@ -3,14 +3,13 @@ require 'rails_helper'
 describe "Creating posts" do
   let(:user) { create(:user) }
 
-  it "redirects to the post list index page on success" do
+  it "redirects to the post list index page on success", :js => true do
     create_post
     expect(page).to have_content("My Post")
   end
 
   it "succeeds when creating a post by clicking on the map then the New Post popup link", :js => true do
     visit "/home"
-    find("#map").click
     find("#map").click
 
     expect(page).to have_content("New Post")
@@ -46,7 +45,7 @@ describe "Creating posts" do
     expect(post.communities.count).to eq(1)
   end
 
-  it 'creates a post for the current user' do
+  it 'creates a post for the current user', :js => true do
     user = create(:user)
     sign_in(user, {password: 'beans'})
     create_post
@@ -54,37 +53,36 @@ describe "Creating posts" do
     expect(Post.last.user).to eq(user)
   end
 
-  it 'creates a post with many locations', :js => true do
+  # Run with: bin/rspec ./spec/features/posts/create_spec.rb -t visual -t firefox
+  it 'creates a post with many locations', :js => true, :visual => true, :firefox => true do
     user = create(:user)
     sign_in(user, {password: 'beans'})
 
     visit "/home"
-    find("#map").click
     find("#map").click
 
     expect(page).to have_content("New Post")
     find("#new_post").click
 
     fill_in "Title", with: "My Location Post"
-    fill_in "What's happening?", with: "Great new post."
+    page.execute_script("window.post_editor.codemirror.setValue('Great new post.')")
+
     click_button "Save Post"
     expect(page).to have_content("My Location Post")
     post = Post.last
 
-    # visit "/home"
+    sleep(0.3)
     find("#map").click
-    find("#map").click
-    #
+    #puts page.body
+    sleep(0.3)
+
     expect(page).to have_content("Add Location")
     find("#new_location").click
     sleep(1)
     expect(post.locations.count).to eq(2)
   end
 
-  it 'creates a post with as an event' do
-    # start_date = DateTime.now
-    # end_date = DateTime.now + 1.hour
-
+  it 'creates a post with as an event', :js => true do
     user = create(:user)
     sign_in(user, {password: 'beans'})
 
@@ -93,14 +91,10 @@ describe "Creating posts" do
     expect(page).to have_content('New Post')
 
     fill_in 'Title', with: 'Event Post'
-    fill_in "What's happening?", with: 'This is a great event!'
+    page.execute_script("window.post_editor.codemirror.setValue('This is a great event!')")
     find('#post_start_date').set('2015-05-25')
-    #fill_in 'Start date', with: '2015-05-25'
-    #fill_in 'post[start_time]', with: '05:05'
     find('#post_start_time').set('05:05')
-    #fill_in 'End date', with: '2015-05-25'
     find('#post_end_date').set('2015-05-25')
-    #fill_in 'post[end_time]', with: '06:05'
     find('#post_end_time').set('06:05')
 
     click_button 'Save Post'
@@ -118,15 +112,15 @@ describe "Creating posts" do
 
     visit '/home'
     find('#map').click
-    find('#map').click
 
     expect(page).to have_content('New Post')
     find('#new_post').click
 
     fill_in 'Title', with: 'My Location Post'
-    fill_in "What's happening?", with: 'Great new post.'
+    page.execute_script("window.post_editor.codemirror.setValue('Great new post.')")
 
-    find(:css, '#event').set(true)
+
+    #find(:css, '#event').set(true)
     find(:css, '#post_start_date').click
     first('.day').click
 
@@ -157,8 +151,10 @@ describe "Creating posts" do
     expect(page).to have_content("New Post")
 
     fill_in "Title", with: "My Location Post"
-    fill_in "What's happening?", with: "Great new post."
-    find('input.default').set('Boone Community Network')
+    page.execute_script("window.post_editor.codemirror.setValue('Great new post.')")
+    communites_field = find('input.default')
+    communites_field.set('Boone Community Network')
+    communites_field.native.send_key(:Enter)
     click_button "Save Post"
     sleep(1)
 
@@ -181,7 +177,7 @@ describe "Creating posts" do
                                   Google has many special features to help you find exactly what you're looking for.")
 
     click_button "Save Post"
-    expect(find('.og-url')[:href]).to eq('http://google.com/')
+    expect(find('.og-url')[:href]).to eq('http://google.com')
   end
 
   it 'uploads photo file and displays attached pic' do

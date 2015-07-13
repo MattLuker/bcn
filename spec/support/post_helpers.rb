@@ -22,11 +22,13 @@ module PostHelpers
     post = options[:post]
 
     visit '/posts'
-    click_link options[:post].title
+    find('#post_1').click
+    sleep(0.3)
     find('.post-edit').click
+    sleep(0.3)
 
     fill_in 'Title', with: options[:title]
-    fill_in "What's happening?", with: options[:description]
+    page.execute_script("window.post_editor.codemirror.setValue('#{options[:description]}')")
     fill_in 'post[start_date]', with: options[:start_date] if options[:start_date]
     fill_in 'post[end_date]', with: options[:end_date] if options[:end_date]
     fill_in 'post[start_time]', with: options[:start_time] if options[:start_time]

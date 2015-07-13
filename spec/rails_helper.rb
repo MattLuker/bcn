@@ -78,5 +78,15 @@ RSpec.configure do |config|
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path)
   end
-  Capybara.javascript_driver = :poltergeist
+
+  # Use selenium driver (Firefox) for visual tagged tests.
+  if config.filter_manager.inclusions[:visual]
+    Capybara.javascript_driver = :selenium
+    config.filter_manager.inclusions.delete(:visual)
+  else
+    Capybara.javascript_driver = :poltergeist
+  end
+
+  # Exclude :firefox tagged tests by default.
+  config.filter_run_excluding :firefox => true
 end

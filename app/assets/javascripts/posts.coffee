@@ -2,7 +2,8 @@ ready_post = ->
   #
   # Form functionality.
   #
-  if location.pathname == '/posts/new'
+  action_name = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)
+  if location.pathname == '/posts/new' || action_name == 'edit'
     $('.datepicker').fdatepicker()
 
     $('.clockpicker').clockpicker({

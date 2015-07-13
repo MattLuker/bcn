@@ -8,9 +8,10 @@ describe 'Subscribing to Post' do
     sign_in user, password: 'beans'
 
     visit '/posts'
-    click_link post.title
+    find('#post_1').click
 
     find('.post-subscribe').click
+    sleep(0.3)
 
     within '.post-subscribe' do
       expect(find('img')[:alt]).to eq('Tack icon green')
@@ -23,9 +24,10 @@ describe 'Subscribing to Post' do
     sign_in user, password: 'beans'
 
     visit '/posts'
-    click_link post.title
+    find('#post_1').click
 
     find('.post-subscribe').click
+    sleep(0.3)
 
     within '.post-subscribe' do
       expect(find('img')[:alt]).to eq('Tack icon green')
@@ -35,6 +37,8 @@ describe 'Subscribing to Post' do
     expect(post.subscribers.count).to eq(1)
 
     find('.post-subscribe').click
+    sleep(0.3)
+
     within '.post-subscribe' do
       expect(find('img')[:alt]).to eq('Tack icon')
     end
@@ -45,7 +49,7 @@ describe 'Subscribing to Post' do
     sign_in user, password: 'beans'
 
     visit '/posts'
-    click_link post.title
+    find('#post_1').click
 
     find('.post-subscribe').click
     sleep(1)
@@ -54,7 +58,7 @@ describe 'Subscribing to Post' do
     click_link 'Log Out'
 
     visit '/posts'
-    click_link post.title
+    find('#post_1').click
 
     find('.comment-button').click
     fill_in 'comment[content]', with: 'Something to comment on...'

@@ -9,10 +9,13 @@ describe 'Deleting posts' do
     end
     let!(:post) { Post.create(title: 'Great Post', description: 'Great job!', user_id: user.id) }
 
-    it 'is successful when clicking the destroy link', :js => true do
+    it 'is successful when clicking the destroy link', :js => true, :firefox => true do
       visit "/posts"
 
-      click_link 'Great Post'
+      expect(page).to have_content('Great Post')
+      sleep(0.5)
+      find('#post_1').click
+      sleep(0.3)
       find('.post-edit').click
 
       click_link 'Delete'
@@ -23,14 +26,16 @@ describe 'Deleting posts' do
       expect(Post.count).to eq(0)
     end
 
-    it "is successful when clicking the destroy link and it is logically deleted", :js => true do
+    it "is successful when clicking the destroy link and it is logically deleted", :js => true, :firefox => true do
       visit "/posts"
 
-      click_link 'Great Post'
+      expect(page).to have_content('Great Post')
+      find('#post_1').click
+      sleep(0.3)
       find('.post-edit').click
 
       click_link 'Delete'
-      sleep(0.3)
+      sleep(0.5)
       click_button 'Ok'
 
       expect(page).to_not have_content(post.title)
@@ -75,7 +80,7 @@ describe 'Deleting posts' do
   end
 
 
-  context 'unauthenticated' do
+  context 'unauthenticated', :js => true do
     it 'does not allow non-post user to destroy post' do
       create_post
       visit "/posts/#{Post.last.id}/edit"

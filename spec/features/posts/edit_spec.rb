@@ -9,7 +9,7 @@ describe "Editing posts" do
     end
     let!(:post) { Post.create(title: "Great Post", description: "Great job!", user_id: user.id) }
 
-    it "upates a post successfully with correct information" do
+    it "upates a post successfully with correct information", :js => true do
       update_post(title: "Great New Title", description: "Great New Job! and stuff...", post: post)
 
       post.reload
@@ -19,7 +19,7 @@ describe "Editing posts" do
       expect(post.description).to eq("Great New Job! and stuff...")
     end
 
-    it 'updates the event fields' do
+    it 'updates the event fields', :js => true do
       update_post(start_date: '2015-05-25', start_time: '05:05', end_date: '2015-05-25', end_time: '07:05', post: post)
 
       post.reload
@@ -30,12 +30,13 @@ describe "Editing posts" do
       expect((post.end_time).to_s(:time)).to eq('07:05')
     end
 
-    it 'updates the pic and displays it' do
+    it 'updates the pic and displays it', :js => true do
       FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
       file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
 
       visit '/posts'
-      click_link post.title
+      find('#post_1').click
+      sleep(0.3)
       find('.post-edit').click
 
       attach_file('post[image]', Rails.root.join('app/assets/images/bcn_logo.png'))
@@ -47,12 +48,12 @@ describe "Editing posts" do
       expect(file_count).to be < new_file_count
     end
 
-    it 'updates the audio file and displays controls' do
+    it 'updates the audio file and displays controls', :js => true do
       FileUtils.rm_rf(Rails.root.join('public', 'system', 'test'))
       file_count = Dir[Rails.root.join('public', 'system', '**', '*')].length
 
       visit '/posts'
-      click_link post.title
+      find('#post_1').click
       find('.post-edit').click
 
       attach_file('post[audio]', Rails.root.join('spec/fixtures/files/dickson.m4a'))
@@ -68,19 +69,19 @@ describe "Editing posts" do
   context 'authenticated non-post user' do
     let!(:post) { Post.create(title: "Great Post", description: "Great job!") }
 
-    it 'edit button will not be displayed for non-post user' do
+    it 'edit button will not be displayed for non-post user', :js => true do
       user = User.create({email: 'bob@thehoick.com', password: 'beans'})
       sign_in(user, {password: 'beans'})
 
       visit '/posts'
-      click_link 'Great Post'
+      find('#post_1').click
 
       expect(page).to_not have_css('.post-edit')
     end
   end
 
   context 'unauthenticated' do
-    it 'does not allow non-post user to edit post' do
+    it 'does not allow non-post user to edit post', :js => true do
       create_post
       visit "/posts/#{Post.last.id}/edit"
 
