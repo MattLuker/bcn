@@ -9,7 +9,7 @@ describe 'Signing Up with Facebook' do
                      })
   end
 
-  it 'allows user to sign up via Facebook', :js => true do
+  it 'allows user to sign up via Facebook', :js => true, :visual => true, :firefox => true do
     visit '/'
 
     expect(page).to have_content('Register')
@@ -27,7 +27,7 @@ describe 'Signing Up with Facebook' do
     expect(page).to have_content("Welcome #{FACEBOOK_CONFIG['first_name']}, you have been registered using Facebook.")
   end
 
-  it 'creates Events for Facebook user', :js => true do
+  it 'creates Events for Facebook user', :js => true, :visual => true, :firefox => true do
     expect(User.count).to eq(0)
 
     visit '/'

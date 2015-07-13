@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Forgotten passwords' do
 
-  it 'merges the Facebook user when following the email link', :js => true do
+  it 'merges the Facebook user when following the email link', :js => true, :visual => true, :firefox => true do
     User.create!({email: FACEBOOK_CONFIG['username'], password: 'beans'})
     user = User.last
 
@@ -57,7 +57,7 @@ describe 'Forgotten passwords' do
     end
   end
 
-  it 'merges the Twitter user when following the email link', :js => true do
+  it 'merges the Twitter user when following the email link', :js => true, :visual => true, :firefox => true do
     User.create!({email: TWITTER_CONFIG['username'] + '@thehoick.com', password: 'beans'})
     user = User.last
 

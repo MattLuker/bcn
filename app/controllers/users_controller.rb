@@ -121,14 +121,14 @@ class UsersController < ApplicationController
     elsif current_user.admin?
       if @user.update(user_params)
         flash[:success] = 'User successfully updated.'
-        redirect_to users_path
+        redirect_to @user
       else
-        flash[:success] = 'Problem updating user.'
-        redirect_to users_path
+        flash[:alert] = 'Problem updating user.'
+        redirect_to :edit
       end
     else
       flash[:alert] = 'You can only update your profile.'
-      redirect_to '/users/' + @user.id.to_s
+      redirect_to @user
     end
   end
 
@@ -157,6 +157,8 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email,
                                    :password, :username, :web_link,
-                                   :photo, :role, :bio, :explicit)
+                                   :photo, :role, :bio, :explicit,
+                                   :retained_photo, :facebook_link,
+                                   :twitter_link, :google_link)
     end
 end

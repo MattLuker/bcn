@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Signing Up with Google' do
-  it 'allows user to sign up via Google', :js => true do
+  it 'allows user to sign up via Google', :js => true, :visual => true, :firefox => true do
     visit '/'
 
     expect(page).to have_content('Register')

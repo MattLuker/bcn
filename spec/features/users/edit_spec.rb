@@ -11,9 +11,9 @@ describe 'Editing User' do
   it 'allow edit if logged in and current_user' do
     sign_in user, password: 'beans'
     visit "/users/#{user.id}/edit"
-    expect(find_field('Last Name').value).to eq('Slidell')
+    expect(find_field('Last name').value).to eq('Slidell')
 
-    fill_in 'Last Name', with: 'Barker'
+    fill_in 'Last name', with: 'Barker'
     fill_in 'Username', with: 'bob_barker'
     click_button 'Update Profile'
 
@@ -35,7 +35,7 @@ describe 'Editing User' do
 
     sign_in user, password: 'beans'
     visit "/users/#{user.id}/edit"
-    expect(find_field('Last Name').value).to eq('Slidell')
+    expect(find_field('Last name').value).to eq('Slidell')
 
     attach_file('user[photo]', Rails.root.join('app/assets/images/test_avatar.jpg'))
     click_button 'Update Profile'
@@ -50,13 +50,24 @@ describe 'Editing User' do
   it 'will update web link and place link in icon' do
     sign_in user, password: 'beans'
     visit "/users/#{user.id}/edit"
-    expect(find_field('Last Name').value).to eq('Slidell')
+    expect(find_field('Last name').value).to eq('Slidell')
 
-    fill_in 'Web Link', with: 'http://devblog.boonecommunitynetwork.com'
+    fill_in 'Web link', with: 'http://devblog.boonecommunitynetwork.com'
     click_button 'Update Profile'
 
     user.reload
     expect(user.web_link).to eq('http://devblog.boonecommunitynetwork.com')
     expect(find('.web-link')[:href]).to eq('http://devblog.boonecommunitynetwork.com')
+  end
+
+  it 'updates the bio field with markdown', :js => true do
+    sign_in user, password: 'beans'
+    visit "/users/#{user.id}/edit"
+    expect(find_field('Last name').value).to eq('Slidell')
+
+    page.execute_script("window.bio_editor.codemirror.setValue('\## Wee')")
+    click_button 'Update Profile'
+
+    expect(page).to have_css('h2', text: 'Wee')
   end
 end

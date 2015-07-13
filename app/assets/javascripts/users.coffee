@@ -1,6 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
 ready_user = ->
   $('#merge_link').attr('href', '/send_merge?email=' + $('#user_email').val())
 
@@ -24,13 +21,13 @@ ready_user = ->
 
   # Setup Markdown editor for description.
   if $('#user_bio').length
-    bio_editor = new Editor({
+    window.bio_editor = new Editor({
       element: document.getElementById('user_bio'),
     })
-    bio_editor.render()
+    window.bio_editor.render()
 
-  if $('.edit_user').length
-    $('.edit_user').sisyphus()
+#  if $('.edit_user').length
+#    $('.edit_user').sisyphus()
 
 
 

@@ -52,6 +52,6 @@ describe 'Signing Up' do
 
     user = User.last
     open_email(user.email)
-    expect(current_email.body).to have_content('http://localhost:3000/users/' + user.id.to_s)
+    expect(current_email.body).to have_content('Click here to start sharing.')
   end
 end
