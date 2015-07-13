@@ -60,8 +60,9 @@ ready_post = ->
 
 
     # Start Communities field with community parameter.
-    query = window.location.search.substring(1)
-    if (query && query.includes('community'))
+    #query = window.location.search.substring(1)
+    queryParams = $.getQueryParameters()
+    if (queryParams.hasOwnProperty('community'))
       vars = query.split("&");
       community = vars[0].split('=')[1]
       community = community.replace('+', ' ')

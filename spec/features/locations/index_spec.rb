@@ -47,7 +47,6 @@ describe "Viewing locations" do
   it 'displays a list of posts based on a location', :js => true do
       visit '/home'
       find('#map').click
-      find('#map').click
       sleep(1)
       find('#posts_here').click
       expect(page).to have_content('Posts For: Kenneth E. Peacock Hall')

@@ -30,16 +30,14 @@ describe 'Adding locations' do
     visit('/posts/new')
 
     fill_in 'Title', with: 'My Non-Location Post'
-    fill_in "What's on your mind?", with: 'Great new post Non-Located.'
+    page.execute_script("window.post_editor.codemirror.setValue('Great new post Non-Located.')")
     click_button 'Save Post'
 
     expect(page).to have_content('Post was successfully created.')
 
     find('#map').click
-    find('#map').click
     find("#new_location").click
     sleep(1)
-    #expect(page).to have_content('Location Set to: Kenneth E. Peacock Hall')
 
     click_link 'Locations'
     expect(page).to have_content('Kenneth E. Peacock Hall')

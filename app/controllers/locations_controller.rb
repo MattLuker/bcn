@@ -5,11 +5,11 @@ class LocationsController < ApplicationController
   end
 
   def show
-    name = Location.new.lookup_name(params)
-    @location = Location.find_by(name: name)
+    loc = Location.lookup_name(params)
+    @location = Location.find_by_name(loc[:name])
 
     @posts = []
-    Location.where(name: name).find_each do |location|
+    Location.where(name: loc[:name]).find_each do |location|
       if location.post.nil?
         next
       else
