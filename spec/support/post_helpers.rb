@@ -8,7 +8,8 @@ module PostHelpers
     expect(page).to have_content('New Post')
 
     fill_in 'Title', with: options[:title]
-    fill_in "What's happening?", with: options[:description]
+    #fill_in "What's happening?", with: options[:description]
+    page.execute_script("window.post_editor.codemirror.setValue('#{options[:description]}')")
     click_button 'Save Post'
 
     return Post.last

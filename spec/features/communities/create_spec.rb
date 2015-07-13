@@ -103,7 +103,6 @@ describe 'Adding communities' do
     fill_in 'Name', with: 'Boone Community Network'
     page.execute_script("window.desc_editor.codemirror.setValue('We are all part of the Boone community!')")
 
-    sleep(3)
     find('#community_home_page').set('http://boonecommunitynetwork.com')
     fill_in 'Color', with: '#000000'
     click_button 'Save Community'

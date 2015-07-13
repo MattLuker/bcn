@@ -11,6 +11,6 @@ describe "Updating communities" do
 
     visit("/communities")
 
-    #expect(page).to have_content("We're all part of the Boone community!")
+    expect(page).to have_content("We're all part of the Boone community!")
   end
 end

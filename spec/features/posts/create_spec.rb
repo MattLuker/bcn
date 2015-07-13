@@ -17,7 +17,8 @@ describe "Creating posts" do
     find("#new_post").click
 
     fill_in "Title", with: "My Location Post"
-    fill_in "What's happening?", with: "Great new post."
+    page.execute_script("window.post_editor.codemirror.setValue('Great new post.')")
+
     click_button "Save Post"
     expect(page).to have_content("My Location Post")
   end
@@ -32,11 +33,17 @@ describe "Creating posts" do
     expect(page).to have_content("New Post")
 
     fill_in "Title", with: "My Location Post"
-    fill_in "What's happening?", with: "Great new post."
-    find('input.default').set('Boone Community Network')
+    #fill_in "What's happening?", with: "Great new post."
+    page.execute_script("window.post_editor.codemirror.setValue('Great new post.')")
+
+    communites_field = find('input.default')
+    communites_field.set('Boone Community Network')
+    communites_field.native.send_key(:Enter)
     click_button "Save Post"
+    post = Post.last
 
     expect(page).to have_content("Great new post.")
+    expect(post.communities.count).to eq(1)
   end
 
   it 'creates a post for the current user' do

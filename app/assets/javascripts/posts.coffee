@@ -75,10 +75,10 @@ ready_post = ->
 
     # Setup Markdown editor for description.
     if $('#post_description').length
-      post_editor = new Editor({
+      window.post_editor = new Editor({
         element: document.getElementById('post_description'),
       })
-      post_editor.render()
+      window.post_editor.render()
 
   #
   # Subscribe button functionality.

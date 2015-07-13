@@ -5,7 +5,7 @@ ready_community = ->
   #
   $('.community-subscribe').on 'click', (e) ->
     e.preventDefault()
-    console.log($(this).data())
+    #console.log($(this).data())
     $this = $(this)
     data = $this.data()
     if (data.status == 'unsubscribed')
@@ -72,15 +72,6 @@ ready_community = ->
         element: document.getElementById('community_description'),
       })
       window.desc_editor.render()
-#      simplemde = new SimpleMDE({
-#        element: document.getElementById('community_description'),
-#        autosave: {
-#          enabled: true,
-#          unique_id: 'community_description',
-#          delay: 1000,
-#        },
-#      });
-#      simplemde.render();
 
     # Handle the Default Location map.
     map_helpers.form_map('community', '#new_community')

@@ -47,7 +47,6 @@ class PostsController < ApplicationController
     if current_user
       @post = current_user.posts.new(post_params)
     else
-      puts "post_params: #{post_params}"
       @post = Post.new(post_params)
     end
 
@@ -57,35 +56,26 @@ class PostsController < ApplicationController
       @post.locations = []
     end
 
-    respond_to do |format|
-      if @post.save
-
-        if post_params[:community_ids]
-          post_params[:community_ids].each do |c|
-            unless c.blank?
+    if @post.save
+      if post_params[:community_ids]
+        post_params[:community_ids].each do |c|
+          unless c.blank?
             community = Community.find(c)
 
             @post.locations << community.location if community.location
             @post.save
 
             Community.increment_counter('posts_count', community.id)
-              community.save
-              end
+            community.save
           end
         end
-
-        # Notify Community subscribers.
-        notify_community_subscribers
-
-        format.html {
-          flash[:success] = 'Post was successfully created.'
-          redirect_to @post
-        }
-        format.json { render :show, status: :created, locations: @post.locations }
-      else
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
+
+      # Notify Community subscribers.
+      notify_community_subscribers
+
+      flash[:success] = 'Post was successfully created.'
+      redirect_to @post
     end
   end
 

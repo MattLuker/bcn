@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 describe 'Subscribing to Community' do
-  Capybara.register_driver :selenium do |app|
-    Capybara::Selenium::Driver.new(app, :browser => :chrome)
-  end
-
-
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
 
@@ -64,10 +59,12 @@ describe 'Subscribing to Community' do
     #sleep(5)
 
     expect(page).to have_content('Boone Community Network')
+    expect(page).to have_content('We are all part of the Boone community!')
 
     find('.community-subscribe').click
     sleep(0.3)
     expect(community.subscribers[0].user).to eq(user2)
+    puts "Subscribed... #{community.subscribers.count}"
 
     click_link 'Log Out'
     sign_in user, password: 'beans'
@@ -77,9 +74,12 @@ describe 'Subscribing to Community' do
     expect(page).to have_content("New Post")
 
     fill_in "Title", with: "My Location Post"
-    #fill_in "What's on your mind?", with: "Great new post."
+    page.execute_script("window.post_editor.codemirror.setValue('Great new post.')")
 
-    fill_in 'Communities (in a comma separated list)', with: 'Boone Community Network'
+    communites_field = find('input.default')
+    communites_field.set('Boone Community Network')
+    communites_field.native.send_key(:Enter)
+
     click_button "Save Post"
     sleep(1)
 
