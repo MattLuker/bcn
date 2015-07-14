@@ -1,5 +1,6 @@
 class FacebookSubscription < ActiveRecord::Base
   belongs_to :user
+  belongs_to :organization
 
   def remove_duplicate_uids(payload)
     payload['entry'].each_with_object({}) do |entry, hash|

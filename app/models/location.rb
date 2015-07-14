@@ -4,6 +4,7 @@ class Location < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :post
   belongs_to :community
+  belongs_to :organization
 
   validates :lat, presence: true
   validates :lon, presence: true

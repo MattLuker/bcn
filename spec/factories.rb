@@ -1,4 +1,7 @@
-FactoryGirl.define do  factory :facebook_subscription do
+FactoryGirl.define do  factory :organization do
+    
+  end
+  factory :facebook_subscription do
     verify_token "MyString"
 references ""
   end

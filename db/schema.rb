@@ -11,10 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708155237) do
+ActiveRecord::Schema.define(version: 20150714083143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name",                 index: {name: "index_organizations_on_name"}
+    t.string   "email",                index: {name: "index_organizations_on_email"}
+    t.string   "password_digest"
+    t.string   "password_reset_token", index: {name: "index_organizations_on_password_reset_token"}
+    t.string   "description"
+    t.string   "web_url"
+    t.string   "events_url"
+    t.string   "facebook_link"
+    t.string   "twitter_link"
+    t.string   "google_link"
+    t.string   "color"
+    t.integer  "location_id",          index: {name: "fk__organizations_location_id"} # foreign key references "locations" (below)
+    t.string   "image"
+    t.string   "image_uid"
+    t.string   "image_name"
+    t.boolean  "explicit"
+    t.string   "slug",                 index: {name: "index_organizations_on_slug"}
+    t.integer  "created_by",           index: {name: "index_organizations_on_created_by"}
+    t.integer  "communities"
+    t.integer  "users"
+    t.integer  "posts"
+    t.datetime "deleted_at",           index: {name: "index_organizations_on_deleted_at"}
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"
@@ -40,6 +67,7 @@ ActiveRecord::Schema.define(version: 20150708155237) do
     t.string   "audio_name"
     t.integer  "audio_duration"
     t.boolean  "explicit"
+    t.integer  "organizations"
     t.index name: "index_posts_on_description", using: :gin, expression: "to_tsvector('english'::regconfig, description)"
     t.index name: "index_posts_on_title", using: :gin, expression: "to_tsvector('english'::regconfig, (title)::text)"
   end
@@ -74,6 +102,7 @@ ActiveRecord::Schema.define(version: 20150708155237) do
     t.boolean  "explicit"
     t.string   "facebook_token"
     t.string   "bio"
+    t.integer  "organizations"
     t.index name: "index_users_on_email", using: :gin, expression: "to_tsvector('english'::regconfig, (email)::text)"
     t.index name: "index_users_on_username", using: :gin, expression: "to_tsvector('english'::regconfig, (username)::text)"
   end
@@ -82,12 +111,13 @@ ActiveRecord::Schema.define(version: 20150708155237) do
     t.text     "content"
     t.string   "photo_uid"
     t.string   "photo_name"
-    t.integer  "user_id",    index: {name: "index_comments_on_user_id"}, foreign_key: {references: "users", name: "fk_rails_03de2dc08c", on_update: :no_action, on_delete: :no_action}
-    t.integer  "post_id",    index: {name: "index_comments_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_2fd19c0db7", on_update: :no_action, on_delete: :no_action}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "deleted_at", index: {name: "index_comments_on_deleted_at"}
+    t.integer  "user_id",         index: {name: "index_comments_on_user_id"}, foreign_key: {references: "users", name: "fk_rails_03de2dc08c", on_update: :no_action, on_delete: :no_action}
+    t.integer  "post_id",         index: {name: "index_comments_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_2fd19c0db7", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.datetime "deleted_at",      index: {name: "index_comments_on_deleted_at"}
     t.integer  "parent_id"
+    t.integer  "organization_id", index: {name: "fk__comments_organization_id"}, foreign_key: {references: "organizations", name: "fk_comments_organization_id", on_update: :no_action, on_delete: :no_action}
     t.index name: "index_comments_on_content", using: :gin, expression: "to_tsvector('english'::regconfig, content)"
   end
 
@@ -115,7 +145,13 @@ ActiveRecord::Schema.define(version: 20150708155237) do
     t.integer  "users_count",      default: 0
     t.string   "slug",             index: {name: "index_communities_on_slug"}
     t.integer  "location_id"
+    t.integer  "organizations"
     t.index name: "index_communities_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
+  end
+
+  create_table "communities_organizations", force: :cascade do |t|
+    t.integer "organization_id", index: {name: "index_communities_organizations_on_organization_id"}, foreign_key: {references: "organizations", name: "fk_communities_organizations_organization_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "community_id",    index: {name: "index_communities_organizations_on_community_id"}, foreign_key: {references: "communities", name: "fk_communities_organizations_community_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "communities_posts", id: false, force: :cascade do |t|
@@ -130,17 +166,18 @@ ActiveRecord::Schema.define(version: 20150708155237) do
 
   create_table "facebook_subscriptions", force: :cascade do |t|
     t.string   "verify_token"
-    t.integer  "user_id",      index: {name: "index_facebook_subscriptions_on_user_id"}, foreign_key: {references: "users", name: "fk_facebook_subscriptions_user_id", on_update: :no_action, on_delete: :no_action}
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "user_id",         index: {name: "index_facebook_subscriptions_on_user_id"}, foreign_key: {references: "users", name: "fk_facebook_subscriptions_user_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id", index: {name: "fk__facebook_subscriptions_organization_id"}, foreign_key: {references: "organizations", name: "fk_facebook_subscriptions_organization_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "locations", force: :cascade do |t|
-    t.integer  "post_id",      index: {name: "index_locations_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_d5678e2098", on_update: :no_action, on_delete: :no_action}
+    t.integer  "post_id",         index: {name: "index_locations_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_d5678e2098", on_update: :no_action, on_delete: :no_action}
     t.float    "lat"
     t.float    "lon"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.string   "name"
     t.string   "address"
     t.string   "city"
@@ -148,9 +185,21 @@ ActiveRecord::Schema.define(version: 20150708155237) do
     t.string   "postcode"
     t.string   "county"
     t.string   "country"
-    t.datetime "deleted_at",   index: {name: "index_locations_on_deleted_at"}
-    t.integer  "community_id", index: {name: "fk__locations_community_id"}, foreign_key: {references: "communities", name: "fk_locations_community_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "deleted_at",      index: {name: "index_locations_on_deleted_at"}
+    t.integer  "community_id",    index: {name: "fk__locations_community_id"}, foreign_key: {references: "communities", name: "fk_locations_community_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "organization_id", index: {name: "fk__locations_organization_id"}, foreign_key: {references: "organizations", name: "fk_locations_organization_id", on_update: :no_action, on_delete: :no_action}
     t.index name: "index_locations_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
+  end
+  add_foreign_key "organizations", "locations", column: "location_id", name: "fk_organizations_location_id", on_update: :no_action, on_delete: :no_action
+
+  create_table "organizations_posts", force: :cascade do |t|
+    t.integer "organization_id", index: {name: "index_organizations_posts_on_organization_id"}, foreign_key: {references: "organizations", name: "fk_organizations_posts_organization_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "post_id",         index: {name: "index_organizations_posts_on_post_id"}, foreign_key: {references: "posts", name: "fk_organizations_posts_post_id", on_update: :no_action, on_delete: :no_action}
+  end
+
+  create_table "organizations_users", force: :cascade do |t|
+    t.integer "organization_id", index: {name: "index_organizations_users_on_organization_id"}, foreign_key: {references: "organizations", name: "fk_organizations_users_organization_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "user_id",         index: {name: "index_organizations_users_on_user_id"}, foreign_key: {references: "users", name: "fk_organizations_users_user_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "search_views", force: :cascade do |t|
@@ -194,11 +243,13 @@ UNION
   END_VIEW_SEARCHES
 
   create_table "subscribers", force: :cascade do |t|
-    t.integer  "post_id",      index: {name: "index_subscribers_on_post_id"}, foreign_key: {references: "posts", name: "fk_subscribers_post_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "user_id",      index: {name: "index_subscribers_on_user_id"}, foreign_key: {references: "users", name: "fk_subscribers_user_id", on_update: :no_action, on_delete: :no_action}
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "community_id", index: {name: "fk__subscribers_community_id"}, foreign_key: {references: "communities", name: "fk_subscribers_community_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "post_id",         index: {name: "index_subscribers_on_post_id"}, foreign_key: {references: "posts", name: "fk_subscribers_post_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "user_id",         index: {name: "index_subscribers_on_user_id"}, foreign_key: {references: "users", name: "fk_subscribers_user_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "community_id",    index: {name: "fk__subscribers_community_id"}, foreign_key: {references: "communities", name: "fk_subscribers_community_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "organization_id", index: {name: "fk__subscribers_organization_id"}, foreign_key: {references: "organizations", name: "fk_subscribers_organization_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "type"
   end
 
 end
