@@ -62,67 +62,70 @@ Once you done these steps you can return to the Graph API Explorer and just sele
 
 Time to execute something.  Create a new Ruby file, I named mine **get_friends.rb**, and add the following:
 
-```
-  #
-  # Get a list of Facebook Friends
-  #
+
+{% highlight ruby %}
+
+#
+# Get a list of Facebook Friends
+#
+
+require 'koala'
+require 'csv'
+
+# Connect to Facebook.
+@graph = Koala::Facebook::API.new('$YOUR_ACCESS_TOKEN')
+friends = @graph.get_connections("me", "taggable_friends")
+
+# Setup an array to hold the friend data.
+output_friends = []
+
+# Get a total friends count.
+friend_count = @graph.get_connection("me", "friends",api_version:"v2.0").raw_response["summary"]["total_count"]
+
+# Get the first "page" of friends.
+friends.each do |friend|
+  puts friend['name']
+  puts friend['picture']['data']['url']
+  output_friends.push( [ friend['name'], friend['picture']['data']['url'] ] )
+end
+
+# Loop through the rest of the pages (expend the 30 to include all of your friends if needed).
+(0..30).each do |i|
+  friends = friends.next_page
   
-  require 'koala'
-  require 'csv'
-  
-  # Connect to Facebook.
-  @graph = Koala::Facebook::API.new('$YOUR_ACCESS_TOKEN')
-  friends = @graph.get_connections("me", "taggable_friends")
-  
-  # Setup an array to hold the friend data.
-  output_friends = []
-  
-  # Get a total friends count.
-  friend_count = @graph.get_connection("me", "friends",api_version:"v2.0").raw_response["summary"]["total_count"]
-  
-  # Get the first "page" of friends.
+  # Stop the loop if the number of pages is less then the loop number.
+  if friends.nil?
+    break
+  end
+
+  # Add the friend data to the output array.
   friends.each do |friend|
     puts friend['name']
     puts friend['picture']['data']['url']
     output_friends.push( [ friend['name'], friend['picture']['data']['url'] ] )
   end
+end
+
+# Open the CSV file and write the header row then parse the data rows and write them.
+header_row = ['name', 'pic_url']
+CSV.open("output_files/facebook_friends.csv", "wb") do |csv|
+  # Write the header row.
+  csv << header_row
   
-  # Loop through the rest of the pages (expend the 30 to include all of your friends if needed).
-  (0..30).each do |i|
-    friends = friends.next_page
-  
-    # Stop the loop if the number of pages is less then the loop number.
-    if friends.nil?
-      break
-    end
-  
-    # Add the friend data to the output array.
-    friends.each do |friend|
-      puts friend['name']
-      puts friend['picture']['data']['url']
-      output_friends.push( [ friend['name'], friend['picture']['data']['url'] ] )
-    end
+  output_friends.each do |friend|
+    # Write it to the file.
+    csv << friend
   end
-  
-  # Open the CSV file and write the header row then parse the data rows and write them.
-  header_row = ['name', 'pic_url']
-  CSV.open("output_files/facebook_friends.csv", "wb") do |csv|
-    # Write the header row.
-    csv << header_row
-  
-    output_friends.each do |friend|
-      # Write it to the file.
-      csv << friend
-    end
-  end
-  
-  puts "\n"
-  puts "\n"
-  puts "----------------------------------------------"
-  puts "\n"
-  puts "Total friends: #{friend_count}"
-  puts "Total taggable friends: #{output_friends.count}"
-```
+end
+
+puts "\n"
+puts "\n"
+puts "----------------------------------------------"
+puts "\n"
+puts "Total friends: #{friend_count}"
+puts "Total taggable friends: #{output_friends.count}"
+{% endhighlight %}
+
 
 **Note:** don't forget to replace the string *$YOUR_ACCESS_TOKEN* with your actual access token string.
 
