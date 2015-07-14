@@ -1,7 +1,7 @@
 ---
 title: "Installing Ruby, Rails, and Passenger on Ubuntu (an Admin's Guide)"
 layout: post
-date:   2015-07-08 14:30:00
+date:   2015-07-09 14:30:00
 categories: rails bcn
 image: rails_passenger.jpg
 ---
