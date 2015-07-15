@@ -10,7 +10,7 @@
 
   <ul class="organizations no-disc">
     <% @organizations.each do |organization| %>
-      <li><%= organization.name %></li>
+      <li><%= link_to organization.name, organization %></li>
     <% end %>
   </ul>
 

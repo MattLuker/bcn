@@ -1,0 +1,208 @@
+<%= content_for(:title) do %><%= @organization.name %> | <% end %>
+<%= content_for(:meta_og) do %>
+  <meta property="og:title" content="<%= @organization.name %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="<%= @organization.description %>" />
+  <% if @organization.image %>
+    <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@organization.image.url}" %>
+  <% end %>
+<% end %>
+
+<div class="row">
+
+  <div class="large-8 columns">
+    <div class="row">
+      <div class="large-9 columns">
+        <h2 class="title">
+          <%= @organization.name %>
+        </h2>
+        <div class="large-3 columns">
+          <% if current_user == @creator %>
+            <%= link_to edit_organization_path(@organization), class: 'button tiny icon edit-organization', title: 'Edit organization' do %>
+              <% image_tag 'edit-icon.svg', class: 'icon' %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <% if @organization.image %>
+          <%= image_tag @organization.image.url, class: 'organization-image',
+                        data: { action: 'zoom' },
+                        style: 'border: 5px solid ' + @organization.color %>
+        <% end %>
+        <br/><br/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <%= markdown(@organization.description) %>
+        <br/><br/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns social">
+        <% unless @organization.web_url.blank? %>
+          <%= link_to @organization.web_url, target: '_blank' do %>
+            <%= image_tag 'globe-icon.svg', class: 'icon' %>
+          <% end %>
+        <% end %>
+        <% unless @organization.facebook_link.blank? %>
+          <%= link_to @organization.facebook_link, target: '_blank' do %>
+            <% image_tag 'facebook-icon.svg', class: 'image-link' %>
+          <% end %>
+        <% end %>
+        <% unless @organization.twitter_link.blank? %>
+          <%= link_to @organization.twitter_link, target: '_blank' do %>
+            <% image_tag 'twitter-icon.svg', class: 'image-link' %>
+          <% end %>
+        <% end %>
+        <% unless @organization.google_link.blank? %>
+          <%= link_to @organization.google_link, target: '_blank' do %>
+            <% image_tag 'google-icon.svg', class: 'image-link' %>
+          <% end %>
+        <% end %>
+        <br/><hr/><br/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <% if current_user && !@organization.users.include?(current_user) %>
+          <%= form_tag("/communities/#{@organization.id}/users", method: 'patch', class: 'join-organization') do |f| %>
+            <%= hidden_field_tag 'user_id', current_user.id %>
+            <%= button_tag type: 'submit', class: 'button small' do %>
+              <%= image_tag 'group-icon.svg', class: 'ty-icon' %>
+              &nbsp;
+              Join <%= @organization.name %>
+            <% end %>
+          <% end %>
+          &nbsp;&nbsp;
+        <% end %>
+
+        <% if current_user %>
+          <% if current_user.subscriptions.find_by(organization_id: @organization.id) %>
+            <%= link_to '#',
+                        class: 'button secondary small organization-subscribe',
+                        title: 'Unsubscribe from organization',
+                        data: { organization_id: @organization.id, current_user_id: current_user.id,
+                                status: 'subscribed' } do %>
+
+              <%= image_tag 'tack-icon-green.svg', class: 'ty-icon' %>
+              Unsubscribe
+            <% end %>
+            &nbsp;&nbsp;
+          <% else %>
+            <%= link_to '#',
+                        class: 'button small organization-subscribe',
+                        title: 'Subscribe to organization',
+                        data: { organization_id: @organization.id, current_user_id: current_user.id,
+                                status: 'unsubscribed' } do %>
+              <%= image_tag 'tack-icon.svg', class: 'ty-icon' %>
+              &nbsp;
+              Subscribe
+            <% end %>
+            &nbsp;&nbsp;
+          <% end %>
+        <% end %>
+
+        <%= link_to new_post_path(organization: @organization.name), class: 'button small' do %>
+          <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
+          &nbsp;
+          New Post
+        <% end %>
+        <br/><br/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <ul class="tabs" data-tab>
+          <li class="tab-title active"><a href="#posts">Posts</a></li>
+          <li class="tab-title"><a href="#members">Members</a></li>
+          <li class="tab-title"><a href="#location">Default Location</a></li>
+        </ul>
+
+        <div class="tabs-content">
+          <div class="content active" id="posts">
+            <ul class="posts no-bullet">
+              <% @posts.each do |post| %>
+                <%= render 'layouts/posts_list', post: post %>
+              <% end %>
+            </ul>
+
+            <br/><br/>
+            <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
+
+            <% if @organization.posts.blank? %>
+              <span class="grey">Currently there are no posts.</span>
+            <% end %>
+          </div>
+          <div class="content" id="members">
+            <ul class="no-disc member-list">
+              <% @organization.users.each do |user| %>
+                <li>
+                  <% if user.photo %>
+                    <%= link_to user do %>
+                      <%= image_tag user.photo.thumb('75x75#').url %>
+                    <% end %>
+                    &nbsp;&nbsp;
+                  <% end %>
+                  <%= link_to user.username, user %>
+
+                  <% if current_user && current_user.admin? %>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%= form_tag("/communities/#{@organization.id}/users", method: 'delete', class: 'leave-organization-form') do |f| %>
+                      <%= hidden_field_tag 'user_id', user.id %>
+                      <%= image_submit_tag 'trash-icon.svg', :class => 'button alert tiny remove_user icon',
+                                           :alt => 'Remove User',
+                                           :value => 'Remove User',
+                                           :title => 'Remove User' %>
+                    <% end %>
+                  <% end %>
+
+                </li>
+              <% end %>
+
+              <% if @organization.users.blank? %>
+                <span class="grey">Currently there are no members.</span>
+              <% end %>
+            </ul>
+          </div>
+          <div class="content" id="location">
+            <ul id="<%= dom_id(@organization) %>" class="no-disc">
+              <li>
+                <% if @organization.location %>
+                  <span id="<%= dom_id(@organization.location) %>">
+                    <strong><%= @organization.location.name %></strong>
+                    <br/>
+                    <span class="location-details">
+                      <%= @organization.location.address %>
+                      <%= @organization.location.city %>,
+                      <%= @organization.location.state %>
+                      <%= @organization.location.postcode %>
+                    </span>
+                  </span>
+                <% else %>
+                  <p class="grey">No default location set.</p>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="large-4 columns map-container">
+    <div id="map" class="organization-map"></div>
+  </div>
+</div>
+
+
+<br/>
+<br/>

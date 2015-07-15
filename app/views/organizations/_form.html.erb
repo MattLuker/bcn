@@ -120,7 +120,7 @@
             <br/><br/>
 
             <%= f.file_field :image, class: 'photo_upload' %>
-            <%= hidden_field_tag :retained_photo %>
+            <%= hidden_field_tag :retained_image %>
           </div>
         </div>
 
@@ -135,7 +135,7 @@
       <%= button_tag type: 'submit', class: 'button small success' do %>
         <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
         &nbsp;
-        Save organization
+        Save Organization
       <% end %>
 
       &nbsp;&nbsp;&nbsp;&nbsp;

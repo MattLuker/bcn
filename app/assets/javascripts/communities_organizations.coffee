@@ -5,7 +5,6 @@ ready_community = ->
   #
   $('.community-subscribe').on 'click', (e) ->
     e.preventDefault()
-    #console.log($(this).data())
     $this = $(this)
     data = $this.data()
     if (data.status == 'unsubscribed')
@@ -40,12 +39,14 @@ ready_community = ->
   #
   # Form functionality.
   #
-  model_name = window.location.pathname.split('/')[1]
-  console.log('location.pathname:', location.pathname)
-  if location.pathname == '/communities/new' || location.pathname == '/organizations/new'
-    console.log('model_name:', model_name)
-    $('#' + model_name + '_color').on 'focus', (e) ->
+  models = window.location.pathname.split('/')[1]
+  if models == 'communities'
+    model_name = 'community'
+  else
+    model_name = 'organization'
 
+  if location.pathname == '/communities/new' || location.pathname == '/organizations/new'
+    $('#' + model_name + '_color').on 'focus', (e) ->
       if $('.colpick').is(':hidden')
         $('.colpick').show()
         $('#' + model_name + '_color').css('margin-bottom', '3px')
@@ -77,17 +78,14 @@ ready_community = ->
       window.desc_editor.render()
 
     # Handle the Default Location map.
-    if model_name == 'community'
-      map_helpers.form_map('community', '#new_community')
-    else
-      map_helpers.form_map('organization', '#new_organization')
+    map_helpers.form_map(model_name, '#new_' + model_name)
 
 
 
   #
   # Map functionality.
   #
-  if $('#map').length && $('#map').is(':visible') && location.pathname.split('/')[1] == 'communities'
+  if ($('#map').length && $('#map').is(':visible')) && (models == 'communities' || models == 'organizations')
     map = initialize_map()
     map_helpers.set_community_markers(map)
 
