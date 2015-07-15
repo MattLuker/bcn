@@ -40,14 +40,17 @@ ready_community = ->
   #
   # Form functionality.
   #
-  if location.pathname == '/communities/new'
-    $('#community_color').on 'focus', (e) ->
+  model_name = window.location.pathname.split('/')[1]
+  console.log('location.pathname:', location.pathname)
+  if location.pathname == '/communities/new' || location.pathname == '/organizations/new'
+    console.log('model_name:', model_name)
+    $('#' + model_name + '_color').on 'focus', (e) ->
 
       if $('.colpick').is(':hidden')
         $('.colpick').show()
-        $('#community_color').css('margin-bottom', '3px')
+        $('#' + model_name + '_color').css('margin-bottom', '3px')
       else
-        $input = $('#community_color')
+        $input = $('#' + model_name + '_color')
         $input.css('margin-bottom', '3px')
 
         $(this).parent().colpick({
@@ -67,14 +70,18 @@ ready_community = ->
         })
 
     # Setup Markdown editor for description.
-    if $('#community_description').length
+    if $('#' + model_name + '_description').length
       window.desc_editor = new Editor({
-        element: document.getElementById('community_description'),
+        element: document.getElementById(model_name + '_description'),
       })
       window.desc_editor.render()
 
     # Handle the Default Location map.
-    map_helpers.form_map('community', '#new_community')
+    if model_name == 'community'
+      map_helpers.form_map('community', '#new_community')
+    else
+      map_helpers.form_map('organization', '#new_organization')
+
 
 
   #
