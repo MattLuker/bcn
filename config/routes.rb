@@ -68,6 +68,14 @@ Rails.application.routes.draw do
       resources :subscribers, only: [:create, :destroy]
     end
 
+    resources :organizations do
+      resources :posts, only: [:create, :update, :destroy]
+      resources :locations, only: [:create, :update]
+      patch 'users', to: 'organizations#add_user'
+      delete 'users', to: 'organizations#remove_user'
+      resources :subscribers, only: [:create, :destroy]
+    end
+
     resources :locations, only: [:show, :create, :update, :destroy] do
       resources :posts, only: [:create, :update, :destroy]
     end

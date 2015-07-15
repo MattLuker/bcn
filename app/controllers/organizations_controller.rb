@@ -18,7 +18,6 @@ class OrganizationsController < ApplicationController
   end
 
   def new
-    puts "params: #{params}"
     @organization = Organization.new
   end
 
@@ -43,7 +42,6 @@ class OrganizationsController < ApplicationController
       flash[:success] = 'Organization created.'
       redirect_to @organization
     else
-      puts "organization.errors: #{@organization.errors.inspect}"
       flash[:alert] = 'There was a problem creating the organization.'
       redirect_to new_organization_path
     end
@@ -68,7 +66,7 @@ class OrganizationsController < ApplicationController
   def destroy
     if @organization.destroy
       flash[:success] = 'Organization deleted.'
-      redirect_to organization_path
+      redirect_to organizations_path
     else
       flash[:alert] = 'There was a problem deleting the organization.'
       redirect_to @organization
