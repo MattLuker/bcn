@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Updating communities" do
+describe "Indexing communities" do
   let(:user) { create(:user) }
 
   it "is successful with valid content", :js => true do
