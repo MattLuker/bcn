@@ -1,4 +1,11 @@
-# Open Graph Data in Rails
+---
+title: "Open Graph Data in Rails"
+layout: post
+date:   2015-07-16 14:30:00
+categories: rails bcn
+image: rails_opengraph.svg
+---
+
 
 ## Open Graph Protocol
 
@@ -10,7 +17,7 @@ At some point not too long ago Facebook, and I think a bunch of other "social" c
 
 So today we have [Open Graph](http://ogp.me/) and the world is a better place!
 
-<!-more-->
+<!--more-->
 
 ## Setting Some Defaults
 
