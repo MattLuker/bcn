@@ -1,0 +1,56 @@
+<li class="clearfix">
+  <div class="row">
+    <% if organization.image %>
+      <div class="large-2 columns">
+        <% if organization.image %>
+          <%= link_to organization do %>
+            <%= image_tag organization.image.thumb('150x150#').url,
+                          {:style => "border: 5px solid #{organization.color}"} %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="large-10 columns collapse organization-meta">
+      <div class="row">
+        <div class="large-12 columns organization-title">
+          <%= link_to organization.name, organization, {:style => "color: #{organization.color}"} %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns">
+          <%= truncate( strip_tags( markdown(organization.description) ), length: 300) %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns grey">
+          <%= organization.users.count %>
+          <% if organization.users.count == 1 %>
+            Member
+          <% else %>
+            Members
+          <% end %>
+          &nbsp;
+          <%= organization.posts.count %>
+          <% if organization.posts.count == 1 %>
+            Post
+          <% else %>
+            Posts
+          <% end %>
+
+          <br/>
+          <% if action_name == 'show' && controller_name == 'users' %>
+            <%= form_tag("/organizations/#{organization.id}/users", method: 'delete', class: 'leave-organization-form') do |f| %>
+              <%= hidden_field_tag 'user_id', current_user.id %>
+              <%= image_submit_tag 'exit-icon.svg', :class => 'button tiny secondary icon leave-organization',
+                                   :alt => 'Leave Organization',
+                                   :value => 'Leave',
+                                   :title => 'Leave Organization' %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

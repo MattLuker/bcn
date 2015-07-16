@@ -19,7 +19,7 @@
 
       <div class="row">
         <div class="large-12 columns">
-          <%= community.description %>
+          <%= truncate( strip_tags( markdown(community.description) ), length: 300) %>
         </div>
       </div>
 

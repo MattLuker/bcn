@@ -135,16 +135,18 @@
           </ul>
       <% end %>
     </div>
+  </div>
 
-    <div class="content" id="organizations">
+  <div class="content" id="organizations">
       <div>
         <% if @user.organizations %>
           <ul class="organizations no-disc">
-            <% @user.organizations.each do |community| %>
+            <% @user.organizations.each do |organization| %>
               <%= render 'layouts/organizations_list', organization: organization %>
             <% end %>
           </ul>
         <% end %>
       </div>
   </div>
+
 </div>

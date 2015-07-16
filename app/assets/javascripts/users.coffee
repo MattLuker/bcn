@@ -1,23 +1,9 @@
 ready_user = ->
   $('#merge_link').attr('href', '/send_merge?email=' + $('#user_email').val())
 
-  $('.leave-community').on 'click', (e) ->
+  $('.leave-community, .leave-organization').on 'click', (e) ->
     e.preventDefault()
-    $form = $(e.target.form)
-    swal(
-      {
-        title: "Are you sure you want to leave?",
-        text: "Don't worry you can always re-join a Community",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#F04124",
-        confirmButtonText: "Yes, Leave!",
-        closeOnConfirm: true
-      }
-      (isConfirm) ->
-        if (isConfirm)
-          $form.submit()
-    );
+    leave(e)
 
   # Setup Markdown editor for description.
   if $('#user_bio').length
@@ -29,7 +15,26 @@ ready_user = ->
 #  if $('.edit_user').length
 #    $('.edit_user').sisyphus()
 
+leave = (event) ->
+  $form = $(event.target.form)
+  console.log($form.attr('class').split('-')[1])
 
+  model_name = $form.attr('class').split('-')[1]
+
+  swal(
+    {
+      title: "Are you sure you want to leave?",
+      text: "Don't worry you can always re-join a #{model_name}.",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#F04124",
+      confirmButtonText: "Yes, Leave!",
+      closeOnConfirm: true
+    }
+    (isConfirm) ->
+      if (isConfirm)
+        $form.submit()
+  );
 
 # Fire the ready function on load and refresh.
 $(document).ready(ready_user)

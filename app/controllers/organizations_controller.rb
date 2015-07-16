@@ -96,13 +96,13 @@ class OrganizationsController < ApplicationController
     if current_user.id == params['user_id'].to_i || current_user.admin?
       @user = current_user
       if @organization.users.delete(current_user)
-        flash[:success] = "You have left #{organization.name} community."
+        flash[:success] = "You have left #{@organization.name}."
         redirect_to @user
       else
-        redirect_to @user, notice: 'There was a problem leaving the community'
+        redirect_to @user, notice: 'There was a problem leaving the organization.'
       end
     else
-      redirect_to @user, notice: 'You can only remove yourself from a community.'
+      redirect_to @user, notice: 'You can only remove yourself from a organization.'
     end
   end
 
