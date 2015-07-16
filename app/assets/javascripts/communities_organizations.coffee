@@ -1,16 +1,25 @@
 ready_community = ->
+  #
+  # Determine the model: Community or Organization.
+  #
+  models = window.location.pathname.split('/')[1]
+  if models == 'communities'
+    model_name = 'community'
+  else
+    model_name = 'organization'
+
   # Subscribe button functionality.
   #
   # This should probalby combined with the Post subscribe functions and integrated into a generic function...
   #
-  $('.community-subscribe').on 'click', (e) ->
+  $('.' + model_name + '-subscribe').on 'click', (e) ->
     e.preventDefault()
     $this = $(this)
     data = $this.data()
     if (data.status == 'unsubscribed')
-      $.post("/communities/#{data.communityId}/subscribers", 'user_id=' + data.currentUserId).success (json) ->
-        button = """<a class="button small secondary community-subscribe" title="Unsubscrbe from Community"
-                         data-community-id="#{json.community_id}"
+      $.post("/#{models}/#{data.modelId}/subscribers", 'user_id=' + data.currentUserId).success (json) ->
+        button = """<a class="button small secondary #{model_name}-subscribe" title="Unsubscrbe"
+                         data-model_id="{json.id}"
                          data-current-user-id="#{json.user_id}" data-status="subscribed" href="#">
                         <img class="ty-icon" src="/assets/tack-icon-green.svg" alt="Tack icon">
                         &nbsp;
@@ -22,10 +31,11 @@ ready_community = ->
 
     else
       $.ajax({
-        url: "/communities/#{data.communityId}/subscribers/#{data.currentUserId}",
+        url: "/#{models}/#{data.modelId}/subscribers/#{data.currentUserId}",
         type: 'delete'
       }).success (json) ->
-        button = """<a class="button small community-subscribe" title="Subscribe to Community" data-community-id="#{json.community_id}"
+        button = """<a class="button small community-subscribe" title="Subscribe to Community"
+                         data-model_id="#{json.id}"
                          data-current-user-id="#{json.user_id}" data-status="unsubscribed" href="#">
                         <img class="ty-icon" src="/assets/tack-icon.svg" alt="Tack icon">
                         &nbsp;
@@ -39,12 +49,6 @@ ready_community = ->
   #
   # Form functionality.
   #
-  models = window.location.pathname.split('/')[1]
-  if models == 'communities'
-    model_name = 'community'
-  else
-    model_name = 'organization'
-
   if location.pathname == '/communities/new' || location.pathname == '/organizations/new'
     $('#' + model_name + '_color').on 'focus', (e) ->
       if $('.colpick').is(':hidden')

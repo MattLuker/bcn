@@ -1,0 +1,12 @@
+
+<% if @leader.first_name %>
+  Hi <%= @leader.first_name %>,
+<% else %>
+  Hi,
+<% end %>
+
+A new user has joined <%= @organization.name %>.
+
+Browse here to view their profile: <%= user_url(@user, host: 'bcn.thehoick.com') %>
+
+Thanks and have a great day!

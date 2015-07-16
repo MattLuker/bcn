@@ -109,6 +109,7 @@
 <ul class="tabs" data-tab>
   <li class="tab-title active"><a href="#posts">Posts</a></li>
   <li class="tab-title"><a href="#communities" class="communities-tab">Communities</a></li>
+  <li class="tab-title"><a href="#organizations" class="organizations-tab">Organizations</a></li>
 </ul>
 <div class="tabs-content">
   <div class="content active" id="posts">
@@ -134,5 +135,16 @@
           </ul>
       <% end %>
     </div>
+
+    <div class="content" id="organizations">
+      <div>
+        <% if @user.organizations %>
+          <ul class="organizations no-disc">
+            <% @user.organizations.each do |community| %>
+              <%= render 'layouts/organizations_list', organization: organization %>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
   </div>
 </div>

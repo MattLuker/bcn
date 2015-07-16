@@ -17,4 +17,12 @@ class Notifier < ApplicationMailer
     mail(to: "#{@user.first_name if @user.first_name} #{@user.last_name if @user.last_name} <#{@user.email}>",
          subject: "Welcome!")
   end
+
+  def user_join(leader, user, organization)
+    @leader = leader
+    @user = user
+    @organization = organization
+    mail(to: "#{@user.first_name if @leader.first_name} #{@leader.last_name if @leader.last_name} <#{@leader.email}>",
+         subject: "New member in #{@organization.name}")
+  end
 end

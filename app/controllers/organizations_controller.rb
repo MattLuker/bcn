@@ -39,6 +39,9 @@ class OrganizationsController < ApplicationController
     end
 
     if @organization.save
+      current_user.role = 'leader'
+      current_user.save
+
       flash[:success] = 'Organization created.'
       redirect_to @organization
     else
@@ -73,10 +76,40 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def add_user
+    if current_user.id == params['user_id'].to_i
+      leader = User.find(@organization.created_by)
+      @organization.users << current_user
+      if @organization.save
+        Notifier.user_join(leader, current_user, @organization).deliver_now
+        flash[:success] = "You are now part of #{@organization.name}."
+        redirect_to @organization
+      else
+        redirect_to @organization, notice: 'There was a problem adding you to the organization.'
+      end
+    else
+      redirect_to organizations_path, notice: 'You can only add yourself to an organization.'
+    end
+  end
+
+  def remove_user
+    if current_user.id == params['user_id'].to_i || current_user.admin?
+      @user = current_user
+      if @organization.users.delete(current_user)
+        flash[:success] = "You have left #{organization.name} community."
+        redirect_to @user
+      else
+        redirect_to @user, notice: 'There was a problem leaving the community'
+      end
+    else
+      redirect_to @user, notice: 'You can only remove yourself from a community.'
+    end
+  end
+
   private
   def set_organization
     @organization = Organization.find_by_slug(params[:id]) if params[:id]
-    @organization = Organization.find_by_slug(params[:organization_id]) if params[:organization_id]
+    @organization = Organization.find(params[:organization_id]) if params[:organization_id]
     @creator = User.find(@organization.created_by) if @organization.created_by
   end
 

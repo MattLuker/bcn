@@ -73,7 +73,7 @@
     <div class="row">
       <div class="large-12 columns">
         <% if current_user && !@organization.users.include?(current_user) %>
-          <%= form_tag("/communities/#{@organization.id}/users", method: 'patch', class: 'join-organization') do |f| %>
+          <%= form_tag("/organizations/#{@organization.id}/users", method: 'patch', class: 'join-organization') do |f| %>
             <%= hidden_field_tag 'user_id', current_user.id %>
             <%= button_tag type: 'submit', class: 'button small' do %>
               <%= image_tag 'group-icon.svg', class: 'ty-icon' %>
@@ -89,7 +89,7 @@
             <%= link_to '#',
                         class: 'button secondary small organization-subscribe',
                         title: 'Unsubscribe from organization',
-                        data: { organization_id: @organization.id, current_user_id: current_user.id,
+                        data: { model_id: @organization.id, current_user_id: current_user.id,
                                 status: 'subscribed' } do %>
 
               <%= image_tag 'tack-icon-green.svg', class: 'ty-icon' %>
@@ -100,7 +100,7 @@
             <%= link_to '#',
                         class: 'button small organization-subscribe',
                         title: 'Subscribe to organization',
-                        data: { organization_id: @organization.id, current_user_id: current_user.id,
+                        data: { model_id: @organization.id, current_user_id: current_user.id,
                                 status: 'unsubscribed' } do %>
               <%= image_tag 'tack-icon.svg', class: 'ty-icon' %>
               &nbsp;

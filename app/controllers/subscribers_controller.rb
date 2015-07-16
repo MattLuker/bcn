@@ -9,14 +9,14 @@ class SubscribersController < ApplicationController
 
     subscriber = @sub.subscribers.create(user: current_user)
     flash[:success] = "Subscribed to #{@type}."
-    render json: {user_id: subscriber.user.id, @type + '_id' => @sub.id, status: 'subscribed'}
+    render json: {user_id: subscriber.user.id, model_type: @type, id: @sub.id, status: 'subscribed'}
   end
 
   def destroy
     subscriber = Subscriber.find_by_post_id(params[:post_id])
     subscriber.destroy if subscriber
     flash[:info] = "Unsubscribed from #{@type}."
-    render json: {user_id: subscriber.user.id, @type + '_id' => @sub.id, status: 'unsubscribed'}
+    render json: {user_id: subscriber.user.id, model_type: @type, id: @sub.id, status: 'unsubscribed'}
   end
 
   private
@@ -27,6 +27,9 @@ class SubscribersController < ApplicationController
     elsif params[:community_id]
       @sub = Community.find(params[:community_id])
       @type = 'community'
+    elsif params[:organization_id]
+      @sub = Organization.find(params[:organization_id])
+      @type = 'organization'
     end
   end
 end

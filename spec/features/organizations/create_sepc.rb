@@ -12,6 +12,29 @@ describe 'Adding organizations' do
     find('#organization_web_url').set('http://boonecommunitynetwork.com')
     fill_in 'Color', with: '#222222'
     click_button 'Save Organization'
+
+    expect(page).to have_content('BCN Rulez!')
+  end
+
+  it 'requires login to create' do
+    visit('/organizations/new')
+
+    expect(page).to have_content('You must be logged in to view that page.')
+  end
+
+  it 'adds leader role to created_by user', :js => true do
+    sign_in user, password: 'beans'
+    visit('/organizations/new')
+
+    fill_in 'Name', with: 'BCN'
+    page.execute_script("window.desc_editor.codemirror.setValue('BCN Rulez!')")
+    find('#organization_web_url').set('http://boonecommunitynetwork.com')
+    fill_in 'Color', with: '#222222'
+    click_button 'Save Organization'
+
+    leader = User.find(Organization.last.created_by)
+
+    expect(leader.role).to eq('leader')
   end
 
   it 'is able to add and display pic', :js => true do
