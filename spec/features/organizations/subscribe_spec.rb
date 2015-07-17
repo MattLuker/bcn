@@ -79,6 +79,8 @@ describe 'Subscribing to Organization' do
     communites_field.set('Boone Organization Network')
     communites_field.native.send_key(:Enter)
 
+    find('#post_organization_id').find(:xpath, 'option[2]').select_option
+
     click_button "Save Post"
     sleep(1)
 

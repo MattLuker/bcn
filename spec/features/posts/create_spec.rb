@@ -227,12 +227,12 @@ describe "Creating posts" do
     fill_in 'Title', with: 'Organization Post'
     page.execute_script("window.post_editor.codemirror.setValue('Good things from the organization.')")
 
-    find('#post_organizations').find(:xpath, 'option[2]').select_option
+    find('#post_organization_id').find(:xpath, 'option[2]').select_option
 
     click_button 'Save Post'
 
     post = Post.last
-    expect(post.organizations[0].name).to eq('BCN')
+    expect(post.organization.name).to eq('BCN')
     expect(page).to have_content('BCN')
   end
 end
