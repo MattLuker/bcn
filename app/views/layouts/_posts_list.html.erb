@@ -2,35 +2,35 @@
 <li class="<%= dom_id(post) %> post row">
   <div class="row">
     <% if action_name == 'home' || action_name == 'show' %>
-        <div class="large-2 columns">
+      <div class="large-2 columns">
     <% else %>
-        <div class="large-1 columns">
+      <div class="large-1 columns">
     <% end %>
 
-        <% if post.image %>
-            <%= link_to post do %>
-                <%= image_tag post.image.thumb('75x75#').url %>
-            <% end %>
-        <% elsif post.og_image && post.og_image != '//:0' && !post.og_image.blank? %>
-            <%= link_to post do %>
-                <%= image_tag post.og_image %>
-            <% end %>
-        <% elsif post.start_date %>
-            <%= link_to post do %>
-                <%= image_tag 'calendar-icon.svg', size: '75x75', alt: post.title %>
-            <% end %>
-        <% else %>
-            <%= link_to post do %>
-                <%= image_tag 'bcn_logo_black.svg', size: '75x75', alt: post.title %>
-            <% end %>
-        <% end %>
-  </div>
+    <% if post.image %>
+      <%= link_to post do %>
+        <%= image_tag post.image.thumb('75x75#').url %>
+      <% end %>
+    <% elsif post.og_image && post.og_image != '//:0' && !post.og_image.blank? %>
+      <%= link_to post do %>
+        <%= image_tag post.og_image %>
+      <% end %>
+    <% elsif post.start_date %>
+      <%= link_to post do %>
+        <%= image_tag 'calendar-icon.svg', size: '75x75', alt: post.title %>
+      <% end %>
+    <% else %>
+      <%= link_to post do %>
+        <%= image_tag 'bcn_logo_black.svg', size: '75x75', alt: post.title %>
+      <% end %>
+    <% end %>
+    </div>
 
     <% if action_name == 'home' || action_name == 'show' %>
-        <div class="large-10 columns">
+      <div class="large-10 columns">
 
     <% else %>
-        <div class="large-11 columns">
+      <div class="large-11 columns">
     <% end %>
 
     <% if post.title.blank? %>
@@ -40,11 +40,11 @@
           <% end %>
         </span>
     <% else %>
-        <% if post.title.length > 100 %>
-            <span class="post-title"><%= link_to truncate(post.title, length: 50), post, :id => dom_id(post) %></span>
-        <% else %>
-            <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
-        <% end %>
+      <% if post.title.length > 100 %>
+        <span class="post-title"><%= link_to truncate(post.title, length: 50), post, :id => dom_id(post) %></span>
+      <% else %>
+        <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
+      <% end %>
     <% end %>
 
     <% if post.description.blank?  %>
@@ -62,7 +62,9 @@
     <span class="grey post-date smaller-text">
       <%= post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
       by
-      <% if post.user && post.user.username %>
+      <% if post.organization %>
+        <%= link_to post.organization.name, organization_path(post.organization), class: 'grey-link' %>
+      <% elsif post.user && post.user.username %>
         <%= link_to post.user.username, user_path(post.user), class: 'grey-link' %>
       <% else %>
         Anonymous
@@ -70,26 +72,26 @@
     </span>
 
     <% unless post.comments.blank? %>
-        <span class="grey comment-count smaller-text"> &nbsp; <%= post.comments.count %> Comments</span>
+      <span class="grey comment-count smaller-text"> &nbsp; <%= post.comments.count %> Comments</span>
     <% end %>
 
     <% if post.locations %>
-        <% if post.locations.count > 1 %>
-            <span class="post-location smaller-text"><%= post.locations[0].name %> &amp; more...</span>
-        <% else %>
-            <% if post.locations.count == 1 %>
-                <span class="post-location smaller-text"><%= post.locations[0].name %></span>
-            <% end %>
+      <% if post.locations.count > 1 %>
+        <span class="post-location smaller-text"><%= post.locations[0].name %> &amp; more...</span>
+      <% else %>
+        <% if post.locations.count == 1 %>
+          <span class="post-location smaller-text"><%= post.locations[0].name %></span>
         <% end %>
+      <% end %>
     <% end %>
 
     <% if post.communities %>
-        <div class="post-communities">
-          <% post.communities.each do |community| %>
-              <span class="label info"><%= link_to community.name, community %></span>
-          <% end %>
-        </div>
+      <div class="post-communities">
+        <% post.communities.each do |community| %>
+          <span class="label info"><%= link_to community.name, community %></span>
+        <% end %>
+      </div>
     <% end %>
     </div>
-  </div>
- </li>
+    </div>
+    </li>

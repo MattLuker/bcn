@@ -1,0 +1,47 @@
+<% if @post.organization %>
+  <span class="left">
+             posted by:
+                           <strong>
+                             <%= @post.organization.name %>
+                           </strong>
+             <br/>
+             at: <%= @post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+           </span>
+
+  <%= link_to @post.organization, :class => 'post-user-image right' do %>
+    <% if @post.organization.image %>
+      <%= image_tag @post.organization.image.thumb('36x36#').url %>
+    <% else %>
+      <%= image_tag 'avatar.svg', size: '36x36' %>
+    <% end %>
+  <% end %>
+
+<% else %>
+  <span class="left">
+             posted by:
+                           <strong>
+                             <% if @post.user.nil? %>
+                               <strong>Anonymous</strong>
+                             <% elsif @post.user && @post.user.username %>
+                               <%= @post.user.username %>
+                             <% else %>
+                               Sorry, forgot username
+                             <% end %>
+                           </strong>
+             <br/>
+             at: <%= @post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+           </span>
+
+  <% if @post.user %>
+
+    <%= link_to @post.user, :class => 'post-user-image right' do %>
+      <% if @post.user.photo %>
+        <%= image_tag @post.user.photo.thumb('36x36#').url %>
+      <% else %>
+        <%= image_tag 'avatar.svg', size: '36x36' %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= image_tag 'avatar.svg', size: '36x36', class: 'right' %>
+  <% end %>
+<% end %>

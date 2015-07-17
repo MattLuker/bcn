@@ -41,8 +41,10 @@
   <span class="grey post-date smaller-text">
     <%= post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
     by
-    <% if post.user %>
-        <% post.user.username %>
+    <% if post.organization %>
+        <%= link_to post.organization.name, organization_path(post.organization), class: 'grey-link' %>
+    <% elsif post.user && post.user.username %>
+        <%= link_to post.user.username, user_path(post.user), class: 'grey-link' %>
     <% else %>
       Anonymous
     <% end %>

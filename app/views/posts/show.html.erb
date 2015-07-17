@@ -84,33 +84,8 @@
     <div class="row">
       <div class="large-4 columns right post-meta-container">
         <div class="post-meta right">
-           <span class="left">
-             posted by:
-                           <strong>
-                             <% if @post.user.nil? %>
-                                 <strong>Anonymous</strong>
-                             <% elsif @post.user && @post.user.username %>
-                                 <%= @post.user.username %>
-                             <% else %>
-                                 Sorry, forgot username
-                             <% end %>
-                           </strong>
-             <br/>
-             at: <%= @post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
-           </span>
 
-          <% if @post.user %>
-
-              <%= link_to @post.user, :class => 'post-user-image right' do %>
-                  <% if @post.user.photo %>
-                      <%= image_tag @post.user.photo.thumb('36x36#').url %>
-                  <% else %>
-                      <%= image_tag 'avatar.svg', size: '36x36' %>
-                  <% end %>
-              <% end %>
-          <% else %>
-              <%= image_tag 'avatar.svg', size: '36x36', class: 'right' %>
-          <% end %>
+          <%= render 'post_sig' %>
 
         </div>
         <% if @post.user == current_user || (current_user && current_user.admin?) %>
