@@ -54,6 +54,21 @@ class Organization < ActiveRecord::Base
               :image_url,
               :color,
               :slug
-          ])
+          ], :include => {
+             :location => {
+                 :only => [
+                     :id,
+                     :lat,
+                     :lon,
+                     :name,
+                     :address,
+                     :city,
+                     :state,
+                     :postcode,
+                     :county,
+                     :country
+                 ]
+             },
+           })
   end
 end

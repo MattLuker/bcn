@@ -198,6 +198,7 @@ class PostsController < ApplicationController
                                     :og_title,
                                     :og_description,
                                     :explicit,
+                                    :post_organizations,
                                     :community_ids => [])
     end
 end

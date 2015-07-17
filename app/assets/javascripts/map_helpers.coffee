@@ -252,10 +252,9 @@
             map_helpers.marker_drop(e, this, loc, data.id)
 
 
-  set_community_markers: (map) ->
-    path = 'community'
-    map_helpers.marker_filter(map, 'community', 'communities')
-    map_helpers.new_location_popup(map, path)
+  set_default_markers: (map, model, models) ->
+    map_helpers.marker_filter(map, model, models)
+    map_helpers.new_location_popup(map, model)
 
     url = "/api#{location.pathname}"
 
@@ -264,9 +263,9 @@
       dataType: "JSON"
       success: (data, status, jqXHR) ->
         # Now that we have the Post Locations center map on the first location and zoom.
-        if path == 'community' && data.hasOwnProperty('location')
+        if data.hasOwnProperty('location')
           $('#map').remove()
-          $('.map-container').append("<div id='map' class='community-map'></div>")
+          $('.map-container').append("<div id='map' class='#{model}-map'></div>")
           map = initialize_map(data.location.lat, data.location.lon, 17)
 
           loc = data.location

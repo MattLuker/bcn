@@ -91,7 +91,7 @@ ready_community = ->
   #
   if ($('#map').length && $('#map').is(':visible')) && (models == 'communities' || models == 'organizations')
     map = initialize_map()
-    map_helpers.set_community_markers(map)
+    map_helpers.set_default_markers(map, model_name, models)
 
 
 # Fire the ready function on load and refresh.

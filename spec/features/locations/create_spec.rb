@@ -5,7 +5,7 @@ describe 'Adding locations' do
   # United States of America (university) 36.21640465, -81.6822303793054
 
   let(:user) { create(:user) }
-  let!(:post) { Post.create(title: 'Location Post', description: 'Great job location!') }
+  let!(:post) { Post.create(title: 'Locatinon Post', description: 'Great job location!') }
   let!(:location) { Location.new.create(
       lat: 36.21640465,
       lon: -81.6822303793054,
