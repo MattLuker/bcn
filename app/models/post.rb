@@ -35,7 +35,7 @@ class Post < ActiveRecord::Base
   has_many :comments
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "post_id"
   has_and_belongs_to_many :communities, before_add: :inc_posts_count, before_remove: :dec_posts_count
-  has_and_belongs_to_many :organizations
+  belongs_to :organization
 
   before_save :set_audio_duration
   before_destroy :dec_all_posts_count

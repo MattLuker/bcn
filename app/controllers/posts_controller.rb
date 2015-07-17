@@ -86,6 +86,7 @@ class PostsController < ApplicationController
   end
 
   def update
+    puts "update params: #{params}"
     if current_user != @post.user
       flash[:error] = 'You can only update your posts.'
       redirect_to home_index_path
@@ -198,7 +199,7 @@ class PostsController < ApplicationController
                                     :og_title,
                                     :og_description,
                                     :explicit,
-                                    :post_organizations,
+                                    :organization_id,
                                     :community_ids => [])
     end
 end

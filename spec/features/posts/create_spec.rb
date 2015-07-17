@@ -215,4 +215,24 @@ describe "Creating posts" do
     expect(find('audio')[:src]).to eq(post.audio.url)
     expect(file_count).to be < new_file_count
   end
+
+  it 'posts as organization', :js => true do
+    sign_in user, password: 'beans'
+    create_organization
+
+    visit '/posts'
+    click_link 'New Post'
+    expect(page).to have_content('New Post')
+
+    fill_in 'Title', with: 'Organization Post'
+    page.execute_script("window.post_editor.codemirror.setValue('Good things from the organization.')")
+
+    find('#post_organizations').find(:xpath, 'option[2]').select_option
+
+    click_button 'Save Post'
+
+    post = Post.last
+    expect(post.organizations[0].name).to eq('BCN')
+    expect(page).to have_content('BCN')
+  end
 end

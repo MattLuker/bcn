@@ -14,7 +14,7 @@ class Organization < ActiveRecord::Base
   validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
 
   has_and_belongs_to_many :communities
-  has_and_belongs_to_many :posts
+  has_many :posts
   has_and_belongs_to_many :users
   has_many :comments
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "organization_id"
