@@ -3,9 +3,9 @@ class IcalSyncJob < ActiveJob::Base
   queue_as :default
 
   def perform
-    communities = Community.where("events_url <> ''")
-    communities.each do |community|
-      events_feed = open(community.events_url) {|f| f.read }
+    organizations = Organization.where("events_url <> ''")
+    organizations.each do |organization|
+      events_feed = open(organization.events_url) {|f| f.read }
 
       cals = Icalendar.parse(events_feed)
       cal = cals.first
@@ -13,7 +13,15 @@ class IcalSyncJob < ActiveJob::Base
 
 
         post = Post.find_by(title: event.summary.to_s)
-        user = User.find(community.created_by)
+        #user = User.find(organization.created_by)
+
+        if event.dtend
+          end_date = event.dtend
+          end_time = event.dtend.to_s(:time)
+        else
+          end_date = nil
+          end_time = nil
+        end
 
         if post.nil?
           new_post = Post.create({
@@ -21,10 +29,10 @@ class IcalSyncJob < ActiveJob::Base
                                      description: "#{event.description}",
                                      start_date: event.dtstart,
                                      start_time: event.dtstart.to_s(:time),
-                                     end_date: event.dtend,
-                                     end_time: event.dtend.to_s(:time),
-                                     communities: [community],
-                                     user: user,
+                                     end_date: end_date,
+                                     end_time: end_time,
+                                     organization: organization,
+                                     #user: user,
                                      og_url: event.url.to_s,
                                      og_title: event.summary,
                                      og_image: event.attach[0].to_s,
@@ -36,8 +44,8 @@ class IcalSyncJob < ActiveJob::Base
           post.description = "#{event.description}"
           post.start_date = event.dtstart
           post.start_time = event.dtstart.to_s(:time)
-          post.end_date = event.dtend
-          post.end_time = event.dtend.to_s(:time)
+          post.end_date = end_date
+          post.end_time = end_time
           post.og_url = event.url.to_s
           post.og_title = event.summary
           post.og_image = event.attach[0].to_s
