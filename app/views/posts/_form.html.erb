@@ -196,14 +196,16 @@
 
   <br/>
 
-  <div class="row">
-    <div class="large-4 columns actions">
-      <label for="post_organizations">Post as Organization:</label>
-      <%= f.select :organization_id,
-                   current_user.organizations.map {|x| [x.name, x.id]},
-                   { :include_blank => true } %>
+  <% if action_name == 'new' %>
+    <div class="row">
+      <div class="large-4 columns actions">
+        <label for="post_organizations">Post as Organization:</label>
+        <%= f.select :organization_id,
+                     current_user.organizations.map {|x| [x.name, x.id]},
+                     { :include_blank => true } %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
     <br/><br/>
 

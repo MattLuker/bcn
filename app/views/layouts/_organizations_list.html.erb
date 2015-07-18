@@ -1,15 +1,18 @@
 <li class="clearfix">
   <div class="row">
-    <% if organization.image %>
-      <div class="large-2 columns">
-        <% if organization.image %>
-          <%= link_to organization do %>
-            <%= image_tag organization.image.thumb('150x150#').url,
-                          {:style => "border: 5px solid #{organization.color}"} %>
-          <% end %>
+    <div class="large-2 columns">
+      <% if organization.image %>
+        <%= link_to organization do %>
+          <%= image_tag organization.image.thumb('150x150#').url,
+                        {:style => "border: 5px solid #{organization.color}"} %>
         <% end %>
-      </div>
-    <% end %>
+      <% else %>
+        <%= link_to organization do %>
+          <%= image_tag 'group-icon.svg', size: '150x150', :style => "border: 5px solid #{organization.color}" %>
+        <% end %>
+
+      <% end %>
+    </div>
     <div class="large-10 columns collapse organization-meta">
       <div class="row">
         <div class="large-12 columns organization-title">

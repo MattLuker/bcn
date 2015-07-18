@@ -8,11 +8,17 @@
     New Organization
   <% end %>
 
-  <ul class="organizations no-disc">
-    <% @organizations.each do |organization| %>
-      <li><%= link_to organization.name, organization %>: <%= organization.description %></li>
-    <% end %>
-  </ul>
+  <div class="content" id="organizations">
+    <div>
+      <% if @organizations %>
+        <ul class="organizations no-disc">
+          <% @organizations.each do |organization| %>
+            <%= render 'layouts/organizations_list', organization: organization %>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </div>
 
 
   <br/><br/>

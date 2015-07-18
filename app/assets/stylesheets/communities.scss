@@ -6,7 +6,7 @@
 @import 'application';
 @import 'colors';
 
-.communities {
+.communities, .organizations {
   li {
     margin-top: 20px;
     padding: 20px;
@@ -16,7 +16,7 @@
     background: lighten($light-gray, 5);
   }
 
-  .community-title {
+  .community-title, .organization-title {
       font-size: $h4-font-size;
   }
 }
