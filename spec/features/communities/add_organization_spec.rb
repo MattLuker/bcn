@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Adding User to communities" do
+describe "Adding Organization to communities" do
   let(:user) { create(:user) }
 
   it "is successful with valid content", :js => true do
@@ -8,6 +8,9 @@ describe "Adding User to communities" do
     create_community
     expect(page).to have_content("We're all part of the Boone community!")
     community = Community.last
+
+    create_organization
+    expect(page).to have_content('BCN Rulez!')
 
     click_link 'Log Out'
 
@@ -18,7 +21,6 @@ describe "Adding User to communities" do
     click_button 'Join ' + community.name
 
     expect(page).to have_content("You are now part of the #{community.name} community.")
-    expect(community.users.count).to eq(2)
-    expect(community.users_count).to eq(1)
+    expect(community.organizations.count).to eq(1)
   end
 end

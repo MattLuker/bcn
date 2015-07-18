@@ -1,11 +1,11 @@
 <%= content_for(:title) do %><%= @community.name %> | <% end %>
 <%= content_for(:meta_og) do %>
-    <meta property="og:title" content="<%= @community.name %>" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="<%= @community.description %>" />
-    <% if @community.image %>
-        <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@community.image.url}" %>
-    <% end %>
+  <meta property="og:title" content="<%= @community.name %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="<%= @community.description %>" />
+  <% if @community.image %>
+    <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@community.image.url}" %>
+  <% end %>
 <% end %>
 
 <div class="row">
@@ -18,9 +18,9 @@
         </h2>
         <div class="large-3 columns">
           <% if current_user == @creator %>
-              <%= link_to edit_community_path(@community), class: 'button tiny icon edit-community', title: 'Edit Community' do %>
-                  <% image_tag 'edit-icon.svg', class: 'icon' %>
-              <% end %>
+            <%= link_to edit_community_path(@community), class: 'button tiny icon edit-community', title: 'Edit Community' do %>
+              <% image_tag 'edit-icon.svg', class: 'icon' %>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -29,9 +29,9 @@
     <div class="row">
       <div class="large-12 columns">
         <% if @community.image %>
-            <%= image_tag @community.image.url, class: 'community-image',
-                          data: { action: 'zoom' },
-                          style: 'border: 5px solid ' + @community.color %>
+          <%= image_tag @community.image.url, class: 'community-image',
+                        data: { action: 'zoom' },
+                        style: 'border: 5px solid ' + @community.color %>
         <% end %>
         <br/><br/>
       </div>
@@ -47,24 +47,24 @@
     <div class="row">
       <div class="large-12 columns social">
         <% unless @community.home_page.blank? %>
-            <%= link_to @community.home_page, target: '_blank' do %>
-                <%= image_tag 'globe-icon.svg', class: 'icon' %>
-            <% end %>
+          <%= link_to @community.home_page, target: '_blank' do %>
+            <%= image_tag 'globe-icon.svg', class: 'icon' %>
+          <% end %>
         <% end %>
         <% unless @community.facebook_link.blank? %>
-            <%= link_to @community.facebook_link, target: '_blank' do %>
-                <% image_tag 'facebook-icon.svg', class: 'image-link' %>
-            <% end %>
+          <%= link_to @community.facebook_link, target: '_blank' do %>
+            <% image_tag 'facebook-icon.svg', class: 'image-link' %>
+          <% end %>
         <% end %>
         <% unless @community.twitter_link.blank? %>
-            <%= link_to @community.twitter_link, target: '_blank' do %>
-                <% image_tag 'twitter-icon.svg', class: 'image-link' %>
-            <% end %>
+          <%= link_to @community.twitter_link, target: '_blank' do %>
+            <% image_tag 'twitter-icon.svg', class: 'image-link' %>
+          <% end %>
         <% end %>
         <% unless @community.google_link.blank? %>
-            <%= link_to @community.google_link, target: '_blank' do %>
-                <% image_tag 'google-icon.svg', class: 'image-link' %>
-            <% end %>
+          <%= link_to @community.google_link, target: '_blank' do %>
+            <% image_tag 'google-icon.svg', class: 'image-link' %>
+          <% end %>
         <% end %>
         <br/><hr/><br/>
       </div>
@@ -73,47 +73,57 @@
     <div class="row">
       <div class="large-12 columns">
         <% if current_user && !@community.users.include?(current_user) %>
-            <%= form_tag("/communities/#{@community.id}/users", method: 'patch', class: 'join-community') do |f| %>
-                <%= hidden_field_tag 'user_id', current_user.id %>
-                <%= button_tag type: 'submit', class: 'button small' do %>
-                    <%= image_tag 'group-icon.svg', class: 'ty-icon' %>
-                    &nbsp;
-                    Join <%= @community.name %>
-                <% end %>
+          <%= form_tag("/communities/#{@community.id}/users", method: 'patch', class: 'join-community') do |f| %>
+            <%= hidden_field_tag 'user_id', current_user.id %>
+            <%= button_tag type: 'submit', class: 'button small dropdown', data: { dropdown: 'orgs' } do %>
+              <%= image_tag 'group-icon-white.svg', class: 'ty-icon' %>
+              &nbsp;
+              Join <%= @community.name %>
             <% end %>
-            &nbsp;&nbsp;
+            <ul id="orgs" data-dropdown-content class="f-dropdown" aria-hidden="true">
+              <% current_user.organizations.each do |organization| %>
+                <li>
+                  <%= link_to organization.name, organizations_path(organization),
+                              class: 'org-join',
+                              data: { id: organization.id }
+                  %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+          &nbsp;&nbsp;
         <% end %>
 
         <% if current_user %>
-            <% if current_user.subscriptions.find_by(community_id: @community.id) %>
-                <%= link_to '#',
-                            class: 'button secondary small community-subscribe',
-                            title: 'Unsubscribe from Community',
-                            data: { model_id: @community.id, current_user_id: current_user.id,
-                                    status: 'subscribed' } do %>
+          <% if current_user.subscriptions.find_by(community_id: @community.id) %>
+            <%= link_to '#',
+                        class: 'button secondary small community-subscribe',
+                        title: 'Unsubscribe from Community',
+                        data: { model_id: @community.id, current_user_id: current_user.id,
+                                status: 'subscribed' } do %>
 
-                    <%= image_tag 'tack-icon-green.svg', class: 'ty-icon' %>
-                    Unsubscribe
-                <% end %>
-                &nbsp;&nbsp;
-            <% else %>
-                <%= link_to '#',
-                            class: 'button small community-subscribe',
-                            title: 'Subscribe to Community',
-                            data: { model_id: @community.id, current_user_id: current_user.id,
-                                    status: 'unsubscribed' } do %>
-                    <%= image_tag 'tack-icon.svg', class: 'ty-icon' %>
-                    &nbsp;
-                    Subscribe
-                <% end %>
-                &nbsp;&nbsp;
+              <%= image_tag 'tack-icon-green.svg', class: 'ty-icon' %>
+              Unsubscribe
             <% end %>
+            &nbsp;&nbsp;
+          <% else %>
+            <%= link_to '#',
+                        class: 'button small community-subscribe',
+                        title: 'Subscribe to Community',
+                        data: { model_id: @community.id, current_user_id: current_user.id,
+                                status: 'unsubscribed' } do %>
+              <%= image_tag 'tack-icon.svg', class: 'ty-icon' %>
+              &nbsp;
+              Subscribe
+            <% end %>
+            &nbsp;&nbsp;
+          <% end %>
         <% end %>
 
         <%= link_to new_post_path(community: @community.name), class: 'button small' do %>
-            <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
-            &nbsp;
-            New Post
+          <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
+          &nbsp;
+          New Post
         <% end %>
         <br/><br/>
       </div>
@@ -131,7 +141,7 @@
           <div class="content active" id="posts">
             <ul class="posts no-bullet">
               <% @posts.each do |post| %>
-                  <%= render 'layouts/posts_list', post: post %>
+                <%= render 'layouts/posts_list', post: post %>
               <% end %>
             </ul>
 
@@ -139,37 +149,37 @@
             <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
 
             <% if @community.posts.blank? %>
-                <span class="grey">Currently there are no posts.</span>
+              <span class="grey">Currently there are no posts.</span>
             <% end %>
           </div>
           <div class="content" id="members">
             <ul class="no-disc member-list">
               <% @community.users.each do |user| %>
-                  <li>
-                    <% if user.photo %>
-                        <%= link_to user do %>
-                            <%= image_tag user.photo.thumb('75x75#').url %>
-                        <% end %>
-                        &nbsp;&nbsp;
+                <li>
+                  <% if user.photo %>
+                    <%= link_to user do %>
+                      <%= image_tag user.photo.thumb('75x75#').url %>
                     <% end %>
-                    <%= link_to user.username, user %>
+                    &nbsp;&nbsp;
+                  <% end %>
+                  <%= link_to user.username, user %>
 
-                    <% if current_user && current_user.admin? %>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <%= form_tag("/communities/#{@community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
-                            <%= hidden_field_tag 'user_id', user.id %>
-                            <%= image_submit_tag 'trash-icon.svg', :class => 'button alert tiny remove_user icon',
-                                                 :alt => 'Remove User',
-                                                 :value => 'Remove User',
-                                                 :title => 'Remove User' %>
-                        <% end %>
+                  <% if current_user && current_user.admin? %>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%= form_tag("/communities/#{@community.id}/users", method: 'delete', class: 'leave-community-form') do |f| %>
+                      <%= hidden_field_tag 'user_id', user.id %>
+                      <%= image_submit_tag 'trash-icon.svg', :class => 'button alert tiny remove_user icon',
+                                           :alt => 'Remove User',
+                                           :value => 'Remove User',
+                                           :title => 'Remove User' %>
                     <% end %>
+                  <% end %>
 
-                  </li>
+                </li>
               <% end %>
 
               <% if @community.users.blank? %>
-                  <span class="grey">Currently there are no members.</span>
+                <span class="grey">Currently there are no members.</span>
               <% end %>
             </ul>
           </div>
@@ -188,7 +198,7 @@
                     </span>
                   </span>
                 <% else %>
-                    <p class="grey">No default location set.</p>
+                  <p class="grey">No default location set.</p>
                 <% end %>
               </li>
             </ul>
