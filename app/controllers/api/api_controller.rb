@@ -20,6 +20,8 @@ module Api
         else
           basic_auth
         end
+      else
+        @current_user = User.find(session[:user_id])
       end
     end
 
