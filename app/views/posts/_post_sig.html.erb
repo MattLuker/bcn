@@ -1,12 +1,15 @@
 <% if @post.organization %>
   <span class="left">
-             posted by:
-                           <strong>
-                             <%= @post.organization.name %>
-                           </strong>
-             <br/>
-             at: <%= @post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
-           </span>
+    posted by:
+   <strong>
+     <%= @post.organization.name %>
+   </strong>
+    <br/>
+    at: <%= @post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+    <br/>
+    <%= @post.subscribers.count %> Subscribers
+
+    </span>
 
   <%= link_to @post.organization, :class => 'post-user-image right' do %>
     <% if @post.organization.image %>
@@ -18,19 +21,21 @@
 
 <% else %>
   <span class="left">
-             posted by:
-                           <strong>
-                             <% if @post.user.nil? %>
-                               <strong>Anonymous</strong>
-                             <% elsif @post.user && @post.user.username %>
-                               <%= @post.user.username %>
-                             <% else %>
-                               Sorry, forgot username
-                             <% end %>
-                           </strong>
-             <br/>
-             at: <%= @post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
-           </span>
+    posted by:
+     <strong>
+       <% if @post.user.nil? %>
+         <strong>Anonymous</strong>
+       <% elsif @post.user && @post.user.username %>
+         <%= @post.user.username %>
+       <% else %>
+         Sorry, forgot username
+       <% end %>
+     </strong>
+     <br/>
+     at: <%= @post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+     <br/>
+    <%= @post.subscribers.count %> Subscribers
+  </span>
 
   <% if @post.user %>
 

@@ -48,12 +48,16 @@ ready_community = ->
   #
   # Determine if the Join button needs to be hidden.
   #
-  console.log(user_id)
-  $.ajax({
-    url: "/api/users/#{window.user_id}",
-    type: 'get'
-  }).success (user) ->
-    console.log(user)
+  try
+
+    console.log(user_id)
+    $.ajax({
+      url: "/api/users/#{window.user_id}",
+      type: 'get'
+    }).success (user) ->
+      console.log(user)
+  catch
+    console.log('no user')
 
   #
   # Form functionality.
