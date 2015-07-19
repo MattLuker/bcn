@@ -19,7 +19,7 @@ class Api::UsersController < Api::ApiController
   end
 
   def show
-    render json: current_user.as_json(include: :posts)
+    render json: current_user.as_json()
   end
 
   def create

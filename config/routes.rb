@@ -6,10 +6,10 @@ Rails.application.routes.draw do
   get 'calendar', to: 'home#calendar'
 
   resources :communities do
-    patch 'users', to: 'communities#add_user'
-    delete 'users', to: 'communities#remove_user'
-    patch 'organizations', to: 'communities#add_user'
-    delete 'organizations', to: 'communities#remove_user'
+    patch 'users', to: 'communities#add_member'
+    delete 'users', to: 'communities#remove_member'
+    patch 'organizations', to: 'communities#add_member'
+    delete 'organizations', to: 'communities#remove_member', as: 'remove_organization'
     get :podcast, to: 'communities#podcast'
     resources :subscribers, only: [:create, :destroy]
   end

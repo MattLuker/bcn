@@ -52,6 +52,19 @@
                                    :title => 'Leave Organization' %>
             <% end %>
           <% end %>
+
+          <% if action_name == 'show' && controller_name == 'communities' && organization.users.include?(current_user) %>
+
+            <%= link_to community_remove_organization_path(@community, organization_id: organization.id),
+                        class: 'leave-community',
+                        method: :delete do
+            %>
+              <%= image_tag 'exit-icon.svg', :class => 'button tiny secondary icon leave-organization',
+                            :alt => 'Remove Organization from Community',
+                            :title => 'Remove Organization from Community' %>
+            <% end %>
+
+          <% end %>
         </div>
       </div>
     </div>

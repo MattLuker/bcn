@@ -109,5 +109,10 @@
     </div>
   </footer>
 
+  <% if current_user %>
+    <script>
+      window.user_id = <%= current_user.id %>
+    </script>
+  <% end %>
 </body>
 </html>

@@ -63,37 +63,67 @@ class CommunitiesController < ApplicationController
       end
   end
 
-  def add_user
-    @community = Community.find(params[:community_id].to_i)
+  def add_member
+    puts "params: #{params}"
+    #@community = Community.find(params[:community_id].to_i)
+    @community = Community.find_by_slug(params[:community_id])
 
-    if current_user.id == params['user_id'].to_i
-      user = User.find(params['user_id'])
-      @community.users << user
-      if @community.save
-        flash[:success] = "You are now part of the #{@community.name} community."
-        FacebookSyncJob.perform_now(user.facebook_token, user) if user.facebook_token
-        redirect_to @community
+
+    if params[:user_id]
+      if current_user.id == params['user_id'].to_i
+        @community.users << current_user
+        if @community.save
+          flash[:success] = "You are now part of the #{@community.name} community."
+          redirect_to @community
+        else
+          redirect_to @community, notice: 'There was a problem adding you to the community'
+        end
       else
-        redirect_to @community, notice: 'There was a problem adding you to the community'
+        redirect_to @community, notice: 'You can only add yourself to a community.'
       end
     else
-      redirect_to communities_path, notice: 'You can only add yourself to a community.'
+      organization = Organization.find(params[:organization_id]) if params[:organization_id]
+      if organization.users.index(current_user)
+        @community.organizations << organization
+        if @community.save
+          flash[:success] = "#{organization.name} is now part of #{@community.name}."
+          redirect_to @community
+        else
+          redirect_to @community, notice: 'There was a problem adding the organization to the community'
+        end
+      else
+        redirect_to @community, notice: 'You can only add organizations you are a part of to a community.'
+      end
     end
   end
 
-  def remove_user
-    community = Community.find(params[:community_id].to_i)
+  def remove_member
+    #community = Community.find(params[:community_id].to_i)
+    @community = Community.find_by_slug(params[:community_id])
 
-    if current_user.id == params['user_id'].to_i || current_user.admin?
-      @user = User.find(params['user_id'])
-      if community.users.delete(@user)
-        flash[:success] = "You have left the #{community.name} community."
-        redirect_to @user
+    if params[:user_id]
+      if current_user.id == params[:user_id].to_i || current_user.admin?
+        if community.users.delete(current_user)
+          flash[:success] = "You have left the #{community.name} community."
+          redirect_to current_user
+        else
+          redirect_to current_user, notice: 'There was a problem leaving the community'
+        end
       else
-        redirect_to @user, notice: 'There was a problem leaving the community'
+        redirect_to current_user, notice: 'You can only remove yourself from a community.'
       end
     else
-      redirect_to @user, notice: 'You can only remove yourself from a community.'
+      organization = Organization.find(params[:organization_id])
+      if @community.organizations.include?(organization) && organization.users.include?(current_user) || current_user.admin?
+        if @community.organizations.delete(organization)
+          flash[:success] = "You have removed #{organization.name} from #{@community.name}."
+          redirect_to @community
+        else
+          redirect_to @community, notice: 'There was a problem removing the organization from the community'
+        end
+      else
+        redirect_to @community, notice: 'You can only remove your organizations from a community.'
+      end
     end
   end
 
@@ -132,6 +162,7 @@ class CommunitiesController < ApplicationController
                                         :google_link,
                                         :lat,
                                         :lon,
+                                        :organization_id,
                                         :user_ids => [])
     end
 end
