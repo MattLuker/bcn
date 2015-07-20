@@ -153,18 +153,16 @@ class PostsController < ApplicationController
         end
       end
 
-      puts "@post.organization: #{@post.organization.inspect}"
-      unless @post.organization
+      unless @post.organization.nil?
         if current_user
           current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
         else
           poster = 'Anonymous'
         end
-        organization.subscribers.each do |subscriber|
-          puts "subscriber: #{subscriber.inspect}"
+        @post.organization.subscribers.each do |subscriber|
           unless current_user == subscriber.user
             if subscriber.user && subscriber.user.email
-              PostMailer.new_post(subscriber.user, @post, organization, poster).deliver_now
+              PostMailer.new_post(subscriber.user, @post, @post.organization, poster).deliver_now
             end
           end
         end
