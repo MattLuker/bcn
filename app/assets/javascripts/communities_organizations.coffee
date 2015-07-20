@@ -46,20 +46,6 @@ ready_community = ->
         Turbolinks.visit(window.location)
 
   #
-  # Determine if the Join button needs to be hidden.
-  #
-  try
-
-    console.log(user_id)
-    $.ajax({
-      url: "/api/users/#{window.user_id}",
-      type: 'get'
-    }).success (user) ->
-      console.log(user)
-  catch
-    console.log('no user')
-
-  #
   # Form functionality.
   #
   if location.pathname == '/communities/new' || location.pathname == '/organizations/new'

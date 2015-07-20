@@ -103,8 +103,8 @@ class CommunitiesController < ApplicationController
 
     if params[:user_id]
       if current_user.id == params[:user_id].to_i || current_user.admin?
-        if community.users.delete(current_user)
-          flash[:success] = "You have left the #{community.name} community."
+        if @community.users.delete(current_user)
+          flash[:success] = "You have left the #{@community.name} community."
           redirect_to current_user
         else
           redirect_to current_user, notice: 'There was a problem leaving the community'

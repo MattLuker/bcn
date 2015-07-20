@@ -72,38 +72,39 @@
 
     <div class="row">
       <div class="large-12 columns">
+        <% if !@community.users.include?(current_user) && current_user %>
 
-            <%= button_tag type: 'submit', class: 'button small dropdown', data: { dropdown: 'orgs' } do %>
-              <%= image_tag 'group-icon-white.svg', class: 'ty-icon' %>
-              &nbsp;
-              Join <%= @community.name %>
-            <% end %>
-            <ul id="orgs" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <%= button_tag type: 'submit', class: 'button small dropdown', data: { dropdown: 'orgs' } do %>
+            <%= image_tag 'group-icon-white.svg', class: 'ty-icon' %>
+            &nbsp;
+            Join <%= @community.name %>
+          <% end %>
+          <ul id="orgs" data-dropdown-content class="f-dropdown" aria-hidden="true">
+            <li>
+              <%= link_to community_users_path(@community, user_id: current_user.id),
+                          class: 'join-community',
+                          method: :patch do
+              %>
+                as Me
+              <% end %>
+            </li>
+            <% current_user.organizations.each do |organization| %>
               <li>
-                <% unless @community.users.include?(current_user) %>
-                  <%= link_to community_users_path(@community, user_id: current_user.id),
-                              class: 'join-community',
-                              method: :patch do
+                <% unless @community.organizations.include?(organization) %>
+                  <%= link_to community_organizations_path(@community, organization_id: organization.id),
+                              class: 'org-join',
+                              method: :patch,
+                              data: { id: organization.id } do
                   %>
-                    as Me
+                    as <%= organization.name %>
                   <% end %>
                 <% end %>
               </li>
-              <% current_user.organizations.each do |organization| %>
-                <li>
-                  <% unless @community.organizations.include?(organization) %>
-                    <%= link_to community_organizations_path(@community, organization_id: organization.id),
-                                class: 'org-join',
-                                method: :patch,
-                                data: { id: organization.id } do
-                    %>
-                      as <%= organization.name %>
-                    <% end %>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
+            <% end %>
+          </ul>
           &nbsp;&nbsp;
+        <% end %>
+
 
         <% if current_user %>
           <% if current_user.subscriptions.find_by(community_id: @community.id) %>

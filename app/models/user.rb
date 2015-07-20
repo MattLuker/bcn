@@ -138,7 +138,10 @@ class User < ActiveRecord::Base
         :photo_name,
         :photo_web_url,
         :role
-    ])
+    ], :include => {
+              :communities => { only: [:id, :name, :name]},
+              :organizations => { only: [:id, :name, :name]}
+                                 })
   end
 
   private
