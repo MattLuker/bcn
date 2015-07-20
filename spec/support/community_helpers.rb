@@ -21,7 +21,7 @@ module CommunityHelpers
     community = Community.last
     community.description = "We're all part of the Boone community!"
     community.save
-    page.driver.browser.navigate.refresh
+    #page.driver.browser.navigate.refresh
   end
 
   def create_organization

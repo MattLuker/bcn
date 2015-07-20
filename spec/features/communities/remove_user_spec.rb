@@ -15,6 +15,7 @@ describe "Removing User from communities" do
 
     visit '/communities/' + community.slug
     click_button 'Join ' + community.name
+    click_link 'as Me'
 
     expect(page).to have_content("You are now part of the #{community.name} community.")
     expect(community.users.count).to eq(2)

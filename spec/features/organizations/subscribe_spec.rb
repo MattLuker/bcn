@@ -75,10 +75,6 @@ describe 'Subscribing to Organization' do
     fill_in "Title", with: "My Location Post"
     page.execute_script("window.post_editor.codemirror.setValue('Great new post.')")
 
-    communites_field = find('input.default')
-    communites_field.set('Boone Organization Network')
-    communites_field.native.send_key(:Enter)
-
     find('#post_organization_id').find(:xpath, 'option[2]').select_option
 
     click_button "Save Post"
