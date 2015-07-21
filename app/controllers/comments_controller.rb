@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
   end
 
   def create
+    puts "params: #{params}"
     if @post
       comment = @post.comments.new(comment_params)
       comment.user = current_user if current_user
@@ -82,6 +83,6 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:content, :photo, :post, :user)
+    params.require(:comment).permit(:content, :photo, :post, :user, :organization_id)
   end
 end

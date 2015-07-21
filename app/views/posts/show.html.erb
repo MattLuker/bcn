@@ -241,7 +241,7 @@
 
               <div>
                 <label for="commentor">Comment As:</label>
-                <select name="post[organization]" id="post_organization">
+                <select name="comment[organization_id]" id="post_organization">
                   <option value=""></option>
                   <% current_user.organizations.each do |organization| %>
                     <option value="<%= organization.id %>"><%= organization.name %></option>

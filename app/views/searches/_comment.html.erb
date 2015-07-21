@@ -3,19 +3,26 @@
     <div class="large-6 columns comment-meta">
 
       <h4>Comment on Post: <%= link_to comment.root.post.title, comment.root.post %></h4>
-      <% if comment.user %>
-          <%= link_to comment.user do %>
-              <%= image_tag comment.user.photo.thumb('50x50#').url %>
-          <% end %>
+      <% if comment.organization %>
+        <%= link_to comment.organization do %>
+          <%= image_tag comment.organization.image.thumb('50x50#').url if comment.organization.image %>
+        <% end %>
+
+      <% elsif comment.user %>
+        <%= link_to comment.user do %>
+          <%= image_tag comment.user.photo.thumb('50x50#').url %>
+        <% end %>
       <% else %>
-          <%= image_tag 'avatar.svg', size: '50x50' %>
+        <%= image_tag 'avatar.svg', size: '50x50' %>
       <% end %>
       <%= comment.created_at.strftime('%m/%d/%Y %I:%M%P') %>
       by
-      <% if comment.user %>
-          <%= link_to comment.user.username, comment.user %>
+      <% if comment.organization %>
+        <%= link_to comment.organization.name, comment.organization %>
+      <% elsif comment.user %>
+        <%= link_to comment.user.username, comment.user %>
       <% else %>
-          Anonymous
+        Anonymous
       <% end %>
 
     </div>

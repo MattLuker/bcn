@@ -10,6 +10,16 @@
           <%= hidden_field_tag :retained_photo %>
 
           <%= text_area_tag 'comment[content]', '', :id => 'content_' + dom_id(comment) %>
+
+          <div>
+            <label for="commentor">Comment As:</label>
+            <select name="comment[organization_id]" id="post_organization">
+              <option value=""></option>
+              <% current_user.organizations.each do |organization| %>
+                <option value="<%= organization.id %>"><%= organization.name %></option>
+              <% end %>
+            </select>
+          </div>
         </div>
       </div>
 
