@@ -69,6 +69,9 @@ ready_post = ->
       community = community.replace('+', ' ')
       $('#post_community_names').val(community)
 
+    if (queryParams.hasOwnProperty('organization'))
+      $('#post_organization_id').val(queryParams.organization)
+
     # Setup multi-select goodness with Chosen.
     $('.chosen-select').chosen
       allow_single_deselect: true
