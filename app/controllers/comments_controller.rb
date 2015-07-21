@@ -7,7 +7,6 @@ class CommentsController < ApplicationController
   end
 
   def create
-    puts "params: #{params}"
     if @post
       comment = @post.comments.new(comment_params)
       comment.user = current_user if current_user

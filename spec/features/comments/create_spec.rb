@@ -78,4 +78,27 @@ describe 'Creating comments' do
     comment_comment = Comment.last
     expect(page).to have_content(comment_comment.content)
   end
+
+  it 'can comment as an organization', :js => true do
+    sign_in user, password: 'beans'
+    create_organization
+    organization = Organization.last
+
+    visit post_path(post)
+    expect(page).to have_content('Good Post')
+
+    find('.comment-button').click
+    find('#comment_content').set('This is fun!!!')
+    find('#post_organization').find(:xpath, 'option[2]').select_option
+
+    click_button 'Save Comment'
+
+    expect(post.comments.count).to eq(1)
+    expect(page).to have_content('Good Post')
+    expect(page).to have_content('by BCN')
+
+    comment = Comment.last
+    expect(page).to have_content(comment.content)
+    expect(comment.organization.name).to eq(organization.name)
+  end
 end
