@@ -2,7 +2,9 @@ ready_community = ->
   #
   # Determine the model: Community or Organization.
   #
-  models = window.location.pathname.split('/')[1]
+  paths = window.location.pathname.split('/')
+  models = paths[1]
+  action = paths[paths.length - 1]
   if models == 'communities'
     model_name = 'community'
   else
@@ -48,7 +50,8 @@ ready_community = ->
   #
   # Form functionality.
   #
-  if location.pathname == '/communities/new' || location.pathname == '/organizations/new'
+  if (location.pathname == '/communities/new' || location.pathname == '/organizations/new') ||
+  (models == 'communities' && action == 'edit') || (models == 'organizations' && action == 'edit')
     $('#' + model_name + '_color').on 'focus', (e) ->
       if $('.colpick').is(':hidden')
         $('.colpick').show()
