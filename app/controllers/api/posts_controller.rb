@@ -55,26 +55,33 @@ class Api::PostsController < Api::ApiController
   end
 
   def update
-    post = current_user.posts.find(params[:id])
+    begin
+      post = current_user.posts.find(params[:id])
 
-    message = 'Post updated.'
-    if params[:community_id]
-      post.communities << Community.find(params[:community_id])
-      message = 'Community added to Post.'
-    end
+      message = 'Post updated.'
+      if params[:community_id]
+        post.communities << Community.find(params[:community_id])
+        message = 'Community added to Post.'
+      end
 
-    if post.update(post_params)
-      render status: 200, json: {
-        message: message,
-        post: post,
-        locations: post.locations,
-        communities: post.communities
-      }.to_json
-    else
-      render status: 422, json: {
-        message: 'Post could not be updated.',
-        post: post
-      }.to_json
+      if post.update(post_params)
+        render status: 200, json: {
+                              message: message,
+                              post: post,
+                              locations: post.locations,
+                              communities: post.communities
+                          }.to_json
+      else
+        render status: 422, json: {
+                              message: 'Post could not be updated.',
+                              post: post
+                          }.to_json
+      end
+    rescue
+      render status: 404, json: {
+                            message: 'Only post creator can update it.',
+                            post: post
+                        }.to_json
     end
   end
 

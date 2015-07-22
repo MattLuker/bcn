@@ -75,8 +75,8 @@ describe 'Posts API', :type => :api do
   end
 
   it 'will not update post if not logged in as non-post user' do
-    post2 = Post.create(title: 'Location Post', description: 'Great job location!', user: user)
-    puts "post2.inspect: #{post2.inspect}"
+    post '/api/posts', format: :json, :post => {:title => 'Location Post', :description => 'Great job location!'}
+    post2 = Post.last
 
     user2 = User.create(email: 'cheese@thehoick.com', password: 'beans')
     basic_authorize(user2.email, 'beans')

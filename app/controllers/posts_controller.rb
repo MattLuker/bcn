@@ -86,7 +86,6 @@ class PostsController < ApplicationController
   end
 
   def update
-    puts "update params: #{params}"
     if current_user != @post.user
       flash[:error] = 'You can only update your posts.'
       redirect_to home_index_path
