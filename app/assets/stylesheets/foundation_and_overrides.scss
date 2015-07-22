@@ -56,6 +56,7 @@
 
 // Allows the use of rem-calc() or lower-bound() in your settings
 @import "foundation/functions";
+@import "colors";
 
 // The default font-size is set to 100% of the browser style sheet (usually 16px)
 // for compatibility with browser-based text zoom or user-set defaults.
@@ -118,15 +119,17 @@ $row-width: rem-calc(1200);
 // $black       : #000000;
 
 // We use these as default colors throughout
-$primary-color: #008CBA;
-// $secondary-color: #e7e7e7;
-// $alert-color: #f04124;
-// $success-color: #43AC6A;
-// $warning-color: #f08a24;
-// $info-color: #a0d3e8;
+//$primary-color: #008CBA;
+$primary-color: $hse-light-green;
+
+$secondary-color: $hse-orange;
+$alert-color: $hse-red;
+$success-color: $hse-green;
+$warning-color: $hse-pink;
+$info-color: $hse-dark-green;
 
 // We use these to control various global styles
-// $body-bg: $white;
+$body-bg: $bg-main;
 // $body-font-color: $jet;
 // $body-font-family: $font-family-sans-serif;
 // $body-font-weight: $font-weight-normal;
@@ -264,7 +267,7 @@ $anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%);
 // We use these to style the <hr> element
 // $hr-border-width: 1px;
 // $hr-border-style: solid;
-// $hr-border-color: $gainsboro;
+$hr-border-color: $secondary-color;
 // $hr-margin: rem-calc(20);
 
 // We use these to style lists
@@ -650,12 +653,12 @@ $anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%);
 // We use these to style the fieldset border and spacing.
 // $fieldset-border-style: solid;
 // $fieldset-border-width: 1px;
-// $fieldset-border-color: $gainsboro;
+$fieldset-border-color: $secondary-color;
 // $fieldset-padding: rem-calc(20);
 // $fieldset-margin: rem-calc(18 0);
 
 // We use these to style the legends when you use them
-// $legend-bg: $white;
+$legend-bg: $light-gray;
 // $legend-font-weight: $font-weight-bold;
 // $legend-padding: rem-calc(0 3);
 
@@ -1319,8 +1322,8 @@ $anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%);
 // $include-html-tabs-classes: $include-html-classes;
 
 $tabs-navigation-padding: rem-calc(12);
-// $tabs-navigation-bg-color: $silver;
-// $tabs-navigation-active-bg-color: $white;
+$tabs-navigation-bg-color: $secondary-color;
+$tabs-navigation-active-bg-color: $body-bg;
 // $tabs-navigation-hover-bg-color: scale-color($tabs-navigation-bg-color, $lightness: -6%);
 // $tabs-navigation-font-color: $jet;
 // $tabs-navigation-active-font-color: $tabs-navigation-font-color;
@@ -1381,7 +1384,7 @@ $tabs-navigation-font-size: rem-calc(14);
 // $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-// $topbar-bg-color: $oil;
+$topbar-bg-color: $hse-maroon;
 // $topbar-bg: $topbar-bg-color;
 
 // Height and margin
@@ -1399,12 +1402,12 @@ $tabs-navigation-font-size: rem-calc(14);
 // $topbar-link-color-active-hover: $white;
 // $topbar-link-weight: $font-weight-normal;
 // $topbar-link-font-size: rem-calc(13);
-// $topbar-link-hover-lightness: -10%; // Darken by 10%
+//$topbar-link-hover-lightness: -10%; // Darken by 10%
 // $topbar-link-bg: $topbar-bg;
-// $topbar-link-bg-hover: $oil;
-// $topbar-link-bg-color-hover: $charcoal;
-// $topbar-link-bg-active: $primary-color;
-// $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
+$topbar-link-bg-hover: lighten($topbar-bg-color, 20%);
+//$topbar-link-bg-color-hover: $topbar-bg-color;
+//$topbar-link-bg-active: $primary-color;
+//$topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
 // $topbar-link-font-family: $body-font-family;
 // $topbar-link-text-transform: none;
 // $topbar-link-padding: ($topbar-height / 3);
@@ -1414,11 +1417,11 @@ $tabs-navigation-font-size: rem-calc(14);
 // $topbar-button-top: 7px;
 
 // Style the top bar dropdown elements
-// $topbar-dropdown-bg: $oil;
+$topbar-dropdown-bg: $hse-maroon;
 // $topbar-dropdown-link-color: $white;
 // $topbar-dropdown-link-color-hover: $topbar-link-color-hover;
-// $topbar-dropdown-link-bg: $oil;
-// $topbar-dropdown-link-bg-hover: $oil;
+$topbar-dropdown-link-bg: $topbar-link-bg-hover;
+$topbar-dropdown-link-bg-hover: $topbar-link-bg-hover;
 // $topbar-dropdown-link-weight: $font-weight-normal;
 // $topbar-dropdown-toggle-size: 5px;
 // $topbar-dropdown-toggle-color: $white;

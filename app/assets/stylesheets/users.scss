@@ -4,6 +4,7 @@
 */
 
 @import 'colors';
+@import 'foundation_and_overrides';
 
 .leave-community-form {
   display: inline;
@@ -38,7 +39,7 @@ ul.communities {
   }
 
   button.confirm {
-    background-color: #F04124 !important;
+    background-color: $alert-color !important;
   }
 }
 

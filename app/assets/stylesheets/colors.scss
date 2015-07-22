@@ -1,11 +1,26 @@
 /* Colors */
+
+$hse-red: #D33B31;
+$hse-orange: #E9A46A;
+$hse-light-green: #85C2C1;
+$hse-green: #1D6354;
+$hse-dark-green: #5C6B48;
+$hse-maroon: #632816;
+$hse-pink: #D56362;
+$hse-grey: #D2C2BC;
+
+$bg-main: #FFEDD2;
+
 $blue: #008BC4;
 $yellow: #FBDE09;
 $red: #D04334;
-$light-gray: #E7E7E7;
+$light-orange: lighten($hse-orange, 10%);
+$light-gray: lighten($hse-grey, 8%); // #e2d8d4
+//$light-gray: #FFFBF4;
 $gray: darken($light-gray, 15);
 $oil: #333333;
-$alert: #F04124;
+$alert: $hse-red;
+
 
 $google: #D73D32;
 $twitter: #55ACEE;
