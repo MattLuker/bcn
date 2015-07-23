@@ -1,4 +1,10 @@
-# Medium Style Image Zoom on Rails
+---
+title: "Medium Style Image Zoom on Rails"
+date:   2015-07-23 14:30:00
+layout: post
+categories: rails bcn
+image: rails_zoom.png
+---
 
 ## Zoom.js Make it Bigger Please
 
@@ -7,6 +13,8 @@ I thought that just displaying images on the [BCN](https://github.com/asommer70/
 Zoom.js gives your site the ability to click on an image and view it in a fancy light box effect.  It's a jQuery plugin and works quite nice.  Though I did make a few adjustments to integrate things with Rails and Turbolinks.
 
 Something I didn't realize until I started using Zoom.js is that it's made by [@fat](https://twitter.com/fat) one of the original developers of the [Bootstrap](http://getbootstrap.com/) framework.  Even though I've moved on to [Foundation](http://foundation.zurb.com/docs/), I still look back fondly at Bootstrap for helping me make things look good in my web apps and web sites.
+
+<!--more-->
 
 ## Installing Zoom.js
 
@@ -33,10 +41,28 @@ This example is from the BCN User's profile picture.  Which also uses the super 
 
 **Note to self**. Blog about the Dragonfly image upload library.
 
+## Tweaking the Source
+
+After installing and tagging my img elements, I noticed that the zoom effect worked if I refreshed the page, but did not if I clicked around the site then back to a page with a zoomable image on it.  This is because the Rails app is configured to use [Turbolinks](https://github.com/rails/turbolinks) which doesn't actually refresh the whole page.  Instead Turbolinks replaces the *body* element with the content from the next page.  Or at least that's how I understand Turbolinks works.
+
+It seemed obvious that Zoom.js is being applied only when the page is initially loaded, or the very familiar jQuery ```$(function() {})``` (or ```$(document).ready()```).  Sure enough, at the end of the **zoom.js** file is the function being executed when the document is ready.
+
+To enable zooming on Rails with Turbolinks add the following below the  ```$(function() {})``` call:
+
+```
+  $(document).on('page:load', function() {
+    new ZoomService().listen()
+  })
+```
+
+Now when you browse around the Rails app the **listen()** function will fire and enable the zoom effect for all img elements with the correct *data* attribute.
+
 ## Conclusion
 
 Giving visitors to your site the option to view a larger picture is like the cherry on a sundae.  It just tops everything off.
 
 Or like The Dude's rug... it really ties the room together.
+
+(Maybe I should enable Zoom.js on this blog site...)
 
 Party On!
