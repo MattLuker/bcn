@@ -23,36 +23,40 @@ class CommunitiesController < ApplicationController
   end
 
   def edit
-    if @community.created_by != current_user.id
-      redirect_to @community, notice: 'Must be the creator of the Community to update it.'
+    unless current_user && current_user.admin?
+      redirect_to @community
     end
   end
 
   def create
-    if community_params[:lat] and community_params[:lon]
-      lat = params[:community].delete :lat
-      lon = params[:community].delete :lon
-    end
+    if current_user && current_user.admin?
+      if community_params[:lat] and community_params[:lon]
+        lat = params[:community].delete :lat
+        lon = params[:community].delete :lon
+      end
 
-    @community = Community.new(community_params)
-    @community.created_by = current_user.id
-    @community.users << current_user
+      @community = Community.new(community_params)
+      @community.created_by = current_user.id
+      @community.users << current_user
 
-    if lat and lon
-      @community.create_location({lat: lat, lon: lon})
+      if lat and lon
+        @community.create_location({lat: lat, lon: lon})
+      else
+        @community.location = nil
+      end
+
+      if @community.save
+        redirect_to @community, notice: 'Community was successfully created.'
+      else
+        render :new
+      end
     else
-      @community.location = nil
-    end
-
-    if @community.save
-      redirect_to @community, notice: 'Community was successfully created.'
-    else
-      render :new
+      redirect_to communities_path
     end
   end
 
   def update
-      if @community.created_by != current_user.id
+      unless current_user && current_user.admin?
         redirect_to @community, notice: 'Must be the creator of the Community to update it.'
       else
         if @community.update(community_params)
@@ -128,9 +132,9 @@ class CommunitiesController < ApplicationController
   end
 
   def destroy
-    if @community.created_by == current_user.id
+    if current_user && current_user.admin?
       if @community.destroy
-        redirect_to communities_url, notice: 'Community was successfully deleted.'
+        redirect_to communities_path, notice: 'Community was successfully deleted.'
       else
         flash[:alert] = 'There was a problem deleting the community.'
         redirect_to @community

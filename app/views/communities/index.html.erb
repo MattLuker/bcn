@@ -2,15 +2,18 @@
 
   <h2 class="page-title">Communities</h2>
 
-  <%= link_to new_community_path, class: 'button small' do %>
+  <% if current_user.admin? %>
+    <%= link_to new_community_path, class: 'button small' do %>
       <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
       &nbsp;
       New Community
+    <% end %>
   <% end %>
+
 
   <ul class="communities no-disc">
     <% @communities.each do |community| %>
-        <%= render 'layouts/communities_list', community: community %>
+      <%= render 'layouts/communities_list', community: community %>
     <% end %>
   </ul>
 
