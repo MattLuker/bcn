@@ -5,8 +5,6 @@
       $button = this
 
       toggleLayers = $.grep window.layers, (layer) ->
-        console.log('layer:', layer)
-        console.log('this.id:', $button.id)
         return layer[model + '_id'] != $button.id
 
       for layer in window.layers
