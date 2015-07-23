@@ -1,5 +1,5 @@
 ready_home = ->
-  if $('#map').length && $('#map').is(':visible') && location.pathname.split('/')[1] == 'home'
+  if $('#map').length && $('#map').is(':visible') && location.pathname == '/'
     map = initialize_map()
     map_helpers.set_home_markers(map)
 

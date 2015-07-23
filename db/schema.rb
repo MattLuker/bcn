@@ -43,35 +43,6 @@ ActiveRecord::Schema.define(version: 20150717195837) do
     t.datetime "updated_at",           null: false
   end
 
-  create_table "posts", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "communities"
-    t.datetime "deleted_at",      index: {name: "index_posts_on_deleted_at"}
-    t.integer  "user_id",         index: {name: "index_posts_on_user_id"}
-    t.date     "start_date"
-    t.date     "end_date"
-    t.time     "start_time"
-    t.time     "end_time"
-    t.string   "image"
-    t.string   "image_uid"
-    t.string   "image_name"
-    t.string   "og_url",          index: {name: "index_posts_on_og_url"}
-    t.string   "og_title"
-    t.string   "og_image"
-    t.string   "og_description"
-    t.string   "audio"
-    t.string   "audio_uid"
-    t.string   "audio_name"
-    t.integer  "audio_duration"
-    t.boolean  "explicit"
-    t.integer  "organization_id"
-    t.index name: "index_posts_on_description", using: :gin, expression: "to_tsvector('english'::regconfig, description)"
-    t.index name: "index_posts_on_title", using: :gin, expression: "to_tsvector('english'::regconfig, (title)::text)"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -107,16 +78,46 @@ ActiveRecord::Schema.define(version: 20150717195837) do
     t.index name: "index_users_on_username", using: :gin, expression: "to_tsvector('english'::regconfig, (username)::text)"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "communities"
+    t.datetime "deleted_at",      index: {name: "index_posts_on_deleted_at"}
+    t.integer  "user_id",         index: {name: "fk__posts_user_id"}, foreign_key: {references: "users", name: "fk_posts_user_id", on_update: :no_action, on_delete: :no_action}
+    t.date     "start_date"
+    t.date     "end_date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.string   "image"
+    t.string   "image_uid"
+    t.string   "image_name"
+    t.string   "og_url",          index: {name: "index_posts_on_og_url"}
+    t.string   "og_title"
+    t.string   "og_image"
+    t.string   "og_description"
+    t.string   "audio"
+    t.string   "audio_uid"
+    t.string   "audio_name"
+    t.integer  "audio_duration"
+    t.boolean  "explicit"
+    t.integer  "organization_id"
+    t.index name: "index_posts_on_description", using: :gin, expression: "to_tsvector('english'::regconfig, description)"
+    t.index name: "index_posts_on_title", using: :gin, expression: "to_tsvector('english'::regconfig, (title)::text)"
+  end
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+
   create_table "comments", force: :cascade do |t|
     t.text     "content"
     t.string   "photo_uid"
     t.string   "photo_name"
-    t.integer  "user_id",         index: {name: "index_comments_on_user_id"}, foreign_key: {references: "users", name: "fk_rails_03de2dc08c", on_update: :no_action, on_delete: :no_action}
-    t.integer  "post_id",         index: {name: "index_comments_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_2fd19c0db7", on_update: :no_action, on_delete: :no_action}
+    t.integer  "user_id",         index: {name: "index_comments_on_user_id"}, foreign_key: {references: "users", name: "fk_comments_user_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "post_id",         index: {name: "index_comments_on_post_id"}, foreign_key: {references: "posts", name: "fk_comments_post_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.datetime "deleted_at",      index: {name: "index_comments_on_deleted_at"}
-    t.integer  "parent_id"
+    t.integer  "parent_id",       index: {name: "fk__comments_parent_id"}, foreign_key: {references: "comments", name: "fk_comments_parent_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "organization_id", index: {name: "fk__comments_organization_id"}, foreign_key: {references: "organizations", name: "fk_comments_organization_id", on_update: :no_action, on_delete: :no_action}
     t.index name: "index_comments_on_content", using: :gin, expression: "to_tsvector('english'::regconfig, content)"
   end
@@ -131,7 +132,7 @@ ActiveRecord::Schema.define(version: 20150717195837) do
     t.integer  "posts"
     t.datetime "deleted_at",       index: {name: "index_communities_on_deleted_at"}
     t.integer  "users"
-    t.integer  "created_by",       foreign_key: {references: "users", name: "fk_rails_3fb6963f4b", on_update: :no_action, on_delete: :no_action}
+    t.integer  "created_by",       foreign_key: {references: "users", name: "fk_communities_created_by", on_update: :no_action, on_delete: :no_action}
     t.string   "events_url"
     t.string   "events_sync_type", index: {name: "index_communities_on_events_sync_type"}
     t.string   "image"
@@ -155,13 +156,13 @@ ActiveRecord::Schema.define(version: 20150717195837) do
   end
 
   create_table "communities_posts", id: false, force: :cascade do |t|
-    t.integer "post_id",      index: {name: "index_communities_posts_on_post_id"}
-    t.integer "community_id", index: {name: "index_communities_posts_on_community_id"}
+    t.integer "post_id",      index: {name: "index_communities_posts_on_post_id"}, foreign_key: {references: "posts", name: "fk_communities_posts_post_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "community_id", index: {name: "index_communities_posts_on_community_id"}, foreign_key: {references: "communities", name: "fk_communities_posts_community_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "communities_users", force: :cascade do |t|
-    t.integer "community_id", index: {name: "index_communities_users_on_community_id"}
-    t.integer "user_id",      index: {name: "index_communities_users_on_user_id"}
+    t.integer "community_id", index: {name: "index_communities_users_on_community_id"}, foreign_key: {references: "communities", name: "fk_communities_users_community_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "user_id",      index: {name: "index_communities_users_on_user_id"}, foreign_key: {references: "users", name: "fk_communities_users_user_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "facebook_subscriptions", force: :cascade do |t|
@@ -173,7 +174,7 @@ ActiveRecord::Schema.define(version: 20150717195837) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.integer  "post_id",         index: {name: "index_locations_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_d5678e2098", on_update: :no_action, on_delete: :no_action}
+    t.integer  "post_id",         index: {name: "index_locations_on_post_id"}, foreign_key: {references: "posts", name: "fk_locations_post_id", on_update: :no_action, on_delete: :no_action}
     t.float    "lat"
     t.float    "lon"
     t.datetime "created_at",      null: false

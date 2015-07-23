@@ -96,6 +96,6 @@ Rails.application.routes.draw do
   get 'auth/failure', to: 'user_sessions#auth_failure'
 
 
-  root 'home#index'
+  root 'home#home'
 
 end

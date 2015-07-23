@@ -1,40 +1,43 @@
 <%= content_for(:title) do %> Home | <% end %>
 <%= content_for(:meta_og) do %>
-    <meta property="og:title" content="Home | BCN" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="Find the latest interests, events, and goings on in the Boone, NC area." />
-    <%= tag :meta, property: 'og:image', content: image_url('bcn_logo.png') %>
+  <meta property="og:title" content="Home | BCN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="Find the latest interests, events, and goings on in the Boone, NC area." />
+  <%= tag :meta, property: 'og:image', content: image_url('bcn_logo.png') %>
 <% end %>
 
-<div class="large-6 columns">
-  <h2>Boone</h2>
+<div class="row">
+  <div class="large-12 columns">
 
-  <div id="map"></div>
+    <div id="map"></div>
 
-  <br/><br/>
-  <button class="all_communities success tiny">All</button>
+    <br/><br/>
+    <button class="all_communities success tiny">All</button>
 
-  <% @communities.each do |community| %>
+    <% @communities.each do |community| %>
       <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
-  <% end %>
-
-</div>
-
-<div class="large-6 columns">
-  <h2>Recent Posts</h2>
-  <ul class="posts no-bullet">
-    <% @posts.each do |post| %>
-        <%= render 'layouts/posts_list', post: post %>
     <% end %>
-  </ul>
 
-  <%= link_to posts_path, class: 'button tiny secondary' do %>
-      <%= image_tag 'ellipses-icon.svg', size: '25x25', class: 'ty-icon' %>
-       More Posts
-  <% end %>
-
-  <br/><br/>
-
+  </div>
 </div>
 
+<div class="row">
+
+  <div class="large-12 columns">
+    <h2>Recent Posts</h2>
+    <ul class="posts no-bullet">
+      <% @posts.each do |post| %>
+        <%= render 'layouts/posts_list', post: post %>
+      <% end %>
+    </ul>
+
+    <%= link_to posts_path, class: 'button tiny secondary' do %>
+      <%= image_tag 'ellipses-icon.svg', size: '25x25', class: 'ty-icon' %>
+      More Posts
+    <% end %>
+
+    <br/><br/>
+
+  </div>
+</div>
 

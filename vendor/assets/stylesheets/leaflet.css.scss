@@ -1,5 +1,7 @@
 /* required styles */
 
+@import 'colors';
+
 .leaflet-map-pane,
 .leaflet-tile,
 .leaflet-marker-icon,
@@ -185,7 +187,7 @@
 	outline: 0;
 	}
 .leaflet-container a {
-	color: #0078A8;
+	color: $hse-light-green;
 	}
 .leaflet-container a.leaflet-active {
 	outline: 2px solid orange;
