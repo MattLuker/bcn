@@ -36,7 +36,7 @@ $black: #252525;
     padding: 10px 5px;
     margin: 20px 0px;
   }
-  li:nth-child(odd) {
+  li:nth-child(even) {
     background: lighten($light-gray, 5);
   }
 }

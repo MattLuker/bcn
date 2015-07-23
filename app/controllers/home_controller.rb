@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   end
 
   def home
-    @posts = Post.order('created_at DESC').all.limit(7)
+    @posts = Post.order('created_at DESC').all.limit(5)
     @communities = Community.all.popularity.limit(15)
 
     # unless session[:facebbok_auth].nil? and current_user.nil?

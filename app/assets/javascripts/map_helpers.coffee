@@ -334,7 +334,7 @@
               map_helpers.new_form_marker_drop(e, marker, $loc_input)
 
 
-@initialize_map = (lat = 36.2168253, lon = -81.6824657, zoom = 15) ->
+@initialize_map = (lat = 36.2168253, lon = -81.6824657, zoom = 13) ->
   # Initialize the Open Street Map map.
   map = new L.Map('map');
 

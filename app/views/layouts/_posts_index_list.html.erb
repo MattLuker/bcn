@@ -1,7 +1,7 @@
 
 <li class="<%= dom_id(post) %> post row">
   <div class="row">
-    <div class="large-2 columns post-list-image">
+    <div class="large-1 columns post-list-image">
 
       <% if post.image %>
         <%= link_to post do %>
@@ -22,7 +22,7 @@
       <% end %>
     </div>
 
-    <div class="large-10 columns">
+    <div class="large-11 columns">
 
       <% if post.title.blank? %>
         <span class="post-title">
@@ -32,10 +32,20 @@
         </span>
       <% else %>
         <% if post.title.length > 100 %>
-          <span class="post-title"><%= link_to truncate(post.title, length: 25), post, :id => dom_id(post) %></span>
+          <span class="post-title"><%= link_to truncate(post.title, length: 50), post, :id => dom_id(post) %></span>
         <% else %>
           <span class="post-title"><%= link_to post.title, post, :id => dom_id(post) %></span>
         <% end %>
+      <% end %>
+
+      <% if post.description.blank?  %>
+        <span class="post-text truncate" title="<%= post.og_description %>">
+          <%= truncate(post.og_description, length: 50) %>
+        </span>
+      <% else %>
+        <span class="post-text truncate" title="<%= post.description %>">
+          <%= truncate( strip_tags( markdown(post.description) ), length: 50) %>
+        </span>
       <% end %>
 
       <br/>

@@ -53,7 +53,7 @@
     margin-bottom: 20px;
     padding: 5px;
   }
-  li:nth-child(odd) {
+  li:nth-child(even) {
     background: lighten($light-gray, 5);
   }
 }
