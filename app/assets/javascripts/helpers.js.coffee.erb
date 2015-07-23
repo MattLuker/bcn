@@ -8,6 +8,7 @@ end
 window.image_path = (name) ->
     <%= imgs.to_json %>[name]
 
+@default_post_image = image_path('bcn_logo_black.svg')
 #@action_name = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)
 
 # Fire the ready function on load and refresh.

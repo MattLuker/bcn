@@ -3,7 +3,7 @@ ready_home = ->
     map = initialize_map()
     map_helpers.set_home_markers(map)
 
-    scroller.delay(30000, scroller.update_posts)
+    scroller.delay(30000, scroller.update_posts(2))
 
 
 

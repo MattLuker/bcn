@@ -32,6 +32,7 @@
 //= require editor
 //= require marked
 //= require sisyphus
+//= require mustache
 
 $(function(){
     $(document).foundation({

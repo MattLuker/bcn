@@ -16,6 +16,7 @@ gem 'paranoia', '~> 2.0'
 gem 'acts_as_tree'
 
 gem 'foundation-rails', '~> 5.5.1.1'
+gem 'mustache'
 
 gem 'nominatim'
 gem 'textacular'
