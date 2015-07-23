@@ -1,30 +1,33 @@
 @map_helpers =
   marker_filter: (map, model, models) ->
     # Remove all markers not in button's community.
-      $('.' + model).on "click", (e) ->
+    $('.' + model).on "click", (e) ->
+      $button = this
 
-        toggleLayers = $.grep window.layers, (layer) ->
-          return layer[model + '_id'] != this.id
+      toggleLayers = $.grep window.layers, (layer) ->
+        console.log('layer:', layer)
+        console.log('this.id:', $button.id)
+        return layer[model + '_id'] != $button.id
 
-        for layer in window.layers
+      for layer in window.layers
+        layer.onMap = true
+        map.addLayer(layer)
+
+      for layer in toggleLayers
+        if (layer.onMap)
+          layer.onMap = false
+          map.removeLayer(layer)
+        else
           layer.onMap = true
           map.addLayer(layer)
 
-        for layer in toggleLayers
-          if (layer.onMap)
-            layer.onMap = false
-            map.removeLayer(layer)
-          else
-            layer.onMap = true
-            map.addLayer(layer)
+    # Change the button color when selected.
 
-      # Change the button color when selected.
-
-      # Add all markers to the map.
-      $('.all_' + models).on "click", (e) ->
-        for layer in window.layers
-          layer.onMap = true
-          map.addLayer(layer)
+    # Add all markers to the map.
+    $('.all_' + models).on "click", (e) ->
+      for layer in window.layers
+        layer.onMap = true
+        map.addLayer(layer)
 
 
   marker_drop: (e, marker, loc, model_id) ->
