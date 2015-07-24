@@ -218,6 +218,59 @@
 
           window.layers.push(layer)
 
+  set_home_post_markers: (map, page=1) ->
+    path = 'home'
+    url = "/api/posts?page=" + page
+
+    map_helpers.marker_filter(map, 'community', 'communities')
+    map_helpers.new_location_popup(map, path)
+
+    $.ajax
+      url: url
+      dataType: "JSON"
+      success: (data, status, jqXHR) ->
+        console.log(data)
+
+        window.layers = []
+        markers = []
+        for post in data
+          # Create markers for each post.
+          #console.log(post, community.name)
+          for loc in post.locations
+
+            if post.communities[0]?
+              color = post.communities[0].color
+            else
+              color = '#632816'
+
+            divCommunityIcon = L.divIcon({
+              className: 'marker-div-icon',
+              html: get_svg(color, 50, 50),
+              popupAnchor: [8, -3],
+            });
+
+            marker = new L.Marker([loc.lat, loc.lon], {
+              draggable: false,
+              title: post.title,
+              riseOnHover: true,
+              icon: divCommunityIcon
+            })
+            marker.bindPopup("""
+                  <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
+                  <p>#{marked(post.description)}</p>
+                  <a href='/posts/#{post.id}/edit' class='button tiny icon'>
+                    <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon'/>
+                  </a>
+                  """)
+            markers.push(marker)
+
+          # Create a layerGroup for each Community.
+          layer = L.layerGroup(markers)
+          layer.community_id = "community_" + post.id
+          layer.onMap = true
+          layer.addTo(map);
+
+        window.layers.push(layer)
 
   set_post_markers: (map, map_class) ->
     path = 'post'

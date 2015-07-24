@@ -2,10 +2,10 @@
 # Replace Recent Posts on the home page with the next 5 after 30 seconds.
 #
 @scroller =
-  update_posts: (page_number=2) ->
+  update_posts: (page=2) ->
     console.log('Updating posts...')
     $.ajax
-      url: '/api/posts?page=' + page_number
+      url: '/api/posts?page=' + page
       success: (posts, status, jqXHR) ->
         # Put the array into an object for the Mustache template.
         posts = {posts, default_post_image: default_post_image}
@@ -18,14 +18,15 @@
         $wrapper = $('.posts-wrapper')
         $wrapper.fadeOut('slow').promise().done (wrapper) ->
           $('.posts').replaceWith(output)
+
+          # Remove old markers.
+          for layer in window.layers
+            layer.onMap = true
+            window.home_map.removeLayer(layer)
+
           $wrapper.fadeIn('slow')
 
-          #map = initialize_map()
-          for layer in window.layers
-            console.log(layer)
-            layer.onMap = true
-            @home_map.removeLayer(layer)
-          map_helpers.set_home_markers(@home_map)
+          map_helpers.set_home_post_markers(window.home_map, page)
           # Update the map.
 
   template: """
