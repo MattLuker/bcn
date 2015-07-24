@@ -20,6 +20,12 @@
           $('.posts').replaceWith(output)
           $wrapper.fadeIn('slow')
 
+          #map = initialize_map()
+          for layer in window.layers
+            console.log(layer)
+            layer.onMap = true
+            @home_map.removeLayer(layer)
+          map_helpers.set_home_markers(@home_map)
           # Update the map.
 
   template: """
