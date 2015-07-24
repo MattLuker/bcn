@@ -13,12 +13,18 @@
       <div id="map"></div>
     </div>
 
-    <br/><br/>
+    <br/>
     <button class="all_communities success tiny">All</button>
+    <button class="today_communites success tiny">Today</button>
+    <button class="tomorrow_communites success tiny">Tomorrow</button>
+    <button class="nw_communites success tiny">Next Week</button>
 
-    <% @communities.each do |community| %>
+    <div class="communities-wrapper">
+      <% @communities.each do |community| %>
       <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
     <% end %>
+    </div>
+
 
   </div>
 
@@ -43,4 +49,6 @@
 
   </div>
 </div>
+
+<br/><br/>
 

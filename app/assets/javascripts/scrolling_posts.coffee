@@ -24,10 +24,13 @@
             layer.onMap = true
             window.home_map.removeLayer(layer)
 
+          # Update the map.
+          map_helpers.set_home_post_markers(window.home_map, page)
+
           $wrapper.fadeIn('slow')
 
-          map_helpers.set_home_post_markers(window.home_map, page)
-          # Update the map.
+# <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
+
 
   template: """
     <ul class="posts no-bullet">

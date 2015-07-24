@@ -265,10 +265,11 @@
             markers.push(marker)
 
           # Create a layerGroup for each Community.
-          layer = L.layerGroup(markers)
-          layer.community_id = "community_" + post.id
-          layer.onMap = true
-          layer.addTo(map);
+          for community in post.communities
+            layer = L.layerGroup(markers)
+            layer.community_id = "community_" + community.id
+            layer.onMap = true
+            layer.addTo(map);
 
         window.layers.push(layer)
 
