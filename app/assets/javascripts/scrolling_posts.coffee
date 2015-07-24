@@ -2,7 +2,7 @@
 # Replace Recent Posts on the home page with the next 5 after 30 seconds.
 #
 @scroller =
-  update_posts: (page_number) ->
+  update_posts: (page_number=2) ->
     console.log('Updating posts...')
     $.ajax
       url: '/api/posts?page=' + page_number
@@ -12,7 +12,15 @@
 
         output = Mustache.render(scroller.template, posts, default_post_image);
         #console.log(output)
-        $('.posts').replaceWith(output).fadeIn("slow");
+
+        # Fix the delay and setInterval.
+
+        $wrapper = $('.posts-wrapper')
+        $wrapper.fadeOut('slow').promise().done (wrapper) ->
+          $('.posts').replaceWith(output)
+          $wrapper.fadeIn('slow')
+
+          # Update the map.
 
   template: """
     <ul class="posts no-bullet">
@@ -44,7 +52,9 @@
   """
 
   delay: (ms, func) ->
-    setTimeout(func, ms)
+    console.log(ms)
+    @posts_refresh = setTimeout(func, ms)
 
-
+  often: (ms, func) ->
+    setInterval(func, ms)
 

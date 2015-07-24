@@ -23,11 +23,14 @@
 
   <div class="large-4 columns">
     <h2>Recent Posts</h2>
-    <ul class="posts no-bullet">
-      <% @posts.each do |post| %>
-        <%= render 'layouts/posts_list', post: post %>
-      <% end %>
-    </ul>
+    <div class="posts-wrapper">
+      <ul class="posts no-bullet">
+        <% @posts.each do |post| %>
+          <%= render 'layouts/posts_list', post: post %>
+        <% end %>
+      </ul>
+    </div>
+
 
     <%= link_to posts_path, class: 'button tiny secondary' do %>
       <%= image_tag 'ellipses-icon.svg', size: '25x25', class: 'ty-icon' %>
