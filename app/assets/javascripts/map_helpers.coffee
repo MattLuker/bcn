@@ -306,7 +306,6 @@
           marker.on "dragend", (e) ->
             map_helpers.marker_drop(e, this, loc, data.id)
 
-
   set_default_markers: (map, model, models) ->
     map_helpers.marker_filter(map, model, models)
     map_helpers.new_location_popup(map, model)

@@ -29,7 +29,23 @@
 
           $wrapper.fadeIn('slow')
 
-# <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
+          # Update the Community buttons.
+          communities = []
+          for post in posts
+            communities.concat(post.communities)
+            $.unique(communities)
+          scroller.set_map_communities(communities)
+
+
+  set_map_communities: (communities) ->
+    console.log('communities:', communities)
+    $communities_wrapper = $('.communities-wrapper')
+    $communities_wrapper.html('')
+
+    for community in communities
+      $communities_wrapper.append("""
+        <button class="community tiny" id="community_#{community.id}">#{community.name}</button>
+      """)
 
 
   template: """
