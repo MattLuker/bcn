@@ -3,7 +3,6 @@
 #
 @scroller =
   update_posts: (page=2) ->
-    console.log('Updating posts...')
     $.ajax
       url: '/api/posts?page=' + page
       success: (posts, status, jqXHR) ->
@@ -31,21 +30,25 @@
 
           # Update the Community buttons.
           communities = []
-          for post in posts
-            communities.concat(post.communities)
-            $.unique(communities)
+          #console.log('posts:', posts)
+          for post, idx in posts.posts
+            console.log('indexOf:', communities.indexOf(post.communities))
+            communities = communities.concat(post.communities)
+
+          console.log('41 communities:', communities)
+
           scroller.set_map_communities(communities)
 
 
   set_map_communities: (communities) ->
-    console.log('communities:', communities)
     $communities_wrapper = $('.communities-wrapper')
     $communities_wrapper.html('')
 
     for community in communities
       $communities_wrapper.append("""
-        <button class="community tiny" id="community_#{community.id}">#{community.name}</button>
+        <button class="community tiny" id="community_#{community.id}">#{community.name}</button>&nbsp;
       """)
+    map_helpers.marker_filter(L.Map('map'), 'community', 'communities')
 
 
   template: """
@@ -78,7 +81,6 @@
   """
 
   delay: (ms, func) ->
-    console.log(ms)
     @posts_refresh = setTimeout(func, ms)
 
   often: (ms, func) ->
