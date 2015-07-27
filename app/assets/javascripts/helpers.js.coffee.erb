@@ -11,6 +11,12 @@ window.image_path = (name) ->
 @default_post_image = image_path('bcn_logo_black.svg')
 #@action_name = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1)
 
+Array::unique = ->
+  output = {}
+  output[@[key]] = @[key] for key in [0...@length]
+  value for key, value of output
+
+
 # Fire the ready function on load and refresh.
 #$(document).ready(action_name)
 #$(document).on('page:load', action_name)

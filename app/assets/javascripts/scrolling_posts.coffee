@@ -32,23 +32,27 @@
           communities = []
           #console.log('posts:', posts)
           for post, idx in posts.posts
-            console.log('indexOf:', communities.indexOf(post.communities))
             communities = communities.concat(post.communities)
 
-          console.log('41 communities:', communities)
-
+          # Remove duplicate Communities.
+          communities = (value for _,value of communities.reduce ((arr,value) -> arr[value.id] = value; arr),{})
           scroller.set_map_communities(communities)
 
 
   set_map_communities: (communities) ->
     $communities_wrapper = $('.communities-wrapper')
     $communities_wrapper.html('')
+    console.log('communities:', communities)
 
     for community in communities
+      #console.log('k:', community)
       $communities_wrapper.append("""
-        <button class="community tiny" id="community_#{community.id}">#{community.name}</button>&nbsp;
+        <button class="community tiny" id="community_#{community.id}">
+          #{community.name}
+        </button>&nbsp;
       """)
-    map_helpers.marker_filter(L.Map('map'), 'community', 'communities')
+
+    map_helpers.marker_filter(window.map, 'community', 'communities')
 
 
   template: """

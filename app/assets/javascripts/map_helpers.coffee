@@ -3,9 +3,12 @@
     # Remove all markers not in button's community.
     $('.' + model).on "click", (e) ->
       $button = this
+      console.log("$button.id:", $button.id)
 
       toggleLayers = $.grep window.layers, (layer) ->
         return layer[model + '_id'] != $button.id
+
+      console.log(toggleLayers)
 
       for layer in window.layers
         layer.onMap = true
@@ -229,7 +232,7 @@
       url: url
       dataType: "JSON"
       success: (data, status, jqXHR) ->
-        console.log(data)
+        #console.log(data)
 
         window.layers = []
         markers = []
@@ -390,7 +393,7 @@
 
 @initialize_map = (lat = 36.2168253, lon = -81.6824657, zoom = 13) ->
   # Initialize the Open Street Map map.
-  map = new L.Map('map');
+  window.map = new L.Map('map');
 
   # Create the tile layer with correct attribution.
   #
@@ -402,8 +405,8 @@
   osm = new L.TileLayer(osmUrl, {minZoom: 6, maxZoom: 19, attribution: osmAttrib});
 
   # Start the map over Boone, Appalachina Street to be exact.
-  map.setView(new L.LatLng(lat, lon), zoom);
-  map.addLayer(osm);
+  window.map.setView(new L.LatLng(lat, lon), zoom);
+  window.map.addLayer(osm);
 
   # Set the marker icon to custom SVG.
   @divDefaultIcon = L.divIcon({
@@ -413,4 +416,4 @@
     iconAnchor: [20, 55],
   });
 
-  return map
+  return window.map
