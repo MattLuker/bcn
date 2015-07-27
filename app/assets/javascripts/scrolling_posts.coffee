@@ -20,8 +20,9 @@
 
           # Remove old markers.
           for layer in window.layers
-            layer.onMap = true
+            layer.onMap = false
             window.home_map.removeLayer(layer)
+            layer.clearLayers()
 
           # Update the map.
           map_helpers.set_home_post_markers(window.home_map, page)
@@ -42,7 +43,7 @@
   set_map_communities: (communities) ->
     $communities_wrapper = $('.communities-wrapper')
     $communities_wrapper.html('')
-    console.log('communities:', communities)
+    #console.log('communities:', communities)
 
     for community in communities
       #console.log('k:', community)
