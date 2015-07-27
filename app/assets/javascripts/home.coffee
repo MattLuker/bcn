@@ -5,7 +5,7 @@ ready_home = ->
     map_helpers.set_home_post_markers(window.home_map)
     #map_helpers.set_post_markers(map)
 
-    scroller.delay(2500, scroller.update_posts)
+    scroller.delay(2500, scroller.get_page)
     #scroller.often(1000, scroller.update_posts(1))
 
 

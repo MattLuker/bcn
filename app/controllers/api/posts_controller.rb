@@ -16,6 +16,11 @@ class Api::PostsController < Api::ApiController
     render json: post.as_json(include: :locations)
   end
 
+  def today
+    @posts = Post.where(start_date: Date.today)
+    render json: @posts.as_json
+  end
+
   def create
     if post_params['lat'] and post_params['lon']
       lat = params[:post].delete :lat

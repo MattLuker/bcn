@@ -31,6 +31,16 @@
         layer.onMap = true
         map.addLayer(layer)
 
+    $today = $('#today')
+    $today.unbind('click')
+    $today.on 'click', (e) ->
+      $.ajax
+        url: '/api/today'
+        dataType: "JSON"
+        success: (posts, status, jqXHR) ->
+          console.log('today data:', posts)
+          scroller.update_posts(posts)
+
 
   marker_drop: (e, marker, loc, model_id) ->
     drop_coord = e.target._latlng

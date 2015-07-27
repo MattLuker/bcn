@@ -55,6 +55,9 @@ Rails.application.routes.draw do
       resources :subscribers, only: [:create, :destroy]
       resources :comments, only: [:create]
     end
+    get 'today', to: 'posts#today'
+    get 'tomorrow', to: 'posts#tomorrow'
+    get 'next_week', to: 'posts#next_week'
 
     resources :comments, only: [:update, :destroy, :show] do
       resources :comments, only: [:create, :update, :destroy]

@@ -2,42 +2,47 @@
 # Replace Recent Posts on the home page with the next 5 after 30 seconds.
 #
 @scroller =
-  update_posts: (page=2) ->
+  get_page: (page=2) ->
     $.ajax
       url: '/api/posts?page=' + page
       success: (posts, status, jqXHR) ->
         # Put the array into an object for the Mustache template.
-        posts = {posts, default_post_image: default_post_image}
+        scroller.update_posts(posts, page)
 
-        output = Mustache.render(scroller.template, posts, default_post_image);
-        #console.log(output)
 
-        # Fix the delay and setInterval.
+  update_posts: (posts, page=2) ->
+    posts = {posts, default_post_image: default_post_image}
+    console.log(posts)
 
-        $wrapper = $('.posts-wrapper')
-        $wrapper.fadeOut('slow').promise().done (wrapper) ->
-          $('.posts').replaceWith(output)
+    output = Mustache.render(scroller.template, posts, default_post_image);
+    #console.log(output)
 
-          # Remove old markers.
-          for layer in window.layers
-            layer.onMap = false
-            window.home_map.removeLayer(layer)
-            layer.clearLayers()
+    # Fix the delay and setInterval.
 
-          # Update the map.
-          map_helpers.set_home_post_markers(window.home_map, page)
+    $wrapper = $('.posts-wrapper')
+    $wrapper.fadeOut('slow').promise().done (wrapper) ->
+      $('.posts').replaceWith(output)
 
-          $wrapper.fadeIn('slow')
+      # Remove old markers.
+      for layer in window.layers
+        layer.onMap = false
+        window.home_map.removeLayer(layer)
+        layer.clearLayers()
 
-          # Update the Community buttons.
-          communities = []
-          #console.log('posts:', posts)
-          for post, idx in posts.posts
-            communities = communities.concat(post.communities)
+      # Update the map.
+      map_helpers.set_home_post_markers(window.home_map, page)
 
-          # Remove duplicate Communities.
-          communities = (value for _,value of communities.reduce ((arr,value) -> arr[value.id] = value; arr),{})
-          scroller.set_map_communities(communities)
+      $wrapper.fadeIn('slow')
+
+      # Update the Community buttons.
+      communities = []
+      #console.log('posts:', posts)
+      for post in posts.posts
+        communities = communities.concat(post.communities)
+
+      # Remove duplicate Communities.
+      communities = (value for _,value of communities.reduce ((arr,value) -> arr[value.id] = value; arr),{})
+      scroller.set_map_communities(communities)
 
 
   set_map_communities: (communities) ->
