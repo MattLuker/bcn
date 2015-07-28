@@ -31,7 +31,7 @@ gem install viddl-rb
 
 I'm going to create a script file named *youtube_download.rb*, but you go ahead and use whatever name you'd like.  Add these lines to the file:
 
-```
+{% highlight ruby %}
 require 'viddl-rb'
 video_url = "https://www.youtube.com/watch?v=9LfmrkyP81M"
 
@@ -46,7 +46,7 @@ rescue ViddlRb::PluginError => e
 end
 
 `viddl-rb -s output_files #{video_url}`
-```
+{% endhighlight %}
 
 Pow! Run the script:
 
