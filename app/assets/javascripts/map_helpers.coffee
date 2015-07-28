@@ -9,8 +9,6 @@
       toggleLayers = $.grep window.layers, (layer) ->
         return layer[model + '_id'] != $button.id
 
-      console.log(toggleLayers)
-
       for layer in window.layers
         layer.onMap = true
         map.addLayer(layer)
@@ -32,6 +30,10 @@
         map.addLayer(layer)
 
     # Maybe make this it's own function and loop through the filter buttons.
+    $all_posts = $('#all_posts')
+    $all_posts.unbind('click')
+    $all_posts.on 'click', (e) ->
+      Turbolinks.visit(window.location)
     $today = $('#today')
     $today.unbind('click')
     $today.on 'click', (e) ->
@@ -269,10 +271,8 @@
   set_home_post_markers: (posts) ->
         #window.layers = []
         markers = []
-        console.log('Calling set_home_post_markers')
         for post in posts
           # Create markers for each post.
-          console.log("set_home_post_markers post:", post)
           for loc in post.locations
 
 #            if post.communities[0]?

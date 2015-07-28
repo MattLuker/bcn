@@ -34,7 +34,7 @@
       if page > 0
         map_helpers.get_home_post_markers(window.home_map, page)
       else
-        map_helpers.set_home_post_markers(posts)
+        map_helpers.set_home_post_markers(posts.posts)
 
 
       $wrapper.fadeIn('slow')

@@ -14,16 +14,34 @@
     </div>
 
     <br/>
-    <button class="all_communities success tiny">All</button>
-    <button class="success tiny" id="today">Today</button>
-    <button class="success tiny" id="tomorrow">Tomorrow</button>
-    <button class="success tiny" id="next_week">Next Week</button>
 
-    <div class="communities-wrapper">
-      <% @communities.each do |community| %>
-      <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
-    <% end %>
+    <div class="row">
+      <div class="large-6 columns">
+        <fieldset>
+          <legend>Event Filters</legend>
 
+          <button class="success tiny" id="all_posts">All</button>
+          <button class="success tiny" id="today">Today</button>
+          <button class="success tiny" id="tomorrow">Tomorrow</button>
+          <button class="success tiny" id="next_week">Next Week</button>
+        </fieldset>
+      </div>
+
+      <div class="large-6 columns">
+        <fieldset>
+          <legend>Community Filters</legend>
+          <div>
+            <button class="all_communities tiny">All</button>
+
+            <div class="communities-wrapper">
+              <% @communities.each do |community| %>
+                <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
+              <% end %>
+
+            </div>
+          </div>
+        </fieldset>
+      </div>
     </div>
 
 
