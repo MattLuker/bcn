@@ -1,4 +1,10 @@
-# Downloading Youtube Video with Ruby
+---
+title: "Downloading Youtube Video with Ruby"
+date:   2015-07-28 14:30:00
+layout: post
+categories: ruby learning
+image: youtube_dl_cover.png
+---
 
 ## Legit Reasons
 
@@ -8,6 +14,7 @@ I think the "Standard Youtube License" is [Creative Commons](https://support.goo
 
 Either way we're going to use a Ruby library [viddl-rb](https://github.com/rb2k/viddl-rb) to grab a [RailsConf](https://www.youtube.com/watch?v=9LfmrkyP81M) video from Youtube.
 
+<!--more-->
 ## viddl-rb FTW!
 
 This little gem is the bees knees when it comes to grabbing video files from Youtube.  Well really what we're doing is downloading the stream and re-assembling it into a file on the hard drive (at least that's how I think the library works).
