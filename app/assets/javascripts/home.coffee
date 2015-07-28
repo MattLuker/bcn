@@ -2,7 +2,7 @@ ready_home = ->
   if $('#map').length && $('#map').is(':visible') && location.pathname == '/'
     window.home_map = initialize_map()
     map_helpers.set_community_layers(window.home_map)
-    map_helpers.set_home_post_markers(window.home_map)
+    map_helpers.get_home_post_markers(window.home_map)
     #map_helpers.set_post_markers(map)
 
     scroller.delay(2500, scroller.get_page)

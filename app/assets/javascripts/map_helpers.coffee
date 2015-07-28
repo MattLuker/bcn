@@ -31,6 +31,7 @@
         layer.onMap = true
         map.addLayer(layer)
 
+    # Maybe make this it's own function and loop through the filter buttons.
     $today = $('#today')
     $today.unbind('click')
     $today.on 'click', (e) ->
@@ -39,7 +40,12 @@
         dataType: "JSON"
         success: (posts, status, jqXHR) ->
           console.log('today data:', posts)
-          scroller.update_posts(posts)
+          scroller.update_posts(posts, 0)
+
+          #map_helpers.set_home_post_markers(posts)
+
+          if posts.length == 0
+            $('.posts-wrapper').html('<p class="grey">No events scheduled for today...</p>')
 
 
   marker_drop: (e, marker, loc, model_id) ->
@@ -242,7 +248,7 @@
 
           window.layers.push(layer)
 
-  set_home_post_markers: (map, page=1) ->
+  get_home_post_markers: (map, page=1) ->
     path = 'home'
     url = "/api/posts?page=" + page
 
@@ -257,11 +263,16 @@
       success: (data, status, jqXHR) ->
         #console.log(data)
 
+        map_helpers.set_home_post_markers(data)
+
+
+  set_home_post_markers: (posts) ->
         #window.layers = []
         markers = []
-        for post in data
+        console.log('Calling set_home_post_markers')
+        for post in posts
           # Create markers for each post.
-          #console.log(post, community.name)
+          console.log("set_home_post_markers post:", post)
           for loc in post.locations
 
 #            if post.communities[0]?
@@ -295,13 +306,15 @@
 
 
                 #console.log('post.id:', post.id, 'community:', community)
-                #layer = L.layerGroup(markers)
-                #layer.community_id = "community_" + community.id
-                #layer.onMap = true
                 for layer in window.layers
                   if layer.community_id == 'community_' + community.id
                     layer.addLayer(marker)
                     layer.addTo(map)
+#                  else
+#                    console.log('community:', community)
+#                    layer = L.layerGroup(markers)
+#                    layer.community_id = "community_" + community.id
+#                    layer.onMap = true
             else
               # Add marker for each Post Location.
               divCommunityIcon = L.divIcon({
@@ -324,9 +337,10 @@
                         </a>
                         """)
 
-              layer_0 = window.layers[0]
-              layer_0.addLayer(marker)
-              layer_0.addTo(map)
+              if window.layers[0]?
+                layer_0 = window.layers[0]
+                layer_0.addLayer(marker)
+                layer_0.addTo(map)
 
             #window.layers.push(layer)
 #

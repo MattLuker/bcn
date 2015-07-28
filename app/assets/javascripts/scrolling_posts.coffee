@@ -17,20 +17,25 @@
     output = Mustache.render(scroller.template, posts, default_post_image);
     #console.log(output)
 
-    # Fix the delay and setInterval.
+    # TODO: Fix the delay and setInterval.
 
     $wrapper = $('.posts-wrapper')
     $wrapper.fadeOut('slow').promise().done (wrapper) ->
       $('.posts').replaceWith(output)
 
       # Remove old markers.
+      console.log('remoing map layers...')
       for layer in window.layers
         layer.onMap = false
         window.home_map.removeLayer(layer)
         layer.clearLayers()
 
       # Update the map.
-      map_helpers.set_home_post_markers(window.home_map, page)
+      if page > 0
+        map_helpers.get_home_post_markers(window.home_map, page)
+      else
+        map_helpers.set_home_post_markers(posts)
+
 
       $wrapper.fadeIn('slow')
 
