@@ -52,7 +52,7 @@
             scroller.update_posts(posts, 0)
 
             if posts.length == 0
-              $('.posts-wrapper').html('<p class="grey">No events scheduled for today...</p>')
+              $('.posts-wrapper').html("<p class='grey'>No events scheduled for #{time}...</p>")
 
 
   marker_drop: (e, marker, loc, model_id) ->

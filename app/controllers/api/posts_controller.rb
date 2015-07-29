@@ -21,6 +21,16 @@ class Api::PostsController < Api::ApiController
     render json: @posts.as_json
   end
 
+  def tomorrow
+    @posts = Post.where(start_date: Date.tomorrow)
+    render json: @posts.as_json
+  end
+
+  def next_week
+    @posts = Post.where(start_date: Time.now.next_week..Time.now.next_week.end_of_week)
+    render json: @posts.as_json
+  end
+
   def create
     if post_params['lat'] and post_params['lon']
       lat = params[:post].delete :lat
