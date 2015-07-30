@@ -1,4 +1,11 @@
-# Rails Image Assets in CoffeeScript
+---
+title: "Rails Image Assets in CoffeeScript"
+date:   2015-07-30 14:30:00
+layout: post
+categories: rails bcn
+image: camera_cover.jpg
+---
+
 
 ## SASS Gets It
 
@@ -8,13 +15,15 @@ I did come across [this great post](http://dennisreimann.de/blog/referencing-rai
 
 Though, as the [documentation](http://guides.rubyonrails.org/asset_pipeline.html#javascript-coffeescript-and-erb) states, if you make your CoffeeScript files also *.erb* files then you can use the ```<%= asset_path('image.png') %>``` tag.  Though this is handy I think Dennis' solution is also great.
 
+<!--more-->
+
 ## One Coffee Erb File to Rule Them All
 
 Instead of renaming each of my CoffeeScript files *script.coffee.erb* I just created a new one named *helpers.js.coffee.erb* in my *app/assets/javascripts* directory.  Feel free to name it however you wish.  The great thing about the Asset Pipeline is that adding things in one file makes them available in every other file... well mostly.
 
 Here's the contents of [helpers.js.coffee.erb](https://github.com/asommer70/bcn/blob/master/app/assets/javascripts/helpers.js.coffee.erb):
 
-```
+{% highlight ruby %}
 <%
 imgs = {}
 Dir.chdir("#{Rails.root}/app/assets/images/") do
@@ -24,7 +33,7 @@ end
 
 window.image_path = (name) ->
     <%= imgs.to_json %>[name]
-```
+{% endhighlight %}
 
 The magic is happening inside the *erb* tags which looks up an asset using Ruby, then the **window.image_path** property is set to a function which returns the asset's path.
 
