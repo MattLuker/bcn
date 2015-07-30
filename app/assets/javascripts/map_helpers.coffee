@@ -37,6 +37,23 @@
     $all_posts.on 'click', (e) ->
       Turbolinks.visit(window.location)
 
+    # Handle the Location Search button.
+    $('.loc-search-button').on 'click', (e) ->
+      e.preventDefault();
+
+      $loc_input = $('.loc-search')
+
+      if $loc_input.val() != ''
+        $.get('/api/locations/show?name=' + $loc_input.val()).success (data) ->
+          scroller.update_posts(data.posts, 0)
+          if data.posts.length == 0
+            $('.posts-wrapper').html("<p class='grey'>No posts at this locaction yet...</p>")
+
+          $loc_input.val(data.location.name)
+          latlng = L.latLng(data.location.lat, data.location.lon)
+          window.map.setView(latlng, 17)
+
+
     # Loop through the time filter buttons.
     $.each $('.time'), (idx, time) ->
       $time = $(time)
@@ -203,9 +220,6 @@
     path = 'home'
     url = "/api/communities"
 
-    #map_helpers.marker_filter(map, 'community', 'communities')
-    #map_helpers.new_location_popup(map, path)
-
     $.ajax
       url: url
       dataType: "JSON"
@@ -221,31 +235,6 @@
 
         for community in data
           markers = []
-#          for post in community.posts
-#            # Create markers for each post.
-#            #console.log(post, community.name)
-#            for loc in post.locations
-#
-#              divCommunityIcon = L.divIcon({
-#                className: 'marker-div-icon',
-#                html: get_svg(community.color, 50, 50),
-#                popupAnchor: [8, -3],
-#              });
-#
-#              marker = new L.Marker([loc.lat, loc.lon], {
-#                draggable: false,
-#                title: data.title,
-#                riseOnHover: true,
-#                icon: divCommunityIcon
-#              })
-#              marker.bindPopup("""
-#                    <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
-#                    <p>#{marked(post.description)}</p>
-#                    <a href='/posts/#{post.id}/edit' class='button tiny icon'>
-#                      <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon'/>
-#                    </a>
-#                    """)
-#              markers.push(marker)
 
           # Create a layerGroup for each Community.
           layer = L.layerGroup(markers)
@@ -281,11 +270,6 @@
       # Create markers for each post.
       for loc in post.locations
 
-  #            if post.communities[0]?
-  #              color = post.communities[0].color
-  #            else
-  #              color = '#632816'
-
         if post.communities.length > 0
            # Add marker to each Community layerGroup.
           for community in post.communities
@@ -308,19 +292,13 @@
                     <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon' />
                   </a>
                   """)
-        #markers.push(marker)
-
 
             #console.log('post.id:', post.id, 'community:', community)
             for layer in window.layers
               if layer.community_id == 'community_' + community.id
                 layer.addLayer(marker)
                 layer.addTo(map)
-  #                  else
-  #                    console.log('community:', community)
-  #                    layer = L.layerGroup(markers)
-  #                    layer.community_id = "community_" + community.id
-  #                    layer.onMap = true
+
         else
           # Add marker for each Post Location.
           divCommunityIcon = L.divIcon({

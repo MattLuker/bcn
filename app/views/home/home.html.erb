@@ -13,7 +13,25 @@
       <div id="map"></div>
     </div>
 
-    <br/>
+
+    <div class="row">
+      <div class="large-12 columns">
+
+        <fieldset>
+          <legend>Search Map</legend>
+          <div class="row collapse">
+            <div class="small-10 columns">
+
+              <%= text_field_tag 'Name', '', placeholder: 'Name', class: 'loc-search' %>
+            </div>
+            <div class="small-2 columns">
+              <a href="#" class="button postfix loc-search-button">Search</a>
+            </div>
+          </div>
+        </fieldset>
+
+      </div>
+    </div>
 
     <div class="row">
       <div class="large-6 columns">
