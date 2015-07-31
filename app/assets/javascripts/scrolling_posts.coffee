@@ -86,7 +86,7 @@
             <span class="post-title"><a id="post_{{id}}" href="/posts/{{id}}">{{title}}</a></span>
             <br>
             <span class="grey post-date smaller-text">
-              {{created_at}} by <a class="grey-link" href="/users/{{user.id}}">{{user.username}}</a>
+              {{start_date}} by <a class="grey-link" href="/users/{{user.id}}">{{user.username}}</a>
             </span>
           </div>
         </div>

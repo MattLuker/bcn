@@ -5,6 +5,7 @@ class HomeController < ApplicationController
   def home
     @posts = Post.order('created_at DESC').all.limit(5)
     @communities = Community.all.popularity.limit(15)
+    @events = Post.where(['start_date > ?', DateTime.now]).limit(5)
 
     # unless session[:facebbok_auth].nil? and current_user.nil?
     #   unless current_user.event_sync_time.nil?
