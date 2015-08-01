@@ -2,29 +2,32 @@
 # Replace Recent Posts on the home page with the next 5 after 30 seconds.
 #
 @scroller =
-  get_page: (page=2) ->
+  get_page: () ->
+    if not window.page_number? || window.page_number == 0
+      window.page_number = 1
+    else
+      window.page_number += 1
+
     $.ajax
-      url: '/api/posts?page=' + page
+      url: '/api/posts?page=' + window.page_number
       success: (posts, status, jqXHR) ->
-        # Put the array into an object for the Mustache template.
-        scroller.update_posts(posts, page)
+        if posts.length == 0
+          window.page_number = 0
+          scroller.get_page()
+        else
+          scroller.update_posts(posts, window.page_number)
 
 
-  update_posts: (posts, page=2) ->
+  update_posts: (posts, page=1) ->
+    # Put the array into an object for the Mustache template.
     posts = {posts, default_post_image: default_post_image}
-    console.log(posts)
-
     output = Mustache.render(scroller.template, posts, default_post_image);
-    #console.log(output)
-
-    # TODO: Fix the delay and setInterval.
 
     $wrapper = $('.posts-wrapper')
     $wrapper.fadeOut('slow').promise().done (wrapper) ->
       $('.posts').replaceWith(output)
 
       # Remove old markers.
-      console.log('remoing map layers...')
       for layer in window.layers
         layer.onMap = false
         window.home_map.removeLayer(layer)
@@ -41,7 +44,6 @@
 
       # Update the Community buttons.
       communities = []
-      #console.log('posts:', posts)
       for post in posts.posts
         communities = communities.concat(post.communities)
 
@@ -53,10 +55,8 @@
   set_map_communities: (communities) ->
     $communities_wrapper = $('.communities-wrapper')
     $communities_wrapper.html('')
-    #console.log('communities:', communities)
 
     for community in communities
-      #console.log('k:', community)
       $communities_wrapper.append("""
         <button class="community tiny" id="community_#{community.id}">
           #{community.name}
@@ -99,5 +99,4 @@
     @posts_refresh = setTimeout(func, ms)
 
   often: (ms, func) ->
-    setInterval(func, ms)
-
+    window.refresher = setInterval(func, ms)

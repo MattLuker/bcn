@@ -5,7 +5,7 @@ class Post < ActiveRecord::Base
   dragonfly_accessor :image
   dragonfly_accessor :audio
 
-  attr_accessor :image_web_url, :audio_web_url
+  attr_accessor :image_web_url, :audio_web_url, :next_page
 
   validates :start_date, allow_nil: true, format: { with: /.*/, message: 'format must look like: 2015-05-25' }
   validates :start_time, allow_nil: true, format: { with: /.*/, message: 'format must look like 05:05' }
@@ -51,7 +51,8 @@ class Post < ActiveRecord::Base
         :start_date,
         :end_date,
         :image_web_url,
-        :audio_web_url
+        :audio_web_url,
+        :next_page
       ],
       :include => {
         :locations => {

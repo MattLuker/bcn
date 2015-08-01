@@ -3,8 +3,6 @@
     # Remove all markers not in button's community.
     $('.' + model).on "click", (e) ->
       $button = this
-      console.log("$button.id:", $button.id)
-      console.log('window.layers:', window.layers)
 
       toggleLayers = $.grep window.layers, (layer) ->
         return layer[model + '_id'] != $button.id
@@ -65,7 +63,6 @@
           url: '/api/' + time
           dataType: "JSON"
           success: (posts, status, jqXHR) ->
-            console.log('time data:', posts)
             scroller.update_posts(posts, 0)
 
             if posts.length == 0
@@ -74,7 +71,6 @@
 
   marker_drop: (e, marker, loc, model_id) ->
     drop_coord = e.target._latlng
-    #console.log("latlng:", e.target._latlng)
 
     # Send an $.ajax request to update the location.
     $.ajax
@@ -120,7 +116,6 @@
            <input value='#{drop_coord.lng}' type='hidden' name='post[lon]' id='post_lon'>")
 
       error: (data, status, jqXHR) ->
-        #console.log(data)
         response = JSON.parse(data.responseText)
         marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
 
@@ -208,7 +203,6 @@
               $('#no-locations').replaceWith(new_loc_html)
               Turbolinks.visit(window.location)
           error: (data, status, jqXHR) ->
-            #console.log(data)
             response = JSON.parse(data.responseText)
             marker.bindPopup("<span class='alert'>#{response.message}</span>").openPopup();
 
@@ -251,14 +245,11 @@
     map_helpers.marker_filter(map, 'community', 'communities')
     map_helpers.new_location_popup(map, path)
 
-    console.log('window.layers:', window.layers)
 
     $.ajax
       url: url
       dataType: "JSON"
       success: (data, status, jqXHR) ->
-        #console.log(data)
-
         map_helpers.set_home_post_markers(data)
 
 
@@ -293,7 +284,6 @@
                   </a>
                   """)
 
-            #console.log('post.id:', post.id, 'community:', community)
             for layer in window.layers
               if layer.community_id == 'community_' + community.id
                 layer.addLayer(marker)
@@ -402,7 +392,6 @@
 
         if $loc_input.val() != ''
           $.get('/api/locations/show?name=' + $loc_input.val()).success (data) ->
-            #console.log(data)
 
             # Append the latitude and longitude fields to the form.
             if $('.form-lat').length && $('.form-lon').length

@@ -2,12 +2,7 @@ class Api::PostsController < Api::ApiController
   before_filter :authenticate, only: [:create, :update, :destroy]
 
   def index
-    # if params[:page]
-      #posts = Post.all.order('created_at DESC').limit(5)
-      posts = Post.order('created_at DESC').paginate(:page => params[:page], :per_page => 5)
-    # else
-    #   posts = Post.all
-    # end
+    posts = Post.order('created_at DESC').paginate(:page => params[:page], :per_page => 5)
     render json: posts.as_json(include: :location)
   end
 
