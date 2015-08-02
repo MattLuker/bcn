@@ -12,7 +12,6 @@ class Api::OrganizationsController < Api::ApiController
   end
 
   def create
-    puts
     organization = current_user.organizations.new(organization_params)
     organization.created_by = current_user.id
     if organization.save

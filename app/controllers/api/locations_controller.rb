@@ -52,6 +52,16 @@ class Api::LocationsController < Api::ApiController
                               locations: locations
                           }.to_json
 
+      elsif @organization && @current_user && @organization.created_by == @current_user.id
+        @organization.location = locations[0]
+        @organization.save
+
+        render status: 200, json: {
+                              message: 'Location created.',
+                              organization: @organization,
+                              locations: locations
+                          }.to_json
+
       elsif @post && @post.user != @current_user
         render status: 401, json: {
                               message: 'Only the post creator can add this.',
@@ -144,6 +154,10 @@ class Api::LocationsController < Api::ApiController
     elsif params[:community_id]
       @community = Community.find_by_slug(params[:community_id])
       @belongs = 'community'
+      @current_user = User.find(session[:user_id]) if session[:user_id]
+    elsif params[:organization_id]
+      @organization = Organization.find_by_slug(params[:organization_id])
+      @belongs = 'organization'
       @current_user = User.find(session[:user_id]) if session[:user_id]
     else
       @post = nil

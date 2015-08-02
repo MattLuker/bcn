@@ -366,12 +366,20 @@
           $('.map-container').append("<div id='map' class='#{model}-map'></div>")
           map = initialize_map(data.location.lat, data.location.lon, 17)
 
+          # Set the marker icon to custom SVG.
+          defaultLocaitonIcon = L.divIcon({
+            className: 'marker-div-icon',
+            html: get_svg(data.color, 30, 55),
+            popupAnchor: [-9, -53],
+            iconAnchor: [20, 55],
+          });
+
           loc = data.location
           marker = new L.Marker([loc.lat, loc.lon], {
             draggable: true,
             title: loc.name,
             riseOnHover: true,
-            icon: divDefaultIcon
+            icon: defaultLocaitonIcon
           })
           marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{marked(data.description)}</p>")
           marker['loc_id'] = loc.id
