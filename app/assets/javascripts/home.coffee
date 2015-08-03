@@ -1,5 +1,5 @@
 ready_home = ->
-  if $('#map').length && $('#map').is(':visible') && location.pathname == '/'
+  if $('#map').length && $('#map').is(':visible') && (location.pathname == '/' || location.pathname == '/home')
     window.home_map = initialize_map()
     map_helpers.set_community_layers(window.home_map)
     map_helpers.get_home_post_markers(window.home_map)

@@ -2,7 +2,7 @@ class UserSessionsController < ApplicationController
 
   def new
     if current_user
-      redirect_to home_index_path
+      redirect_to home_path
     end
   end
 
@@ -18,7 +18,7 @@ class UserSessionsController < ApplicationController
       end
 
       flash[:success] = message
-      redirect_to home_index_path
+      redirect_to home_path
     else
       flash[:alert] = 'There was a problem logging in, please check you username and password.'
       render action: 'new'
@@ -68,26 +68,26 @@ class UserSessionsController < ApplicationController
       FacebookSyncJob.perform_now(@facebook.access_token, user)
     end
 
-    redirect_to home_index_path
+    redirect_to home_path
   end
 
   def twitter_login
     user = User.twitter(request.env['omniauth.auth'])
     session[:user_id] = user.id
     flash[:success] = "Welcome #{user.first_name}"
-    redirect_to home_index_path
+    redirect_to home_path
   end
 
   def google_login
     user = User.google(request.env['omniauth.auth'])
     session[:user_id] = user.id
     flash[:success] = "Welcome #{user.first_name}"
-    redirect_to home_index_path
+    redirect_to home_path
   end
 
   def auth_failure
     flash[:alert] = 'Authentication failure.'
-    redirect_to home_index_path
+    redirect_to home_path
   end
 
   def destroy
@@ -96,6 +96,6 @@ class UserSessionsController < ApplicationController
     session[:user_id] = nil
     reset_session
     flash[:notice] = 'You have been logged out.'
-    redirect_to home_index_path
+    redirect_to home_path
   end
 end
