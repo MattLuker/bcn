@@ -2,6 +2,6 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
     <g id="Layer1">
-        <path id="path8088" d="M21.1741,-0.115885L0.0119525,24.8656L21.1741,49.847L21.1741,32.399C45.4904,32.399 46.7129,44.0073 49.9516,49.4663C49.9516,29.2313 43.2131,16.2002 21.1741,16.2002L21.1741,-0.115885Z" style="fill:rgb(51,51,51);fill-rule:nonzero;"/>
+        <path id="path8088" d="M21.1741,-0.115885L0.0119525,24.8656L21.1741,49.847L21.1741,32.399C45.4904,32.399 46.7129,44.0073 49.9516,49.4663C49.9516,29.2313 43.2131,16.2002 21.1741,16.2002L21.1741,-0.115885Z" style="fill:rgb(99,40,22);fill-rule:nonzero;"/>
     </g>
 </svg>
