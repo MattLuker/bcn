@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   end
 
   def home
-    @posts = Post.order('created_at DESC').all.limit(5)
+    @posts = Post.where(start_date: nil).order('created_at DESC').all.limit(5)
     @communities = Community.all.popularity.limit(15)
     @events = Post.where(['start_date > ?', DateTime.now]).limit(5)
 

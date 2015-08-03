@@ -35,6 +35,7 @@ gem 'will_paginate-foundation'
 
 gem 'sweet-alert'
 gem 'sweet-alert-confirm'
+gem 'momentjs-rails'
 
 gem 'dragonfly', '~> 1.0.8'
 

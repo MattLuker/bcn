@@ -21,6 +21,13 @@
   update_posts: (posts, page=1) ->
     # Put the array into an object for the Mustache template.
     posts = {posts, default_post_image: default_post_image}
+
+    # Update the Communities and created_at strings.
+    communities = []
+    for post in posts.posts
+      communities = communities.concat(post.communities)
+      post.created_at = moment(post.created_at).fromNow()
+
     output = Mustache.render(scroller.template, posts, default_post_image);
 
     $wrapper = $('.posts-wrapper')
@@ -41,11 +48,6 @@
 
 
       $wrapper.fadeIn('slow')
-
-      # Update the Community buttons.
-      communities = []
-      for post in posts.posts
-        communities = communities.concat(post.communities)
 
       # Remove duplicate Communities.
       communities = (value for _,value of communities.reduce ((arr,value) -> arr[value.id] = value; arr),{})
@@ -86,6 +88,7 @@
             <span class="post-title"><a id="post_{{id}}" href="/posts/{{id}}">{{title}}</a></span>
             <br>
             <span class="grey post-date smaller-text">
+              {{created_at}}
               {{start_date}} by <a class="grey-link" href="/users/{{user.id}}">{{user.username}}</a>
             </span>
           </div>

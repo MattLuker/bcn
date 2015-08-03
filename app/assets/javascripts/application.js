@@ -33,6 +33,7 @@
 //= require marked
 //= require sisyphus
 //= require mustache
+//= require moment
 
 $(function(){
     $(document).foundation({
