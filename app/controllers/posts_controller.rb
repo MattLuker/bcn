@@ -69,6 +69,11 @@ class PostsController < ApplicationController
             community.save
           end
         end
+
+        if @post.organization.location
+          @post.locations << @post.organization.location
+          @post.save
+        end
       end
 
       # Notify Community subscribers.
