@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :facebook_subscriptions
   has_and_belongs_to_many :communities, before_add: :inc_users_count, before_remove: :dec_users_count
   has_and_belongs_to_many :organizations
+  has_and_belongs_to_many :badges
 
   before_save :downcase_email
   before_validation :set_photo

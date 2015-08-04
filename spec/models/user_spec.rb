@@ -12,6 +12,12 @@ RSpec.describe User, type: :model do
 
   context 'relationships' do
     it { should have_many :posts }
+    it { should have_many :comments }
+    it { should have_many :subscriptions }
+    it { should have_many :facebook_subscriptions }
+    it { should have_and_belong_to_many :organizations }
+    it { should have_and_belong_to_many :communities }
+    it { should have_and_belong_to_many :badges }
   end
 
   context 'validations' do

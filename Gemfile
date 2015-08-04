@@ -17,6 +17,9 @@ gem 'acts_as_tree'
 
 gem 'foundation-rails', '~> 5.5.1.1'
 gem 'mustache'
+gem 'sweet-alert'
+gem 'sweet-alert-confirm'
+gem 'momentjs-rails'
 
 gem 'nominatim'
 gem 'textacular'
@@ -32,10 +35,6 @@ gem 'taglib-ruby'
 gem 'icalendar'
 gem 'will_paginate'
 gem 'will_paginate-foundation'
-
-gem 'sweet-alert'
-gem 'sweet-alert-confirm'
-gem 'momentjs-rails'
 
 gem 'dragonfly', '~> 1.0.8'
 
