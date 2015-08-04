@@ -1,0 +1,57 @@
+<div class="columns large-12">
+
+
+<h3><%= @badge.name %></h3>
+
+  <% if current_user && current_user.admin? %>
+    <%= link_to @badge, method: :delete, class: 'button alert tiny delete_badge right icon',
+                data: { confirm: 'Are you sure?' } do %>
+      <%= image_tag 'trash-icon.svg', class: 'icon' %>
+    <% end %>
+
+  <% end %>
+
+  <% if current_user || (current_user && current_user.admin?) %>
+    <%= link_to edit_badge_path(@badge), class: 'button tiny icon badge-edit right', title: 'Edit Badge' do %>
+      <%= image_tag 'edit-icon.svg', class: 'icon' %>
+    <% end %>
+  <% end %>
+
+<br/><br/>
+
+<%= image_tag @badge.image.url, class: 'badge-image' %>
+
+<br/><br/>
+
+<strong>Rules:</strong><br/>
+<p>
+  <%= @badge.rules %>
+</p>
+
+<br/><br/>
+
+<strong>Users:</strong><br/>
+<% if @badge.users.count > 0 %>
+  <ul>
+    <% @badge.users.each do |user| %>
+      <li>
+        <% if user.photo %>
+          <%= link_to users_path(user) do %>
+            <%= image_tag user.image.url %>
+          <% end %>
+        <% else %>
+          <%= link_to users_path(user) do %>
+            <%= image_tag 'avatar.svg' %>
+          <% end %>
+        <% end %>
+        <% if user.username %>
+          <%= user.username %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+<br/><br/>
+</div>

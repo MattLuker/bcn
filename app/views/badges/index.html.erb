@@ -1,17 +1,25 @@
 
-<div class="columns large-12">
+<div class="columns large-6">
   <h2>Badges</h2>
+  <br/><br/>
 
-  <ul class="no-disc">
+  <ul class="organizations no-disc">
     <% @badges.each do |badge| %>
       <li>
-        <%= link_to :badge do %>
-          <%= image_tag badge.image_url %>
-          <br/>
-          <%= badge.name %>
-          <br/>
-          <p class="grey"><%= badge.rule %></p>
-        <% end %>
+        <div class="row">
+
+          <div class="columns large-2">
+            <%= link_to badge do %>
+              <%= image_tag badge.image.url, class: 'badge' %>
+            <% end %>
+          </div>
+
+          <div class="columns large-10">
+            <%= badge.name %>
+            <br/>
+            <span class="grey"><%= badge.rules %></span>
+          </div>
+        </div>
       </li>
     <% end %>
   </ul>
