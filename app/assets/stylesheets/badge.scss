@@ -1,3 +1,5 @@
+@import 'colors';
+
 .badge-image {
   max-width: 150px;
 }
@@ -8,4 +10,8 @@ img.badge-thumb {
 
 .inline {
   display: inline;
+}
+
+.success {
+  color: $hse-dark-green
 }

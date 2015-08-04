@@ -11,20 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150804093827) do
+ActiveRecord::Schema.define(version: 20150804140839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "badges", force: :cascade do |t|
-    t.string   "name",       index: {name: "index_badges_on_name"}
+    t.string   "name",        index: {name: "index_badges_on_name"}
     t.string   "rules"
     t.string   "image"
     t.string   "image_uid"
     t.string   "image_name"
     t.integer  "users"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "description"
   end
 
   create_table "users", force: :cascade do |t|

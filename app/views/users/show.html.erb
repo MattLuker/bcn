@@ -81,7 +81,7 @@
     <br/>
 
     <div>
-      <strong>Achievements:</strong><br/>
+      <strong>Badges:</strong><br/>
       <% if @user.badges.length != 0 %>
       <ul>
         <% @user.badges.each do |badge| %>
@@ -89,7 +89,7 @@
         <% end %>
       </ul>
       <% else %>
-        <p class="grey">No achievements at this time, but don't worry we belive in you.</p>
+        <p class="grey">No badges at this time, but don't worry we belive in you.</p>
       <% end %>
     </div>
 
