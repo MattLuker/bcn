@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   resources :searches, only: [:index]
 
   resources :facebook_subscriptions, only: [:index, :create]
+  resources :badges
 
   get '/login' => 'user_sessions#new', as: :login
   get '/logout' => 'user_sessions#destroy', as: :logout

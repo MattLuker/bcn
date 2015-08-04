@@ -78,6 +78,21 @@
       <% end %>
     </div>
 
+    <br/>
+
+    <div>
+      <strong>Achievements:</strong><br/>
+      <% if @user.badges.length != 0 %>
+      <ul>
+        <% @user.badges.each do |badge| %>
+          <li><%= image_tag badge.image_url %> <%= badge.name %></li>
+        <% end %>
+      </ul>
+      <% else %>
+        <p class="grey">No achievements at this time, but don't worry we belive in you.</p>
+      <% end %>
+    </div>
+
   </div>
 
   <div class="row">

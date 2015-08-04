@@ -1,5 +1,5 @@
 class Badge < ActiveRecord::Base
-  acts_as_paranoid
+  dragonfly_accessor :image
 
   validates_property :mime_type, of: :image,
                      in: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg', 'application/octet-stream'],
