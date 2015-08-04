@@ -1,7 +1,7 @@
 <div class="columns large-12">
 
 
-<h3><%= @badge.name %></h3>
+  <h3><%= @badge.name %></h3>
 
   <% if current_user && current_user.admin? %>
     <%= link_to @badge, method: :delete, class: 'button alert tiny delete_badge right icon',
@@ -17,38 +17,43 @@
     <% end %>
   <% end %>
 
-<br/><br/>
+  <br/><br/>
 
-<%= image_tag @badge.image.url, class: 'badge-image' %>
+  <%= image_tag @badge.image.url, class: 'badge-image' %>
 
-<br/><br/>
+  <br/><br/>
 
-<strong class="success"><%= @badge.description %></strong><br/>
+  <strong class="success"><%= @badge.description %></strong><br/>
 
-<br/><br/>
+  <br/><br/>
 
-<strong>Users:</strong><br/>
-<% if @badge.users.count > 0 %>
-  <ul>
-    <% @badge.users.each do |user| %>
-      <li>
-        <% if user.photo %>
-          <%= link_to users_path(user) do %>
-            <%= image_tag user.image.url %>
+  <strong>Users:</strong>
+  <br/><br/>
+
+  <div class="row">
+    <div class="columns large-4">
+      <% if @badge.users.count > 0 %>
+        <ul class="no-disc users posts">
+          <% @badge.users.each do |user| %>
+            <li>
+              <% if user.photo %>
+                <%= link_to user do %>
+                  <%= image_tag user.photo.thumb('50x50#').url %>
+                <% end %>
+              <% else %>
+                <%= link_to user do %>
+                  <%= image_tag 'avatar.svg' %>
+                <% end %>
+              <% end %>
+              <% if user.username %>
+                <%= user.username %>
+              <% end %>
+            </li>
           <% end %>
-        <% else %>
-          <%= link_to users_path(user) do %>
-            <%= image_tag 'avatar.svg' %>
-          <% end %>
-        <% end %>
-        <% if user.username %>
-          <%= user.username %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+        </ul>
+      <% end %>
 
-
-<br/><br/>
+    </div>
+  </div>
+  <br/><br/>
 </div>

@@ -45,6 +45,8 @@ class Api::PostsController < Api::ApiController
       unless post.communities.blank?
         if current_user
           current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
+          ApplyBadgesJob.perform_now(current_user)
+
         else
           poster = 'Anonymous'
         end

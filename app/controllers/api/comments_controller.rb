@@ -12,6 +12,7 @@ class Api::CommentsController < Api::ApiController
     if @post
       comment = @post.comments.new(comment_params)
       comment.user = current_user if current_user
+      ApplyBadgesJob.perform_now(current_user) if current_user
     elsif @parent_comment
       comment = @parent_comment.children.new(comment_params)
       comment.user = current_user if current_user
@@ -22,6 +23,7 @@ class Api::CommentsController < Api::ApiController
       # Post User is not a Subscriber.
       if current_user
         current_user.username.nil? ? commenter = 'Anonymous' : commenter = current_user.username
+        ApplyBadgesJob.perform_now(current_user)
       else
         commenter = 'Anonymous'
       end

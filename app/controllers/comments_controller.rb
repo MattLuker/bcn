@@ -20,6 +20,7 @@ class CommentsController < ApplicationController
       # Post User is not a Subscriber.
       if current_user
         current_user.username.nil? ? commenter = 'Anonymous' : commenter = current_user.username
+        ApplyBadgesJob.perform_now(current_user)
       else
         commenter = 'Anonymous'
       end

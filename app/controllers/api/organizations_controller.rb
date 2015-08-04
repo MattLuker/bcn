@@ -64,6 +64,7 @@ class Api::OrganizationsController < Api::ApiController
       user = User.find(organization_params['user_ids'][0].to_i)
       organization.users << user
       if organization.save
+        ApplyBadgesJob.perform_now(current_user)
         render status: 200, json: {
                               message: 'User added to organization.',
                               organization: organization,

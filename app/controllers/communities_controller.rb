@@ -78,6 +78,7 @@ class CommunitiesController < ApplicationController
         @community.users << current_user
         if @community.save
           flash[:success] = "You are now part of the #{@community.name} community."
+          ApplyBadgesJob.perform_now(current_user)
           redirect_to @community
         else
           redirect_to @community, notice: 'There was a problem adding you to the community'
@@ -91,6 +92,7 @@ class CommunitiesController < ApplicationController
         @community.organizations << organization
         if @community.save
           flash[:success] = "#{organization.name} is now part of #{@community.name}."
+          ApplyBadgesJob.perform_now(current_user)
           redirect_to @community
         else
           redirect_to @community, notice: 'There was a problem adding the organization to the community'

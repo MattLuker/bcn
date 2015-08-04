@@ -12,10 +12,10 @@ class Api::CommunitiesController < Api::ApiController
   end
 
   def create
-    puts
     community = current_user.communities.new(community_params)
     community.created_by = current_user.id
     if community.save
+      ApplyBadgesJob.perform_now(current_user)
       render status: 200, json: {
                             message: 'Community created.',
                             community: community,
@@ -65,6 +65,7 @@ class Api::CommunitiesController < Api::ApiController
       user = User.find(community_params['user_ids'][0].to_i)
       community.users << user
       if community.save
+        ApplyBadgesJob.perform_now(current_user)
         render status: 200, json: {
                               message: 'User added to community.',
                               community: community,

@@ -81,11 +81,21 @@
     <br/>
 
     <div>
-      <strong>Badges:</strong><br/>
+      <strong>Badges:</strong>
+      <br/><br/>
+
       <% if @user.badges.length != 0 %>
-      <ul>
+      <ul class="badges inline-list">
         <% @user.badges.each do |badge| %>
-          <li><%= image_tag badge.image_url %> <%= badge.name %></li>
+          <li>
+            <div class="badge-display">
+              <%= link_to badge do %>
+                <%= image_tag badge.image.url, class: 'badge-thumb' %>
+              <% end %>
+              <br/>
+              <%= badge.name %>
+            </div>
+          </li>
         <% end %>
       </ul>
       <% else %>

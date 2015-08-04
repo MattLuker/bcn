@@ -82,6 +82,7 @@ class OrganizationsController < ApplicationController
       @organization.users << current_user
       if @organization.save
         Notifier.user_join(leader, current_user, @organization).deliver_now
+        ApplyBadgesJob.perform_now(current_user)
         flash[:success] = "You are now part of #{@organization.name}."
         redirect_to @organization
       else

@@ -15,3 +15,10 @@ img.badge-thumb {
 .success {
   color: $hse-dark-green
 }
+
+.badge-display {
+  display: inline-block;
+  width: 75px;
+  text-align: center;
+  color: $hse-dark-green;
+}
