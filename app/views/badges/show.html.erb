@@ -11,7 +11,7 @@
 
   <% end %>
 
-  <% if current_user || (current_user && current_user.admin?) %>
+  <% if current_user && current_user.admin? %>
     <%= link_to edit_badge_path(@badge), class: 'button tiny icon badge-edit right', title: 'Edit Badge' do %>
       <%= image_tag 'edit-icon.svg', class: 'icon' %>
     <% end %>

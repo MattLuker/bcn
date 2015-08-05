@@ -41,7 +41,7 @@ class BadgesController < ApplicationController
 
   def destroy
     if @badge.destroy
-      flash[:success] = 'Badge deleted'
+      flash[:success] = 'Badge deleted.'
       redirect_to badges_path
     else
       flash[:alert] = 'There was a problem deleting the badge.'
