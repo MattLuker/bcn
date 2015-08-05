@@ -140,8 +140,8 @@ class User < ActiveRecord::Base
         :photo_web_url,
         :role
     ], :include => {
-              :communities => { only: [:id, :name, :name]},
-              :organizations => { only: [:id, :name, :name]}
+              :communities => { only: [:id, :name, :description]},
+              :organizations => { only: [:id, :name, :description]}
                                  })
   end
 

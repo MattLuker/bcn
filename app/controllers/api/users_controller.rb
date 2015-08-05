@@ -19,7 +19,6 @@ class Api::UsersController < Api::ApiController
   end
 
   def show
-    puts "current_user: #{current_user.inspect}"
     render json: current_user.as_json()
   end
 

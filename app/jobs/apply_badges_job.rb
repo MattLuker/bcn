@@ -4,7 +4,6 @@ class ApplyBadgesJob < ActiveJob::Base
 
   def perform(user)
     Badge.all.each do |badge|
-      puts badge.rules
       if eval(badge.rules)
         unless badge.users.include?(user)
           badge.users << user

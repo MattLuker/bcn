@@ -89,6 +89,7 @@ Rails.application.routes.draw do
     end
 
     resources :searches, only: [:index]
+    resources :badges, only: [:index, :show]
   end
 
   get 'auth/facebook', as: 'auth_provider'
