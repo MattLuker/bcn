@@ -3,7 +3,7 @@ class CommunitiesController < ApplicationController
   before_filter :require_user, only: [:new, :create, :update, :destroy, :add_user, :remove_user]
 
   def index
-    @communities = Community.popularity.all
+    @communities = Community.all
   end
 
   def podcast
