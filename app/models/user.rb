@@ -27,7 +27,6 @@ class User < ActiveRecord::Base
 
   before_save :downcase_email
   before_validation :set_photo
-  before_destroy :dec_all_users_count
 
   def self.facebook(auth)
     @facebook = Koala::Facebook::API.new(auth['token'])

@@ -38,7 +38,6 @@ class Post < ActiveRecord::Base
   belongs_to :organization
 
   before_save :set_audio_duration
-  before_destroy :dec_all_posts_count
 
   def as_json(options={})
     self.image_web_url = self.image.url if self.image

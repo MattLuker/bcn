@@ -16,7 +16,7 @@ describe 'Deleting posts' do
       sleep(0.5)
       find('#post_1').click
       sleep(0.3)
-      find('.post-edit').click
+      find('.post-edit-link').click
 
       click_link 'Delete'
       sleep(0.5)
@@ -32,7 +32,7 @@ describe 'Deleting posts' do
       expect(page).to have_content('Great Post')
       find('#post_1').click
       sleep(0.3)
-      find('.post-edit').click
+      find('.post-edit-link').click
 
       click_link 'Delete'
       sleep(0.5)
@@ -45,37 +45,6 @@ describe 'Deleting posts' do
 
       expect(del_post.deleted?).to eq(true)
       expect(del_post.deleted_at).to_not eq(nil)
-    end
-
-    it 'decrements the community posts_counter when destroyed', :js => true do
-      pending "Need to figure out a better way to track the count, but might not make a difference with the coming changes."
-      create_community
-      community = Community.last
-      expect(page).to have_content('Community was successfully created.')
-
-      visit '/posts'
-      click_link 'New Post'
-      expect(page).to have_content('New Post')
-
-      fill_in 'Title', with: 'My Location Post'
-      fill_in "What's on your mind?", with: 'Great new post.'
-
-      fill_in 'Communities (in a comma separated list)', with: 'Boone Community Network'
-      click_button 'Save Post'
-
-      community.reload
-      expect(page).to have_content('Great new post.')
-      expect(community.posts_count).to eq(1)
-
-      find('.post-edit').click
-
-      click_link 'Delete'
-      sleep(0.5)
-      click_button 'Ok'
-      sleep(0.5)
-
-      community.reload
-      expect(community.posts_count).to eq(0)
     end
   end
 

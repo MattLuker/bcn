@@ -21,8 +21,6 @@ class Community < ActiveRecord::Base
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "community_id"
   has_one :location
 
-  scope :popularity, -> { order('posts_count + users_count desc') }
-
   before_save :set_slug
   before_update :set_slug
 

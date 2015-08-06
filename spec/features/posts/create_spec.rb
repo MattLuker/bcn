@@ -141,30 +141,6 @@ describe "Creating posts" do
     expect(page).to have_content("My Location Post")
   end
 
-  it 'creates a post with a community and increments the community posts_counter' do
-    pending "Need to figure out a better way to track the count, but might not make a difference with the coming changes."
-    sign_in user, password: 'beans'
-    create_community
-    community = Community.last
-    expect(page).to have_content('Community was successfully created.')
-
-    visit "/posts"
-    click_link "New Post"
-    expect(page).to have_content("New Post")
-
-    fill_in "Title", with: "My Location Post"
-    page.execute_script("window.post_editor.codemirror.setValue('Great new post.')")
-    communites_field = find('input.default')
-    communites_field.set('Boone Community Network')
-    communites_field.native.send_key(:Enter)
-    click_button "Save Post"
-    sleep(1)
-
-    community.reload
-    expect(page).to have_content("Great new post.")
-    expect(community.posts_count).to eq(1)
-  end
-
   it 'gets Open Graph data after leaving the web link field', :js => true do
     sign_in user, password: 'beans'
 
