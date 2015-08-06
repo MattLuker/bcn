@@ -90,7 +90,7 @@
         <div class="post-edit">
 
         <% if @post.user == current_user || (current_user && current_user.admin?) %>
-          <%= link_to edit_post_path(@post), class: 'button tiny icon', title: 'Edit Post' do %>
+          <%= link_to edit_post_path(@post), class: 'button tiny icon post-edit-link', title: 'Edit Post' do %>
                 <%= image_tag 'edit-icon.svg', class: 'icon' %>
             <% end %>
         <% end %>

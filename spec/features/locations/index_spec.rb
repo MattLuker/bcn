@@ -44,10 +44,10 @@ describe "Viewing locations" do
     end
   end
 
-  it 'displays a list of posts based on a location', :js => true do
+  it 'displays a list of posts based on a location', :js => true, :visual => true, :firefox => true do
       visit '/home'
       find('#map').click
-      sleep(1)
+      sleep(2)
       find('#posts_here').click
       expect(page).to have_content('Posts For: Kenneth E. Peacock Hall')
   end

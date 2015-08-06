@@ -2,12 +2,10 @@ require 'rails_helper'
 
 describe "Adding User to communities" do
   let(:user) { create(:user) }
+  let(:community) { Community.create(name: 'BCN', description: 'Boone Rulez!', created_by: user.id)}
 
   it "is successful with valid content", :js => true do
     sign_in user, password: 'beans'
-    create_community
-    #expect(page).to have_content("We're all part of the Boone community!")
-    community = Community.last
 
     click_link 'Log Out'
 
@@ -20,6 +18,6 @@ describe "Adding User to communities" do
 
     sleep(5)
     expect(page).to have_content("You are now part of the #{community.name} community.")
-    expect(community.users.count).to eq(2)
+    expect(community.users.count).to eq(1)
   end
 end

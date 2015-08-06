@@ -150,6 +150,7 @@ class CommunitiesController < ApplicationController
     def set_community
       @community = Community.find_by_slug(params[:id]) if params[:id]
       @community = Community.find_by_slug(params[:community_id]) if params[:community_id]
+      @community = Community.find(params[:id]) if @community.nil?
       @creator = User.find(@community.created_by) if @community.created_by
     end
 

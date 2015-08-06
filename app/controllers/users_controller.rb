@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def index
     unless current_user.admin?
-      redirect_to home_index_path
+      redirect_to home_path
     end
     @users = User.all
   end
@@ -16,7 +16,8 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     if current_user
-      redirect_to home_index_path
+      flash[:success] = 'Welcome you have successfully registered.'
+      redirect_to home_path
     end
     @user = User.new
   end
@@ -93,7 +94,8 @@ class UsersController < ApplicationController
       Notifier.send_welcome(@user).deliver_now
 
       session[:user_id] = @user.id
-      redirect_to home_index_path, success: 'Welcome you have successfully registered.'
+      flash[:success] = 'Welcome you have successfully registered.'
+      redirect_to home_path
     else
       @user = User.only_deleted.find_by(email: user_params[:email])
       if @user
@@ -103,7 +105,7 @@ class UsersController < ApplicationController
 
         Notifier.send_welcome(@user).deliver_now
         session[:user_id] = @user.id
-        redirect_to home_index_path, success: 'Welcome you have successfully registered.'
+        redirect_to home_path, success: 'Welcome you have successfully registered.'
       else
         render :new
       end
@@ -113,8 +115,9 @@ class UsersController < ApplicationController
   def update
     if current_user == @user
       if @user.update(user_params)
-          flash[:success] = 'Profile successfully updated.'
-          redirect_to @user
+        ApplyBadgesJob.perform_now(current_user)
+        flash[:success] = 'Profile successfully updated.'
+        redirect_to @user
       else
         render :edit
       end
@@ -137,12 +140,12 @@ class UsersController < ApplicationController
       @user.destroy
       session[:user_id] = nil
       reset_session
-      redirect_to home_index_path, notice: 'User was successfully destroyed.'
+      redirect_to home_path, notice: 'User was successfully destroyed.'
     elsif current_user.admin?
       @user.destroy
       session[:user_id] = nil
       reset_session
-      redirect_to home_index_path, notice: 'User was successfully destroyed.'
+      redirect_to home_path, notice: 'User was successfully destroyed.'
     else
       flash[:error] = 'You can only delete your account.'
       redirect_to '/users/' + @user.id.to_s

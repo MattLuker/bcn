@@ -2,13 +2,10 @@ require 'rails_helper'
 
 describe "Adding Organization to communities" do
   let(:user) { create(:user) }
+  let(:community) { Community.create(name: 'BCN', description: 'Boone Rulez!', created_by: user.id)}
 
   it "is successful with valid content", :js => true do
     sign_in user, password: 'beans'
-    create_community
-    sleep(0.3)
-    #expect(page).to have_content("We're all part of the Boone community!")
-    community = Community.last
 
     create_organization
     expect(page).to have_content('BCN Rulez!')

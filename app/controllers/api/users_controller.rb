@@ -41,6 +41,7 @@ class Api::UsersController < Api::ApiController
 
   def update
     if current_user.update(user_params)
+      ApplyBadgesJob.perform_now(current_user)
       render status: 200, json: {
                             message: 'User updated.',
                             user: current_user

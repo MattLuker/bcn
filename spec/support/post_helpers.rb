@@ -24,7 +24,7 @@ module PostHelpers
     visit '/posts'
     find('#post_1').click
     sleep(0.3)
-    find('.post-edit').click
+    find('.post-edit-link').click
     sleep(0.3)
 
     fill_in 'Title', with: options[:title]

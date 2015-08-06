@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Subscribing to Community' do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, role: 'admin') }
   let(:user2) { create(:user) }
 
   let!(:post) { Post.create(title: "Great Post", description: "Great job!") }

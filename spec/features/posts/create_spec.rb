@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "Creating posts" do
   let(:user) { create(:user) }
+  let(:bcn) { Community.create(name: 'Boone Community Network', description: 'We are all part of the Boone community!')}
 
   it "redirects to the post list index page on success", :js => true do
     create_post
@@ -23,7 +24,8 @@ describe "Creating posts" do
   end
 
   it "success when creating a post with a community", :js => true do
-    sign_in user, password: 'beans'
+    admin = User.create({ :email => 'bill@thehoick.com', :password => 'beans', :role => 'admin' })
+    sign_in admin, password: 'beans'
     create_community
     expect(page).to have_content('Community was successfully created.')
 

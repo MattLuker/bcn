@@ -34,7 +34,7 @@ class Post < ActiveRecord::Base
   has_many :locations
   has_many :comments
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "post_id"
-  has_and_belongs_to_many :communities, before_add: :inc_posts_count, before_remove: :dec_posts_count
+  has_and_belongs_to_many :communities
   belongs_to :organization
 
   before_save :set_audio_duration
@@ -138,20 +138,6 @@ class Post < ActiveRecord::Base
     if audio
       file_path = Rails.root.join('public', 'system', 'dragonfly', Rails.env, audio_uid).to_s
       TagLib::FileRef.open(file_path) { |f| self.audio_duration = f.audio_properties.length }
-    end
-  end
-
-  def inc_posts_count(model)
-    Community.increment_counter('posts_count', model.id)
-  end
-
-  def dec_posts_count(model)
-    Community.decrement_counter('posts_count', model.id)
-  end
-
-  def dec_all_posts_count
-    self.communities.each do |community|
-      Community.decrement_counter('posts_count', community.id)
     end
   end
 end

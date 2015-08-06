@@ -25,8 +25,8 @@ describe 'Searches API', :type => :api do
 
     expect(json.length).to eq(2)
     expect(json['message']).to eq('Found 2 matches.')
-    expect(json['results'][0]['title']).to eq('Location Event')
     expect(json['results'][1]['title']).to eq('2nd Event')
+    expect(json['results'][0]['title']).to eq('Location Event')
   end
 
   it 'returns comments' do

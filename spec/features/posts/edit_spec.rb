@@ -37,7 +37,7 @@ describe "Editing posts" do
       visit '/posts'
       find('#post_1').click
       sleep(0.3)
-      find('.post-edit').click
+      find('.post-edit-link').click
 
       attach_file('post[image]', Rails.root.join('app/assets/images/bcn_logo.png'))
       click_button 'Save Post'
@@ -54,7 +54,7 @@ describe "Editing posts" do
 
       visit '/posts'
       find('#post_1').click
-      find('.post-edit').click
+      find('.post-edit-link').click
 
       attach_file('post[audio]', Rails.root.join('spec/fixtures/files/dickson.m4a'))
       click_button 'Save Post'
@@ -76,7 +76,7 @@ describe "Editing posts" do
       visit '/posts'
       find('#post_1').click
 
-      expect(page).to_not have_css('.post-edit')
+      expect(page).to_not have_css('.post-edit-link')
     end
   end
 

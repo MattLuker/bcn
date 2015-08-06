@@ -15,8 +15,8 @@ class Community < ActiveRecord::Base
                      if: :image_changed?
   validates_property :format, of: :image, in: ['jpeg', 'png', 'gif', 'svg', 'svgz'], if: :image_changed?
 
-  has_and_belongs_to_many :posts, before_add: :inc_posts_count, before_remove: :dec_posts_count
-  has_and_belongs_to_many :users, before_add: :inc_users_count, before_remove: :dec_users_count
+  has_and_belongs_to_many :posts
+  has_and_belongs_to_many :users
   has_and_belongs_to_many :organizations
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "community_id"
   has_one :location
@@ -122,21 +122,5 @@ class Community < ActiveRecord::Base
   def create_location(params)
     loc = Location.new.set_location_attrs(Location.new, params)
     self.location = loc
-  end
-
-  def inc_users_count(model)
-    Community.increment_counter('users_count', self.id)
-  end
-
-  def dec_users_count(model)
-    Community.decrement_counter('users_count', self.id)
-  end
-
-  def inc_posts_count(model)
-    Community.increment_counter('posts_count', self.id)
-  end
-
-  def dec_posts_count(model)
-    Community.decrement_counter('posts_count', self.id)
   end
 end

@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :subscriptions, :class_name => "Subscriber", :foreign_key => "user_id"
   has_many :facebook_subscriptions
-  has_and_belongs_to_many :communities, before_add: :inc_users_count, before_remove: :dec_users_count
+  has_and_belongs_to_many :communities
   has_and_belongs_to_many :organizations
   has_and_belongs_to_many :badges
 
@@ -143,20 +143,5 @@ class User < ActiveRecord::Base
               :communities => { only: [:id, :name, :description]},
               :organizations => { only: [:id, :name, :description]}
                                  })
-  end
-
-  private
-  def inc_users_count(model)
-    Community.increment_counter('users_count', model.id)
-  end
-
-  def dec_users_count(model)
-    Community.decrement_counter('users_count', model.id)
-  end
-
-  def dec_all_users_count
-    self.communities.each do |community|
-      Community.decrement_counter('users_count', community.id)
-    end
   end
 end

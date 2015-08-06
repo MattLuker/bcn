@@ -4,7 +4,8 @@ describe 'Creating posts' do
   let(:user) { create(:user) }
 
   it 'removes a community from the post', :js => true do
-    sign_in user, password: 'beans'
+    admin = User.create({ :email => 'bill@thehoick.com', :password => 'beans', :role => 'admin' })
+    sign_in admin, password: 'beans'
     create_community
     expect(page).to have_content('Community was successfully created.')
     community = Community.last
@@ -17,12 +18,14 @@ describe 'Creating posts' do
 
     communites_field = find('input.default')
     communites_field.set('Boone Community Network')
-    communites_field.native.send_key(:Enter)
+    #communites_field.native.send_key(:Enter)
+    communites_field.native.send_key :return
     click_button 'Save Post'
 
     expect(page).to have_content('Great new post.')
 
-    find('.post-edit').click
+    find('.post-edit-link').click
+    sleep(0.3)
     communites_field = find('.chosen-choices')
     communites_field.click
     #communites_field.set('Boone Community Network')
