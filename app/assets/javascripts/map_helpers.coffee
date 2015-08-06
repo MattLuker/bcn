@@ -3,11 +3,20 @@
     # Remove all markers not in button's community by binding to the Community filter buttons.
     console.log('model:', model)
     $('.' + model).on "click", (e) ->
-      console.log('e.target:', e.target)
-      $button = this
+      button = this
+      $button = $(this)
+
+      # Get Post list for Community.
+      $.ajax
+        url: '/api/communities/' + $button.data().id
+        dataType: "JSON"
+        success: (community, status, jqXHR) ->
+          # Update Post list with Community Posts.
+          console.log('community posts:', community.posts)
+          scroller.update_posts(community.posts, 0, community)
 
       toggleLayers = $.grep window.layers, (layer) ->
-        return layer[model + '_id'] != $button.id
+        return layer[model + '_id'] != button.id
 
       for layer in window.layers
         layer.onMap = true
@@ -20,8 +29,6 @@
         else
           layer.onMap = true
           map.addLayer(layer)
-
-    # Change the button color when selected.
 
 
   button_binder: () ->
@@ -61,7 +68,7 @@
       $time.unbind('click')
 
       $time.on 'click', (e) ->
-        time = $(e.target).data().time
+        time = $(this).data().time
         $.ajax
           url: '/api/' + time
           dataType: "JSON"
@@ -255,7 +262,7 @@
         map_helpers.set_home_post_markers(data)
 
 
-  set_home_post_markers: (posts) ->
+  set_home_post_markers: (posts, community=false) ->
     #window.layers = []
     markers = []
     map_helpers.button_binder()
@@ -263,34 +270,13 @@
       # Create markers for each post.
       for loc in post.locations
 
-        if post.communities.length > 0
-           # Add marker to each Community layerGroup.
+        if post.hasOwnProperty('communities') && post.communities.length > 0
+          # Add marker to each Community layerGroup.
           for community in post.communities
-            divCommunityIcon = L.divIcon({
-              className: 'marker-div-icon',
-              html: get_svg(community.color, 50, 50),
-              popupAnchor: [8, -3],
-            });
+            map_helpers.set_community_marker(post, community, loc)
 
-            marker = new L.Marker([loc.lat, loc.lon], {
-              draggable: false,
-              title: post.title,
-              riseOnHover: true,
-              icon: divCommunityIcon
-            })
-            marker.bindPopup("""
-                  <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
-                  <p>#{marked(post.description)}</p>
-                  <a href='/posts/#{post.id}/edit' class='button tiny icon'>
-                    <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon' />
-                  </a>
-                  """)
-
-            for layer in window.layers
-              if layer.community_id == 'community_' + community.id
-                layer.addLayer(marker)
-                layer.addTo(map)
-
+        else if community != false
+          map_helpers.set_community_marker(post, community, loc)
         else
           # Add marker for each Post Location.
           divCommunityIcon = L.divIcon({
@@ -317,6 +303,33 @@
             layer_0 = window.layers[0]
             layer_0.addLayer(marker)
             layer_0.addTo(map)
+
+
+  set_community_marker: (post, community, loc) ->
+    divCommunityIcon = L.divIcon({
+      className: 'marker-div-icon',
+      html: get_svg(community.color, 50, 50),
+      popupAnchor: [8, -3],
+    });
+
+    marker = new L.Marker([loc.lat, loc.lon], {
+      draggable: false,
+      title: post.title,
+      riseOnHover: true,
+      icon: divCommunityIcon
+    })
+    marker.bindPopup("""
+                    <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
+                    <p>#{marked(post.description)}</p>
+                    <a href='/posts/#{post.id}/edit' class='button tiny icon'>
+                      <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon' />
+                    </a>
+                    """)
+
+    for layer in window.layers
+      if layer.community_id == 'community_' + community.id
+        layer.addLayer(marker)
+        layer.addTo(map)
 
 
   set_post_markers: (map, map_class) ->

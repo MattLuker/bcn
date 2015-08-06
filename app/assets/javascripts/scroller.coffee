@@ -18,8 +18,9 @@
           scroller.update_posts(posts, window.page_number)
 
 
-  update_posts: (posts, page=1) ->
+  update_posts: (posts, page=1, community=false) ->
     # Put the array into an object for the Mustache template.
+    console.log('update_posts posts:', posts)
     posts = {posts, default_post_image: default_post_image}
 
     # Update the Communities and created_at strings.
@@ -44,14 +45,18 @@
       if page > 0
         map_helpers.get_home_post_markers(window.home_map, page)
       else
-        map_helpers.set_home_post_markers(posts.posts)
+        if community != false
+          map_helpers.set_home_post_markers(posts.posts, community)
+        else
+          map_helpers.set_home_post_markers(posts.posts)
 
 
       $wrapper.fadeIn('slow')
 
       # Remove duplicate Communities.
-      communities = (value for _,value of communities.reduce ((arr,value) -> arr[value.id] = value; arr),{})
-      scroller.set_map_communities(communities)
+      if community == false
+        communities = (value for _,value of communities.reduce ((arr,value) -> arr[value.id] = value; arr),{})
+        scroller.set_map_communities(communities)
 
 
   set_map_communities: (communities) ->

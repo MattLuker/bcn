@@ -68,7 +68,7 @@ class Community < ActiveRecord::Base
           :only => [
             :id,
             :title,
-            :description,
+            :description
           ],
           :include => {
             :locations => {

@@ -8,6 +8,7 @@ class Api::CommunitiesController < Api::ApiController
 
   def show
     community = Community.find_by_slug(params[:id])
+    community = Community.find(params[:id]) if community.nil?
     render json: community.as_json(include: :posts)
   end
 
