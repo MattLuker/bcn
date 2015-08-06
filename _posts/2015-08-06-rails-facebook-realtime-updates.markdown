@@ -1,4 +1,10 @@
-# Facebook and Rails Event Subscriptions
+---
+title: "Facebook and Rails Event Subscriptions"
+date:   2015-08-06 14:30:00
+layout: post
+categories: rails bcn
+image: mailbox_cover.jpg
+---
 
 ## Or Real Time Updates 
 
@@ -8,13 +14,14 @@ It’s your job to configure a server to handle the data.  And by handle the dat
 
 **Note:** before diving into this article you should install **koala** into your Rails project via Gemfile, or any other way if that’s possible.
 
+<!--more-->
 ## Controlling Things (Subscriptions/Real Time Updates)
 
 To subscribe for an update you need to send Facebook a unique verification token, and keep track of it, because Facebook will send that in your configured callback URL.  You can then check the **verify_token** with the one you’ve stored to make sure someone isn’t doing something hinky.
 
 Here’s the *index* method for the controller of BCN:
 
-```
+{% highlight ruby %}
   def index
     fb_sub = FacebookSubscription.find_by_verify_token(params['hub.verify_token'])
     if fb_sub
@@ -23,7 +30,7 @@ Here’s the *index* method for the controller of BCN:
       render_404
     end
   end
-```
+{% endhighlight %}
 
 Notice the **meet_challange** method call.  This is used to respond to Facebook whenever a new subscription is added.  They will check that the **verify_token** you send is correct.
 
@@ -31,12 +38,12 @@ Notice the **meet_challange** method call.  This is used to respond to Facebook 
 
 In the **create** method of the controller I used a call to an ActiveJob in order to do the whole “non-blocking” thing.  The actual code to subscribe to a Facebook event looks like this:
 
-```  
+{% highlight ruby %}
    @updates = Koala::Facebook::RealtimeUpdates.new(:app_id => FACEBOOK_CONFIG['app_id'],
                                                    :secret => FACEBOOK_CONFIG['secret'])
     fb_sub = FacebookSubscription.create(verify_token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join, user: user)
     @updates.subscribe('user', 'events', 'http://bcndev.thehoick.com/facebook_subscriptions/', fb_sub.verify_token)
-```
+{% endhighlight %}
 
 There’s a table **facebook_subscriptions** setup for storing the details about the subscription (mainly the verify_token and user_id that created the Post).  I’m simply creating a random string of characters (I think 50 long) and using that as the token.  Then the **@updats.subscribe** method actually configures things with Facebook.
 
