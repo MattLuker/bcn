@@ -68,7 +68,6 @@ class CommunitiesController < ApplicationController
   end
 
   def add_member
-    puts "params: #{params}"
     #@community = Community.find(params[:community_id].to_i)
     @community = Community.find_by_slug(params[:community_id])
 

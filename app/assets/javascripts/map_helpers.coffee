@@ -1,7 +1,9 @@
 @map_helpers =
   marker_filter: (map, model, models) ->
-    # Remove all markers not in button's community.
+    # Remove all markers not in button's community by binding to the Community filter buttons.
+    console.log('model:', model)
     $('.' + model).on "click", (e) ->
+      console.log('e.target:', e.target)
       $button = this
 
       toggleLayers = $.grep window.layers, (layer) ->
@@ -25,6 +27,7 @@
   button_binder: () ->
     # Add all markers to the map.
     $('.all_communities').on "click", (e) ->
+      console.log('all_communities clicked...')
       for layer in window.layers
         layer.onMap = true
         map.addLayer(layer)
@@ -244,7 +247,6 @@
 
     map_helpers.marker_filter(map, 'community', 'communities')
     map_helpers.new_location_popup(map, path)
-
 
     $.ajax
       url: url

@@ -70,7 +70,7 @@ class PostsController < ApplicationController
           end
         end
 
-        if @post.organization.location
+        if @post.organization && @post.organization.location
           @post.locations << @post.organization.location
           @post.save
         end

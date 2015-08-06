@@ -50,12 +50,14 @@
           <legend>Community Filters</legend>
           <div>
             <button class="all_communities tiny">All</button>
-
             <div class="communities-wrapper">
-              <% @communities.each do |community| %>
-                <button class="community tiny" id="<%= dom_id(community) %>"><%= community.name %></button>
+              <% if @commnities.blank? %>
+                <% @communities.each do |community| %>
+                  <button class="community tiny" data-id="<%= community.id %>" id="<%= dom_id(community) %>">
+                    <%= community.name %>
+                  </button>
+                <% end %>
               <% end %>
-
             </div>
           </div>
         </fieldset>
@@ -72,7 +74,7 @@
         <a href="#recent" role="tab" tabindex="0" aria-selected="true" controls="dates">Recent Posts</a>
       </li>
       <li class="tab-title" role="presentational" >
-        <a href="#events" role="tab" tabindex="0" aria-selected="true" controls="dates">Upcoming Events</a>
+        <a href="#events" id='events-tab' role="tab" tabindex="0" aria-selected="true" controls="dates">Upcoming Events</a>
       </li>
     </ul>
     <div class="tabs-content">

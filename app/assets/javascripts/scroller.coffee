@@ -60,7 +60,7 @@
 
     for community in communities
       $communities_wrapper.append("""
-        <button class="community tiny" id="community_#{community.id}">
+        <button class="community tiny" data-id="#{community.id} id="community_#{community.id}">
           #{community.name}
         </button>&nbsp;
       """)

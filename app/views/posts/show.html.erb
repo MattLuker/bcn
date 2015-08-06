@@ -84,15 +84,18 @@
     <div class="row">
       <div class="large-4 columns right post-meta-container">
         <div class="post-meta right">
-
           <%= render 'post_sig' %>
-
         </div>
+
+        <div class="post-edit">
+
         <% if @post.user == current_user || (current_user && current_user.admin?) %>
-            <%= link_to edit_post_path(@post), class: 'button tiny icon post-edit right', title: 'Edit Post' do %>
+          <%= link_to edit_post_path(@post), class: 'button tiny icon', title: 'Edit Post' do %>
                 <%= image_tag 'edit-icon.svg', class: 'icon' %>
             <% end %>
         <% end %>
+        </div>
+
 
         <% if current_user && @post.user != current_user %>
             <% if current_user.subscriptions.find_by(post_id: @post.id) %>
