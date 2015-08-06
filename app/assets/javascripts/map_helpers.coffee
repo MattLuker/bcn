@@ -1,7 +1,6 @@
 @map_helpers =
   marker_filter: (map, model, models) ->
     # Remove all markers not in button's community by binding to the Community filter buttons.
-    console.log('model:', model)
     $('.' + model).on "click", (e) ->
       button = this
       $button = $(this)
@@ -12,7 +11,6 @@
         dataType: "JSON"
         success: (community, status, jqXHR) ->
           # Update Post list with Community Posts.
-          console.log('community posts:', community.posts)
           scroller.update_posts(community.posts, 0, community)
 
       toggleLayers = $.grep window.layers, (layer) ->
@@ -34,13 +32,12 @@
   button_binder: () ->
     # Add all markers to the map.
     $('.all_communities').on "click", (e) ->
-      console.log('all_communities clicked...')
       for layer in window.layers
         layer.onMap = true
         map.addLayer(layer)
 
     # Maybe make this it's own function and loop through the filter buttons.
-    $all_posts = $('#all_posts')
+    $all_posts = $('.all_posts')
     $all_posts.unbind('click')
     $all_posts.on 'click', (e) ->
       Turbolinks.visit(window.location)

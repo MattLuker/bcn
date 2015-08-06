@@ -38,7 +38,7 @@
         <fieldset>
           <legend>Event Filters</legend>
 
-          <button class="success tiny" id="all_posts">All</button>
+          <button class="success tiny all_posts" id="all_posts_btn">All</button>
           <button class="time success tiny" data-time="today">Today</button>
           <button class="time success tiny" data-time="tomorrow">Tomorrow</button>
           <button class="time success tiny" data-time="next_week">Next Week</button>
@@ -49,7 +49,7 @@
         <fieldset>
           <legend>Community Filters</legend>
           <div>
-            <button class="all_communities tiny">All</button>
+            <button class="all_posts tiny" id="all_communities">All</button>
             <div class="communities-wrapper">
               <% if @commnities.blank? %>
                 <% @communities.each do |community| %>

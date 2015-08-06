@@ -20,7 +20,6 @@
 
   update_posts: (posts, page=1, community=false) ->
     # Put the array into an object for the Mustache template.
-    console.log('update_posts posts:', posts)
     posts = {posts, default_post_image: default_post_image}
 
     # Update the Communities and created_at strings.
