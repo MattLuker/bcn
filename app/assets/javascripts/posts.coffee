@@ -40,7 +40,11 @@ ready_post = ->
 
         url = $('#post-link').val()
         $.get('/posts/get_og_data?url=' + url).success (data) ->
-          #console.log(data)
+          console.log(data)
+          if $.isEmptyObject(data)
+            data['og_url'] = url
+            data['og_image'] = image_path('link-icon.svg')
+
           $error = $('.og-error')
           if $error.is(':visible')
             $error.toggle()
@@ -182,7 +186,7 @@ toggle_map = (e) ->
   map_helpers.set_post_markers(map, map_class)
 
 
-readURL = (input) ->
+@readURL = (input) ->
   #
   # Read the contents of the image file to be uploaded and display it.
   #
