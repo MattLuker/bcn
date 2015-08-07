@@ -323,7 +323,7 @@
                     </a>
                     """)
 
-    if window.layers.length > 0
+    if (typeof(window.layers) != "undefined")
       for layer in window.layers
         if layer.community_id == 'community_' + community.id
           layer.addLayer(marker)
