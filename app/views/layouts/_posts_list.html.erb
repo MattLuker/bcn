@@ -48,7 +48,7 @@
            @ <%= post.start_time.to_s(:time) %>
         <% end %>
       <% else %>
-        <%= time_ago_in_words post.created_at %>
+        <%= time_ago_in_words post.created_at %> ago
       <% end %>
 
       by
