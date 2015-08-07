@@ -225,14 +225,14 @@
       url: url
       dataType: "JSON"
       success: (data, status, jqXHR) ->
-
-        window.layers = []
-
         # Create a default community_0 layerGroup.
         layer_0 = L.layerGroup([])
         layer_0.community_id = 'community_0'
         layer_0.onMap = true
-        window.layers.push(layer_0)
+
+        window.layers = [layer_0]
+
+        #window.layers.push(layer_0)
 
         for community in data
           markers = []
