@@ -3,6 +3,7 @@ ready_home = ->
     window.home_map = initialize_map()
     map_helpers.set_community_layers(window.home_map)
     map_helpers.get_home_post_markers(window.home_map)
+    window.layers = []
     #map_helpers.button_binder()
     #map_helpers.set_post_markers(map)
 
