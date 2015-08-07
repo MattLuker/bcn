@@ -86,6 +86,10 @@ ready_community = ->
     # Handle the Default Location map.
     map_helpers.form_map(model_name, '#new_' + model_name)
 
+  # Display the image to be uploaded.
+  $('.photo_upload').on 'change', (e) ->
+    readURL(this);
+
 
 
   #
