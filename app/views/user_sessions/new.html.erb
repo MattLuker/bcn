@@ -1,18 +1,25 @@
 <div class="small-12 large-12 columns">
+  <div class="large-12 main-video columns">
+    <video autoplay loop id="bgvid">
+      <source src="/videos/bcn_movie-2.mp4" type="video/mp4">
+    </video>
+  </div>
 
-  <h4>Sign In with your Social account:</h4>
+  <div class="intro">
 
-  <%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small facebook', :id => 'facebook_login' %>
+    <h4>Sign In with your Social account:</h4>
 
-  <%= link_to "Login with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
+    <%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small facebook', :id => 'facebook_login' %>
 
-  <%= link_to "Login with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
+    <%= link_to "Login with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
 
-  <hr/>
-  <p>Or</p>
-  <h4>Sign In With Email</h4>
+    <%= link_to "Login with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
 
-  <%= form_tag user_sessions_path do %>
+    <hr/>
+    <p>Or</p>
+    <h4>Sign In With Email</h4>
+
+    <%= form_tag user_sessions_path do %>
 
       <div class="row">
         <div class="large-4 columns">
@@ -39,6 +46,7 @@
           <h4><small><%= link_to 'Forgot Password?', new_password_reset_path %></small></h4>
         </div>
       </div>
-  <% end %>
+    <% end %>
+  </div>
   <br/><br/>
 </div>

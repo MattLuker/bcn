@@ -1,21 +1,29 @@
 <div class="small-12 large-12 columns">
+  <div class="large-12 main-video columns">
+    <video autoplay loop id="bgvid">
+      <source src="/videos/bcn_movie-2.mp4" type="video/mp4">
+    </video>
+  </div>
 
-  <h4>Do you have one of these Social accounts?</h4>
+  <div class="intro">
+    <h4>Do you have one of these Social accounts?</h4>
 
-  <%= link_to "Register with Facebook", '/auth/facebook', :class => 'button small facebook' %>
-
-
-  <%= link_to "Register with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
+    <%= link_to "Register with Facebook", '/auth/facebook', :class => 'button small facebook' %>
 
 
-  <%= link_to "Register with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
+    <%= link_to "Register with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
 
 
-  <hr/>
-  <p>Or</p>
+    <%= link_to "Register with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
 
-  <h4>Register With Email</h4>
 
-  <%= render 'form' %>
+    <hr/>
+    <p>Or</p>
+
+    <h4>Register With Email</h4>
+
+    <%= render 'form' %>
+  </div>
+
   <br/><br/>
 </div>

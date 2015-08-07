@@ -42,9 +42,10 @@ $black: #252525;
 }
 
 .intro {
-  h3 {
+  h3, h4 {
     color: white;
   }
+  padding: 20px;
   color: white;
   background-color:rgba(178, 178, 178, 0.7);
 }
