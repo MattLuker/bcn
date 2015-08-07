@@ -323,10 +323,11 @@
                     </a>
                     """)
 
-    for layer in window.layers
-      if layer.community_id == 'community_' + community.id
-        layer.addLayer(marker)
-        layer.addTo(map)
+    if window.layers?
+      for layer in window.layers
+        if layer.community_id == 'community_' + community.id
+          layer.addLayer(marker)
+          layer.addTo(map)
 
 
   set_post_markers: (map, map_class) ->
