@@ -91,7 +91,6 @@ ready_community = ->
     readURL(this);
 
 
-
   #
   # Map functionality.
   #
@@ -99,6 +98,13 @@ ready_community = ->
     map = initialize_map()
     map_helpers.set_default_markers(map, model_name, models)
 
+
+  #
+  # Index page
+  #
+  $('.community-link').unbind()
+  $('.community-link').on 'click', (e) ->
+    Turbolinks.visit($(this).attr('href'))
 
 # Fire the ready function on load and refresh.
 $(document).ready(ready_community)

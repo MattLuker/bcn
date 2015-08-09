@@ -55,6 +55,11 @@
 
 .columns.community-meta { padding-left: 0; }
 
+.community-link {
+  padding-right: 0 !important;
+}
+
+//.tabs .tab-title > a { display: inline-block !important; }
 
 .secondary-tabs {
   .tabs {
@@ -63,20 +68,22 @@
       margin-right: 1rem;
     }
     text-align: center;
-    li {
-      width: 25%;
-      &:hover i {
-        font-size:2rem;
-      }
-    }
+    //li {
+    //  width: 25%;
+    //  &:hover i {
+    //    font-size:2rem;
+    //  }
+    //}
     .tab-title > a {
-      background-color:#ffffff;
+      //background-color:#ffffff;
       outline:none;
       font-size: 1.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      //box-shadow: 0 2px 4px rgba(0,0,0,0.15);
       padding-bottom: 0.5rem;
       padding-top: 0.5rem;
-      color: #1E824C;
+      padding-left: 10px;
+      //color: #1E824C;
+      display: inline;
     }
   }
   .tabs-content {
@@ -93,7 +100,7 @@
     .switch {
       margin-bottom: 1rem;
     }
-    border: 1px solid #999;
+    //border: 1px solid #999;
     border-top: none;
   }
 }

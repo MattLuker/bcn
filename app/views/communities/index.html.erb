@@ -2,6 +2,8 @@
 
   <h2 class="page-title">Communities</h2>
 
+  <br/>
+
   <% if current_user && current_user.admin? %>
     <%= link_to new_community_path, class: 'button small' do %>
       <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
@@ -15,16 +17,20 @@
     <% @communities.each do |community| %>
       <% if community == @communities[0] %>
 
-        <li class="tab-title active">
-          <a href="#<%= dom_id(community) %>">
+        <li class="tab-title active community-tab">
+          <%= link_to community, class: 'community-link' do %>
             <%= image_tag community.image.thumb('25x25#').url %>
+          <% end %>
+          <a href="#<%= dom_id(community) %>">
             <%= community.name %>
           </a>
         </li>
       <% else %>
-        <li class="tab-title">
-          <a href="#<%= dom_id(community) %>">
+        <li class="tab-title community-tab">
+          <%= link_to community, class: 'community-link' do %>
             <%= image_tag community.image.thumb('25x25#').url %>
+          <% end %>
+          <a href="#<%= dom_id(community) %>">
             <%= community.name %>
           </a>
         </li>
@@ -54,7 +60,7 @@
     <% end %>
 
     </div>
-    <section>
+    </section>
 
 
     <br/><br/>
