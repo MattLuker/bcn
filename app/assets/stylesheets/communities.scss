@@ -1,8 +1,3 @@
-/*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
-
 @import 'application';
 @import 'colors';
 
@@ -59,3 +54,46 @@
 }
 
 .columns.community-meta { padding-left: 0; }
+
+
+.secondary-tabs {
+  .tabs {
+    i {
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+    text-align: center;
+    li {
+      width: 25%;
+      &:hover i {
+        font-size:2rem;
+      }
+    }
+    .tab-title > a {
+      background-color:#ffffff;
+      outline:none;
+      font-size: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      padding-bottom: 0.5rem;
+      padding-top: 0.5rem;
+      color: #1E824C;
+    }
+  }
+  .tabs-content {
+    h3 {
+      margin-left: 2.7rem;
+    }
+    h5 {
+      color: #e74c3c;
+      margin-left: 2.7rem;
+    }
+    p {
+      margin-bottom: 0.2rem;
+    }
+    .switch {
+      margin-bottom: 1rem;
+    }
+    border: 1px solid #999;
+    border-top: none;
+  }
+}

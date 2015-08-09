@@ -9,14 +9,53 @@
       New Community
     <% end %>
   <% end %>
+  <section class="secondary-tabs">
 
-
-  <ul class="communities no-disc">
+  <ul class="tabs" data-tab>
     <% @communities.each do |community| %>
-      <%= render 'layouts/communities_list', community: community %>
+      <% if community == @communities[0] %>
+
+        <li class="tab-title active">
+          <a href="#<%= dom_id(community) %>">
+            <%= image_tag community.image.thumb('25x25#').url %>
+            <%= community.name %>
+          </a>
+        </li>
+      <% else %>
+        <li class="tab-title">
+          <a href="#<%= dom_id(community) %>">
+            <%= image_tag community.image.thumb('25x25#').url %>
+            <%= community.name %>
+          </a>
+        </li>
+
+      <% end %>
+
     <% end %>
+
   </ul>
 
+  <div class="tabs-content">
+    <% @communities.each do |community| %>
+      <% if community == @communities[0] %>
+        <div class="content active" id="<%= dom_id(community) %>">
 
-  <br/><br/>
-</div>
+      <% else %>
+        <div class="content" id="<%= dom_id(community) %>">
+      <% end %>
+
+          <ul class="organizations no-disc">
+            <% community.organizations.each do |organization| %>
+              <%= render 'layouts/organizations_list', organization: organization %>
+            <% end %>
+          </ul>
+        </div>
+
+    <% end %>
+
+    </div>
+    <section>
+
+
+    <br/><br/>
+  </div>
