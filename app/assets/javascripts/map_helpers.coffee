@@ -45,18 +45,12 @@
     # Handle the Location Search button.
     $('.loc-search-button').on 'click', (e) ->
       e.preventDefault();
+      map_helpers.location_search()
 
-      $loc_input = $('.loc-search')
-
-      if $loc_input.val() != ''
-        $.get('/api/locations/show?name=' + $loc_input.val()).success (data) ->
-          scroller.update_posts(data.posts, 0)
-          if data.posts.length == 0
-            $('.posts-wrapper').html("<p class='grey'>No posts at this locaction yet...</p>")
-
-          $loc_input.val(data.location.name)
-          latlng = L.latLng(data.location.lat, data.location.lon)
-          window.map.setView(latlng, 17)
+    # Handle Enter key in Location Search input.
+    $('#home_loc_search').on 'keyup', (e) ->
+      if (e.which == 13)
+        map_helpers.location_search()
 
 
     # Loop through the time filter buttons.
@@ -74,6 +68,20 @@
 
             if posts.length == 0
               $('.posts-wrapper').html("<p class='grey'>No events scheduled for #{time}...</p>")
+
+
+  location_search: () ->
+    $loc_input = $('.loc-search')
+
+    if $loc_input.val() != ''
+      $.get('/api/locations/show?name=' + $loc_input.val()).success (data) ->
+        scroller.update_posts(data.posts, 0)
+        if data.posts.length == 0
+          $('.posts-wrapper').html("<p class='grey'>No posts at this locaction yet...</p>")
+
+        $loc_input.val(data.location.name)
+        latlng = L.latLng(data.location.lat, data.location.lon)
+        window.map.setView(latlng, 17)
 
 
   marker_drop: (e, marker, loc, model_id) ->
