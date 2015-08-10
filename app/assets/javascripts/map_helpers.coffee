@@ -232,8 +232,6 @@
 
         window.layers = [layer_0]
 
-        #window.layers.push(layer_0)
-
         for community in data
           markers = []
 

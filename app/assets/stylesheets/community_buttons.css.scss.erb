@@ -1,0 +1,11 @@
+@import 'colors';
+@import 'foundation_and_overrides';
+
+<% Community.all.each do |community| %>
+
+.community_<%= community.name %> {
+  @include button($button-sml, <%= community.color %>);
+  font-size: 15px;
+}
+
+<% end %>

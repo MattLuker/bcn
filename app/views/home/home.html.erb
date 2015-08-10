@@ -49,11 +49,14 @@
         <fieldset>
           <legend>Community Filters</legend>
           <div>
-            <button class="all_posts tiny" id="all_communities">All</button>
+            <button class="all_posts small" id="all_communities" style="font-size: 13px;">All</button>
             <div class="communities-wrapper">
               <% if @commnities.blank? %>
                 <% @communities.each do |community| %>
-                  <button class="community tiny" data-id="<%= community.id %>" id="<%= dom_id(community) %>">
+                  <button class="community community_<%= community.name %> small"
+                          data-id="<%= community.id %>"
+                          id="<%= dom_id(community) %>"
+                  >
                     <%= community.name %>
                   </button>
                 <% end %>

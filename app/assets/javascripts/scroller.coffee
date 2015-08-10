@@ -53,9 +53,9 @@
       $wrapper.fadeIn('slow')
 
       # Remove duplicate Communities.
-      if community == false
-        communities = (value for _,value of communities.reduce ((arr,value) -> arr[value.id] = value; arr),{})
-        scroller.set_map_communities(communities)
+#      if community == false
+#        communities = (value for _,value of communities.reduce ((arr,value) -> arr[value.id] = value; arr),{})
+#        scroller.set_map_communities(communities)
 
 
   set_map_communities: (communities) ->
