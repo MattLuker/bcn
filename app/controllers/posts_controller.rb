@@ -149,7 +149,7 @@ class PostsController < ApplicationController
         @post.communities.each do |community|
           community.subscribers.each do |subscriber|
             unless current_user == subscriber.user
-              if subscriber.user && subscriber.user.email
+              if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
                 PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
               end
             end
@@ -165,7 +165,7 @@ class PostsController < ApplicationController
         end
         @post.organization.subscribers.each do |subscriber|
           unless current_user == subscriber.user
-            if subscriber.user && subscriber.user.email
+            if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
               PostMailer.new_post(subscriber.user, @post, @post.organization, poster).deliver_now
             end
           end
@@ -180,7 +180,7 @@ class PostsController < ApplicationController
         poster = 'Anonymous'
       end
       @post.subscribers.each do |subscriber|
-        if subscriber.user && subscriber.user.email
+        if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
           PostMailer.post_updated(subscriber.user, @post, poster).deliver_now
         end
       end

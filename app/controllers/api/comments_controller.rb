@@ -29,11 +29,14 @@ class Api::CommentsController < Api::ApiController
       end
       comment.root.post.subscribers.each do |subscriber|
         unless current_user == subscriber.user
-          CommentMailer.new_comment(subscriber.user, comment.root.post, comment, commenter).deliver_now
+          if subscriber.user.notify_instant
+            CommentMailer.new_comment(subscriber.user, comment.root.post, comment, commenter).deliver_now
+          end
         end
       end
       if comment.root.post.user && comment.root.post.user.email &&
-          comment.root.post.subscribers.find_by(user_id: comment.root.post.user).nil?
+          comment.root.post.subscribers.find_by(user_id: comment.root.post.user).nil? &&
+          comment.root.post.user.notify_instant
         CommentMailer.new_comment(comment.root.post.user, comment.root.post, comment, commenter).deliver_now
       end
 
