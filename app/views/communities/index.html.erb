@@ -18,19 +18,15 @@
       <% if community == @communities[0] %>
 
         <li class="tab-title active community-tab">
-          <%= link_to community, class: 'community-link' do %>
-            <%= image_tag community.image.thumb('25x25#').url %>
-          <% end %>
           <a href="#<%= dom_id(community) %>">
+            <%= image_tag community.image.thumb('50x50#').url %>
             <%= community.name %>
           </a>
         </li>
       <% else %>
         <li class="tab-title community-tab">
-          <%= link_to community, class: 'community-link' do %>
-            <%= image_tag community.image.thumb('25x25#').url %>
-          <% end %>
           <a href="#<%= dom_id(community) %>">
+            <%= image_tag community.image.thumb('50x50#').url %>
             <%= community.name %>
           </a>
         </li>
@@ -50,6 +46,9 @@
         <div class="content" id="<%= dom_id(community) %>">
       <% end %>
 
+        <%= link_to community.name, community, class: 'button small right' %>
+      <br/><br/>
+
           <ul class="organizations no-disc">
             <% community.organizations.each do |organization| %>
               <%= render 'layouts/organizations_list', organization: organization %>
@@ -60,8 +59,7 @@
     <% end %>
 
     </div>
-    </section>
-
 
     <br/><br/>
   </div>
+  </section>
