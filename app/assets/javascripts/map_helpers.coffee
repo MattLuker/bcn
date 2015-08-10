@@ -291,9 +291,6 @@
           marker.bindPopup("""
                     <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
                     <p>#{marked(post.description)}</p>
-                    <a href='/posts/#{post.id}/edit' class='button tiny icon'>
-                      <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon'/>
-                    </a>
                     """)
 
           if window.layers[0]?
@@ -318,9 +315,6 @@
     marker.bindPopup("""
                     <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
                     <p>#{marked(post.description)}</p>
-                    <a href='/posts/#{post.id}/edit' class='button tiny icon'>
-                      <img src='#{window.image_path('edit-icon.svg')}' class='ty-icon' />
-                    </a>
                     """)
 
     #if (typeof(window.layers) != "undefined")
