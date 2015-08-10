@@ -9,32 +9,8 @@
 <div class="row">
   <div class="large-8 columns">
 
-    <div class="map-container">
-      <div id="map"></div>
-    </div>
-
-
     <div class="row">
-      <div class="large-12 columns">
-
-        <fieldset>
-          <legend>Search Map</legend>
-          <div class="row collapse">
-            <div class="small-10 columns">
-
-              <%= text_field_tag 'Name', '', placeholder: 'Name', class: 'loc-search', id: 'home_loc_search' %>
-            </div>
-            <div class="small-2 columns">
-              <a href="#" class="button postfix loc-search-button">Search</a>
-            </div>
-          </div>
-        </fieldset>
-
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="large-6 columns">
+      <div class="large-7 columns no-left-padding">
         <fieldset>
           <legend>Event Filters</legend>
 
@@ -44,9 +20,29 @@
           <button class="time success tiny" data-time="next_week">Next Week</button>
         </fieldset>
       </div>
+      <div class="large-5 columns no-right-padding">
 
-      <div class="large-6 columns">
         <fieldset>
+          <legend>Search Map</legend>
+          <div class="row collapse">
+            <div class="small-10 columns">
+
+              <%= text_field_tag 'Name', '', placeholder: 'Name', class: 'loc-search', id: 'home_loc_search' %>
+            </div>
+            <div class="small-2 columns">
+              <a href="#" class="button postfix loc-search-button">
+                <%= image_tag 'search-icon.svg', class: 'ty-icon' %>
+              </a>
+            </div>
+          </div>
+        </fieldset>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns no-side-padding">
+        <fieldset class="map-set">
           <legend>Community Filters</legend>
           <div>
             <button class="all_posts small" id="all_communities" style="font-size: 13px;">All</button>
@@ -65,8 +61,12 @@
           </div>
         </fieldset>
       </div>
+
     </div>
 
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
 
   </div>
 
