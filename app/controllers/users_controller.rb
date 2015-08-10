@@ -162,6 +162,8 @@ class UsersController < ApplicationController
                                    :password, :username, :web_link,
                                    :photo, :role, :bio, :explicit,
                                    :retained_photo, :facebook_link,
-                                   :twitter_link, :google_link)
+                                   :twitter_link, :google_link,
+                                   :notify_instant, :notify_daily,
+                                   :notify_weekly)
     end
 end

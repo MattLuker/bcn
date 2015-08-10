@@ -113,9 +113,50 @@
       </div>
     </div>
 
-    <br/>
-
+  <br/><br/>
     <div class="row">
+      <div class="large-4 columns">
+        <table width="100%">
+          <tr>
+            <td>
+              <div class="switch">
+                <%= f.check_box :notify_instant, :checked => @user.notify_instant %>
+                <%= f.label :notify_instant %>
+              </div>
+            </td>
+            <td valign="top">
+              <p style="padding-top: 5px;">Instant Email Notifications</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="switch">
+                <%= f.check_box :notify_daily, :checked => @user.notify_daily %>
+                <%= f.label :notify_daily %>
+              </div>
+            </td>
+            <td valign="top">
+              <p style="padding-top: 5px;">Daily Email Digest</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="switch">
+                <%= f.check_box :notify_weekly, :checked => @user.notify_weekly %>
+                <%= f.label :notify_weekly %>
+              </div>
+            </td>
+            <td valign="top">
+              <p style="padding-top: 5px;">Weekly Email Digest</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+    <br/>  <br/>
+
+  <div class="row">
       <div class="large-4 columns actions">
         <%= button_tag type: 'submit', class: 'button small success' do %>
             <%= image_tag 'save-icon.svg', class: 'ty-icon' %>

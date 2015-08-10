@@ -1,9 +1,8 @@
 ready_user = ->
+  #
+  # Form functionality.
+  #
   $('#merge_link').attr('href', '/send_merge?email=' + $('#user_email').val())
-
-  $('.leave-community, .leave-organization').on 'click', (e) ->
-    e.preventDefault()
-    leave(e)
 
   # Setup Markdown editor for description.
   if $('#user_bio').length
@@ -12,8 +11,17 @@ ready_user = ->
     })
     window.bio_editor.render()
 
-#  if $('.edit_user').length
-#    $('.edit_user').sisyphus()
+  $('.notification').on 'click', (e) ->
+    $input = $(this)
+    $input.attr('checked', 'true')
+
+
+  #
+  # Leave Community button functionality.
+  #
+  $('.leave-community, .leave-organization').on 'click', (e) ->
+    e.preventDefault()
+    leave(e)
 
 leave = (event) ->
   $form = $(event.target.form)
