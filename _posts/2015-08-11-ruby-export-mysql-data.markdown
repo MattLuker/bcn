@@ -1,4 +1,10 @@
-# Export MySQL Data to CSV
+---
+title: "Export MySQL Data to CSV"
+date:   2015-08-11 14:30:00
+layout: post
+categories: ruby learning
+image: database_cover.svg
+---
 
 ## Migrating Isn’t Just For Birds… Maybe?
 
@@ -9,6 +15,8 @@ The CSV format is great for this task cause basically it’s already a table.  Y
 Granted you could also use a more specific tool like **mysqldump** if you were keeping the same table format.  In the case where you’re starting over with a new table schema it’s usually easier to write a script to export and another one to import the data.  
 
 At least that’s been my experience.
+
+<!--more-->
 
 ## First Things First, Install Some Gems
 
@@ -24,7 +32,7 @@ The [mysql2](https://github.com/brianmario/mysql2) gem is needed to connect to t
 
 This script is very similar to the other CSV scripts we’ve been working with.  We first get some data, from a database this time, loop through it, then write it to a file.
 
-```
+{% highlight ruby %}
 #
 # Export users using Ruby.
 #
@@ -40,7 +48,7 @@ CSV.open("users.csv", "wb") do |csv|
   csv << ["email","username","display_name"]
   mysql.query("select email, username, display_name from users;").each { |row| csv << row }
 end
-```
+{% endhighlight %}
 
 Be sure to change the following to match your database environment:
 
