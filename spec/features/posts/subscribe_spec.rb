@@ -45,8 +45,33 @@ describe 'Subscribing to Post' do
     expect(post.subscribers.count).to eq(0)
   end
 
-  it 'sends email to subscribes for new comment', :js => true do
+  it 'does not send email to subscribes for new comment if instant notify false', :js => true do
     sign_in user, password: 'beans'
+
+    visit '/posts'
+    find('#post_1').click
+
+    find('.post-subscribe').click
+    sleep(1)
+    expect(post.subscribers[0].user).to eq(user)
+
+    click_link 'Log Out'
+
+    visit '/posts'
+    find('#post_1').click
+
+    find('.comment-button').click
+    fill_in 'comment[content]', with: 'Something to comment on...'
+
+    expect {
+      find('.save-comment').click
+    }.to change{ ActionMailer::Base.deliveries.size }.by(0)
+  end
+
+  it 'send email to subscribes for new comment if instant notify true', :js => true do
+    sign_in user, password: 'beans'
+    user.notify_instant = true
+    user.save
 
     visit '/posts'
     find('#post_1').click
