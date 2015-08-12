@@ -4,8 +4,8 @@
 <% Community.all.each do |community| %>
 
 .community_<%= community.name %> {
-  @include button($button-sml, <%= community.color %>);
-  font-size: 15px;
+  @include button($button-tny, <%= community.color %>);
+  //font-size: 15px;
 }
 
 <% end %>

@@ -10,19 +10,10 @@
   <div class="large-8 columns">
 
     <div class="row">
-      <div class="large-7 columns no-left-padding">
-        <fieldset>
-          <legend>Event Filters</legend>
 
-          <button class="success tiny all_posts" id="all_posts_btn">All</button>
-          <button class="time success tiny" data-time="today">Today</button>
-          <button class="time success tiny" data-time="tomorrow">Tomorrow</button>
-          <button class="time success tiny" data-time="next_week">Next Week</button>
-        </fieldset>
-      </div>
-      <div class="large-5 columns no-right-padding">
+      <div class="large-12 columns no-side-padding">
 
-        <fieldset>
+        <fieldset class="map-set">
           <legend>Search Map</legend>
           <div class="row collapse">
             <div class="small-10 columns">
@@ -40,28 +31,33 @@
       </div>
     </div>
 
+
     <div class="row">
-      <div class="large-12 columns no-side-padding">
-        <fieldset class="map-set">
-          <legend>Community Filters</legend>
-          <div>
-            <button class="all_posts small" id="all_communities" style="font-size: 13px;">All</button>
-            <div class="communities-wrapper">
-              <% if @commnities.blank? %>
-                <% @communities.each do |community| %>
-                  <button class="community community_<%= community.name %> small"
-                          data-id="<%= community.id %>"
-                          id="<%= dom_id(community) %>"
-                  >
-                    <%= community.name %>
-                  </button>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </fieldset>
+      <div class="large-6 columns no-side-padding">
+        <ul class="button-group">
+          <li><a href="#" class="button map-button success tiny all_posts" id="all_posts_btn">All</a></li>
+          <li><a href="#" class="button map-button time success tiny" data-time="today">Today</a></li>
+          <li><a href="#" class="button map-button time success tiny" data-time="tomorrow">Tomorrow</a></li>
+          <li><a href="#" class="button map-button time success tiny" data-time="next_week">Next Week</a></li>
+        </ul>
       </div>
 
+      <div class="large-6 columns no-side-padding">
+        <ul class="button-group">
+          <li>
+            <% if @commnities.blank? %>
+              <% @communities.each do |community| %>
+                <a class="community community_<%= community.name %> map-button tiny"
+                   data-id="<%= community.id %>"
+                   id="<%= dom_id(community) %>"
+                >
+                  <%= community.name %>
+                </a>
+              <% end %>
+            <% end %>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="map-container">

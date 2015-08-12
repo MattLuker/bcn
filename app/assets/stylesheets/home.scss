@@ -93,7 +93,16 @@ div.leaflet-popup-content {
 
 
 .map-set {
-  margin-bottom: 0;
+  margin-bottom: 10px;
+  padding: 10px;
+
+  #home_loc_search {
+    margin-bottom: 8px;
+  }
+
+  .loc-search-button {
+    margin-bottom: 8px;
+  }
 }
 
 div.no-side-padding {
@@ -103,3 +112,7 @@ div.no-side-padding {
 
 .no-right-padding { padding-right: 0 !important; }
 .no-left-padding { padding-left: 0 !important; }
+
+a.button.map-button, .map-button {
+  margin-bottom: 2px;
+}
