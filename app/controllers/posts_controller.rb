@@ -91,6 +91,7 @@ class PostsController < ApplicationController
   end
 
   def update
+    puts "Updating..."
     if current_user != @post.user
       flash[:error] = 'You can only update your posts.'
       redirect_to home_index_path
@@ -127,13 +128,25 @@ class PostsController < ApplicationController
 
   def destroy
     respond_to do |format|
-      if current_user.posts.find(params[:id]).destroy
-        format.html { redirect_to home_path, notice: 'Post was successfully destroyed.' }
-        format.json { head :no_content }
+      # post = current_user.posts.find(params[:id])
+      # if post.nil? && current_user.role == 'admin'
+      #   post = Post.find(params[:id])
+      # end
+      # puts "post: #{post.inspect}"
+
+      if @post.user == current_user || current_user.admin?
+        if @post.destroy
+          puts "Errors: #{@post.errors.full_messages}"
+          format.html { redirect_to home_path, notice: 'Post was successfully destroyed.' }
+          format.json { head :no_content }
+        else
+          flash[:error] = 'You must be logged in to delete a post.'
+          format.html { render :edit }
+          format.json { render json: @post.errors, status: :unprocessable_entity }
+        end
       else
-        flash[:error] = 'You must be logged in to delete a post.'
-        format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        flash[:info] = 'Not allowed to delete this post.'
+        redirect_to @post
       end
     end
   end

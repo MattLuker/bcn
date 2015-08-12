@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   def self.twitter(auth_hash)
 
     user = User.find_by(twitter_id: auth_hash.uid)
-    unless user.nil?
+    if user.nil?
       user = User.find_by(username: auth_hash.info.nickname)
     else
       user = create(username: auth_hash.info.nickname, password: (0...50).map { ('a'..'z').to_a[rand(26)] }.join)

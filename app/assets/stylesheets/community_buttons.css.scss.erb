@@ -3,7 +3,7 @@
 
 <% Community.all.each do |community| %>
 
-.community_<%= community.name %> {
+.community_<%= community.id %> {
   @include button($button-tny, <%= community.color %>);
   //font-size: 15px;
 }
