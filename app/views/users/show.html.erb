@@ -61,17 +61,17 @@
               <% image_tag 'globe-icon.svg', class: 'image-link' %>
           <% end %>
       <% end %>
-      <% if @user.facebook_link %>
+      <% if @user.facebook_link && !@user.facebook_link.blank? %>
           <%= link_to @user.facebook_link, target: '_blank' do %>
               <% image_tag 'facebook-icon.svg', class: 'image-link' %>
           <% end %>
       <% end %>
-      <% if @user.twitter_link %>
+      <% if @user.twitter_link && !@user.twitter_link.blank?  %>
           <%= link_to @user.twitter_link, target: '_blank' do %>
               <% image_tag 'twitter-icon.svg', class: 'image-link' %>
           <% end %>
       <% end %>
-      <% if @user.google_link %>
+      <% if @user.google_link && !@user.google_link.blank?  %>
           <%= link_to @user.google_link, target: '_blank' do %>
               <% image_tag 'google-icon.svg', class: 'image-link' %>
           <% end %>

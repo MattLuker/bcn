@@ -11,8 +11,9 @@ class FacebookSyncJob < ActiveJob::Base
       #fb_event = @graph.get_object(event['id']
       fb_event = @graph.get_connection(event['id'], nil,
                                        {'fields' => 'name,owner,start_time,end_time,cover,place,description'})
-      community = user.communities.where(name: fb_event['owner']['name']) unless user.communities.blank?
-      unless community.blank?
+      organization = user.organizations.find_by(name: fb_event['owner']['name']) unless user.organizations.blank?
+      puts "organization: #{organization.inspect}"
+      unless organization.blank?
         start_date = Date.parse(event['start_time']) unless event['start_time'].nil?
         start_time = Time.parse(event['start_time']) unless event['start_time'].nil?
         end_date = Date.parse(event['end_time']) unless event['end_time'].nil?
@@ -32,7 +33,7 @@ class FacebookSyncJob < ActiveJob::Base
                                      start_time: start_time,
                                      end_date: end_date,
                                      end_time: end_time,
-                                     communities: [community[0]],
+                                     organization_id: organization.id,
                                      user: user,
                                      og_url: "https://www.facebook.com/events/#{event['id']}",
                                      og_title: event['name'],
@@ -61,10 +62,10 @@ class FacebookSyncJob < ActiveJob::Base
     #
     # This code subscribes the BCN Facebook App to app user event changes.  In case it ever needs to be re-subscribed.
     #
-    # @updates = Koala::Facebook::RealtimeUpdates.new(:app_id => FACEBOOK_CONFIG['app_id'],
-    #                                                 :secret => FACEBOOK_CONFIG['secret'])
-    # fb_sub = FacebookSubscription.create(verify_token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join, user: user)
-    # @updates.subscribe('user', 'events', 'http://bcndev.thehoick.com/facebook_subscriptions/', fb_sub.verify_token)
+    @updates = Koala::Facebook::RealtimeUpdates.new(:app_id => FACEBOOK_CONFIG['app_id'],
+                                                    :secret => FACEBOOK_CONFIG['secret'])
+    fb_sub = FacebookSubscription.create(verify_token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join, user: user)
+    @updates.subscribe('user', 'events', 'http://bcndev.thehoick.com/facebook_subscriptions/', fb_sub.verify_token)
 
     user.event_sync_time = Time.now
     user.save
