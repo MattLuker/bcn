@@ -47,7 +47,7 @@
           <li>
             <% if @commnities.blank? %>
               <% @communities.each do |community| %>
-                <a class="community community_<%= community.name %> map-button tiny"
+                <a class="community community_<%= community.id %> map-button tiny"
                    data-id="<%= community.id %>"
                    id="<%= dom_id(community) %>"
                 >

@@ -79,6 +79,7 @@ class Post < ActiveRecord::Base
         },
         :user => {
             :only => [
+                :id,
                 :email,
                 :first_name,
                 :last_name,
