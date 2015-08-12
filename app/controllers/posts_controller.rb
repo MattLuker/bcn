@@ -36,51 +36,56 @@ class PostsController < ApplicationController
   end
 
   def create
-    if post_params[:lat] and post_params[:lon]
-      lat = params[:post].delete :lat
-      lon = params[:post].delete :lon
-    end
-
-    # Remove community_ids if field not filled out on iOS cause it sends "null" anyway.
-    params[:post].delete :community_ids if params[:post][:community_ids] == ["null"]
-
-    if current_user
-      @post = current_user.posts.new(post_params)
+    unless params[:post][:favorite].blank?
+      redirect_to posts_path
     else
-      @post = Post.new(post_params)
-    end
 
-    if lat and lon
-      @post.create_location({lat: lat, lon: lon})
-    else
-      @post.locations = []
-    end
+      if post_params[:lat] and post_params[:lon]
+        lat = params[:post].delete :lat
+        lon = params[:post].delete :lon
+      end
 
-    if @post.save
-      if post_params[:community_ids]
-        post_params[:community_ids].each do |c|
-          unless c.blank?
-            community = Community.find(c)
+      # Remove community_ids if field not filled out on iOS cause it sends "null" anyway.
+      params[:post].delete :community_ids if params[:post][:community_ids] == ["null"]
 
-            @post.locations << community.location if community.location
+      if current_user
+        @post = current_user.posts.new(post_params)
+      else
+        @post = Post.new(post_params)
+      end
+
+      if lat and lon
+        @post.create_location({lat: lat, lon: lon})
+      else
+        @post.locations = []
+      end
+
+      if @post.save
+        if post_params[:community_ids]
+          post_params[:community_ids].each do |c|
+            unless c.blank?
+              community = Community.find(c)
+
+              @post.locations << community.location if community.location
+              @post.save
+
+              Community.increment_counter('posts_count', community.id)
+              community.save
+            end
+          end
+
+          if @post.organization && @post.organization.location
+            @post.locations << @post.organization.location
             @post.save
-
-            Community.increment_counter('posts_count', community.id)
-            community.save
           end
         end
 
-        if @post.organization && @post.organization.location
-          @post.locations << @post.organization.location
-          @post.save
-        end
+        # Notify Community subscribers.
+        notify_community_subscribers
+
+        flash[:success] = 'Post was successfully created.'
+        redirect_to @post
       end
-
-      # Notify Community subscribers.
-      notify_community_subscribers
-
-      flash[:success] = 'Post was successfully created.'
-      redirect_to @post
     end
   end
 
@@ -152,86 +157,86 @@ class PostsController < ApplicationController
   end
 
   private
-    def notify_community_subscribers
-      unless @post.communities.blank?
-        if current_user
-          current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
-        else
-          poster = 'Anonymous'
-        end
-        @post.communities.each do |community|
-          community.subscribers.each do |subscriber|
-            unless current_user == subscriber.user
-              if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
-                PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
-              end
-            end
-          end
-        end
-      end
-
-      unless @post.organization.nil?
-        if current_user
-          current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
-        else
-          poster = 'Anonymous'
-        end
-        @post.organization.subscribers.each do |subscriber|
-          unless current_user == subscriber.user
-            if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
-              PostMailer.new_post(subscriber.user, @post, @post.organization, poster).deliver_now
-            end
-          end
-        end
-      end
-    end
-
-    def notify_subscribers
-      if @post.user
-        @post.user.username.nil? ? poster = 'Anonymous' : poster = @post.user.username
+  def notify_community_subscribers
+    unless @post.communities.blank?
+      if current_user
+        current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
       else
         poster = 'Anonymous'
       end
-      @post.subscribers.each do |subscriber|
-        if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
-          PostMailer.post_updated(subscriber.user, @post, poster).deliver_now
+      @post.communities.each do |community|
+        community.subscribers.each do |subscriber|
+          unless current_user == subscriber.user
+            if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
+              PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
+            end
+          end
         end
       end
     end
 
-    def set_post
+    unless @post.organization.nil?
       if current_user
-        begin
-          @post = current_user.posts.find(params[:id])
-        rescue ActiveRecord::RecordNotFound => e
-          # Be able to view a post if logged in, but not the Post.user.
-          @post = Post.find(params[:id])
-        end
+        current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
       else
+        poster = 'Anonymous'
+      end
+      @post.organization.subscribers.each do |subscriber|
+        unless current_user == subscriber.user
+          if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
+            PostMailer.new_post(subscriber.user, @post, @post.organization, poster).deliver_now
+          end
+        end
+      end
+    end
+  end
+
+  def notify_subscribers
+    if @post.user
+      @post.user.username.nil? ? poster = 'Anonymous' : poster = @post.user.username
+    else
+      poster = 'Anonymous'
+    end
+    @post.subscribers.each do |subscriber|
+      if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
+        PostMailer.post_updated(subscriber.user, @post, poster).deliver_now
+      end
+    end
+  end
+
+  def set_post
+    if current_user
+      begin
+        @post = current_user.posts.find(params[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        # Be able to view a post if logged in, but not the Post.user.
         @post = Post.find(params[:id])
       end
+    else
+      @post = Post.find(params[:id])
     end
+  end
 
-    def post_params
-      params.require('post').permit(:title,
-                                    :description,
-                                    :lat,
-                                    :lon,
-                                    :location_id,
-                                    :user_id,
-                                    :start_date,
-                                    :end_date,
-                                    :start_time,
-                                    :end_time,
-                                    :image,
-                                    :audio,
-                                    :community_ids,
-                                    :og_url,
-                                    :og_image,
-                                    :og_title,
-                                    :og_description,
-                                    :explicit,
-                                    :organization_id,
-                                    :community_ids => [])
-    end
+  def post_params
+    params.require('post').permit(:title,
+                                  :description,
+                                  :lat,
+                                  :lon,
+                                  :location_id,
+                                  :user_id,
+                                  :start_date,
+                                  :end_date,
+                                  :start_time,
+                                  :end_time,
+                                  :image,
+                                  :audio,
+                                  :community_ids,
+                                  :og_url,
+                                  :og_image,
+                                  :og_title,
+                                  :og_description,
+                                  :explicit,
+                                  :organization_id,
+                                  :community_ids => [])
+  end
 end

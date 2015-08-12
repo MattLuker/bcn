@@ -2,7 +2,6 @@
 @import 'foundation_and_overrides';
 
 <% Community.all.each do |community| %>
-
 .community_<%= community.id %> {
   @include button($button-tny, <%= community.color %>);
   //font-size: 15px;

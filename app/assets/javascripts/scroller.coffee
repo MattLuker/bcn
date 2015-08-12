@@ -77,7 +77,7 @@
       {{#posts}}
       <li class="post_{{id}} post row">
         <div class="row">
-          <div class="large-2 columns post-list-image">
+          <div class="small-4 large-2 columns post-list-image">
             <a href="/posts/{{id}}">
             {{#image_web_url}}
               <img src="{{image_web_url}}" />
