@@ -40,7 +40,12 @@ class Post < ActiveRecord::Base
   before_save :set_audio_duration
 
   def as_json(options={})
-    self.image_web_url = self.image.url if self.image
+    if self.image
+      self.image_web_url = self.image.url
+    elsif self.og_image
+      self.image_web_url = self.og_image
+    end
+
     self.audio_web_url = self.audio.url if self.audio
 
     super(methods: [:image_web_url, :audio_web_url], :only => [

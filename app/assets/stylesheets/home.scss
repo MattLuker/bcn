@@ -115,4 +115,17 @@ div.no-side-padding {
 
 a.button.map-button, .map-button {
   margin-bottom: 2px;
+  margin-right: -1px;
+  margin-left: -1px;
+}
+
+.time-button-list {
+  max-width: 300px;
+  @media (max-width: 790px) {
+    max-width: 100%;
+  }
+}
+
+.community-button-list {
+  max-width: 460px;
 }
