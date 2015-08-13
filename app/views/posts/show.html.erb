@@ -10,7 +10,9 @@
     <meta property="og:type" content="article" />
     <meta property="og:published_time" content="<%= @post.created_at.strftime('%Y-%m-%d %H:%M') %>" />
     <meta property="og:author" content="<%= @post.user.username if @post.user && @post.user.username %>" />
-    <meta property="og:description" content="<%= truncate(strip_tags( markdown(@post.description) ), length: 50) %>" />
+    <% if @post.description %>
+      <meta property="og:description" content="<%= truncate(strip_tags( markdown(@post.description) ), length: 50) %>" />
+    <% end %>
     <% if @post.image %>
         <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@post.image.url}" %>
     <% end %>
@@ -35,7 +37,7 @@
 
       <div class="row">
         <div class="large-12 columns">
-          <%= markdown(@post.description) %>
+          <%= markdown(@post.description) if @post.description %>
         </div>
       </div>
       <br/><br/>
@@ -61,9 +63,11 @@
       </div>
       <div class="row social-row">
         <div class="large-3 columns social-share right">
-          <%= link_to "https://twitter.com/intent/tweet?url=#{request.original_url}&text=#{truncate( strip_tags( markdown(@post.description) ), length: 25)}&hashtags=boone,bcn",
+          <% if @post.description %>
+            <%= link_to "https://twitter.com/intent/tweet?url=#{request.original_url}&text=#{truncate( strip_tags( markdown(@post.description) ), length: 25)}&hashtags=boone,bcn",
                       target: '_blank', class: 'button sm-icon info share' do %>
               <%= image_tag 'twitter-icon-white.svg', class: 'sm-icon' %>
+            <% end %>
           <% end %>
 
           <%= link_to "http://www.facebook.com/sharer.php?u=#{request.original_url}&title=#{@post.title}",
