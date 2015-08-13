@@ -1,4 +1,11 @@
-# Markdown in Rails, Yes Please!
+---
+title: "Markdown in Rails, Yes Please!"
+date:   2015-08-13 14:30:00
+layout: post
+categories: rails bcn
+image: markdown_cover.jpg
+---
+
 
 ##  I Love Markdown
 
@@ -9,6 +16,8 @@ For me there’s no better way to “shorthand” HTML then Markdown.  It gives 
 Don’t get me started on blog platforms like [Ghost](https://ghost.org/).  I love writing in a Ghost blog so much better than writing in a WordPress blog.  Though there are plugins that will set things up very similar to how Ghost works.  Also, great writing this blog using [Jekyll](http://jekyllrb.com/) that understands markdown.  For quite a while my main Markdown editor has been [MacDown](http://macdown.uranusjr.com/), but recently I’ve been using [Scrivener](https://www.literatureandlatte.com/scrivener.php) since picking it up on an AppSumo deal.
 
 Anyhow, we’re going to dive in and setup a *textarea* field on Rails to save and display Markdown.  Woo!
+
+<!--more-->
 
 ## The Backend
 
@@ -26,8 +35,19 @@ bundle install
 
 Next, define a **markdown** method inside the *app/helpers/application_helper.rb* files:
 
-```   def markdown(text)     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,                                        no_intra_emphasis: true,                                        fenced_code_blocks: true,                                        disable_indented_code_blocks: true,                                        autolink: true,                                        tables: true,                                        underline: true,                                        highlight: true                                       )     return markdown.render(text).html_safe   end
-```
+{% highlight ruby %}
+       markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
+                                       no_intra_emphasis: true,
+                                       fenced_code_blocks: true,
+                                       disable_indented_code_blocks: true,
+                                       autolink: true,
+                                       tables: true,
+                                       underline: true,
+                                       highlight: true
+                                      )
+    return markdown.render(text).html_safe
+  end
+{% endhighlight %}
 
 Things should now be ready for marking down.
 
