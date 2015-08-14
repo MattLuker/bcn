@@ -1,0 +1,45 @@
+
+<div class="row">
+  <div class="large-6 columns">
+    <dl class="sub-nav">
+      <dt>Table of Contents:</dt>
+      <dd class="active"><a href="#posts">Posts</a></dd>
+      <dd><a href="#events">Event Posts</a></dd>
+      <dd><a href="#users">User Profiles</a></dd>
+      <dd><a href="#organizations">Organizations</a></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-8 columns">
+    <div id="posts">
+      <h5>Posts</h5>
+
+      <p>
+        Creating a post is the base of this site.  Hopefully creating a post is as easy as falling off a log.  Or as
+        easy as Mama's apple pie... uh, it's easy trust us.
+      </p>
+
+      <ol class="help-steps">
+        <li>
+          There are two ways of creating a new post.  The first way is to click the "+" button in the menu bar (this
+          button can be accessed on any page of the site).
+
+          <%= image_tag image_path('help/new_post_button.png'), size: '300x200', class: 'help-img' %>
+        </li>
+
+        <li>
+          On the <strong>New Post</strong> page fill out the form with the content for your new post.
+          <%= image_tag image_path('help/new_post_form.png'), size: '300x200', class: 'help-img' %>
+        </li>
+        <li>
+          The post content field has a more advanced editor for things like headers, embedding images, etc.  The field
+          uses <a href="https://help.github.com/articles/markdown-basics/" target="_blank">Markdown</a> format for those
+          advanced features.  The style buttons at the top will automatically apply the needed syntax.
+          <%= image_tag image_path('help/new_post_content.png'), size: '300x200', class: 'help-img' %>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>

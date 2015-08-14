@@ -19,4 +19,7 @@ class HomeController < ApplicationController
 
   def calendar
   end
+
+  def help
+  end
 end

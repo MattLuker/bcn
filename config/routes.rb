@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   get 'home/index'
   get 'home', to: 'home#home'
+  get 'help', to: 'home#help'
   get 'who_we_are', to: 'home#who_we_are'
   get 'calendar', to: 'home#calendar'
 
