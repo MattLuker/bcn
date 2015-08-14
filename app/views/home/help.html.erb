@@ -1,45 +1,128 @@
 
 <div class="row">
-  <div class="large-6 columns">
-    <dl class="sub-nav">
-      <dt>Table of Contents:</dt>
-      <dd class="active"><a href="#posts">Posts</a></dd>
-      <dd><a href="#events">Event Posts</a></dd>
-      <dd><a href="#users">User Profiles</a></dd>
-      <dd><a href="#organizations">Organizations</a></dd>
-    </dl>
-  </div>
-</div>
+  <div class="large-12 columns">
+    <ul class="tabs" data-tab>
+      <li class="tab-title active"><a href="#posts">Posts</a></li>
+      <li class="tab-title"><a href="#users">Your Profile</a></li>
+      <li class="tab-title"><a href="#organizations">Organizations</a></li>
+      <li class="tab-title"><a href="#events">Event Posts</a></li>
+    </ul>
 
-<div class="row">
-  <div class="large-8 columns">
-    <div id="posts">
-      <h5>Posts</h5>
+    <div class="tabs-content">
+      <div class="content active" id="posts">
+        <div id="posts">
+          <ul class="tabs" data-tab>
+            <li class="tab-title active"><a href="#creating_posts">Creating Posts</a></li>
+            <li class="tab-title"><a href="#post_form">New Post Form</a></li>
+            <li class="tab-title"><a href="#editing_posts">Editing Posts</a></li>
+          </ul>
 
-      <p>
-        Creating a post is the base of this site.  Hopefully creating a post is as easy as falling off a log.  Or as
-        easy as Mama's apple pie... uh, it's easy trust us.
-      </p>
+          <div class="tabs-content">
+            <div class="content active" id="creating_posts">
+              <p>
+                Creating a post is the base of this site.  Hopefully creating a post is as easy as falling off a log.  Or as
+                easy as Mama's apple pie... uh, it's easy trust us.
+              </p>
 
-      <ol class="help-steps">
-        <li>
-          There are two ways of creating a new post.  The first way is to click the "+" button in the menu bar (this
-          button can be accessed on any page of the site).
+              <ul class="help-steps">
+                <li>
+                  There are multiple ways of creating a new post.  The first way is to click the "+" button in the menu bar (this
+                  button can be accessed on any page of the site).
 
-          <%= image_tag image_path('help/new_post_button.png'), size: '300x200', class: 'help-img' %>
-        </li>
+                  <%= image_tag image_path('help/new_post_button.png'), size: '300x200', class: 'help-img' %>
+                </li>
+                <li>
+                  Another way to create a new post is to click the <strong>"Posts"</strong> link in the menu bar >
+                  then click the <strong>"New Post"</strong> button.
 
-        <li>
-          On the <strong>New Post</strong> page fill out the form with the content for your new post.
-          <%= image_tag image_path('help/new_post_form.png'), size: '300x200', class: 'help-img' %>
-        </li>
-        <li>
-          The post content field has a more advanced editor for things like headers, embedding images, etc.  The field
-          uses <a href="https://help.github.com/articles/markdown-basics/" target="_blank">Markdown</a> format for those
-          advanced features.  The style buttons at the top will automatically apply the needed syntax.
-          <%= image_tag image_path('help/new_post_content.png'), size: '300x200', class: 'help-img' %>
-        </li>
-      </ol>
+                  <%= image_tag image_path('help/new_posts_button.png'), size: '300x200', class: 'help-img' %>
+                </li>
+                <li>
+                  <p>
+                    The third way, and one of the best, is to find the location you'd like to add to your post on the map
+                    on the home page and click the map. This will place a marker on the map and then click the
+                    <strong>"New Post"</strong> link in the marker's popup.
+                  </p>
+
+
+                  <p>
+                    <strong>Remember:</strong> using the map will automatically assign that location to the new post.
+                    It's a little bonus.
+                  </p>
+
+
+
+                  <%= image_tag image_path('help/new_post_map.png'), size: '300x200', class: 'help-img' %>
+                </li>
+              </ul>
+            </div>
+
+            <div class="content" id="post_form">
+              <ol class="help-steps">
+                <li>
+                  On the <strong>New Post</strong> page fill out the form with the content for your new post.
+                  <%= image_tag image_path('help/new_post_form.png'), size: '300x200', class: 'help-img' %>
+                </li>
+                <li>
+                  The post content field has a more advanced editor for things like headers, embedding images, etc.  The field
+                  uses <a href="https://help.github.com/articles/markdown-basics/" target="_blank">Markdown</a> format for those
+                  advanced features.  The style buttons at the top will automatically apply the needed syntax.
+                  <%= image_tag image_path('help/new_post_content.png'), size: '300x200', class: 'help-img' %>
+                </li>
+                <li>
+                  You can also upload an image file, or audio file, for your post.  The uploaded image will display in the posts
+                  list as well as on the post page.
+                  <%= image_tag image_path('help/new_post_upload.png'), size: '300x200', class: 'help-img' %>
+                </li>
+                <li>
+                  After filling out the form for your new post click the "Save Post" button and it will be published.
+                </li>
+              </ol>
+            </div>
+            <div class="content" id="editing_posts">
+              <ul class="help-steps">
+                <li>
+                  <p>
+                    To edit a post open the post page and click the <strong>Edit Button</strong> (it has the pencil icon).
+                  </p>
+
+                  <p>
+                    <strong>Note:</strong> you can only edit posts you create, so the icon will only be on the page for
+                    your posts.
+                  </p>
+                  <%= image_tag image_path('help/edit_post_button.png'), size: '300x200', class: 'help-img' %>
+
+                  <p>
+                    Then change the post form fields as needed.
+                  </p>
+                </li>
+                <li>
+                  You can also add a location, or more locations, to a post by clicking the map which will place a marker
+                  then clicking <strong>"Add Location"</strong> link in the popup.
+
+                  <%= image_tag image_path('help/edit_post_location.png'), size: '300x200', class: 'help-img' %>
+                </li>
+                <li>
+                  An existing location can be dragged around the map and when it is dropped a the new location will be
+                  saved.
+                  <%= image_tag image_path('help/edit_post_drop_location.png'), size: '300x200', class: 'help-img' %>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="content" id="users">
+        <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
+      </div>
+      <div class="content" id="organizations">
+        <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
+      </div>
+      <div class="content" id="events">
+        <p>This is the fourth panel of the basic tab example. This is the fourth panel of the basic tab example.</p>
+      </div>
     </div>
   </div>
 </div>
+
