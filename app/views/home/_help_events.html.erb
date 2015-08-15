@@ -1,0 +1,36 @@
+<p>
+  Events are special posts that have a start date, and maybe an end date, and can also be automatically created.
+</p>
+
+<ul class="help-steps">
+  <li>
+    To create an Event follow the steps documented on the posts tab.
+  </li>
+  <li>
+    Add a date, and a time if you'd like to the new post.
+    <%= image_tag image_path('help/event_date.png'), size: '300x200', class: 'help-img' %>
+  </li>
+  <li>
+    Save the new post and the event will be added.
+  </li>
+</ul>
+
+<p>
+  There are two ways for events to be automatically created.
+</p>
+
+<ol>
+  <li>
+    <p>By logging into the BCN site with a Facebook account.</p>
+    <p>
+      If you have joined a Facebook event and the Facebook Page or Group has the same name as an Organization in the
+      BCN site, then the event will be automatically created, and updated, when you log in.
+    </p>
+  </li>
+  <li>
+    If an Organization has configured <strong>Calendar Link</strong> with a link to their online calendar, then events
+    in the calendar will be automatically synced with event posts in the BCN site.
+
+    <%= image_tag image_path('help/org_calendar_field.png'), size: '300x200', class: 'help-img' %>
+  </li>
+</ol>
