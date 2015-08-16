@@ -1,0 +1,24 @@
+<p>Hi,</p>
+
+<p>There is a new post contact from the BCN Contact form:</p>
+
+<p><strong>Email:</strong> <%= @email %></p>
+<br/>
+
+<p><strong>Wrote: </strong></p>
+<p><%= @message %></p>
+
+<p>
+  <% if @user %>
+    They are in the system
+    <% if @user.photo %>
+      <%= link_to user_url(@user) do  %>
+        <%= image_tag @user.photo.url %>
+      <% end %>
+    <% else %>
+      <%= link_to 'here', user_url(@user) %>
+  <% end %>
+<% end %>
+</p>
+
+<p>Thanks,<br/>Boone Community Network Team</p>

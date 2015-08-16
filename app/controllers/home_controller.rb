@@ -22,4 +22,23 @@ class HomeController < ApplicationController
 
   def help
   end
+
+  def contact
+  end
+
+  def send_contact
+    puts "params: #{params}"
+    unless params[:name].blank?
+      redirect_to home_path
+    else
+      begin
+        user = User.find_by_email(params[:email]) if params[:email]
+      rescue
+        user = nil
+      end
+      ContactMailer.send_message(user, params[:email], params[:message])
+      flash[:success] = 'Thank you for contacting with us, we will get back to you as soon as we can.'
+      redirect_to home_path
+    end
+  end
 end

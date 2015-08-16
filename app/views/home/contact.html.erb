@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="large-12 columns">
+
+    <h5>We'd love to hear from you.</h5>
+    <br/>
+
+    <%= form_tag '/send_contact' do %>
+      <div class="row">
+        <div class="large-4 columns">
+          <input type="text" name="name" style="display: none;">
+          <%= text_field_tag 'Email', '', placeholder: 'Email' %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-4 columns">
+          <%= text_area 'Message', '', placeholder: 'Message' %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-4 columns">
+          <%= button_tag type: 'submit', class: 'button small success' do %>
+            <%= image_tag 'send-icon.svg', class: 'ty-icon' %>
+            &nbsp;
+            Send Message
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

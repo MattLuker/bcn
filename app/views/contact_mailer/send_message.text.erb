@@ -1,0 +1,18 @@
+Hi,
+
+There is a new post contact from the BCN Contact form:
+
+Email: <%= @email %>
+
+
+Wrote:
+
+<%= @message %>
+
+
+  <% if @user %>
+    They are in the system <%= user_url(@user) %>
+  <% end %>
+</p>
+
+<p>Thanks,<br/>Boone Community Network Team</p>
