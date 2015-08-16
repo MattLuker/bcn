@@ -36,7 +36,7 @@ class HomeController < ApplicationController
       rescue
         user = nil
       end
-      ContactMailer.send_message(user, params[:email], params[:message])
+      ContactMailer.send_message(user, params[:email], params[:message]).deliver_now
       flash[:success] = 'Thank you for contacting with us, we will get back to you as soon as we can.'
       redirect_to home_path
     end
