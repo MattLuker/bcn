@@ -6,6 +6,6 @@ class ContactMailer < ApplicationMailer
     @user = user
     @email = email
     @message = message
-    mail(to: "Adam Somer <asommer70@gmail.com>", subject: "New Contact Message from BCN")
+    mail(to: "Adam Somer <#{CONTACT_CONFIG['email']}>", subject: "New Contact Message from BCN")
   end
 end

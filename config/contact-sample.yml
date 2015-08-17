@@ -1,0 +1,8 @@
+development:
+  email: 'bob@thehoick.com'
+
+testing:
+  email: 'bob@thehoick.com'
+
+production:
+  email: 'bob@thehoick.com'
