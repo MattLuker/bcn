@@ -800,17 +800,19 @@
                       </tr>
                       <tr style="padding: 0; text-align: left; vertical-align: top;">
                         <td style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: bold; hyphens: auto; line-height: 19px; margin: 0; padding: 0px 0px 10px; padding-bottom: 0; text-align: left; vertical-align: top; word-break: break-word;">
-                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">Hi <%= @user.first_name="" if="" %="">,</%=></p>
+                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
+                            Hi <%= @user.first_name if @user.firstname %>
+                          </p>
                           </td>
                         <td class="expander" style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; padding-bottom: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word;"></td>
-                                                                                                                                                                                                                                                        </tr>
+                      </tr>
                     </table>
-                                                                                                                                                                                                                                                        </td>
+                  </td>
                 </tr>
-                                                                                                                                                                                                                                                        </table>
+              </table>
 
             </td>
-                                                                                                                                                                                                                                                        </tr>
+          </tr>
 
           <tr style="padding: 0; text-align: left; vertical-align: top;">
             <td style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-break: break-word;">
@@ -821,36 +823,43 @@
                       <tr style="padding: 0; text-align: left; vertical-align: top;">
                         <td style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 24px; margin: 0; padding: 0px 0px 10px; padding-bottom: 0; text-align: left; vertical-align: top; word-break: break-word;">
 
-                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">There is a new comment from <%= @commenter="" %=""> on post <%= @post.title="" %="">:</%=></%=></p>
+                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
+                            Happy news!  There is a new comment from <%= @commenter %> on post
+                            <%= @post.title if @post.title %>
+                          </p>
 
-
-                                                                                                                                                                                                                                                        <table class="twelve columns" style="border-collapse: collapse; border-spacing: 0; margin: 0 auto; padding: 0; text-align: left; vertical-align: top; width: 580px;">
+                          <table class="twelve columns" style="border-collapse: collapse; border-spacing: 0; margin: 0 auto; padding: 0; text-align: left; vertical-align: top; width: 580px;">
                           <tr style="padding: 0; text-align: left; vertical-align: top;">
                           <td class="panel" style="-moz-hyphens: auto; -webkit-hyphens: auto; background: #f2f2f2; border: 1px solid #d9d9d9; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 10px; padding-bottom: 0; text-align: left; vertical-align: top; word-break: break-word;">
-                          <% if="" @comment.photo="" %="">
-                          <%= image_tag="" @comment.photo.thumb('100x100#').url="" %="">
-                          <% end="" %="">
 
-                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;"><%= @comment.content="" %=""></%=></p>
-                                                                                                                                                                                                                                                        </%></%=></%></td>
-                      </tr>
-                    </table>
+                            <% if @comment.photo %>
+                              <%= image_tag @comment.photo.thumb('100x100#').url %>
+                            <% end %>
 
-                    <br>
-                    <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
-                      Click <%= link_to="" 'here',="" post_url(@post,="" host:="" 'bcn.thehoick.com')="" %=""> to reply.
-                            </%=></p>
+                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
+                            <%= @comment.content %>
+                          </p>
+                          </td>
+                          </tr>
+                          </table>
 
-                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">Thanks,<br>Boone Community Network Team</p>
+                          <br>
+                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
+                            Click <%= link_to post_url(@post, host: 'bcn.thehoick.com') %> to reply.
+                          </p>
+
+                          <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
+                            Thanks,<br>Boone Community Network Team
+                          </p>
 
                         </td>
-                                <td class="expander last" style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; padding-bottom: 0; padding-right: 0px; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word;"></td>
+                        <td class="expander last" style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; padding-bottom: 0; padding-right: 0px; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word;"></td>
                       </tr>
-                                </table>
+                    </table>
                   </td>
-                                </tr>
+                </tr>
               </table>
-                                </td>
+            </td>
           </tr>
                                 <tr style="padding: 0; text-align: left; vertical-align: top;">
                     <td class="expander last" height="20" style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; padding-right: 0px; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word;"></td>
@@ -875,8 +884,7 @@
                                 </tr>
                         <tr style="padding: 0; text-align: left; vertical-align: top;">
                           <td style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #ffffff; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 12px; font-weight: normal; hyphens: auto; line-height: 18px; margin: 0; padding: 0px 0px 10px; padding-bottom: 0; text-align: center; vertical-align: top; word-break: break-word;">
-                            <em>Copyright &copy; <%= date.today.year="" %=""> Boone Community Network, All rights reserved
-                              .</%=></em>
+                            <em>Copyright &copy; <%= date.today.year %> Boone Community Network, All rights reserved.</em>
                             <br>
                             145 North Street <br>
                             Boone, Nc 28607 <br>
