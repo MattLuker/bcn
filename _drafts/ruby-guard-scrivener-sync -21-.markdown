@@ -1,5 +1,7 @@
 # Syncing Scrivener Files 
 
+# Image: scrivener_cover.svg
+
 ## Scrivener Great, but…
 
 I recently bought a license for [Scrivener](https://www.literatureandlatte.com/scrivener.php) because there was a great deal on [AppSumo](http://www.appsumo.com) a few weeks ago.  I bought it because I’d heard that a lot of writers, well people that write full time for a living, use it to organize their projects.  Since I’ve had a few ideas for books, and I’m writing these blog posts, I thought “hey self… why not buy a non-open source program if it helps you write more?”, and the rest is history.
