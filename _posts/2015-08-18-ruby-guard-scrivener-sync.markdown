@@ -1,14 +1,20 @@
-# Syncing Scrivener Files 
+---
+title: "Syncing Scrivener Files"
+date:   2015-08-18 14:30:00
+layout: post
+categories: ruby learning
+image: scrivener_cover.svg
+---
 
-# Image: scrivener_cover.svg
-
-## Scrivener Great, but…
+## Scrivener is Great, but…
 
 I recently bought a license for [Scrivener](https://www.literatureandlatte.com/scrivener.php) because there was a great deal on [AppSumo](http://www.appsumo.com) a few weeks ago.  I bought it because I’d heard that a lot of writers, well people that write full time for a living, use it to organize their projects.  Since I’ve had a few ideas for books, and I’m writing these blog posts, I thought “hey self… why not buy a non-open source program if it helps you write more?”, and the rest is history.
 
 One thing I’d really like to be able to do from Scrivener, and maybe you can I just don’t know how to do it, is to run a command from, or open a terminal, from inside Scrivener.  Since using [RubyMine](https://www.jetbrains.com/ruby/) and friends I’m used to having a terminal window open at the bottom of the program.  Why can’t Scrivener do the same thing?
 
 We’ll move forward on the assumption that Scrivener indeed can’t open a terminal window, or execute an arbitrary command from a button, and use a Ruby script to sync the files in Scrivener **Drafts** with a **_drafts** directory that is part of a [Jekyll](http://jekyllrb.com/) site.
+
+<!--more-->
 
 ## Setup Scrivener Sync
 
@@ -42,8 +48,8 @@ Should be simple.
 
 Guard is closely tied with [Bundler](http://bundler.io/) we need to edit the **Gemfile** for our Jekyll site.  Add the following to the bottom of the file:
 
-```
 
+{% highlight ruby %}
 group :development do
 
    gem 'guard'
@@ -51,18 +57,16 @@ group :development do
    gem 'guard-copy'
 
 end
+{% endhighlight %}
 
-```
 
 As you can see we’re not just going to install Guard, but the [guard-copy](https://github.com/marcisme/guard-copy) plugin as well.  There are plugins for Guard to do many common tasks.  Do a search on Google, or on Github itself, to find one that can do what you’re trying to accomplish.
 
 Then in a terminal execute:
 
-```
-
+{% highlight ruby %}
 bundle install
-
-```
+{% endhighlight %}
 
 Another thing I like to do is to *”binstub”* guard with bundle. This basically creates a *bin/guard* file in the current directory and you can then run ```bin/guard``` instead of the full ```bundle exec guard```.  It’s  a nice shorthand way to do things.
 
@@ -70,33 +74,27 @@ Another thing I like to do is to *”binstub”* guard with bundle. This basical
 
 Sort of like the old school (and still very awesome) **make** utility Guard uses a type of config file to tell it what to do.  In Guard’s case the file you want to create is named **Guardfile**.  The Guardfile can also be created and initialized with a plugin by executing:
 
-```
-
+{% highlight ruby %}
 bin/guard init copy
-
-```
+{% endhighlight %}
 
 This will create the Guardfile and add a task for **guard-copy**, or if you already have a Guardfile the code will be appended to the bottom.  Edit the Guardfile copy task to have:
 
-```
-
+{% highlight ruby %}
 guard :copy, :from => '_drafts/Draft', :to => './_drafts' do
 
   watch(%r{^(.*)})
 
  end
-
-```
+{% endhighlight %}
 
 This will copy all the files from the **_drafts/Draft** folder into the **_drafts** folder.  Then you can do some additional edits if you like and when complete move the file into the *_posts* folder for final publishing.
 
 With all of this setup done, run **guard** in a terminal with:
 
-```
-
+{% highlight ruby %}
 bin/guard
-
-```
+{% endhighlight %}
 
 ## Conclusion
 
