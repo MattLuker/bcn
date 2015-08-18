@@ -69,13 +69,18 @@ class PostsController < ApplicationController
               @post.locations << community.location if community.location
               @post.save
 
-              Community.increment_counter('posts_count', community.id)
               community.save
             end
           end
 
-          if @post.organization && @post.organization.location
-            @post.locations << @post.organization.location
+          # Add the Organization's Communitites and Location if posting as an Org.
+          if @post.organization
+            if @post.organization.location
+             @post.locations << @post.organization.location
+            end
+            unless @post.organization.communities.blank?
+              @post.communities << @post.organization.communities
+            end
             @post.save
           end
         end
@@ -133,11 +138,6 @@ class PostsController < ApplicationController
 
   def destroy
     respond_to do |format|
-      # post = current_user.posts.find(params[:id])
-      # if post.nil? && current_user.role == 'admin'
-      #   post = Post.find(params[:id])
-      # end
-      # puts "post: #{post.inspect}"
 
       if @post.user == current_user || current_user.admin?
         if @post.destroy

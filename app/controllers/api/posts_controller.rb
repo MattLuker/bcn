@@ -61,6 +61,17 @@ class Api::PostsController < Api::ApiController
         end
       end
 
+      # Add the Organization's Communitites and Location if posting as an Org.
+      if post.organization
+        if post.organization.location
+          post.locations << post.organization.location
+        end
+        unless post.organization.communities.blank?
+          post.communities << post.organization.communities
+        end
+        post.save
+      end
+
       render status: 200, json: {
         message: 'Post created.',
         post: post,
