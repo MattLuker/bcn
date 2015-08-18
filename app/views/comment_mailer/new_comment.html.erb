@@ -801,7 +801,7 @@
                       <tr style="padding: 0; text-align: left; vertical-align: top;">
                         <td style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: bold; hyphens: auto; line-height: 19px; margin: 0; padding: 0px 0px 10px; padding-bottom: 0; text-align: left; vertical-align: top; word-break: break-word;">
                           <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
-                            Hi <%= @user.first_name if @user.firstname %>
+                            Hi<%= ' ' + @user.first_name if @user.firstname %>,
                           </p>
                           </td>
                         <td class="expander" style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; padding-bottom: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word;"></td>
@@ -884,7 +884,7 @@
                                 </tr>
                         <tr style="padding: 0; text-align: left; vertical-align: top;">
                           <td style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #ffffff; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 12px; font-weight: normal; hyphens: auto; line-height: 18px; margin: 0; padding: 0px 0px 10px; padding-bottom: 0; text-align: center; vertical-align: top; word-break: break-word;">
-                            <em>Copyright &copy; <%= date.today.year %> Boone Community Network, All rights reserved.</em>
+                            Copyright &copy; <%= date.today.year %> Boone Community Network, All rights reserved.
                             <br>
                             145 North Street <br>
                             Boone, Nc 28607 <br>

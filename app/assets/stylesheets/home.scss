@@ -138,3 +138,16 @@ a.button.map-button, .map-button {
   display: block;
   margin: 10px 0;
 }
+
+@media (max-width: 420px) {
+
+  .map-wrap {
+    //width: 370px;
+  }
+
+  .map-container {
+    margin: auto;
+    //padding: 0 10px;
+    margin-bottom: 20px;
+  }
+}
