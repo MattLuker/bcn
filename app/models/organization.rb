@@ -19,6 +19,7 @@ class Organization < ActiveRecord::Base
   has_many :comments
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "organization_id"
   has_many :facebook_subscriptions
+  has_many :roles
   has_one :location
 
   before_save :set_slug

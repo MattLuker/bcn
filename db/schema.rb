@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150810140923) do
+ActiveRecord::Schema.define(version: 20150818095120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,9 +218,27 @@ ActiveRecord::Schema.define(version: 20150810140923) do
     t.integer "post_id",         index: {name: "index_organizations_posts_on_post_id"}, foreign_key: {references: "posts", name: "fk_organizations_posts_post_id", on_update: :no_action, on_delete: :no_action}
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string  "name",            index: {name: "index_roles_on_name"}
+    t.integer "user_id",         index: {name: "fk__roles_user_id"}, foreign_key: {references: "users", name: "fk_roles_user_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "organization_id", index: {name: "fk__roles_organization_id"}, foreign_key: {references: "organizations", name: "fk_roles_organization_id", on_update: :no_action, on_delete: :no_action}
+  end
+  add_index "roles", ["organization_id"], name: "index_roles_on_organization_id"
+  add_index "roles", ["user_id"], name: "index_roles_on_user_id"
+
+  create_table "organizations_roles", force: :cascade do |t|
+    t.integer "role_id",         index: {name: "index_organizations_roles_on_role_id"}, foreign_key: {references: "roles", name: "fk_organizations_roles_role_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "organization_id", index: {name: "index_organizations_roles_on_organization_id"}, foreign_key: {references: "organizations", name: "fk_organizations_roles_organization_id", on_update: :no_action, on_delete: :no_action}
+  end
+
   create_table "organizations_users", force: :cascade do |t|
     t.integer "organization_id", index: {name: "index_organizations_users_on_organization_id"}, foreign_key: {references: "organizations", name: "fk_organizations_users_organization_id", on_update: :no_action, on_delete: :no_action}
     t.integer "user_id",         index: {name: "index_organizations_users_on_user_id"}, foreign_key: {references: "users", name: "fk_organizations_users_user_id", on_update: :no_action, on_delete: :no_action}
+  end
+
+  create_table "roles_users", force: :cascade do |t|
+    t.integer "role_id", index: {name: "index_roles_users_on_role_id"}, foreign_key: {references: "roles", name: "fk_roles_users_role_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "user_id", index: {name: "index_roles_users_on_user_id"}, foreign_key: {references: "users", name: "fk_roles_users_user_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "search_views", force: :cascade do |t|

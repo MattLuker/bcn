@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :subscriptions, :class_name => "Subscriber", :foreign_key => "user_id"
   has_many :facebook_subscriptions
+  has_many :roles
   has_and_belongs_to_many :communities
   has_and_belongs_to_many :organizations
   has_and_belongs_to_many :badges

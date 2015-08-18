@@ -39,7 +39,8 @@ class OrganizationsController < ApplicationController
     end
 
     if @organization.save
-      current_user.role = 'leader'
+      role = Role.create(name: 'leader', user: current_user, organization: @organization)
+      current_user.roles << role
       current_user.save
 
       flash[:success] = 'Organization created.'
@@ -51,7 +52,8 @@ class OrganizationsController < ApplicationController
   end
 
   def edit
-    if @organization.created_by != current_user.id
+    @roles = Role.where(organization: @organization.id)
+    unless current_user.roles.find_by_organization_id(@organization.id).name == 'leader'
       redirect_to @organization, notice: 'Must be the creator of the Community to update it.'
     end
   end

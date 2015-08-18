@@ -1,0 +1,49 @@
+
+<div class="row">
+  <div class="large-8 columns">
+    <br/>
+    <table class="members">
+      <tr>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+
+      <% @roles.each do |role| %>
+        <tr>
+
+          <td>
+            <%= role.user.email %>
+          </td>
+          <td>
+            <%= role.user.username if role.user.username %>
+          </td>
+          <td>
+            <%= role.name %>
+          </td>
+          <td>
+            <%= form_tag do %>
+
+              <%= select_tag :role_name, options_for_select([
+                                                              ['', ''],
+                                                              ['Leader', 'leader'],
+                                                              ['Member', 'member'],
+                                                              ['Remove', 'remove']
+                                                            ],
+                                                             role.name)
+              %>
+
+              <%= button_tag type: 'submit', class: 'button tiny success' do %>
+                <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
+                &nbsp;
+                Update Member
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
