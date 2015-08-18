@@ -26,6 +26,11 @@
     communities = []
     for post in posts.posts
       communities = communities.concat(post.communities)
+      if post.start_date?
+        post.start_date = moment(post.start_date).format('M/D/YYYY')
+
+      if post.start_time?
+        post.start_time = moment(post.start_time).format('h:mm a')
       post.created_at = moment(post.created_at).fromNow()
 
     output = Mustache.render(scroller.template, posts, default_post_image);
@@ -93,7 +98,15 @@
             <br>
             <span class="grey post-date smaller-text">
               {{created_at}}
-              {{start_date}} by <a class="grey-link" href="/users/{{user.id}}">{{user.username}}</a>
+              {{#start_date}}
+              On: {{start_date}} {{start_time}}
+              {{/start_date}}
+              {{#organization}}
+                by <a class="grey-link" href="/organizations/{{organization.slug}}">{{organization.name}}</a>
+              {{/organization}}
+              {{^organization}}
+                by <a class="grey-link" href="/users/{{user.id}}">{{user.username}}</a>
+               {{/organization}}
             </span>
           </div>
         </div>

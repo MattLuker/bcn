@@ -66,7 +66,11 @@ class Community < ActiveRecord::Base
           :only => [
             :id,
             :title,
-            :description
+            :description,
+            :created_at,
+            :start_date,
+            :start_time,
+            :org
           ],
           :include => {
             :locations => {
@@ -82,6 +86,22 @@ class Community < ActiveRecord::Base
                 :county,
                 :country
               ]
+            },
+            :user => {
+                :only => [
+                   :id,
+                   :email,
+                   :username,
+                   :first_name,
+                   :last_name
+                ],
+            },
+            :organization => {
+                :only => [
+                    :id,
+                    :name,
+                    :slug
+                ],
             },
           },
         },
