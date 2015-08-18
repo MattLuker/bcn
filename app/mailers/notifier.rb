@@ -18,11 +18,15 @@ class Notifier < ApplicationMailer
          subject: "Welcome!")
   end
 
-  def user_join(leader, user, organization)
-    @leader = leader
+  def user_join(user, organization)
     @user = user
     @organization = organization
-    mail(to: "#{@user.first_name if @leader.first_name} #{@leader.last_name if @leader.last_name} <#{@leader.email}>",
-         subject: "New member in #{@organization.name}")
+    leaders = Role.where(organization: @organization, name: 'leader').collect { |u| u.user }
+
+    leaders.each do |leader|
+      @leader = leader
+      mail(to: "#{@leader.first_name if @leader.first_name} #{@leader.last_name if @leader.last_name} <#{@leader.email}>",
+         subject: "New member request for #{@organization.name}")
+    end
   end
 end

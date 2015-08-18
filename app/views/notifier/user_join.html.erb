@@ -1,11 +1,10 @@
-<% if @leader.first_name %>
-  <p>Hi <%= @leader.first_name %>,</p>
-<% else %>
-  <p>Hi,</p>
-<% end %>
+<p>Hi<%= ' ' + @leader.first_name if @leader.first_name  %>,</p>
 
-<p>A new user has joined <%= @organization.name %>.</p>
+<p>A user has requested membership in <%= @organization.name %>.</p>
 
-<p>Click <%= link_to 'here', user_url(@user, host: 'bcn.thehoick.com') %> to view their profile.</p>
+<p>
+  Click <%= link_to 'here', edit_organization_url(@organization, host: 'bcn.thehoick.com') %>
+  to update their status.
+</p>
 
-Thanks and have a great day!
+<p>Thanks and have a great day!</p>

@@ -53,7 +53,8 @@ class OrganizationsController < ApplicationController
 
   def edit
     @roles = Role.where(organization: @organization.id)
-    unless current_user.roles.find_by_organization_id(@organization.id).name == 'leader'
+    org_role = current_user.roles.find_by_organization_id(@organization.id)
+    unless org_role && org_role.name == 'leader'
       redirect_to @organization, notice: 'Must be the creator of the Community to update it.'
     end
   end
@@ -79,19 +80,26 @@ class OrganizationsController < ApplicationController
   end
 
   def add_user
+
     if current_user.id == params['user_id'].to_i
-      leader = User.find(@organization.created_by)
-      @organization.users << current_user
-      if @organization.save
-        Notifier.user_join(leader, current_user, @organization).deliver_now
-        ApplyBadgesJob.perform_now(current_user)
-        flash[:success] = "You are now part of #{@organization.name}."
+      if Role.create(name: 'pending', user: current_user, organization: @organization)
+        Notifier.user_join(current_user, @organization).deliver_now
+        flash[:success] = "Your membership request to #{@organization.name} has been submitted."
         redirect_to @organization
-      else
-        redirect_to @organization, notice: 'There was a problem adding you to the organization.'
       end
-    else
-      redirect_to organizations_path, notice: 'You can only add yourself to an organization.'
+
+      #   leader = User.find(@organization.created_by)
+    #   @organization.users << current_user
+    #   if @organization.save
+    #     Notifier.user_join(leader, current_user, @organization).deliver_now
+    #     ApplyBadgesJob.perform_now(current_user)
+    #     flash[:success] = "You are now part of #{@organization.name}."
+    #     redirect_to @organization
+    #   else
+    #     redirect_to @organization, notice: 'There was a problem adding you to the organization.'
+    #   end
+    # else
+    #   redirect_to organizations_path, notice: 'You can only add yourself to an organization.'
     end
   end
 
@@ -114,6 +122,8 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find_by_slug(params[:id]) if params[:id]
     @organization = Organization.find(params[:organization_id]) if params[:organization_id]
     @creator = User.find(@organization.created_by) if @organization.created_by
+    @leaders = Role.where(organization: @organization, name: 'leader').collect { |u| u.user }
+
   end
 
   def organization_params
