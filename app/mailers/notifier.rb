@@ -29,4 +29,13 @@ class Notifier < ApplicationMailer
          subject: "New member request for #{@organization.name}")
     end
   end
+
+  def join_status(user, organization, role)
+    @user = user
+    @organization = organization
+    @role = role
+
+    mail(to: "#{@user.first_name if @user.first_name} #{@user.last_name if @user.last_name} <#{@user.email}>",
+           subject: "Membership request for #{@organization.name} has been updated.")
+  end
 end

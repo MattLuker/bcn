@@ -4,8 +4,12 @@ class RolesController < ApplicationController
     role = Role.find(params[:id])
 
     if role.update(role_params)
-      organization.users << @role.user
+      organization.users << role.user
       flash[:success] = 'Member status updated.'
+
+      # Send member notification of status update.
+      Notifier.join_status(role.user, organization, role).deliver_now
+
       redirect_to edit_organization_path(organization)
     else
       flash[:error] = "There was a problem updating the Member's status."

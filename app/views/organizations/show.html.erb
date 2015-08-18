@@ -72,7 +72,13 @@
 
     <div class="row">
       <div class="large-12 columns">
-        <% if current_user && !@organization.users.include?(current_user) %>
+        <% if @penders.include?(current_user) %>
+          <%= button_tag type: 'submit', class: 'button small secondary disabled' do %>
+            <%= image_tag 'group-icon-white.svg', class: 'ty-icon' %>
+            &nbsp;
+            Join Request Pending...
+          <% end %>
+        <% elsif current_user && !@organization.users.include?(current_user) %>
           <%= form_tag("/organizations/#{@organization.id}/users", method: 'patch', class: 'join-organization') do |f| %>
             <%= hidden_field_tag 'user_id', current_user.id %>
             <%= button_tag type: 'submit', class: 'button small' do %>
@@ -93,7 +99,7 @@
                                 status: 'subscribed' } do %>
 
               <%= image_tag 'tack-icon-green.svg', class: 'ty-icon' %>
-              Unsubscribe
+              Unfollow
             <% end %>
             &nbsp;&nbsp;
           <% else %>
@@ -104,7 +110,7 @@
                                 status: 'unsubscribed' } do %>
               <%= image_tag 'tack-icon.svg', class: 'ty-icon' %>
               &nbsp;
-              Subscribe
+              Follow
             <% end %>
             &nbsp;&nbsp;
           <% end %>

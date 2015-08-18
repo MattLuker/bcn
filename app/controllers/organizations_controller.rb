@@ -123,7 +123,8 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:organization_id]) if params[:organization_id]
     @creator = User.find(@organization.created_by) if @organization.created_by
     @leaders = Role.where(organization: @organization, name: 'leader').collect { |u| u.user }
-
+    @members = Role.where(organization: @organization, name: 'member').collect { |u| u.user }
+    @penders = Role.where(organization: @organization, name: 'pending').collect { |u| u.user }
   end
 
   def organization_params

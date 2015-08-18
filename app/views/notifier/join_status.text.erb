@@ -1,0 +1,16 @@
+Hi<%= ' ' + @user.first_name if @user.first_name  %>,
+
+<% if @role %>
+  Your membership in <%= @organization.name %> has been granted.
+<% else %>
+  Sorry, your membership in <%= @organization.name %> has been denied.  Contact members of <%= @organization.name %>
+   if you think this is an error.
+
+<% end %>
+
+Browse here <%= link_to organization_url(@organization, host: 'bcn.thehoick.com'),
+                        organization_url(@organization, host: 'bcn.thehoick.com') %>
+  to view <%= @organization.name %>.
+
+
+Thanks and have a great day!

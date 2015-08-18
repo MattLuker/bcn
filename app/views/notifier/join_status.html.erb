@@ -1,0 +1,17 @@
+<p>Hi<%= ' ' + @user.first_name if @user.first_name  %>,</p>
+
+<% if @role %>
+  <p>Your membership in <%= @organization.name %> has been granted.</p>
+<% else %>
+  <p>
+    Sorry, your membership in <%= @organization.name %> has been denied.  Contact members of <%= @organization.name %>
+    if you think this is an error.
+  </p>
+<% end %>
+
+<p>
+  Click <%= link_to 'here', organization_url(@organization, host: 'bcn.thehoick.com') %>
+  to view <%= @organization.name %>.
+</p>
+
+<p>Thanks and have a great day!</p>
