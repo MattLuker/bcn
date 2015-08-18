@@ -73,14 +73,6 @@
             Join <%= @community.name %>
           <% end %>
           <ul id="orgs" data-dropdown-content class="f-dropdown" aria-hidden="true">
-            <li>
-              <%= link_to community_users_path(@community, user_id: current_user.id),
-                          class: 'join-community',
-                          method: :patch do
-              %>
-                as Me
-              <% end %>
-            </li>
             <% current_user.organizations.each do |organization| %>
               <li>
                 <% unless @community.organizations.include?(organization) %>
@@ -108,7 +100,8 @@
                                 status: 'subscribed' } do %>
 
               <%= image_tag 'tack-icon-green.svg', class: 'ty-icon' %>
-              Unsubscribe
+              &nbsp;
+              Unfollow
             <% end %>
             &nbsp;&nbsp;
           <% else %>
@@ -119,7 +112,7 @@
                                 status: 'unsubscribed' } do %>
               <%= image_tag 'tack-icon.svg', class: 'ty-icon' %>
               &nbsp;
-              Subscribe
+              Follow
             <% end %>
             &nbsp;&nbsp;
           <% end %>

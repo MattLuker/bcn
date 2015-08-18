@@ -71,34 +71,18 @@ class CommunitiesController < ApplicationController
     #@community = Community.find(params[:community_id].to_i)
     @community = Community.find_by_slug(params[:community_id])
 
-
-    if params[:user_id]
-      if current_user.id == params['user_id'].to_i
-        @community.users << current_user
-        if @community.save
-          flash[:success] = "You are now part of the #{@community.name} community."
-          ApplyBadgesJob.perform_now(current_user)
-          redirect_to @community
-        else
-          redirect_to @community, notice: 'There was a problem adding you to the community'
-        end
+    organization = Organization.find(params[:organization_id]) if params[:organization_id]
+    if organization.users.index(current_user)
+      @community.organizations << organization
+      if @community.save
+        flash[:success] = "#{organization.name} is now part of #{@community.name}."
+        ApplyBadgesJob.perform_now(current_user)
+        redirect_to @community
       else
-        redirect_to @community, notice: 'You can only add yourself to a community.'
+        redirect_to @community, notice: 'There was a problem adding the organization to the community'
       end
     else
-      organization = Organization.find(params[:organization_id]) if params[:organization_id]
-      if organization.users.index(current_user)
-        @community.organizations << organization
-        if @community.save
-          flash[:success] = "#{organization.name} is now part of #{@community.name}."
-          ApplyBadgesJob.perform_now(current_user)
-          redirect_to @community
-        else
-          redirect_to @community, notice: 'There was a problem adding the organization to the community'
-        end
-      else
-        redirect_to @community, notice: 'You can only add organizations you are a part of to a community.'
-      end
+      redirect_to @community, notice: 'You can only add organizations you are a part of to a community.'
     end
   end
 
@@ -106,29 +90,16 @@ class CommunitiesController < ApplicationController
     #community = Community.find(params[:community_id].to_i)
     @community = Community.find_by_slug(params[:community_id])
 
-    if params[:user_id]
-      if current_user.id == params[:user_id].to_i || current_user.admin?
-        if @community.users.delete(current_user)
-          flash[:success] = "You have left the #{@community.name} community."
-          redirect_to current_user
-        else
-          redirect_to current_user, notice: 'There was a problem leaving the community'
-        end
+    organization = Organization.find(params[:organization_id])
+    if @community.organizations.include?(organization) && organization.users.include?(current_user) || current_user.admin?
+      if @community.organizations.delete(organization)
+        flash[:success] = "You have removed #{organization.name} from #{@community.name}."
+        redirect_to @community
       else
-        redirect_to current_user, notice: 'You can only remove yourself from a community.'
+        redirect_to @community, notice: 'There was a problem removing the organization from the community'
       end
     else
-      organization = Organization.find(params[:organization_id])
-      if @community.organizations.include?(organization) && organization.users.include?(current_user) || current_user.admin?
-        if @community.organizations.delete(organization)
-          flash[:success] = "You have removed #{organization.name} from #{@community.name}."
-          redirect_to @community
-        else
-          redirect_to @community, notice: 'There was a problem removing the organization from the community'
-        end
-      else
-        redirect_to @community, notice: 'You can only remove your organizations from a community.'
-      end
+      redirect_to @community, notice: 'You can only remove your organizations from a community.'
     end
   end
 

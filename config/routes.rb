@@ -9,8 +9,6 @@ Rails.application.routes.draw do
   get 'calendar', to: 'home#calendar'
 
   resources :communities do
-    patch 'users', to: 'communities#add_member'
-    delete 'users', to: 'communities#remove_member'
     patch 'organizations', to: 'communities#add_member'
     delete 'organizations', to: 'communities#remove_member', as: 'remove_organization'
     get :podcast, to: 'communities#podcast'
@@ -71,8 +69,8 @@ Rails.application.routes.draw do
     resources :communities do
       resources :posts, only: [:create, :update, :destroy]
       resources :locations, only: [:create, :update]
-      patch 'users', to: 'communities#add_user'
-      delete 'users', to: 'communities#remove_user'
+      patch 'organizations', to: 'communities#add_member'
+      delete 'organizations', to: 'communities#remove_member', as: 'remove_organization'
       resources :subscribers, only: [:create, :destroy]
     end
 

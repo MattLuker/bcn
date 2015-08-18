@@ -59,50 +59,52 @@ class Api::CommunitiesController < Api::ApiController
     end
   end
 
-  def add_user
-    community = Community.find(params[:community_id])
+  def add_member
+    #@community = Community.find(params[:community_id].to_i)
+    @community = Community.find_by_slug(params[:community_id])
 
-    if current_user.id == community_params['user_ids'][0].to_i
-      user = User.find(community_params['user_ids'][0].to_i)
-      community.users << user
-      if community.save
+    organization = Organization.find(params[:organization_id]) if params[:organization_id]
+    if organization.users.index(current_user)
+      @community.organizations << organization
+      if @community.save
         ApplyBadgesJob.perform_now(current_user)
         render status: 200, json: {
-                              message: 'User added to community.',
+                              message: "#{organization.name} is now part of #{@community.name}.",
                               community: community,
                           }.to_json
       else
         render status: 422, json: {
-                              message: 'User could not be added to community.',
+                              message: 'There was a problem adding the organization to the community',
                               community: community
                           }.to_json
       end
     else
       render status: 401, json: {
-                            message: 'You can only add yourself to a community.'
+                            message: 'You can only add organizations you are a part of to a community.'
                         }.to_json
     end
   end
 
-  def remove_user
-    community = Community.find(params[:community_id])
-    user = User.find(community_params['user_ids'][0].to_i)
+  def remove_member
+    #community = Community.find(params[:community_id].to_i)
+    @community = Community.find_by_slug(params[:community_id])
 
-    if current_user.id == community_params['user_ids'][0].to_i
-      if community.users.delete(user)
+    organization = Organization.find(params[:organization_id])
+    if @community.organizations.include?(organization) && organization.users.include?(current_user) || current_user.admin?
+      if @community.organizations.delete(organization)
         render status: 200, json: {
-                              message: 'User removed to community.',
+                              message: "You have removed #{organization.name} from #{@community.name}.",
                               community: community,
                           }.to_json
       else
         render status: 422, json: {
-                              message: 'User could not be removed to community.',
+                              message: 'There was a problem removing the organization from the community.',
                               community: community
                           }.to_json
       end
     else
       render status: 401, json: {
-                            message: 'You can only remove yourself from a community.',
+                            message: 'You can only remove your organizations from a community.',
                         }.to_json
     end
   end
