@@ -60,25 +60,15 @@ class Api::OrganizationsController < Api::ApiController
   def add_user
     organization = Organization.find(params[:organization_id])
 
-    if current_user.id == organization_params['user_ids'][0].to_i
-      user = User.find(organization_params['user_ids'][0].to_i)
-      organization.users << user
-      if organization.save
+    if current_user.id == params['user_id'].to_i
+      if Role.create(name: 'pending', user: current_user, organization: organization)
+        Notifier.user_join(current_user, organization).deliver_now
         ApplyBadgesJob.perform_now(current_user)
         render status: 200, json: {
-                              message: 'User added to organization.',
+                              message: "Your membership request to #{@organization.name} has been submitted.",
                               organization: organization,
                           }.to_json
-      else
-        render status: 422, json: {
-                              message: 'User could not be added to organization.',
-                              organization: organization
-                          }.to_json
       end
-    else
-      render status: 401, json: {
-                            message: 'You can only add yourself to a organization.'
-                        }.to_json
     end
   end
 

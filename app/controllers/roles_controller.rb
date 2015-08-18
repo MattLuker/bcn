@@ -1,4 +1,6 @@
 class RolesController < ApplicationController
+  before_action :require_user
+
   def update
     organization = Organization.find_by_slug(params[:organization_id])
     role = Role.find(params[:id])

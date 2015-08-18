@@ -80,26 +80,13 @@ class OrganizationsController < ApplicationController
   end
 
   def add_user
-
     if current_user.id == params['user_id'].to_i
       if Role.create(name: 'pending', user: current_user, organization: @organization)
+        ApplyBadgesJob.perform_now(current_user)
         Notifier.user_join(current_user, @organization).deliver_now
         flash[:success] = "Your membership request to #{@organization.name} has been submitted."
         redirect_to @organization
       end
-
-      #   leader = User.find(@organization.created_by)
-    #   @organization.users << current_user
-    #   if @organization.save
-    #     Notifier.user_join(leader, current_user, @organization).deliver_now
-    #     ApplyBadgesJob.perform_now(current_user)
-    #     flash[:success] = "You are now part of #{@organization.name}."
-    #     redirect_to @organization
-    #   else
-    #     redirect_to @organization, notice: 'There was a problem adding you to the organization.'
-    #   end
-    # else
-    #   redirect_to organizations_path, notice: 'You can only add yourself to an organization.'
     end
   end
 
