@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :organizations do
     patch 'users', to: 'organizations#add_user'
     delete 'users', to: 'organizations#remove_user'
+    resources :roles, only: [:update]
     get :podcast, to: 'organizations#podcast'
     resources :subscribers, only: [:create, :destroy]
   end

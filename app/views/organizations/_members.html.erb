@@ -23,9 +23,9 @@
             <%= role.name %>
           </td>
           <td>
-            <%= form_tag do %>
+            <%= form_tag organization_role_path(@organization, role), { method: 'PATCH'} do %>
 
-              <%= select_tag :role_name, options_for_select([
+              <%= select_tag 'role[name]', options_for_select([
                                                               ['', ''],
                                                               ['Leader', 'leader'],
                                                               ['Member', 'member'],
@@ -37,7 +37,7 @@
               <%= button_tag type: 'submit', class: 'button tiny success' do %>
                 <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
                 &nbsp;
-                Update Member
+                Update Status
               <% end %>
             <% end %>
           </td>
