@@ -36,22 +36,20 @@
               </div>
             </div>
 
-            <% if action_name == 'new' %>
-              <div class="row">
-                <div class="large-12 columns">
+            <div class="row">
+              <div class="large-12 columns">
 
-                  <div class="row collapse">
-                    <div class="small-10 columns">
-                      <%= text_field_tag 'Default Location', '', placeholder: 'Default Location',
-                                         class: 'new-location' %>
-                    </div>
-                    <div class="small-2 columns">
-                      <a href="#" class="button postfix location-button">Search</a>
-                    </div>
+                <div class="row collapse">
+                  <div class="small-10 columns">
+                    <%= text_field_tag 'Default Location', '', placeholder: 'Default Location',
+                                       class: 'new-location' %>
+                  </div>
+                  <div class="small-2 columns">
+                    <a href="#" class="button postfix location-button">Search</a>
                   </div>
                 </div>
               </div>
-            <% end %>
+            </div>
 
           </fieldset>
         </div>
@@ -134,6 +132,9 @@
           </fieldset>
         </div>
       </div>
+
+      <%= hidden_field_tag 'organization[lat]', '', class: 'form-lat' %>
+      <%= hidden_field_tag 'organization[lon]', '', class: 'form-lon' %>
 
       <br/><br/>
 

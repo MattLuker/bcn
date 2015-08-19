@@ -39,7 +39,7 @@
             <li class="has-form">
               <div class="row collapse">
                 <div class="large-8 small-9 columns">
-                  <input type="text" id="search_query" name="search[query]" placeholder="Find happiness">
+                  <input type="text" id="search_query" name="search[query]" placeholder="Search the Booniverse">
                 </div>
                 <div class="large-4 small-3 columns">
                   <a href="#" id='search_button' class="secondary button expand">
@@ -84,6 +84,7 @@
                 <li><a href="/organizations">Organizations</a></li>
               </ul>
             </li>
+            <li><a href="/about">About Us</a></li>
           </ul>
         </section>
       </nav>
@@ -110,10 +111,23 @@
         </div>
       </div>
 
-      <div class="large-6 columns right">
+      <div class="large-6 columns right text-center">
         <%= link_to 'Help', help_path %>
         &nbsp; | &nbsp;
         <%= link_to 'Contact Us', contact_path %>
+        &nbsp; | &nbsp;
+        <%= link_to 'About Us', about_path %>
+      </div>
+    </div>
+
+    <br/><br/>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <p>
+          Boone Community Network is dedicated to bringing together the wide-ranging,
+          beautiful facets of Boone and give them space to promote the wonderful things they love doing!
+        </p>
       </div>
     </div>
   </footer>

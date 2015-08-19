@@ -151,3 +151,23 @@ a.button.map-button, .map-button {
     margin-bottom: 20px;
   }
 }
+
+#search_query::-webkit-input-placeholder {
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+#search_query::-moz-placeholder { /* Firefox 18- */
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+#search_query::-moz-placeholder {  /* Firefox 19+ */
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+#search_query::-ms-input-placeholder {
+  font-size: 10px;
+  vertical-align: middle;
+}

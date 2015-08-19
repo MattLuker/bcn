@@ -14,7 +14,7 @@ class HomeController < ApplicationController
     @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).limit(7)
   end
 
-  def who_we_are
+  def about
   end
 
   def calendar

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'help', to: 'home#help'
   get 'contact', to: 'home#contact'
   post 'send_contact', to: 'home#send_contact'
-  get 'who_we_are', to: 'home#who_we_are'
+  get 'about', to: 'home#about'
   get 'calendar', to: 'home#calendar'
 
   resources :communities do

@@ -60,6 +60,12 @@ class OrganizationsController < ApplicationController
   end
 
   def update
+    if organization_params[:lat] and organization_params[:lon]
+      lat = params[:organization].delete :lat
+      lon = params[:organization].delete :lon
+      @organization.create_location({lat: lat, lon: lon})
+    end
+
     if @organization.update(organization_params)
       flash[:success] = 'Organization updated.'
       redirect_to @organization
