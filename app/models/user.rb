@@ -113,7 +113,7 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    true if role == 'admin'
+    true if Role.where(user_id: self.id, name: 'admin')[0]
   end
 
   def explicit?

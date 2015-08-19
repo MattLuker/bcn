@@ -48,6 +48,9 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   get :send_merge, to: 'users#send_merge_email'
   get :merge_user, to: 'users#merge_user'
+  put '/add_admin/:user_id', to: 'users#add_admin', as: 'add_admin'
+  delete '/remove_admin/:user_id', to: 'users#remove_admin', as: 'remove_admin'
+
 
   get 'locations', to: 'locations#show'
 

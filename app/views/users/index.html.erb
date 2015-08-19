@@ -12,7 +12,6 @@
       <th>Facebook ID</th>
       <th>Twitter ID</th>
       <th>Google ID</th>
-      <th>Role</th>
       <th colspan="">Functions</th>
     </tr>
   </thead>
@@ -29,16 +28,15 @@
         <td><%= user.facebook_id %></td>
         <td><%= user.twitter_id %></td>
         <td><%= user.google_id %></td>
-        <td><%= user.role %></td>
         <td>
           <%= link_to 'Show', user %>
           <br/><br/>
           <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
           <br/><br/>
           <% if user.admin? %>
-              <%= link_to 'Admin!', user_path(user, user: {role: nil}), method: :put %>
-          <% else %>
-              <%= link_to 'Admin?', user_path(user, user: {role: 'admin'}), method: :put %>
+            <%= link_to 'Admin!', '/remove_admin/' + user.id.to_s, method: :delete %>
+        <% else %>
+              <%= link_to 'Admin?', add_admin_path(user), method: :put %>
         <% end %>
         </td>
       </tr>

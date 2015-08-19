@@ -158,6 +158,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_admin
+    puts "params: #{params}"
+    if Role.create(user: User.find(params[:user_id]), name: 'admin')
+      flash[:success] = 'Admin role added.'
+    else
+      flash[:error] = 'There was a problem adding the Admin role.'
+    end
+    redirect_to users_path
+  end
+
+  def remove_admin
+    puts "params: #{params}"
+    user = User.find(params[:user_id])
+    role = Role.where(user_id: user.id, name: 'admin')[0]
+    if role.destroy
+      flash[:success] = 'Admin role removed.'
+    else
+      flash[:error] = 'There was a problem removing Admin role.'
+    end
+    redirect_to users_path
+  end
+
   private
     def set_user
       @user = User.find(params[:id])
