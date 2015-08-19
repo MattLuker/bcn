@@ -82,6 +82,15 @@ class Post < ActiveRecord::Base
             :color
           ]
         },
+        :organization => {
+            :only => [
+                :id,
+                :name,
+                :description,
+                :home_page,
+                :color
+            ]
+        },
         :user => {
             :only => [
                 :id,

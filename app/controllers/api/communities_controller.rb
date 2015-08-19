@@ -9,7 +9,13 @@ class Api::CommunitiesController < Api::ApiController
   def show
     community = Community.find_by_slug(params[:id])
     community = Community.find(params[:id]) if community.nil?
-    render json: community.as_json(include: :posts)
+    #render json: community.as_json(include: :posts)
+    events = community.posts.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now,]).limit(7)
+    render status: 200, json: {
+                          posts: community.posts.where(start_date: nil),
+                          community: community,
+                          events: events
+                      }.to_json
   end
 
   def create

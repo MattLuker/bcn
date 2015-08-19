@@ -9,9 +9,9 @@
       $.ajax
         url: '/api/communities/' + $button.data().id
         dataType: "JSON"
-        success: (community, status, jqXHR) ->
+        success: (data, status, jqXHR) ->
           # Update Post list with Community Posts.
-          scroller.update_posts(community.posts, 0, community)
+          scroller.update_posts(data.posts, 0, data.community, data.events)
 
       toggleLayers = $.grep window.layers, (layer) ->
         return layer[model + '_id'] != button.id

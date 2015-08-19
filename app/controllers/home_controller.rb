@@ -11,7 +11,7 @@ class HomeController < ApplicationController
     #   end
     # end
     @communities = Community.all
-    @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).limit(5)
+    @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).limit(7)
   end
 
   def who_we_are

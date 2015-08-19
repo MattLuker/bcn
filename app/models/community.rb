@@ -62,49 +62,49 @@ class Community < ActiveRecord::Base
             :image_web_url
       ],
       :include => {
-        :posts => {
-          :only => [
-            :id,
-            :title,
-            :description,
-            :created_at,
-            :start_date,
-            :start_time,
-            :org
-          ],
-          :include => {
-            :locations => {
-              :only => [
-                :id,
-                :lat,
-                :lon,
-                :name,
-                :address,
-                :city,
-                :state,
-                :postcode,
-                :county,
-                :country
-              ]
-            },
-            :user => {
-                :only => [
-                   :id,
-                   :email,
-                   :username,
-                   :first_name,
-                   :last_name
-                ],
-            },
-            :organization => {
-                :only => [
-                    :id,
-                    :name,
-                    :slug
-                ],
-            },
-          },
-        },
+        # :posts => {
+        #   :only => [
+        #     :id,
+        #     :title,
+        #     :description,
+        #     :created_at,
+        #     :start_date,
+        #     :start_time,
+        #     :image_web_url
+        #   ],
+        #   :include => {
+        #     :locations => {
+        #       :only => [
+        #         :id,
+        #         :lat,
+        #         :lon,
+        #         :name,
+        #         :address,
+        #         :city,
+        #         :state,
+        #         :postcode,
+        #         :county,
+        #         :country
+        #       ]
+        #     },
+        #     :user => {
+        #         :only => [
+        #            :id,
+        #            :email,
+        #            :username,
+        #            :first_name,
+        #            :last_name
+        #         ],
+        #     },
+        #     :organization => {
+        #         :only => [
+        #             :id,
+        #             :name,
+        #             :slug
+        #         ],
+        #     },
+        #   },
+        # },
         :users => {
           :only => [
               :id,
