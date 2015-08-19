@@ -73,6 +73,12 @@ class UsersController < ApplicationController
 
       # Set the username here since it has to be unique.
       username = current_user.username
+
+      # Remove FacebookSubscriptions.
+      FacebookSubscription.where(user_id: current_user.id).each do |sub|
+        sub.destroy
+      end
+
       current_user.really_destroy!
       @user.username = username if @user.username.nil?
       @user.save
