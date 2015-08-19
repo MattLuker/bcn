@@ -13,53 +13,48 @@
   <% end %>
   <section class="secondary-tabs">
 
-  <ul class="tabs" data-tab>
-    <% @communities.each do |community| %>
-      <% if community == @communities[0] %>
-
+    <ul class="tabs" data-tab>
+      <% @communities.each do |community| %>
         <li class="tab-title active community-tab">
           <a href="#<%= dom_id(community) %>">
             <%= image_tag community.image.thumb('50x50#').url %>
             <%= community.name %>
           </a>
         </li>
-      <% else %>
-        <li class="tab-title community-tab">
-          <a href="#<%= dom_id(community) %>">
-            <%= image_tag community.image.thumb('50x50#').url %>
-            <%= community.name %>
-          </a>
-        </li>
 
       <% end %>
 
-    <% end %>
+    </ul>
 
-  </ul>
+    <div class="tabs-content">
+      <% @communities.each do |community| %>
+        <% if community == @communities[0] %>
+          <div class="content active" id="<%= dom_id(community) %>">
 
-  <div class="tabs-content">
-    <% @communities.each do |community| %>
-      <% if community == @communities[0] %>
-        <div class="content active" id="<%= dom_id(community) %>">
+        <% else %>
+          <div class="content" id="<%= dom_id(community) %>">
+        <% end %>
 
-      <% else %>
-        <div class="content" id="<%= dom_id(community) %>">
-      <% end %>
 
-        <%= link_to community.name, community, class: 'button small right' %>
-      <br/><br/>
+        <div class="row">
+          <div class="columns large-12 text-center">
+            <br/><br/>
 
-          <ul class="organizations no-disc">
-            <% community.organizations.each do |organization| %>
-              <%= render 'layouts/organizations_list', organization: organization %>
-            <% end %>
-          </ul>
+            <%= link_to community.name + ' Community', community, class: 'button small' %>
+          </div>
         </div>
 
-    <% end %>
+        <ul class="organizations no-disc">
+          <% community.organizations.each do |organization| %>
+            <%= render 'layouts/organizations_list', organization: organization %>
+          <% end %>
+        </ul>
+        </div>
 
+      <% end %>
+
+      </div>
+
+      <br/><br/>
     </div>
-
-    <br/><br/>
-  </div>
   </section>
