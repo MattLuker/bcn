@@ -95,25 +95,31 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+
     if @user.save
       # Send welcome email.
       Notifier.send_welcome(@user).deliver_now
 
       session[:user_id] = @user.id
       flash[:success] = 'Welcome you have successfully registered.'
-      redirect_to home_path
+      redirect_to root_path
     else
-      @user = User.only_deleted.find_by(email: user_params[:email])
-      if @user
-        User.restore(@user)
-        @user.password = user_params[:password]
-        @user.save
-
-        Notifier.send_welcome(@user).deliver_now
-        session[:user_id] = @user.id
-        redirect_to home_path, success: 'Welcome you have successfully registered.'
+      if @user.errors.has_key?(:email)
+        flash[:alert] = "Email #{@user.errors.get(:email)[0]}."
+        redirect_to new_user_path
       else
-        render :new
+        @user = User.only_deleted.find_by(email: user_params[:email])
+        if @user
+          User.restore(@user)
+          @user.password = user_params[:password]
+          @user.save
+
+          Notifier.send_welcome(@user).deliver_now
+          session[:user_id] = @user.id
+          redirect_to home_path, success: 'Welcome you have successfully registered.'
+        else
+          render :new
+        end
       end
     end
   end
@@ -181,17 +187,17 @@ class UsersController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(params[:id])
-    end
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :email,
-                                   :password, :username, :web_link,
-                                   :photo, :role, :bio, :explicit,
-                                   :retained_photo, :facebook_link,
-                                   :twitter_link, :google_link,
-                                   :notify_instant, :notify_daily,
-                                   :notify_weekly)
-    end
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email,
+                                 :password, :username, :web_link,
+                                 :photo, :role, :bio, :explicit,
+                                 :retained_photo, :facebook_link,
+                                 :twitter_link, :google_link,
+                                 :notify_instant, :notify_daily,
+                                 :notify_weekly)
+  end
 end

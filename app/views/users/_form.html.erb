@@ -1,9 +1,32 @@
-  <%= form_for(@user, :builder => FoundationFormBuilder) do |f| %>
+<%= form_for(@user) do |f| %>
 
+  <div class="row">
+    <div class="columns large-4">
+      <% flash.each do |type, message| %>
+        <div class="flash alert-box text-center <%= type %>", role="dialogalert", data-alert>
+          <%= message %>
+          <a href="#" class="close">&times;</a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns large-4">
       <%= f.text_field :email, placeholder: 'Email' %>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="columns large-4">
       <%= f.password_field :password, placeholder: 'Password' %>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="columns large-4">
       <%= f.submit 'Register', :class => 'button small success' %>
+    </div>
+  </div>
 
-  <% end %>
+<% end %>
