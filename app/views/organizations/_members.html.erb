@@ -10,38 +10,42 @@
         <th></th>
       </tr>
 
-      <% @roles.each do |role| %>
-        <tr>
+      <% if @roles %>
+        <% @roles.each do |role| %>
+          <tr>
 
-          <td>
-            <%= role.user.email %>
-          </td>
-          <td>
-            <%= role.user.username if role.user.username %>
-          </td>
-          <td>
-            <%= role.name %>
-          </td>
-          <td>
-            <%= form_tag organization_role_path(@organization, role), { method: 'PATCH'} do %>
+            <td>
+              <%= role.user.email %>
+            </td>
+            <td>
+              <%= role.user.username if role.user.username %>
+            </td>
+            <td>
+              <%= role.name %>
+            </td>
+            <td>
+              <%= form_tag organization_role_path(@organization, role), { method: 'PATCH'} do %>
 
-              <%= select_tag 'role[name]', options_for_select([
-                                                              ['', ''],
-                                                              ['Leader', 'leader'],
-                                                              ['Member', 'member'],
-                                                              ['Remove', 'remove']
-                                                            ],
-                                                             role.name)
-              %>
+                <%= select_tag 'role[name]', options_for_select([
+                                                                        ['', ''],
+                                                                        ['Leader', 'leader'],
+                                                                        ['Member', 'member'],
+                                                                        ['Remove', 'remove']
+                                                                ],
+                                                                role.name)
+                %>
 
-              <%= button_tag type: 'submit', class: 'button tiny success' do %>
-                <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
-                &nbsp;
-                Update Status
+                <%= button_tag type: 'submit', class: 'button tiny success' do %>
+                  <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
+                  &nbsp;
+                  Update Status
+                <% end %>
               <% end %>
-            <% end %>
-          </td>
-        </tr>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <p class="grey">No members... yet.</p>
       <% end %>
     </table>
   </div>
