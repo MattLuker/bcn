@@ -12,7 +12,8 @@ describe "Creating badges" do
 
   context 'admin' do
     before do
-      admin = User.create({ :email => 'blane@thehoick.com', :password => 'beans', :role => 'admin' })
+      admin = User.create({ :email => 'blane@thehoick.com', :password => 'beans' })
+      Role.create(user: admin, name: 'admin')
       sign_in admin, password: 'beans'
     end
 

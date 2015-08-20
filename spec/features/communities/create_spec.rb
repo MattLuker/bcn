@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 describe 'Adding communities' do
-  let(:user) { create(:user, role: 'admin') }
+  let(:user) { create(:user) }
+
+  before do
+    Role.create(user: user, name: 'admin')
+  end
 
   it 'is successful with valid content', :js => true do
     sign_in user, password: 'beans'

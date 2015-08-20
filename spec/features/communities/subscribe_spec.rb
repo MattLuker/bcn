@@ -6,6 +6,10 @@ describe 'Subscribing to Community' do
 
   let!(:post) { Post.create(title: "Great Post", description: "Great job!") }
 
+  before do
+    Role.create(user: user, name: 'admin')
+  end
+
   it 'subscribes user to community', :js => true do
     sign_in user, password: 'beans'
     create_community

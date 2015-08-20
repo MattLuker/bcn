@@ -6,6 +6,8 @@ module CommunityHelpers
     page.execute_script("window.desc_editor.codemirror.setValue('We are all part of the Boone community!')")
     find('#community_home_page').set('http://boonecommunitynetwork.com')
     fill_in 'Color', with: '#000000'
+    attach_file('community[image]', Rails.root.join('app/assets/images/test_avatar.jpg'))
+
     click_button 'Save Community'
   end
 

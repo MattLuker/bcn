@@ -12,7 +12,8 @@ module UserHelpers
 
 
   def create_badge
-    admin = User.create({ :email => 'blane@thehoick.com', :password => 'beans', :role => 'admin' })
+    admin = User.create({ :email => 'blane@thehoick.com', :password => 'beans' })
+    Role.create(user: admin, name: 'admin')
     sign_in admin, password: 'beans'
 
     visit '/badges/new'

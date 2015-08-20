@@ -39,8 +39,8 @@ describe 'Deleting comments' do
 
   it 'allows admin to delete', :js => true do
     post.comments.create( {:content => 'This is fun!!!'})
-    admin = User.create({ :email => 'bill@thehoick.com', :password => 'beans', :role => 'admin' })
-
+    admin = User.create({ :email => 'bill@thehoick.com', :password => 'beans' })
+    Role.create(user: admin, name: 'admin')
 
     comment = Comment.last
     comment.user = user
