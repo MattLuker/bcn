@@ -37,7 +37,7 @@ describe 'Post Communities API', :type => :api do
 
     expect(json.length).to eq(3)
     expect(json['message']).to eq('Post added to Community.')
-    expect(json['community']['posts'][0]['title']).to eq('Location Post 1')
+    expect(json['posts'][0]['title']).to eq('Location Post 1')
   end
 
   it 'can add a community to a post' do

@@ -25,8 +25,8 @@ describe 'Community API', :type => :api do
 
     expect(last_response.status).to eq(200)
 
-    expect(json['name']).to eq('Boone Community Network')
-    expect(json['color']).to eq('#000000')
+    expect(json['community']['name']).to eq('Boone Community Network')
+    expect(json['community']['color']).to eq('#000000')
   end
 
   it 'creates a community and has valid response' do

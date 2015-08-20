@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 describe 'Community Subscribers API', :type => :api do
-  let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
+  let!(:user) { User.create(email: 'adam@thehoick.com',
+                            password: 'beans',
+                            first_name: 'Adam',
+                            last_name: 'Sommer',
+                            notify_instant: true
+  )}
   let!(:user2) { User.create(email: 'bob@thehoick.com', password: 'beans', first_name: 'Bob', last_name: 'Slidell')}
   let!(:new_post) { Post.create(title: 'Location Post', description: 'Great job location!') }
   let!(:community) { Community.create(
