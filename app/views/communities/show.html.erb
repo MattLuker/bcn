@@ -65,7 +65,7 @@
 
     <div class="row">
       <div class="large-12 columns">
-        <% if !@community.users.include?(current_user) && current_user %>
+        <% unless current_user.organizations.blank? %>
 
           <%= button_tag type: 'submit', class: 'button small dropdown', data: { dropdown: 'orgs' } do %>
             <%= image_tag 'group-icon-white.svg', class: 'ty-icon' %>
