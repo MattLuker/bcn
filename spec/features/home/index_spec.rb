@@ -49,7 +49,7 @@ describe "Creating posts" do
   it  'filters posts for today when today button is pressed', :js => true do
     visit '/'
 
-    click_button 'Today'
+    find('.today').click
     expect(page).to have_content('Today Post')
     expect(page).to_not have_content('Location Post')
   end
@@ -57,7 +57,7 @@ describe "Creating posts" do
   it  'filters posts for tomorrow when tomorrow button is pressed', :js => true do
     visit '/'
 
-    click_button 'Tomorrow'
+    find('.tomorrow').click
     expect(page).to have_content('Tomorrow Post')
     expect(page).to_not have_content('Location Post')
     expect(page).to_not have_content('Today Post')
@@ -66,7 +66,7 @@ describe "Creating posts" do
   it  'filters posts for next week when next week button is pressed', :js => true do
     visit '/'
 
-    click_button 'Next Week'
+    find('.next_week').click
     sleep(0.3)
 
     expect(page).to have_content('Next Week Post')
@@ -81,7 +81,8 @@ describe "Creating posts" do
 
     #find('#all_communities').click
     sleep(1)
-    click_button 'Music'
+    #click_button 'Music'
+    find('.community_1').click
 
     expect(page).to have_content('Nice Things')
     expect(page).to_not have_content('Location Post')
