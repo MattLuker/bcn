@@ -1,4 +1,10 @@
-# Pagination with Rails
+---
+title: "Pagination with Rails"
+date:   2015-08-20 14:30:00
+layout: post
+categories: bcn rails
+image: paging_cover.jpg
+---
 
 ## Gimme A Page
 
@@ -8,22 +14,19 @@ To solve this particular issue with [BCN](https://github.com/asommer70/bcn) I us
 
 I imagine rolling your own wouldn’t be too difficult either.  But who wants to do all that extra work?
 
+<!--more-->
 ## Setting things Up
 
 Grab the **will_paginate** gem by adding the following to your *Gemfile*:
 
 ```
-
 gem ‘will_paginate’
-
 ```
 
 Then in a terminal run:
 
 ```
-
 bundle install
-
 ```
 
 Blame! Things are ready for some code.
@@ -33,9 +36,7 @@ Blame! Things are ready for some code.
 The first place I used pagination was on the *index* page of the Posts controller in BCN.  So in your controller adjust the **index** method to be similar to:
 
 ```
-
 @posts = Post.order('created_at DESC').paginate(:page => params[:page], :per_page => 20)
-
 ```
 
 The main parts are the **paginate** method and the parameters.
@@ -47,9 +48,7 @@ The main parts are the **paginate** method and the parameters.
 Now in your *view* (app/views/posts/index.html.erb in my case) add the following after your *”@whatever.each”* loop:
 
 ```
-
 <%= will_paginate @posts %>
-
 ```
 
 This will render a nice element with a list of page numbers with previous and next links to page through them.  All in all the default is pretty good.
@@ -61,17 +60,13 @@ Because the BCN project is using [Foundation](http://foundation.zurb.com) for th
 Install [will_paginate-foundation](https://github.com/acrogenesis/will_paginate-foundation) by adding this to you *Gemfile*:
 
 ```
-
 gem ‘will_paginate-foundation’
-
 ```
 
 And do the familiar ```bundle install```.  With the new gem good to go adjust the view to use a different renderer:
 
 ```
-
 <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
-
 ```
 
 Pow! Things should now look great and use the Foundation classes.
