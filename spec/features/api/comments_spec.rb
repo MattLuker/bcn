@@ -2,7 +2,12 @@ require 'rails_helper'
 
 describe 'Comments API', :type => :api do
   let!(:new_post) { Post.create(title: 'Location Post', description: 'Great job location!') }
-  let!(:user) { User.create(email: 'adam@thehoick.com', password: 'beans', first_name: 'Adam', last_name: 'Sommer')}
+  let!(:user) { User.create(email: 'adam@thehoick.com',
+                            password: 'beans',
+                            first_name: 'Adam',
+                            last_name: 'Sommer',
+                            notify_instant: true
+  )}
   let(:comment) { Comment.create(content: 'Fun Comment #1', post_id: new_post.id) }
 
   it 'sends a comment' do
@@ -112,7 +117,12 @@ describe 'Comments API', :type => :api do
     expect(file_count).to be < new_file_count
   end
 
-  let!(:user2) { User.create(email: 'bob@thehoick.com', password: 'beans', first_name: 'Bob', last_name: 'Slidell')}
+  let!(:user2) { User.create(email: 'bob@thehoick.com',
+                             password: 'beans',
+                             first_name: 'Bob',
+                             last_name: 'Slidell',
+                             notify_instant: true
+  )}
 
   it 'sends email to post subscribers' do
     basic_authorize(user2.email, 'beans')

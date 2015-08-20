@@ -7,6 +7,7 @@ class CommentMailer < ApplicationMailer
     @post = post
     @comment = comment
     @commenter = commenter
-    mail(to: "#{user.first_name if @user.first_name} #{user.last_name if @user.last_name} <#{user.email}>", subject: "New comment on #{@post.title}")
+    mail(to: "#{@user.first_name if @user.first_name} #{@user.last_name if @user.last_name} <#{@user.email}>",
+         subject: "New comment on #{@post.title}")
   end
 end

@@ -101,7 +101,6 @@ class PostsController < ApplicationController
   end
 
   def update
-    puts "Updating..."
     if current_user != @post.user
       flash[:error] = 'You can only update your posts.'
       redirect_to home_index_path
@@ -141,7 +140,6 @@ class PostsController < ApplicationController
 
       if @post.user == current_user || current_user.admin?
         if @post.destroy
-          puts "Errors: #{@post.errors.full_messages}"
           format.html { redirect_to home_path, notice: 'Post was successfully destroyed.' }
           format.json { head :no_content }
         else

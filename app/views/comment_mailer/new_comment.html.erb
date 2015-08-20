@@ -801,7 +801,7 @@
                       <tr style="padding: 0; text-align: left; vertical-align: top;">
                         <td style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: bold; hyphens: auto; line-height: 19px; margin: 0; padding: 0px 0px 10px; padding-bottom: 0; text-align: left; vertical-align: top; word-break: break-word;">
                           <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
-                            Hi<%= ' ' + @user.first_name if @user.firstname %>,
+                            Hi<%= ' ' + @user.first_name if @user.first_name %>,
                           </p>
                           </td>
                         <td class="expander" style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; padding-bottom: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word;"></td>
@@ -845,8 +845,15 @@
 
                           <br>
                           <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
-                            Click <%= link_to post_url(@post, host: 'bcn.thehoick.com') %> to reply.
                           </p>
+
+                          <table class="button primary large-button" style="border-collapse: collapse; border-spacing: 0; overflow: hidden; padding: 0; text-align: left; vertical-align: top; width: 100%;">
+                            <tr style="padding: 0; text-align: left; vertical-align: top;">
+                              <td style="-moz-hyphens: auto; -webkit-hyphens: auto; background: #2ba6cb; border: 1px solid #2284a1; border-collapse: collapse; color: #ffffff; display: block; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 21px 0 18px; padding-bottom: 0; text-align: center; vertical-align: top; width: auto; word-break: break-word;">
+                                <%= link_to 'Click Here To Reply', post_url(@post, host: 'bcn.thehoick.com') %>
+                              </td>
+                            </tr>
+                          </table>
 
                           <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 18px; font-weight: normal; line-height: 24px; margin: 0; margin-bottom: 10px; padding: 0; padding-bottom: 20px; text-align: left;">
                             Thanks,<br>Boone Community Network Team
@@ -884,7 +891,7 @@
                                 </tr>
                         <tr style="padding: 0; text-align: left; vertical-align: top;">
                           <td style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #ffffff; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 12px; font-weight: normal; hyphens: auto; line-height: 18px; margin: 0; padding: 0px 0px 10px; padding-bottom: 0; text-align: center; vertical-align: top; word-break: break-word;">
-                            Copyright &copy; <%= date.today.year %> Boone Community Network, All rights reserved.
+                            Copyright &copy; <%= Date.today.year %> Boone Community Network, All rights reserved.
                             <br>
                             145 North Street <br>
                             Boone, Nc 28607 <br>
@@ -901,7 +908,8 @@
                         <tr style="padding: 0; text-align: left; vertical-align: top;">
                           <td class="center" style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #ffffff; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0px 0px 10px; padding-bottom: 0; text-align: center; vertical-align: top; word-break: break-word;">
                             Want to change the frequency of these notifications? Click
-                            <a href="<%= edit_user_url(@user) %>" style="color: #E9A46A; text-decoration: none;">here</a> to update your profile.
+                            <a href="<%= edit_user_url(@user, host: 'bcn.thehoick.com') %>" style="color: #E9A46A; text-decoration: none;">here</a>
+                            to update your profile.
                   </td>
                   <td class="expander" style="-moz-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; padding-bottom: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word;"></td>
                 </tr>

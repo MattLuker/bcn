@@ -39,7 +39,7 @@ class Api::CommentsController < Api::ApiController
           comment.root.post.user.notify_instant
         CommentMailer.new_comment(comment.root.post.user, comment.root.post, comment, commenter).deliver_now
       end
-
+      
       render status: 200, json: {
                             message: 'Comment created.',
                             comment: comment,

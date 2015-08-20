@@ -165,7 +165,6 @@ class UsersController < ApplicationController
   end
 
   def add_admin
-    puts "params: #{params}"
     if Role.create(user: User.find(params[:user_id]), name: 'admin')
       flash[:success] = 'Admin role added.'
     else
@@ -175,7 +174,6 @@ class UsersController < ApplicationController
   end
 
   def remove_admin
-    puts "params: #{params}"
     user = User.find(params[:user_id])
     role = Role.where(user_id: user.id, name: 'admin')[0]
     if role.destroy
