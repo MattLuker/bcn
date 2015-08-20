@@ -60,10 +60,14 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    if organization_params[:lat] and organization_params[:lon]
+    if (organization_params[:lat] && organization_params[:lon]) &&
+        (!organization_params[:lat].blank? && !organization_params[:lon].blank?)
       lat = params[:organization].delete :lat
       lon = params[:organization].delete :lon
       @organization.create_location({lat: lat, lon: lon})
+    else
+      lat = params[:organization].delete :lat
+      lon = params[:organization].delete :lon
     end
 
     if @organization.update(organization_params)
