@@ -13,12 +13,12 @@ ready_home = ->
     $(document).on 'click', (e) ->
       clearInterval(window.refresher);
 
-  # Clamp (truncate) the Post description in the marker popups.
-  window.map.on 'popupopen', (e) ->
-    try
-      $clamp($('.leaflet-popup-content').children('p')[1], {clamp: 4})
-    catch
-      # Nothing really needed to do... no second paragraph in popup.
+    # Clamp (truncate) the Post description in the marker popups.
+    window.map.on 'popupopen', (e) ->
+      try
+        $clamp($('.leaflet-popup-content').children('p')[1], {clamp: 4})
+      catch
+        # Nothing really needed to do... no second paragraph in popup.
 
 
 
