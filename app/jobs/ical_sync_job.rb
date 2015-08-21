@@ -42,7 +42,7 @@ class IcalSyncJob < ActiveJob::Base
 
             # Add Locations and Communities to the new Post.
             if organization.location
-              new_post.locations << new_post.organization.location
+              new_post.locations << organization.location
             end
             unless organization.communities.blank?
               new_post.communities << new_post.organization.communities
