@@ -66,7 +66,7 @@ class FacebookSyncJob < ActiveJob::Base
     #@updates = Koala::Facebook::RealtimeUpdates.new(:app_id => FACEBOOK_CONFIG['app_id'],
     #                                                :secret => FACEBOOK_CONFIG['secret'])
     #fb_sub = FacebookSubscription.create(verify_token: (0...50).map { ('a'..'z').to_a[rand(26)] }.join, user: user)
-    #@updates.subscribe('user', 'events', 'http://bcn.thehoick.com/facebook_subscriptions/', fb_sub.verify_token)
+    #@updates.subscribe('user', 'events', 'http://boonecommunitynetwork.com/facebook_subscriptions/', fb_sub.verify_token)
 
     user.event_sync_time = Time.now
     user.save

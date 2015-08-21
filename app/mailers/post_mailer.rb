@@ -1,5 +1,5 @@
 class PostMailer < ApplicationMailer
-  default_url_options[:host] = "bcn.thehoick.com"
+  default_url_options[:host] = "boonecommunitynetwork.com"
   default from: 'robot@boonecommunitynetwork.com'
 
   def new_post(user, post, community, poster)

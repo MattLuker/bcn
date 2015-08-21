@@ -1,5 +1,5 @@
 class Notifier < ApplicationMailer
-  default_url_options[:host] = "bcn.thehoick.com"
+  default_url_options[:host] = "boonecommunitynetwork.com"
   default from: 'robot@boonecommunitynetwork.com'
 
   def password_reset(user)
