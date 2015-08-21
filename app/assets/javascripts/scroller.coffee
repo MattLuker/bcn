@@ -56,8 +56,10 @@
       else
         if community != false
           map_helpers.set_home_post_markers(posts.posts, community)
+          map_helpers.set_home_post_markers(events.events, community)
         else
           map_helpers.set_home_post_markers(posts.posts)
+          map_helpers.set_home_post_markers(events.events)
 
 
       $posts_wrapper.fadeIn('slow')
