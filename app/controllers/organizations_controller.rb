@@ -55,7 +55,7 @@ class OrganizationsController < ApplicationController
     @roles = Role.where(organization: @organization.id)
     org_role = current_user.roles.find_by_organization_id(@organization.id)
     unless org_role && org_role.name == 'leader'
-      redirect_to @organization, notice: 'Must be the creator of the Community to update it.'
+      redirect_to @organization, notice: 'Must be the creator of the organization to update it.'
     end
   end
 

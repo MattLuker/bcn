@@ -39,8 +39,15 @@ class IcalSyncJob < ActiveJob::Base
                                        og_image: event.attach[0].to_s,
                                        image_url: event.attach[0].to_s
                                    })
-            #new_post.create_location({lat: lat, lon: lon})
-            #new_post.save
+
+            # Add Locations and Communities to the new Post.
+            if organization.location
+              new_post.locations << new_post.organization.location
+            end
+            unless organization.communities.blank?
+              new_post.communities << new_post.organization.communities
+            end
+            new_post.save
           else
             post.description = "#{event.description}"
             post.start_date = event.dtstart
