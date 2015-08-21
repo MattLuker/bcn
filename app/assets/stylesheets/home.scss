@@ -195,3 +195,11 @@ a.button.map-button, .map-button {
 .community_6 {
   @include button($button-tny, #60a8db);
 }
+
+//
+//.leaflet-popup-content p {
+//  width: 300px;
+//  white-space: nowrap;
+//  overflow: hidden;
+//  text-overflow: ellipsis;
+//}
