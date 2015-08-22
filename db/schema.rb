@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818095120) do
+ActiveRecord::Schema.define(version: 20150821210248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 20150818095120) do
     t.integer  "audio_duration"
     t.boolean  "explicit"
     t.integer  "organization_id"
+    t.integer  "locations"
     t.index name: "index_posts_on_description", using: :gin, expression: "to_tsvector('english'::regconfig, description)"
     t.index name: "index_posts_on_title", using: :gin, expression: "to_tsvector('english'::regconfig, (title)::text)"
   end
@@ -194,7 +195,6 @@ ActiveRecord::Schema.define(version: 20150818095120) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.integer  "post_id",         index: {name: "index_locations_on_post_id"}, foreign_key: {references: "posts", name: "fk_rails_d5678e2098", on_update: :no_action, on_delete: :no_action}
     t.float    "lat"
     t.float    "lon"
     t.datetime "created_at",      null: false
@@ -209,9 +209,15 @@ ActiveRecord::Schema.define(version: 20150818095120) do
     t.datetime "deleted_at",      index: {name: "index_locations_on_deleted_at"}
     t.integer  "community_id",    index: {name: "fk__locations_community_id"}, foreign_key: {references: "communities", name: "fk_locations_community_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "organization_id", index: {name: "fk__locations_organization_id"}, foreign_key: {references: "organizations", name: "fk_locations_organization_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "posts"
     t.index name: "index_locations_on_name", using: :gin, expression: "to_tsvector('english'::regconfig, (name)::text)"
   end
   add_foreign_key "organizations", "locations", column: "location_id", name: "fk_organizations_location_id", on_update: :no_action, on_delete: :no_action
+
+  create_table "locations_posts", id: false, force: :cascade do |t|
+    t.integer "post_id",     index: {name: "index_locations_posts_on_post_id"}, foreign_key: {references: "posts", name: "fk_locations_posts_post_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "location_id", index: {name: "index_locations_posts_on_location_id"}, foreign_key: {references: "locations", name: "fk_locations_posts_location_id", on_update: :no_action, on_delete: :no_action}
+  end
 
   create_table "organizations_posts", force: :cascade do |t|
     t.integer "organization_id", index: {name: "index_organizations_posts_on_organization_id"}, foreign_key: {references: "organizations", name: "fk_organizations_posts_organization_id", on_update: :no_action, on_delete: :no_action}

@@ -4,7 +4,8 @@ describe 'Creating posts' do
   let(:user) { create(:user) }
 
   it 'removes a community from the post', :js => true do
-    admin = User.create({ :email => 'bill@thehoick.com', :password => 'beans', :role => 'admin' })
+    admin = User.create({ :email => 'bill@thehoick.com', :password => 'beans' })
+    Role.create(name: 'admin', user: admin)
     sign_in admin, password: 'beans'
     create_community
     expect(page).to have_content('Community was successfully created.')

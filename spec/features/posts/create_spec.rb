@@ -24,7 +24,8 @@ describe "Creating posts" do
   end
 
   it "success when creating a post with a community", :js => true do
-    admin = User.create({ :email => 'bill@thehoick.com', :password => 'beans', :role => 'admin' })
+    admin = User.create({ :email => 'bill@thehoick.com', :password => 'beans' })
+    Role.create(name: 'admin', user: admin)
     sign_in admin, password: 'beans'
     create_community
     expect(page).to have_content('Community was successfully created.')

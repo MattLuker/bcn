@@ -9,7 +9,7 @@ describe 'Adding locations' do
   let!(:location) { Location.new.create(
       lat: 36.21640465,
       lon: -81.6822303793054,
-      post_id: 1,
+      posts: [post],
       name: 'Kenneth E. Peacock Hall',
       address: '416 Howard Street',
       city: 'Boone',

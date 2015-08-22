@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   require 'nominatim'
 
   acts_as_paranoid
-  belongs_to :post
+  has_and_belongs_to_many :posts
   belongs_to :community
   belongs_to :organization
 

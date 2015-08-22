@@ -59,7 +59,17 @@ class IcalSyncJob < ActiveJob::Base
             post.og_image = event.attach[0].to_s
             post.image_url = event.attach[0].to_s
             #post.create_location({lat: lat, lon: lon}) if lat && lon
-            post.save
+            unless post.locations.include?(organization.location)
+              puts "post.locations #{post.locations[0].name if post.locations[0]} <-- name"
+              post.locations.push(organization.location.clone)
+            end
+            if post.id == 41
+              post.title = 'Balls'
+            end
+            if post.save
+              puts "post.id: #{post.id}, post.title: #{post.title} post.locations.length: #{post.locations.length}"
+            end
+
           end
         end
       end
