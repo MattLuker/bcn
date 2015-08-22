@@ -88,4 +88,52 @@ class Location < ActiveRecord::Base
     loc = self.set_location_attrs(Location.find(loc_id), params, update: true)
     return loc
   end
+
+  def as_json(options={})
+
+    super(:only => [
+              :id,
+              :lat,
+              :lon,
+              :name,
+              :address,
+              :city,
+              :state,
+              :postcode,
+              :county,
+              :country
+          ],
+          :include => {
+              :posts => {
+                  :only => [
+                      :id,
+                      :title,
+                      :description,
+                      :start_date,
+                      :end_date,
+                      :created_at
+                  ]
+              },
+              :community => {
+                  :only => [
+                      :id,
+                      :name,
+                      :description,
+                      :home_page,
+                      :color
+                  ]
+              },
+              :organization => {
+                  :only => [
+                      :id,
+                      :name,
+                      :description,
+                      :home_page,
+                      :color
+                  ]
+              },
+          }
+    )
+  end
+
 end

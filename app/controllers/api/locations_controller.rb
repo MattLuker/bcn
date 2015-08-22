@@ -3,21 +3,15 @@ class Api::LocationsController < Api::ApiController
   before_filter :authenticate, only: [:create, :update, :destroy]
 
   def show
+    # Need to find the name for a lat and lon pair.
     nom = Location.lookup_name(params)
 
-    if nom[:lat].nil?
-      loc = Location.find_by(name: nom[:name])
+    loc = Location.find_by_name(nom[:name])
+    if loc
+      posts = loc.posts
     else
       loc = nom
-    end
-
-    posts = []
-    Location.where(name: nom[:name]).find_each do |location|
-      if location.post.nil?
-        next
-      else
-        posts << location.post
-      end
+      posts = []
     end
 
     render status: 200, json: {
