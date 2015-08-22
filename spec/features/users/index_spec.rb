@@ -4,10 +4,8 @@ describe 'Listing Users' do
   let(:user) { create(:user) }
 
   it 'requires login and Admin role to access' do
+    Role.create(user: user, name: 'admin')
     sign_in user, password: 'beans'
-    user = User.last
-    user.role = 'admin'
-    user.save
 
     visit "/users"
     expect(page).to have_content('Listing Users')

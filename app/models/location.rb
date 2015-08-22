@@ -104,16 +104,16 @@ class Location < ActiveRecord::Base
               :country
           ],
           :include => {
-              :posts => {
-                  :only => [
-                      :id,
-                      :title,
-                      :description,
-                      :start_date,
-                      :end_date,
-                      :created_at
-                  ]
-              },
+              # :posts => {
+              #     :only => [
+              #         :id,
+              #         :title,
+              #         :description,
+              #         :start_date,
+              #         :end_date,
+              #         :created_at
+              #     ]
+              # },
               :community => {
                   :only => [
                       :id,

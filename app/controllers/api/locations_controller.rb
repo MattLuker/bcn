@@ -23,7 +23,14 @@ class Api::LocationsController < Api::ApiController
 
   def create
     locations = []
-    locations << Location.new.create(location_params)
+    nom = Location.lookup_name(params)
+    loc = Location.find_by_name(nom[:name])
+
+    if loc
+      locations << loc
+    else
+      locations << Location.new.create(location_params)
+    end
 
     if locations[0].save
       if @post && @current_user && @post.user == @current_user

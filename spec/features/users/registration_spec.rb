@@ -52,6 +52,6 @@ describe 'Signing Up' do
 
     user = User.last
     open_email(user.email)
-    expect(current_email.body).to have_content('Click here to start sharing.')
+    expect(current_email.body).to have_content('Click Here To Start Posting')
   end
 end
