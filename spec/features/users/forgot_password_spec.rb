@@ -20,7 +20,7 @@ describe 'Forgotten passwords' do
     click_button 'Reset Password'
 
     open_email(user.email)
-    current_email.click_link 'http://'
+    current_email.click_link 'Change Password'
     expect(page).to have_content('Update Your Password')
 
     fill_in 'Password', with: 'balls'
