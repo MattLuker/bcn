@@ -34,7 +34,7 @@
 //= require sisyphus
 //= require mustache
 //= require moment
-//= require clamp
+//= require truncatelines
 
 $(function(){
     $(document).foundation({

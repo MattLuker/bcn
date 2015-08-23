@@ -15,10 +15,9 @@ ready_home = ->
 
     # Clamp (truncate) the Post description in the marker popups.
     window.map.on 'popupopen', (e) ->
-      try
-        $clamp($('.leaflet-popup-content').children('p')[1], {clamp: 4})
-      catch
-        # Nothing really needed to do... no second paragraph in popup.
+      $('.c').truncateLines({lines: 4})
+
+      # Nothing really needed to do... no second paragraph in popup.
 
 
 

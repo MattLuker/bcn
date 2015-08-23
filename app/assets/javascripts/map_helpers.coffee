@@ -296,7 +296,7 @@
           })
           marker.bindPopup("""
                     <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
-                    <p>#{marked(post.description)}</p>
+                    <div class='c'>#{marked(post.description)}</div>
                     """, {autoPan: false})
 
           if window.layers[0]?
@@ -320,7 +320,7 @@
     })
     marker.bindPopup("""
                     <h3><a href='/posts/#{post.id}'>#{post.title}</a></h3>
-                    <p>#{marked(post.description)}</p>
+                    <div class='c'>#{marked(post.description)}</div>
                     """, {autoPan: false})
 
     #if (typeof(window.layers) != "undefined")
@@ -394,7 +394,7 @@
             riseOnHover: true,
             icon: defaultLocaitonIcon
           })
-          marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<p>#{marked(data.description)}</p>",
+          marker.addTo(map).bindPopup("<h5>#{loc.name}</h5><h4>#{data.title}<div class='c'>#{marked(data.description)}</div>",
             {autoPan: false})
           marker['loc_id'] = loc.id
 
