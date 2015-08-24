@@ -32,10 +32,10 @@
                                                                         ['Member', 'member'],
                                                                         ['Remove', 'remove']
                                                                 ],
-                                                                role.name)
+                                                                role.name), class: "role_#{role.user.id}"
                 %>
 
-                <%= button_tag type: 'submit', class: 'button tiny success' do %>
+                <%= button_tag type: 'submit', class: "button tiny success update_#{role.user.id}" do %>
                   <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
                   &nbsp;
                   Update Status
