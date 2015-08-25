@@ -162,17 +162,6 @@
                   <% end %>
                   <%= link_to user.username, user %>
 
-                  <% if current_user && current_user.admin? %>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <%= form_tag("/communities/#{@organization.id}/users", method: 'delete', class: 'leave-organization-form') do |f| %>
-                      <%= hidden_field_tag 'user_id', user.id %>
-                      <%= image_submit_tag 'trash-icon.svg', :class => 'button alert tiny remove_user icon',
-                                           :alt => 'Remove User',
-                                           :value => 'Remove User',
-                                           :title => 'Remove User' %>
-                    <% end %>
-                  <% end %>
-
                 </li>
               <% end %>
 

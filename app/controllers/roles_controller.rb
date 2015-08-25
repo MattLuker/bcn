@@ -6,7 +6,8 @@ class RolesController < ApplicationController
     role = Role.find(params[:id])
     if role_params[:name] == 'remove'
       if role.destroy
-        Notifier.join_status(role.user, organization, nil).deliver_now
+          organization.users.delete(role.user)
+          Notifier.join_status(role.user, organization, nil).deliver_now
 
         flash[:success] = 'Member status updated.'
         redirect_to organization_path(organization)
