@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "Adding User to organizations" do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, notify_instant: true) }
   let(:organization) { Organization.create(name: 'BCN', description: 'BCN Rulez!', color: '#eeeeee', slug: 'bcn')}
 
   before do
@@ -33,7 +33,7 @@ describe "Adding User to organizations" do
     organization = Organization.last
     click_link 'Log Out'
 
-    cheese = User.create(email: 'cheese@thehoick.com', password: 'beans')
+    cheese = User.create(email: 'cheese@thehoick.com', password: 'beans', notify_instant: true)
     sign_in cheese, password: 'beans'
 
     visit '/organizations/' + organization.slug
@@ -48,14 +48,13 @@ describe "Adding User to organizations" do
     find('.edit-organization').click
 
     click_link 'Members'
-    find('.role_' + user.id.to_s).find(:xpath, 'option[1]').select_option
-    find('.update_' + user.id.to_s).click
-
+    find('.role_' + cheese.id.to_s).find(:xpath, 'option[3]').select_option
+    find('.update_' + cheese.id.to_s).click
 
     expect(page).to have_content("Member status updated.")
     expect(organization.users.count).to eq(2)
 
     open_email(cheese.email)
-    expect(current_email.body).to have_content("Your membership in #{organization.nam} has been granted.")
+    expect(current_email.body).to have_content("Your membership in #{organization.name} has been granted.")
   end
 end
