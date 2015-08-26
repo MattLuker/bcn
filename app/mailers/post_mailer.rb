@@ -22,4 +22,13 @@ class PostMailer < ApplicationMailer
          subject: "#{@post.title} has been updated.")
 
   end
+
+  def daily_digest(user, todays, upcoming)
+    @user = user
+    @todays = todays
+    @upcoming = upcoming
+
+    mail(to: "#{user.first_name if @user.first_name} #{user.last_name if @user.last_name} <#{user.email}>",
+         subject: "Your BCN Daily Digest.")
+  end
 end

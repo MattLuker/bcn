@@ -1,0 +1,10 @@
+Hi<%= ' ' + @user.first_name if @user.first_name %>,
+
+Here are the new posts from today:
+
+<% @todays.each do |post| %>
+  <%= post.title %>: <%= post_url(post, host: 'boonecommunitynetwork.com') + "\n\n" %>
+<% end %>
+
+Thanks,
+- BCN Team
