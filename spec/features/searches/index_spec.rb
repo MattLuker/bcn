@@ -11,7 +11,7 @@ describe "Searches index" do
   it 'returns one post on pressing the search button', :js => true do
     visit '/'
 
-    fill_in 'Find happiness', with: 'location'
+    fill_in 'Search the Booniverse', with: 'location'
     find('#search_button').click
 
     expect(page).to have_content('Location Event')
@@ -31,7 +31,7 @@ describe "Searches index" do
   it 'returns two posts on pressing enter', :js => true, :visual => true, :firefox => true  do
     visit '/'
 
-    fill_in 'Find happiness', with: 'Event'
+    fill_in 'Search the Booniverse', with: 'Event'
     find('#search_query').native.send_keys(:return)
 
     expect(page).to have_content('Location Event')
@@ -42,7 +42,7 @@ describe "Searches index" do
   it 'returns two comments on pressing enter', :js => true, :visual => true, :firefox => true  do
     visit '/'
 
-    fill_in 'Find happiness', with: 'Comment'
+    fill_in 'Search the Booniverse', with: 'Comment'
     find('#search_query').native.send_keys(:return)
 
     expect(page).to have_content('Comment on 1st.')
