@@ -28,6 +28,9 @@ class PostMailer < ApplicationMailer
     @todays = todays
     @upcoming = upcoming
 
+    puts "@todays.length: #{@todays.length}"
+    puts "@upcoming.length: #{@upcoming.length}"
+
     mail(to: "#{user.first_name if @user.first_name} #{user.last_name if @user.last_name} <#{user.email}>",
          subject: "Your BCN Daily Digest.")
   end
