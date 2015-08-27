@@ -1,4 +1,10 @@
-# Badges and Gamification
+---
+title:  "Badges and Gamification"
+date:   2015-08-26 14:30:00
+layout: post
+categories: rails bcn
+image: badges_cover.jpg
+---
 
 ## Badges We Don’t Need No Stinkin Badges
 
@@ -10,6 +16,7 @@ So that’s the back story, and I think gamification definitely works for some a
 
 For [BCN](https://github.com/asommer70/bcn) we’ve used a simple badge system to add some gamification and hopefully increase site usage.
 
+<!--more-->
 ## Rails Gamification
 
 There are some gems out there that add full on gamification and others that add more scaled back features around the gamification idea.
@@ -30,19 +37,44 @@ I tried out a couple of these gems, *honor* and *merit* I think, but each of the
 
 The Badge model I whipped up is pretty simple, it’s a *habtm* relationship with the User model:
 
-```
+{% highlight ruby %}
 
-create_table :badges do |t|   t.string :name, index: true   t.string :rules   t.string :image   t.string :image_uid   t.string :image_name   t.integer :users    t.timestamps null: false end
-
-```
+create_table :badges do |t|
+  t.string :name, index: true
+  t.string :rules
+  t.string :image
+  t.string :image_uid
+  t.string :image_name
+  t.integer :users
+  t.timestamps null: false
+end
+{% endhighlight %}
 
 Basically the badge is just an image that will be applied to the User’s profile page like this:
 
-```
-
-<div>   <strong>Badges:</strong>   <br/><br/>    <% if @user.badges.length != 0 %>   <ul class="badges inline-list">     <% @user.badges.each do |badge| %>       <li>         <div class="badge-display">           <%= link_to badge do %>             <%= image_tag badge.image.url, class: 'badge-thumb' %>           <% end %>           <br/>           <%= badge.name %>         </div>       </li>     <% end %>   </ul>   <% else %>     <p class="grey">No badges at this time, but don't worry we believe in you.</p>   <% end %> </div>
-
-```
+{% highlight ruby %}
+<div>
+  <strong>Badges:</strong>
+  <br/><br/>
+  <% if @user.badges.length != 0 %>
+    <ul class="badges inline-list">
+      <% @user.badges.each do |badge| %>
+        <li>
+          <div class="badge-display">
+            <%= link_to badge do %>
+              <%= image_tag badge.image.url, class: 'badge-thumb' %> 
+           <% end %>
+           <br/>
+           <%= badge.name %>
+          </div>
+         </li> 
+       <% end %>
+     </ul>
+   <% else %>
+     <p class="grey">No badges at this time, but don't worry we believe in you.</p>
+   <% end %>
+</div>
+{% endhighlight %}
 
 ## Badge Job
 
@@ -50,25 +82,30 @@ Sometimes you do a *badge* job at something.  Hoohooheeeheee.
 
 The real magic of the Badge system is the **rules** field.  The rules field is a text field that will be executing using the **eval** method from an ActiveJob.  For that reason in the model I setup a validation to not allow the word destroy in a rule.  I think this should save us from some maliciousness:
 
-```
 
-validates :rules, format: { without: /.*destroy.*/ } ```
+{% highlight ruby %}
+validates :rules, format: { without: /.*destroy.*/ }
+{% endhighlight %}
 
 The meat of the Badge job looks like:
 
-```
-
-def perform(user)   Badge.all.each do |badge|     if eval(badge.rules)       unless badge.users.include?(user)         badge.users << user       end     end   end end
-
-```
+{% highlight ruby %}
+def perform(user)
+   Badge.all.each do |badge|
+     if eval(badge.rules)
+       unless badge.users.include?(user)
+         badge.users << user
+       end
+     end
+   end
+end
+{% endhighlight %}
 
 As you can see the job loops through the Badges and **evals** the rules, applies them to the user passed into the parameter, and then adds the badge to the User.  This job is called at certain points from multiple controllers with:
 
-```
-
+{% highlight ruby %}
 ApplyBadgesJob.perform_now(current_user)
-
-```
+{% endhighlight %}
 
 Also, created a **rake** task to run the job and plan on setting it up to execute via **cron** at some point.
 
