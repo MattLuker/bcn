@@ -58,4 +58,32 @@ chmod 755 test.rb
 
 This is particularly great if you’re executing a script a lot in the course of debugging a complex script.
 
-## Executing System Utilities
+## Executing External Programs with Ruby
+
+The simplest way to execute a system command is to use **backticks** (’`’).  Using backticks will execute the command in a  subshell and return the result.  For example to get a list of files in the current directory:
+
+```
+
+files = `ls`
+
+```
+
+Not all that useful, but you now have a string of file names.
+
+For more control over the output of a command you can use the **Open3.popen3** method:
+
+```
+
+in, out, error = Open3.popen3(‘ls’)
+
+```
+
+The method will populate the variables with the output of *stdin*, *stdout*, and *stderr* which is useful if you need it… I guess.
+
+## Conclusion
+
+There are more ways to execute a Ruby script and commands from within a Ruby script so if your needs aren’t met with this just dig further.
+
+Sometimes quick and dirty is best.
+
+Party On!
