@@ -827,7 +827,7 @@
                           </p>
 
                           <% @weeks.each do |post| %>
-
+g
                             <a href="<%= post_url(post, host: 'boonecommunitynetwork.com') %>" style="color: #E9A46A; text-decoration: none;">
                               <% if post.image %>
                                 <img height="130" width="130" src="<%= post.image_url %>" style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: block; float: left; max-width: 100%; outline: none; text-decoration: none; width: auto;">
@@ -844,6 +844,7 @@
                                 <%= post.og_title %>
                               <% end %>
                             </a>
+                            <br/>
                           <% end %>
 
                           <br><hr style="background-color: #d9d9d9; border: none; color: #d9d9d9; height: 1px;"><br>
