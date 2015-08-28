@@ -9,7 +9,7 @@ class WeeklyDigestJob < ActiveJob::Base
 
     users.each do |user|
       puts "user.email: #{user.email}"
-      PostMailer.daily_digest(user, weeks_posts, upcoming_posts).deliver_now
+      PostMailer.weekly_digest(user, weeks_posts, upcoming_posts).deliver_now
     end
   end
 end

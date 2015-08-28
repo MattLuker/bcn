@@ -40,7 +40,7 @@ class PostMailer < ApplicationMailer
     @weeks = weeks
     @upcoming = upcoming
 
-    puts "@todays.length: #{@weeks.length}"
+    puts "@weeks.length: #{@weeks.length}"
     puts "@upcoming.length: #{@weeks.length}"
 
     mail(to: "#{user.first_name if @user.first_name} #{user.last_name if @user.last_name} <#{user.email}>",
