@@ -4,7 +4,7 @@ class WeeklyDigestJob < ActiveJob::Base
   def perform
     users = User.where(notify_weekly: true)
 
-    weeks_posts = Post.favorites.where('created_at >= ?', 1.week.ago).limit(24)
+    weeks_posts = Post.where('created_at >= ?', 1.week.ago).limit(24)
     upcoming_posts = Post.where('start_date >= ?', Date.tomorrow).limit(7)
 
     users.each do |user|
