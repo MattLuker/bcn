@@ -7,6 +7,8 @@ class PostsController < ApplicationController
   end
 
   def show
+    @gallery = @post.comments.collect { |c| c.photo.url if c.photo } if @post.comments
+    puts "@gallery: #{@gallery.inspect}"
   end
 
   def new

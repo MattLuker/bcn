@@ -18,6 +18,7 @@
 //= require foundation/foundation.alert
 //= require foundation/foundation.tab
 //= require foundation/foundation.abide
+//= require foundation/foundation.clearing
 //= require turbolinks
 //= require_tree .
 //= require foundation-datepicker

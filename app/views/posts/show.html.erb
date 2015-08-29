@@ -130,10 +130,13 @@
               <a href="#dates" role="tab" tabindex="0" aria-selected="true" controls="dates">Dates</a>
             </li>
             <li class="tab-title" role="presentational" >
-              <a href="#locations" role="tab" tabindex="0"aria-selected="false" controls="locations">Locations</a>
+              <a href="#locations" role="tab" tabindex="0" aria-selected="false" controls="locations">Locations</a>
             </li>
             <li class="tab-title" role="presentational">
               <a href="#communities" role="tab" tabindex="0" aria-selected="false" controls="communities">Communities</a>
+            </li>
+            <li class="tab-title" role="presentational">
+              <a href="#gallery" role="tab" tabindex="0" aria-selected="false" controls="gallery">Gallery</a>
             </li>
           </ul>
           <div class="tabs-content">
@@ -205,6 +208,21 @@
                   </ul>
               <% else %>
                   <p class="grey">No communities set.</p>
+              <% end %>
+            </section>
+            <section role="tabpanel" aria-hidden="true" class="content" id="gallery">
+              <% unless @gallery.empty? %>
+                <ul class="gallery clearing-thumbs small-block-grid" data-clearing>
+                  <% if @post.image %>
+                    <li><a href="<%= @post.image.url %>" class="th"><img src="<%= @post.image.url %>" width="120"></a></li>
+                  <% end %>
+
+                  <% @gallery.each do |image| %>
+                    <li><a href="<%= image %>" class="th"><img src="<%= image %>" width="120"></a></li>
+                  <% end %>
+                </ul>
+              <% else %>
+                <p class="grey">No pictures uploaded... yet.</p>
               <% end %>
             </section>
           </div>
