@@ -27,7 +27,7 @@ class FacebookSubscriptionsController < ApplicationController
       user = User.find_by_facebook_id(entry['uid'])
 
       if user && user.facebook_token
-        FacebookSyncJob.perform_now(user.facebook_token, user)
+        FacebookSyncJob.perform_async(user.facebook_token, user)
       end
     end
 

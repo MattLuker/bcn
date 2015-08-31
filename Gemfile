@@ -39,6 +39,7 @@ gem 'will_paginate-foundation'
 gem 'dragonfly', '~> 1.0.8'
 
 gem 'sidekiq'
+gem 'sinatra', :require => nil
 gem 'schema_plus'
 
 group :development, :test do

@@ -1,5 +1,6 @@
 class DailyDigestJob < ActiveJob::Base
   queue_as :default
+  include Sidekiq::Worker
 
   def perform
     users = User.where(notify_daily: true)

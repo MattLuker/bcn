@@ -118,6 +118,10 @@
               <% image_tag 'edit-icon.svg', class: 'icon' %>
           <% end %>
       <% end %>
+
+      <% if current_user.username && current_user.username == 'asommer' %>
+        <%= link_to 'Monitoring', sidekiq_web_path %>
+      <% end %>
       <br/>
 
     </div>

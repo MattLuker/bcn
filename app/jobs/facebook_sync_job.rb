@@ -1,6 +1,6 @@
 class FacebookSyncJob < ActiveJob::Base
-
   queue_as :default
+  include Sidekiq::Worker
 
   def perform(token, user)
 

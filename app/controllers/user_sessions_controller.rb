@@ -45,7 +45,7 @@ class UserSessionsController < ApplicationController
       if user.save
         flash[:success] = "Welcome #{user.first_name}, you have been registered using Facebook."
         session[:user_id] = user.id
-        FacebookSyncJob.perform_now(@facebook.access_token, user)
+        FacebookSyncJob.perform_async(@facebook.access_token, user)
       else
         user = User.only_deleted.find_by(facebook_id: fb_user['id'])
         User.restore(user)
@@ -55,7 +55,7 @@ class UserSessionsController < ApplicationController
 
         flash[:success] = 'Welcome back, you have been re-enabled using Facebook.'
         session[:user_id] = user.id
-        FacebookSyncJob.perform_now(@facebook.access_token, user)
+        FacebookSyncJob.perform_async(@facebook.access_token, user)
       end
 
     else
@@ -65,7 +65,7 @@ class UserSessionsController < ApplicationController
       end
       flash[:success] = "Welcome #{user.first_name}"
       session[:user_id] = user.id
-      FacebookSyncJob.perform_now(@facebook.access_token, user)
+      FacebookSyncJob.perform_async(@facebook.access_token, user)
     end
 
     redirect_to home_path

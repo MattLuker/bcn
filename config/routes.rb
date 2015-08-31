@@ -108,4 +108,11 @@ Rails.application.routes.draw do
 
   root 'home#home'
 
+  require 'sidekiq/web'
+  require 'admin_constraint'
+  mount Sidekiq::Web => '/kiq', :constraints => AdminConstraint.new
+  # constraints lambda {|request| AuthConstraint.admin?(request) } do
+  #   mount Sidekiq::Web => '/admin/kiq'
+  # end
+
 end
