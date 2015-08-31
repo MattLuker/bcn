@@ -98,7 +98,7 @@ class UsersController < ApplicationController
 
     if @user.save
       # Send welcome email.
-      Notifier.send_welcome(@user).deliver_now
+      Notifier.delay.send_welcome(@user)
 
       session[:user_id] = @user.id
       flash[:success] = 'Welcome you have successfully registered.'
@@ -127,7 +127,7 @@ class UsersController < ApplicationController
   def update
     if current_user == @user
       if @user.update(user_params)
-        ApplyBadgesJob.perform_now(current_user)
+        ApplyBadgesJob.perform_async(current_user)
         flash[:success] = 'Profile successfully updated.'
         redirect_to @user
       else
