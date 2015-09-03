@@ -1,8 +1,18 @@
-# Colored Map Marker with Leaftlet.js and Rails
+---
+title:  "Colored Map Marker with Leaftlet.js and Rails"
+date:   2015-09-04 14:30:00
+layout: post
+categories: rails bcn
+image: map_cover.jpg
+---
+
+## Maps and More
 
 The main feature of the [BCN](https://github.com/asommer70/bcn) project is to have events listed on a map to show you what is going on close by in the near future.  I’m 80% sure we’ve accomplished that goal.
 
 Another feature is to color code the events by Community and a logical next step is to color code the markers on the map for that event.  Turns out this isn’t too hard to accomplish with the great [Leaflet.js](http://leafletjs.com/) library.  Leaflet.js allows you to make great looking maps using the [Open Street Maps](http://www.openstreetmap.org/) APIs.
+
+<!--more-->
 
 ## Installing Leaflet.js
 
@@ -13,9 +23,7 @@ So download the latest version of Leaflet.js from [here](http://leafletjs.com/do
 Well not quite yet.  Next, add the **require** statements to the **app/assets/javascript/application.js** file:
 
 ```
-
 //= require leaflet
-
 ```
 
 **Note:** if you use a CoffeeScript for *application.js* just add it there.
@@ -23,9 +31,7 @@ Well not quite yet.  Next, add the **require** statements to the **app/assets/ja
 And add a **require** to **app/assets/stylesheets/applications.css.scss** (in my case yours could be straight up CSS):
 
 ```
-
 *= require leaflet
-
 ```
 
 If your Rails server is running you might have to restart it at this point to get the new files into the pipeline.
@@ -34,11 +40,15 @@ If your Rails server is running you might have to restart it at this point to ge
 
 In a helper CoffeeScript I setup a default icon for markers:
 
-```
-
-# Set the marker icon to custom SVG. @divDefaultIcon = L.divIcon({   className: 'marker-div-icon',   html: get_svg('#632816', 30, 55),   popupAnchor: [-9, -53],   iconAnchor: [20, 55], });
-
-```
+{% highlight ruby %}
+# Set the marker icon to custom SVG. 
+ @divDefaultIcon = L.divIcon({
+      className: 'marker-div-icon',
+      html: get_svg('#632816', 30, 55),
+      popupAnchor: [-9, -53], 
+     iconAnchor: [20, 55], 
+ });
+{% endhighlight %}
 
 The [DivIcon](http://leafletjs.com/reference.html#divicon) documentation is pretty good and that’s where I got most of the options for the icons.  The regular [Icon](http://leafletjs.com/reference.html#icon) documentation has basically the same options and goes into a little more detail on what they do, so you might read through that as well.
 
@@ -60,11 +70,13 @@ And now Bob is truly your Uncle!
 
 Now based on the color assigned to each Community we can adjust the icon to make the event markers easily identifiable. 
 
-```
-
-divCommunityIcon = L.divIcon({   className: 'marker-div-icon',   html: get_svg(community.color, 50, 50),   popupAnchor: [8, -3], });
-
-```
+{% highlight ruby %}
+divCommunityIcon = L.divIcon({
+     className: 'marker-div-icon',
+     html: get_svg(community.color, 50, 50),
+     popupAnchor: [8, -3], 
+});
+{% endhighlight %}
 
 This magic is done in the [map_helpers.coffee](https://github.com/asommer70/bcn/blob/master/app/assets/javascripts/map_helpers.coffee) file.
 
