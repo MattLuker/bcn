@@ -80,10 +80,92 @@ rails g foundation:install
 
 Things should now be setup and ready for action.
 
-## Create the callback URL.
+## Setup the Routes
 
-## Put the pics in the Public folder.
+A callback URL is needed as a place to send a user after authenticating with Imgur.
 
-## Create a view to see them.
+To setup the callback add a route to the **config/routes.rb** file:
 
-## Maybe use Foundation Clearing.
+```
+
+   root 'images#index'
+
+   get 'imgur', to: 'images#imgur_callback'
+
+```
+
+As you can see we’ve setup a **get** method named **imgur** which points to the **images** controller and the **imgur_callback** method.
+
+We also configured the **root** ‘/‘ URL to point to the **images** controller and the **index** method.
+
+## Controller
+
+Now go ahead and create a file named **app/controllers/images_controller.rb** with the contents of:
+
+```
+
+class ImagesController < ApplicationController
+
+  def index
+
+    images_dir = Rails.root.join('public', 'images')
+
+    @images = []
+
+    Dir.entries(images_dir).each do |file|
+
+      if (File.file?(images_dir.to_s + '/' + file))
+
+        @images.push('/images/' + file)
+
+      end
+
+    end
+
+  end
+
+  def imgur_callback
+
+    puts "params: #{params}"
+
+  end
+
+end
+
+```
+
+## Views
+
+We’ll also need some templates to display the images and for our controller to render something.  Create a directory named **app/views/images**: 
+
+```
+
+mkdir -p app/views/images
+
+mkdir -p public/images
+
+```
+
+Since we’re already in the make directory mode the second command makes a directory in the public folder which we’ll use to store the images we download.
+
+Next, create a file in the new images directory named **index.html.erb** containing:
+
+```
+
+<h3>Funy Images</h3>
+
+<ul>
+
+  <% @images.each do |image| %>
+
+    <li><img src="<%= image %>" width="150"/></li>
+
+  <% end %>
+
+</ul>
+
+```
+
+## Rake the Pics
+
+## Conclusion
