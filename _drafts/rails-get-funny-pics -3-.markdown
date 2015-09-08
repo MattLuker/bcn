@@ -4,7 +4,7 @@
 
 I love browsing the [Funny](http://imgur.com/topic/Funny) topic on Imgur.  Imgur also has a great [REST API](https://api.imgur.com/) that we can use to get the URLs of the photos.  The API also sends some meta data which we may find useful later on.
 
-It is totally awesome that there are so many great websites developing APIs for others to build cool stuff on their platform.  The one *”problem”* with this whole trend, and it’s really more of a problem with **OAuth**, is that they all require you to provide a **callback** URL.  This isn’t a problem if you’re building a web app, but for command line applications, or mobile apps, this usually isn’t an option (or you have to do some type of hackedy hack hack work around).
+It is totally awesome that there are so many great websites developing APIs for others to build cool stuff on their platform.  The one *"problem"* with this whole trend, and it's really more of a problem with **OAuth**, is that they all require you to provide a **callback** URL.  This isn't a problem if you're building a web app, but for command line applications, or mobile apps, this usually isn't an option (or you have to do some type of hackedy hack hack work around).
 
 So this is where [Ruby on Rails](http://rubyonrails.org/) comes in.  Now for this little project Rails is probably total overkill, but Rails is a top notch platform and well worth learning how to develop sites, apps, etc on.
 
@@ -12,9 +12,9 @@ And so begins a series of posts about staring out with Rails…
 
 ## Setup The Rails Project
 
-If you don’t have Ruby and/or Ruby on Rails installed yet see this [post](http://devblog.boonecommunitynetwork.com/ruby-rails-and-passenger/).  You’ll only need the parts about installing Ruby and installing Rails, but later on if you’d like to deploy your app in a  production environment the Passenger sections will be useful.
+If you don't have Ruby and/or Ruby on Rails installed yet see this [post](http://devblog.boonecommunitynetwork.com/ruby-rails-and-passenger/).  You'll only need the parts about installing Ruby and installing Rails, but later on if you'd like to deploy your app in a  production environment the Passenger sections will be useful.
 
-To setup our new project we’ll use the **rails** command.  In a terminal enter:
+To setup our new project we'll use the **rails** command.  In a terminal enter:
 
 ```
 
@@ -22,7 +22,7 @@ rails new rails-imgur
 
 ```
 
-I’m calling my project **rails-imgur**, but feel free to call yours something more cool.
+I'm calling my project **rails-imgur**, but feel free to call yours something more cool.
 
 Once that is complete you should have a directory named *rails-imgr* (or whatever you name it) with a whole bunch of new files and directories.
 
@@ -50,13 +50,13 @@ Boom! Another app ready for greatness...
 
 ## Updates Some Gems
 
-For our little project we’re going to need some additional Ruby gems to interact with the Imgur API and to display the images later on.  We'll interact with Imgur with, you guessed it, there is an [imgur](https://github.com/dncrht/imgur) gem and use [Foundation Clearing](http://foundation.zurb.com/docs/components/clearing.html) to create our own image gallery.
+For our little project we're going to need some additional Ruby gems to interact with the Imgur API and to display the images later on.  We'll interact with Imgur with, you guessed it, there is an [imgur](https://github.com/dncrht/imgur) gem and use [Foundation Clearing](http://foundation.zurb.com/docs/components/clearing.html) to create our own image gallery.
 
 To add gems to our project edit the **Gemfile** in the root of the project directory and add:
 
 ```
 
-gem ‘imgurapi’
+gem 'imgurapi’
 
 gem 'foundation-rails'
 
@@ -94,9 +94,9 @@ To setup the callback add a route to the **config/routes.rb** file:
 
 ```
 
-As you can see we’ve setup a **get** method named **imgur** which points to the **images** controller and the **imgur_callback** method.
+As you can see we've setup a **get** method named **imgur** which points to the **images** controller and the **imgur_callback** method.
 
-We also configured the **root** ‘/‘ URL to point to the **images** controller and the **index** method.
+We also configured the **root** '/' URL to point to the **images** controller and the **index** method.
 
 ## Controller
 
@@ -136,7 +136,7 @@ end
 
 ## Views
 
-We’ll also need some templates to display the images and for our controller to render something.  Create a directory named **app/views/images**: 
+We'll also need some templates to display the images and for our controller to render something.  Create a directory named **app/views/images**: 
 
 ```
 
@@ -146,7 +146,7 @@ mkdir -p public/images
 
 ```
 
-Since we’re already in the make directory mode the second command makes a directory in the public folder which we’ll use to store the images we download.
+Since we're already in the make directory mode the second command makes a directory in the public folder which we'll use to store the images we download.
 
 Next, create a file in the new images directory named **index.html.erb** containing:
 
@@ -167,5 +167,7 @@ Next, create a file in the new images directory named **index.html.erb** contain
 ```
 
 ## Rake the Pics
+
+With the Rails project setup we can connect to Imgur.
 
 ## Conclusion
