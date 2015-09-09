@@ -46,6 +46,8 @@ Well **add_row** is called after finding the **tbody** element.
 
 ## Conclusion
 
+<!— embed codepen -->
+
 I think this is the cleanest implementation of the table with dynamic rows feature.  Maybe one day I’ll find someone to pass my form processing web app off to, and I won’t have to deal with tables and rows and adding.  Maybe one day…
 
 In the meantime I’ve been learning more and more about JavaScript, mostly from [Treehouse](http://referrals.trhou.se/adamsommer) courses, and I’ve been thinking about coding up a jQuery plugin to handle the whole dynamic rows business.

@@ -56,8 +56,6 @@ To add gems to our project edit the **Gemfile** in the root of the project direc
 
 ```
 
-gem 'imgurapi’
-
 gem 'foundation-rails'
 
 ```
@@ -90,7 +88,7 @@ To setup the callback add a route to the **config/routes.rb** file:
 
    root 'images#index'
 
-   get 'imgur', to: 'images#imgur_callback'
+   get 'imgur', to: 'images#imgur'
 
 ```
 
@@ -124,12 +122,6 @@ class ImagesController < ApplicationController
 
   end
 
-  def imgur_callback
-
-    puts "params: #{params}"
-
-  end
-
 end
 
 ```
@@ -154,11 +146,11 @@ Next, create a file in the new images directory named **index.html.erb** contain
 
 <h3>Funy Images</h3>
 
-<ul>
+<ul class="clearing-thumbs" data-clearing>
 
   <% @images.each do |image| %>
 
-    <li><img src="<%= image %>" width="150"/></li>
+    <li><a href="<%= image %>"><img src="<%= image %>" class="th" width="200"/></a></li>
 
   <% end %>
 
@@ -168,6 +160,58 @@ Next, create a file in the new images directory named **index.html.erb** contain
 
 ## Rake the Pics
 
-With the Rails project setup we can connect to Imgur.
+With the Rails project setup we can connect to Imgur using the **HTTParty.get** method.  To the **app/controllers/images_controller.rb** file add this method:
+
+```
+
+  def imgur
+
+    require 'httparty'
+
+    url = 'https://api.imgur.com/3/topics/2'
+
+    headers = {'Authorization' => 'Client-ID ' + ‘YOUR_CLIENT_ID’}
+
+    resp = HTTParty.get(url, query: {}, headers: headers).parsed_response
+
+    resp['data'].each do |image|
+
+      unless image['type'].blank?
+
+        image_path = Rails.root.join('public', 'images', image['link'].split('/')[-1])
+
+        puts "image type: #{image['type'].blank?}"
+
+        unless File.exists?(image_path)
+
+          open(image_path.to_s, 'wb') do |file|
+
+            file << open(image['link']).read
+
+          end
+
+        end
+
+      end
+
+    end
+
+    render json: resp
+
+  end
+
+```
+
+This is the heard and soul of the app.  The **url** variable is for the Imgur Funny Topic, and in the **headers** hash we set the **Client ID** for our Imgur App.  The **get** method of HTTParty is called to and the resulting **parsed_response** hash is then looped over and a Pathname for the image is setup.  If the image isn’t in the *images* directory, and if the **type** attribute of the JSON is set, it is downloaded.
+
+The controller method then renders JSON of from the resulting Imgur API call.
+
+In your browser go back to the ‘/‘ path and you should see a gallery of images from the Imgur Funny topic.
 
 ## Conclusion
+
+Grabbing an image archive in this message is pretty cool, but can be used for nefarious purposes.  Then again all tools can be used in a manner other then intended.
+
+This is a pretty good introduction to working with REST APIs and setting up a quick Rails app.  There’s a lot more we could do with the data from Imgur, but I’ll leave that for a later post.  Or maybe let you explore that on your own.
+
+Party On!
