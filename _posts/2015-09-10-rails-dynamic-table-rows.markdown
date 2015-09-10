@@ -1,4 +1,11 @@
-# Dynamic Table Rows with CoffeeScript
+---
+title:  "Dynamic Table Rows with CoffeeScript"
+date:   2015-09-10 14:30:00
+layout: post
+categories: rails
+image: dyntable_cover.jpg
+---
+
 
 ## Gimme More Rows
 
@@ -6,17 +13,50 @@ I might have written about it before, I know I’ve made a [video](https://youtu
 
 The whole dynamic row thing is great if you are converting paper forms to HTML.  At least this is the situation I seem to find myself in frequently and need to add some additional rows to a table.  In these cases the cells of the row always container some type of form element.
 
+<!--more-->
+
 ## Enter CoffeeScript
 
 This time around instead of [jQuery](https://jquery.com/) or [Angular.js](https://angularjs.org/) I’m tackling the problem with [CoffeeScript](http://coffeescript.org/).  Well CoffeeScript with a massive does of jQuery cause you just can’t do too much without jQuery… (again it feels like that may just be me).
 
 In a Rails app CoffeeScript is a snap.  Check out this **add_row** function I’ve whipped up inside the *app/assetss/javascripts/forms.coffee* file:
 
-```
+{% highlight ruby %}
+add_row = (table_body_element) ->
+# Get some variables for the tbody and the row to clone.
+  $tbody = $('#' + table_body_element)
+  $rows = $($tbody.children('tr'))
+  $cloner = $rows.eq(0)
+  count = $rows.length
 
- add_row = (table_body_element) -> # Get some variables for the tbody and the row to clone.   $tbody = $('#' + table_body_element)   $rows = $($tbody.children('tr'))   $cloner = $rows.eq(0)   count = $rows.length    # Clone the row and get an array of the inputs.   $new_row = $cloner.clone()   inputs = $new_row.find('.dyn-input')    # Change the name and id for each input.   $.each(inputs, (i, v) ->     $input = $(v)      # Find the label for input and adjust it.     $label = $new_row.find("label[for='#{$input.attr('id')}']")     $label.attr( {'for': $input.attr('id').replace(/\[.*\]/, "[#{count + 1}]")} )      $input.attr({       'name': $input.attr('name').replace(/\[.*\]/, "[#{count + 1}]"),       'id': $input.attr('id').replace(/\[.*\]/, "[#{count + 1}]")     })      # Remove values and checks.     $input.val('')     checked = $input.prop('checked')     if checked       $input.prop('checked', false)   )    # Add the new row to the tbody.   $tbody.append($new_row)
+  # Clone the row and get an array of the inputs.
+  $new_row = $cloner.clone()
+  inputs = $new_row.find('.dyn-input')
 
-```
+  # Change the name and id for each input.
+  $.each(inputs, (i, v) ->
+    $input = $(v)
+
+    # Find the label for input and adjust it.
+    $label = $new_row.find("label[for='#{$input.attr('id')}']")
+    $label.attr( {'for': $input.attr('id').replace(/\[.*\]/, "[#{count + 1}]")} )
+
+    $input.attr({
+      'name': $input.attr('name').replace(/\[.*\]/, "[#{count + 1}]"),
+      'id': $input.attr('id').replace(/\[.*\]/, "[#{count + 1}]")
+    })
+
+    # Remove values and checks.
+    $input.val('')
+    checked = $input.prop('checked')
+    if checked
+      $input.prop('checked', false)
+  )
+
+  # Add the new row to the tbody.
+  $tbody.append($new_row)
+{% endhighlight %}
+
 
 * So the function takes a **tbody** element then grabs the **tr** elements (which should be the first row).
 
@@ -32,21 +72,30 @@ In a Rails app CoffeeScript is a snap.  Check out this **add_row** function I’
 
 * Finally, the **value** and **checked** properties are removed/blanked and the new row is appended to the **tbody** element passed in as an argument.
 
-## Cute as a  Buttons 
+## Cute as a  Buttons
 
 To add the row and fire the **add_row** function there is a button and on that button’s **click** event there is a **handler** and in that **handler’s** callback function the **add_row** function is called:
 
-```
+{% highlight ruby %}
+$('#add-row').on 'click', (e) ->
+  e.preventDefault()
+  table_body = $(e.target).data().table
+  if table_body
+    add_row(table_body)
+{% endhighlight %}
 
-$('#add-row').on 'click', (e) ->   e.preventDefault()   table_body = $(e.target).data().table   if table_body     add_row(table_body)
-
-```
 
 Well **add_row** is called after finding the **tbody** element.
 
 ## Conclusion
 
-<!— embed codepen -->
+<br/>
+
+<p data-height="268" data-theme-id="0" data-slug-hash="OyVdLB" data-default-tab="result" data-user="asommer70" class='codepen'>See the Pen <a href='http://codepen.io/asommer70/pen/OyVdLB/'>Dynamic Form Table</a> by Adam Sommer (<a href='http://codepen.io/asommer70'>@asommer70</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+<br/>
+
 
 I think this is the cleanest implementation of the table with dynamic rows feature.  Maybe one day I’ll find someone to pass my form processing web app off to, and I won’t have to deal with tables and rows and adding.  Maybe one day…
 
