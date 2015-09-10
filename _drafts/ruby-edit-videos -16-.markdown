@@ -6,18 +6,44 @@ Sometimes it’s cool to let everyone know that you made a video by marking it w
 
 Since we’re all about looking professional this post is going to cover inserting a PNG (a semi-transparent PNG) into every frame of a video.  That way the whole world, or at least those who view the video, will know how professional you are.
 
-## Install Rvideo
+I’ve been toying with this idea for some time, but couldn’t seem to find a good Ruby library to edit a video in pure Ruby.  The reason is because I think that because utilities like [ffmpeg](https://www.ffmpeg.org/) exist no one has gone to the trouble to do it in pure Ruby. That’s totally fine with me.  We’ll call **ffmpeg** from using Ruby’s system call ability to make some edits to a video.
 
-A great Ruby library for finding out information from videos is [Rvideo](http://rvideo.rubyforge.org/) which uses the [ffmpeg](https://www.ffmpeg.org/) library/utility to manipulate the files.
+The main breakthrough with this topic came when I saw [this post](http://davidwalsh.name/watermark-images-videos) from David Walsh on Twitter.  In the post he goes into detail on adding watermarks to images and animated GIFs as well so I recommend you check it out.  As David sites in his post the command for editing video is from Kevin Sloan and can be found [here](http://ksloan.net/watermarking-videos-from-the-command-line-using-ffmpeg-filters/).  Like David, I also highly recommend Kevin’s post.
 
-The **ffmpeg** library is the work horse of audio and video manipulation for most Open Source projects.
+## ffmpeg with Ruby
 
-Install the *rvideo* gem with:
+To recap, executing other utilities in Ruby with backpacks:
+
+```
+
+home_files = `ls ~`
 
 ```
 
-gem install rvideo
-
-```
+The out put of ```ls ~``` will be placed into the *home_files* variable as a string.
 
 ## Blast an Image Into a Video
+
+The command to add an image to a video is:
+
+```
+
+ffmpeg -i wtf.mpg -i watermark.png -filter_complex "overlay=10:10" wtf-watermarked.mpg
+
+```
+
+Add that to a Ruby script:
+
+```
+
+#!/usr/bin/env ruby
+
+#
+
+# Watermark videos
+
+#
+
+Video = ‘./output_files/soethings’
+
+```
