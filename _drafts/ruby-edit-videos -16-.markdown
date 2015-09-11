@@ -36,14 +36,14 @@ Add that to a Ruby script:
 
 ```
 
-#!/usr/bin/env ruby
-
-#
-
-# Watermark videos
-
-#
-
-Video = ‘./output_files/soethings’
+#!/usr/bin/env ruby # # Watermark videos #  watermark = './data_files/levitating_man.png' video = './data_files/bcn_movie-1.mp4'   edit_output = `ffmpeg -i #{video} -i #{watermark} -filter_complex "overlay=30:30" ./output_files/bcn_movie-1.watermarked.mp4`   puts edit_output
 
 ```
+
+## Conclusion
+
+I’m not sure how mad I’d be if someone stole my video content, if I had any video content, and I’m also not too sure if a simple watermark will really deter someone from stealing content if they were really determined.  Like Anthony Hopkins says in that movie where he and Alec Baldwin fight bears: “What One Man Can Do, Another Can Do”…
+
+Or undo…
+
+Party On!
