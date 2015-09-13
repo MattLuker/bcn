@@ -40,6 +40,14 @@ Add that to a Ruby script:
 
 ```
 
+As a bonus here’s a couple of commands that will convert an MP4 video into an animated GIF using **ffmpeg**.  Add them to the bottom of your script:
+
+```
+
+# Make a gif from the video. `ffmpeg -i #{video} -pix_fmt rgb24 -r 4 bcn_movie-1.gif`  # Optimize it. `convert -layers Optimize ./ouput_files/bcn_movie-1.gif ./ouput_files/bcn_movie-1.gif"`
+
+```
+
 ## Conclusion
 
 I’m not sure how mad I’d be if someone stole my video content, if I had any video content, and I’m also not too sure if a simple watermark will really deter someone from stealing content if they were really determined.  Like Anthony Hopkins says in that movie where he and Alec Baldwin fight bears: “What One Man Can Do, Another Can Do”…
