@@ -1,10 +1,16 @@
-# Create Epub With Ruby
+---
+title:  "Create Epub With Ruby"
+date:   2015-09-15 14:30:00
+layout: post
+categories: ruby learning
+image: epub_cover.svg
+---
 
 ## Kindle App, The Best Thing Since Nirvana
 
 I remember when the first PDAs came out and everyone thought the Palm Pilot was so cool.  I went to an office supply store and  was coveting them, but being a poor college student at the time didn’t have the cash to plunk down for something that could really only sync calendar appointments and play solitaire.
 
-Then they came out with a color screen and it could read PDFs.  I was totally going to get one at that point, but again the trouble was cash flow.  It’s not that I really did anything to remedy that situation either… 
+Then they came out with a color screen and it could read PDFs.  I was totally going to get one at that point, but again the trouble was cash flow.  It’s not that I really did anything to remedy that situation either…
 
 Why buy an expensive electronic gadget when you can spend that hard earned cash on beer?
 
@@ -12,14 +18,14 @@ Anyhow, jump forward almost 10 years and we now have whole libraries available t
 
 Back to the task at hand.  Last week’s Ruby post went over grabbing the comments form a blog post and exporting them into an HTML file.  Well this week, you guessed it, we’re going to take that very same HTML file and convert it to an [epub](http://idpf.org/epub) file.
 
+<!--more-->
+
 ## The Gem
 
 For this task we’ll need to install the [gepub](https://github.com/skoji/gepub) gem.  Fire up a terminal and enter:
 
 ```
-
 gem install gepub
-
 ```
 
 **Note:** you might have to use the **sudo** command to install the gem.
@@ -28,11 +34,39 @@ gem install gepub
 
 The great example script needs only a few modifications to work with our **comments.html** file:
 
-```
+{% highlight ruby %}
+#!/usr/bin/env ruby
+#
+# Create an epub file from blog comments HTML file.
+#
 
-#!/usr/bin/env ruby # # Create an epub file from blog comments HTML file. #  require 'gepub' require 'date'  builder = GEPUB::Builder.new {   language 'en'   unique_identifier 'http:/thehoick.com/blog_comments', 'BookID', 'URL'   title 'Blog Comments'   subtitle 'Comments from a single post.'    creator 'Adam Sommer'    contributors 'Tim Ferriss', 'Many Others'    date DateTime.now.strftime('%Y-%m-%dT%H:%M:%SZ')    resources(:workdir => './output_files') {     cover_image 'comment_cover.png' => '../data_files/comment_cover.png'     ordered {       file './comments.html'       heading 'Comments'     }   } } epubname = File.join(File.dirname(__FILE__), './output_files/comments.epub') builder.generate_epub(epubname)
+require 'gepub'
+require 'date'
 
-```
+builder = GEPUB::Builder.new {
+  language 'en'
+  unique_identifier 'http:/thehoick.com/blog_comments', 'BookID', 'URL'
+  title 'Blog Comments'
+  subtitle 'Comments from a single post.'
+
+  creator 'Adam Sommer'
+
+  contributors 'Tim Ferriss', 'Many Others'
+
+  date DateTime.now.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+  resources(:workdir => './output_files') {
+    cover_image 'comment_cover.png' => '../data_files/comment_cover.png'
+    ordered {
+      file './comments.html'
+      heading 'Comments'
+    }
+  }
+}
+epubname = File.join(File.dirname(__FILE__), './output_files/comments.epub')
+builder.generate_epub(epubname)
+{% endhighlight %}
+
 
 Let’s walk through it.  The script first sets up a new builder object with details about the **epub** file to be created.
 
