@@ -180,21 +180,33 @@ a.button.map-button, .map-button {
 
 .community_1 {
   @include button($button-tny, #f9c32e);
+  border: 3px solid darken(#f9c32e, 10);
+  font-weight: bold;
 }
 .community_2 {
   @include button($button-tny, #c76b32);
+  border: 3px solid darken(#c76b32, 10);
+  font-weight: bold;
 }
 .community_3 {
   @include button($button-tny, #c73261);
+  border: 3px solid darken(#c73261, 10);
+  font-weight: bold;
 }
 .community_4 {
   @include button($button-tny, #53964a);
+  border: 3px solid darken(#53964a, 10);
+  font-weight: bold;
 }
 .community_5 {
   @include button($button-tny, #a27be0);
+  border: 3px solid darken(#a27be0, 10);
+  font-weight: bold;
 }
 .community_6 {
   @include button($button-tny, #60a8db);
+  border: 3px solid darken(#60a8db, 10);
+  font-weight: bold;
 }
 
 //
