@@ -238,7 +238,7 @@
         <div class="org-link">
           <% if @post.organization %>
             <%= link_to @post.organization do %>
-              <%= image_tag @post.organization.image.thumb('150x150#').url if @post.organization.image %>
+              <%= image_tag @post.organization.image.url, width: '150' if @post.organization.image %>
             <% end %>
           <% end %>
         </div>
