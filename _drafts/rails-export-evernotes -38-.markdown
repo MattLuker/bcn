@@ -164,4 +164,46 @@ Open the **config/routes.rb** file and add:
 
 ```
 
+Rails.application.routes.draw do
+
+  root 'notes#index'
+
+  get '/evernote_auth', to: 'application#evernote_auth'
+
+  get '/evernote_auth/callbback', to: 'application#evernote_auth'
+
+end
+
+```
+
+The first route, **root**, sets up ‘/‘ to map to the **notes** controller **index** method.  Then we map both **/evernote_auth** and **/evernote_auth/callback** to the **evernote_auth** method in the **application_controller.rb**.
+
+### Viewing Notes
+
+Create a list of all notes on the **index** path/method we’ll need to create a folder **app/views/notes** and inside there create a file named **app/views/notes/index.html.erb** with:
+
+```
+
+<div class="row">
+
+  <div class="columns small-12">
+
+    <ul>
+
+      <% @notes.each do |note| %>
+
+        <li>
+
+          <%= note.content %>
+
+        </li>
+
+      <% end %>
+
+    </ul>
+
+  </div>
+
+</div>
+
 ```
