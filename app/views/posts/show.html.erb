@@ -1,21 +1,21 @@
 <%= content_for(:title) do %>
-    <% unless @post.title.blank? %>
-        <%= @post.title %> |
-    <% else %>
-        Post |
-    <% end %>
+  <% unless @post.title.blank? %>
+    <%= @post.title %> |
+  <% else %>
+    Post |
+  <% end %>
 <% end %>
 <%= content_for(:meta_og) do %>
-    <meta property="og:title" content="<%= @post.title %>" />
-    <meta property="og:type" content="article" />
-    <meta property="og:published_time" content="<%= @post.created_at.strftime('%Y-%m-%d %H:%M') %>" />
-    <meta property="og:author" content="<%= @post.user.username if @post.user && @post.user.username %>" />
-    <% if @post.description %>
-      <meta property="og:description" content="<%= truncate(strip_tags( markdown(@post.description) ), length: 50) %>" />
-    <% end %>
-    <% if @post.image %>
-        <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@post.image.url}" %>
-    <% end %>
+  <meta property="og:title" content="<%= @post.title %>" />
+  <meta property="og:type" content="article" />
+  <meta property="og:published_time" content="<%= @post.created_at.strftime('%Y-%m-%d %H:%M') %>" />
+  <meta property="og:author" content="<%= @post.user.username if @post.user && @post.user.username %>" />
+  <% if @post.description %>
+    <meta property="og:description" content="<%= truncate(strip_tags( markdown(@post.description) ), length: 50) %>" />
+  <% end %>
+  <% if @post.image %>
+    <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@post.image.url}" %>
+  <% end %>
 <% end %>
 
 
@@ -29,7 +29,7 @@
       <div class="row">
         <div class="large-12 columns">
           <% if @post.image %>
-              <%= image_tag @post.image.url, class: 'post-image', data: { action: 'zoom' } %>
+            <%= image_tag @post.image.url, class: 'post-image', data: { action: 'zoom' } %>
           <% end %>
           <br/><br/>
         </div>
@@ -43,21 +43,21 @@
       <br/><br/>
 
       <% if @post.audio %>
-          <%= audio_tag @post.audio.url, controls: true %>
+        <%= audio_tag @post.audio.url, controls: true %>
       <% end %>
 
       <div class="row post-second-row">
         <div class="large-9 columns">
           <% unless @post.og_url.blank? %>
-              <div class="row og-row">
-                <div class="large-4 columns og-data">
-                  <%= link_to @post.og_url, class: 'og-url', target: '_blank' do %>
-                      <%= image_tag @post.og_image, class: 'og-image' %>
-                      <h5 class="og-title"><%= @post.og_title %></h5>
-                      <p class="og-description"><%= @post.og_description %> </p>
-                  <% end %>
-                </div>
+            <div class="row og-row">
+              <div class="large-4 columns og-data">
+                <%= link_to @post.og_url, class: 'og-url', target: '_blank' do %>
+                  <%= image_tag @post.og_image, class: 'og-image' %>
+                  <h5 class="og-title"><%= @post.og_title %></h5>
+                  <p class="og-description"><%= @post.og_description %> </p>
+                <% end %>
               </div>
+            </div>
           <% end %>
         </div>
       </div>
@@ -65,18 +65,18 @@
         <div class="large-3 columns social-share right">
           <% if @post.description %>
             <%= link_to "https://twitter.com/intent/tweet?url=#{request.original_url}&text=#{truncate( strip_tags( markdown(@post.description) ), length: 25)}&hashtags=boone,bcn",
-                      target: '_blank', class: 'button sm-icon info share' do %>
+                        target: '_blank', class: 'button sm-icon info share' do %>
               <%= image_tag 'twitter-icon-white.svg', class: 'sm-icon' %>
             <% end %>
           <% end %>
 
           <%= link_to "http://www.facebook.com/sharer.php?u=#{request.original_url}&title=#{@post.title}",
                       target: '_blank', class: 'button sm-icon info share' do %>
-              <%= image_tag 'facebook-icon-white.svg', class: 'sm-icon' %>
+            <%= image_tag 'facebook-icon-white.svg', class: 'sm-icon' %>
           <% end %>
           <%= link_to "https://plus.google.com/share?url=URL=#{request.original_url}",
                       target: '_blank', class: 'button sm-icon info share' do %>
-              <%= image_tag 'google-icon-white.svg', class: 'sm-icon' %>
+            <%= image_tag 'google-icon-white.svg', class: 'sm-icon' %>
           <% end %>
         </div>
       </div>
@@ -93,32 +93,32 @@
 
         <div class="post-edit">
 
-        <% if @post.user == current_user || (current_user && current_user.admin?) %>
-          <%= link_to edit_post_path(@post), class: 'button tiny icon post-edit-link', title: 'Edit Post' do %>
-                <%= image_tag 'edit-icon.svg', class: 'icon' %>
+          <% if @post.user == current_user || (current_user && current_user.admin?) %>
+            <%= link_to edit_post_path(@post), class: 'button tiny icon post-edit-link', title: 'Edit Post' do %>
+              <%= image_tag 'edit-icon.svg', class: 'icon' %>
             <% end %>
-        <% end %>
+          <% end %>
         </div>
 
 
         <% if current_user && @post.user != current_user %>
-            <% if current_user.subscriptions.find_by(post_id: @post.id) %>
-                <%= link_to '#',
-                            class: 'button tiny secondary icon post-subscribe',
-                            title: 'Unsubscribe from Post',
-                            data: { post_id: @post.id, current_user_id: current_user.id, status: 'subscribed' } do %>
+          <% if current_user.subscriptions.find_by(post_id: @post.id) %>
+            <%= link_to '#',
+                        class: 'button tiny secondary icon post-subscribe',
+                        title: 'Unsubscribe from Post',
+                        data: { post_id: @post.id, current_user_id: current_user.id, status: 'subscribed' } do %>
 
-                    <%= image_tag 'tack-icon-green.svg', class: 'icon', title: 'Unsubscribe from Post' %>
-                <% end %>
-            <% else %>
-                <%= link_to '#',
-                            class: 'button tiny icon post-subscribe',
-                            title: 'Subscribe to Post',
-                            data: { post_id: @post.id, current_user_id: current_user.id, status: 'unsubscribed' } do %>
-                    <%= image_tag 'tack-icon.svg', class: 'icon', title: 'Subscribe to Post' %>
-                <% end %>
-
+              <%= image_tag 'tack-icon-green.svg', class: 'icon', title: 'Unsubscribe from Post' %>
             <% end %>
+          <% else %>
+            <%= link_to '#',
+                        class: 'button tiny icon post-subscribe',
+                        title: 'Subscribe to Post',
+                        data: { post_id: @post.id, current_user_id: current_user.id, status: 'unsubscribed' } do %>
+              <%= image_tag 'tack-icon.svg', class: 'icon', title: 'Subscribe to Post' %>
+            <% end %>
+
+          <% end %>
         <% end %>
       </div>
 
@@ -142,32 +142,32 @@
           <div class="tabs-content">
             <section role="tabpanel" aria-hidden="false" class="content active" id="dates">
               <% if @post.start_date %>
-                  <p>
-                    <br/>
-                    <em>Starting:</em>
-                    <%= @post.start_date.strftime('%m/%d/%Y') %>
-                    at
-                    <%= @post.start_time.to_s(:time) if @post.start_time %>
-                    <br/>
+                <p>
+                  <br/>
+                  <em>Starting:</em>
+                  <%= @post.start_date.strftime('%m/%d/%Y') %>
+                  at
+                  <%= @post.start_time.to_s(:time) if @post.start_time %>
+                  <br/>
               <% end %>
               <% if @post.end_date %>
-                  <em>Ending:</em>
-                  <%= @post.end_date.strftime('%m/%d/%Y') %>
-                  at
-                  <%= @post.end_time.to_s(:time) if @post.end_time %>
-                  </p>
+                <em>Ending:</em>
+                <%= @post.end_date.strftime('%m/%d/%Y') %>
+                at
+                <%= @post.end_time.to_s(:time) if @post.end_time %>
+                </p>
               <% end %>
 
               <% unless @post.start_date && @post.end_date %>
-                  <p class="grey">No dates set.</p>
+                <p class="grey">No dates set.</p>
               <% end %>
             </section>
 
             <section role="tabpanel" aria-hidden="true" class="content" id="locations">
               <% unless @post.locations.empty? %>
-                  <ul id="<%= dom_id(@post) %>" class="no-disc">
-                    <% @post.locations.each do |location| %>
-                        <li>
+                <ul id="<%= dom_id(@post) %>" class="no-disc">
+                  <% @post.locations.each do |location| %>
+                    <li>
                           <span id="<%= dom_id(location) %>">
                             <strong><%= location.name %></strong>
                             <br/>
@@ -179,35 +179,35 @@
                             </span>
                           </span>
 
-                          &nbsp;&nbsp;
+                      &nbsp;&nbsp;
 
-                          <% if @post.user == current_user || (current_user && current_user.admin?) %>
-                              <%= link_to post_location_path(@post.id, location.id),
-                                          method: :delete,
-                                          class: "button alert tiny remove_location icon",
-                                          title: 'Remove Location',
-                                          data: { confirm: 'Are you sure?' } do %>
-                                  <%= image_tag 'trash-icon.svg', class: 'icon' %>
-                              <% end %>
-                          <% end %>
-                        </li>
+                      <% if @post.user == current_user || (current_user && current_user.admin?) %>
+                        <%= link_to post_location_path(@post.id, location.id),
+                                    method: :delete,
+                                    class: "button alert tiny remove_location icon",
+                                    title: 'Remove Location',
+                                    data: { confirm: 'Are you sure?' } do %>
+                          <%= image_tag 'trash-icon.svg', class: 'icon' %>
+                        <% end %>
+                      <% end %>
+                    </li>
 
-                    <% end %>
-                  </ul>
+                  <% end %>
+                </ul>
               <% else %>
-                  <p class="grey" id="no-locations">No locations set.</p>
+                <p class="grey" id="no-locations">No locations set.</p>
               <% end %>
             </section>
 
             <section role="tabpanel" aria-hidden="true" class="content" id="communities">
               <% unless @post.communities.empty? %>
-                  <ul class="communities no-disc">
-                    <% @post.communities.each do |community| %>
-                        <%= render 'layouts/communities_list', community: community %>
-                    <% end %>
-                  </ul>
+                <ul class="communities no-disc">
+                  <% @post.communities.each do |community| %>
+                    <%= render 'layouts/communities_list', community: community %>
+                  <% end %>
+                </ul>
               <% else %>
-                  <p class="grey">No communities set.</p>
+                <p class="grey">No communities set.</p>
               <% end %>
             </section>
             <section role="tabpanel" aria-hidden="true" class="content" id="gallery">
@@ -233,15 +233,32 @@
   </div>
 
   <div class="large-3 columns map-container">
-    <%= button_tag class: 'button tiny secondary expand-map' do %>
-        <%= image_tag 'expand-icon.svg', class: 'ty-icon' %> &nbsp;
-        Expand Map
-    <% end %>
-    <%= button_tag class: 'button tiny secondary contract-map hidden' do %>
-        <%= image_tag 'contract-icon.svg', class: 'ty-icon' %> &nbsp;
-        Shrink Map
-    <% end %>
-    <div id="map" class="post-map"></div>
+    <div class="row">
+      <div class="large-12">
+        <div class="org-link">
+          <% if @post.organization %>
+            <%= link_to @post.organization do %>
+              <%= image_tag @post.organization.image.thumb('#150x150').url if @post.organization.image %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12">
+        <%= button_tag class: 'button tiny secondary expand-map' do %>
+          <%= image_tag 'expand-icon.svg', class: 'ty-icon' %> &nbsp;
+          Expand Map
+        <% end %>
+        <%= button_tag class: 'button tiny secondary contract-map hidden' do %>
+          <%= image_tag 'contract-icon.svg', class: 'ty-icon' %> &nbsp;
+          Shrink Map
+        <% end %>
+        <div id="map" class="post-map"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -254,40 +271,40 @@
 
     <div class="hidden post-comment">
       <%= form_tag post_comments_path(@post), :enctype => "multipart/form-data", :class => 'comment' do %>
-          <div class="row">
-            <div class="large-4 columns actions">
-              <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
+        <div class="row">
+          <div class="large-4 columns actions">
+            <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
 
-              <%= label_tag :photo, 'Add a pic?'%>
-              <%= file_field_tag 'comment[photo]', class: 'photo_upload' %>
-              <%= hidden_field_tag :retained_photo %>
+            <%= label_tag :photo, 'Add a pic?'%>
+            <%= file_field_tag 'comment[photo]', class: 'photo_upload' %>
+            <%= hidden_field_tag :retained_photo %>
 
-              <%= text_area_tag 'comment[content]' %>
+            <%= text_area_tag 'comment[content]' %>
 
-              <% if current_user && !current_user.organizations.blank? %>
-                <div>
-                  <label for="commentor">Comment As:</label>
-                  <select name="comment[organization_id]" id="post_organization">
-                    <option value=""></option>
-                    <% current_user.organizations.each do |organization| %>
-                      <option value="<%= organization.id %>"><%= organization.name %></option>
-                    <% end %>
-                  </select>
-                </div>
-              <% end %>
-
+            <% if current_user && !current_user.organizations.blank? %>
+              <div>
+                <label for="commentor">Comment As:</label>
+                <select name="comment[organization_id]" id="post_organization">
+                  <option value=""></option>
+                  <% current_user.organizations.each do |organization| %>
+                    <option value="<%= organization.id %>"><%= organization.name %></option>
+                  <% end %>
+                </select>
               </div>
-          </div>
+            <% end %>
 
-          <div class="row">
-            <div class="large-4 columns actions">
-              <%= button_tag type: 'submit', class: 'button small success save-comment' do %>
-                  <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
-                  &nbsp;
-                  Save Comment
-              <% end %>
-            </div>
           </div>
+        </div>
+
+        <div class="row">
+          <div class="large-4 columns actions">
+            <%= button_tag type: 'submit', class: 'button small success save-comment' do %>
+              <%= image_tag 'save-icon.svg', class: 'ty-icon' %>
+              &nbsp;
+              Save Comment
+            <% end %>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>
@@ -296,7 +313,7 @@
 <div class="row">
   <div class="large-12 columns comments">
     <% if @post.comments %>
-        <%= render 'comments', {comments: @post.comments} %>
+      <%= render 'comments', {comments: @post.comments} %>
     <% end %>
   </div>
 </div>
