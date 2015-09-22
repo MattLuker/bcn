@@ -1,8 +1,16 @@
-# Mark That Video
+---
+title:  "Mark That Video"
+date:   2015-09-22 14:30:00
+layout: post
+categories: ruby learning
+image: watermark_cover.jpg
+---
+
+## Watermarking For Fun and Fun
 
 Sometimes it’s cool to let everyone know that you made a video by marking it with a logo, some would call it a watermark, to make things look more professional.
 
-![](img/man_in_business_suit_levitating.svg)
+![](/img/man_in_business_suit_levitating.svg)
 
 Since we’re all about looking professional this post is going to cover inserting a PNG (a semi-transparent PNG) into every frame of a video.  That way the whole world, or at least those who view the video, will know how professional you are.
 
@@ -10,14 +18,14 @@ I’ve been toying with this idea for some time, but couldn’t seem to find a g
 
 The main breakthrough with this topic came when I saw [this post](http://davidwalsh.name/watermark-images-videos) from David Walsh on Twitter.  In the post he goes into detail on adding watermarks to images and animated GIFs as well so I recommend you check it out.  As David sites in his post the command for editing video is from Kevin Sloan and can be found [here](http://ksloan.net/watermarking-videos-from-the-command-line-using-ffmpeg-filters/).  Like David, I also highly recommend Kevin’s post.
 
+<!--more-->
+
 ## ffmpeg with Ruby
 
 To recap, executing other utilities in Ruby with backpacks:
 
 ```
-
 home_files = `ls ~`
-
 ```
 
 The out put of ```ls ~``` will be placed into the *home_files* variable as a string.
@@ -27,26 +35,31 @@ The out put of ```ls ~``` will be placed into the *home_files* variable as a str
 The command to add an image to a video is:
 
 ```
-
 ffmpeg -i wtf.mpg -i watermark.png -filter_complex "overlay=10:10" wtf-watermarked.mpg
-
 ```
 
 Add that to a Ruby script:
 
-```
+{% highlight ruby %}
+#!/usr/bin/env ruby 
+# 
+# Watermark videos 
+#
 
-#!/usr/bin/env ruby # # Watermark videos #  watermark = './data_files/levitating_man.png' video = './data_files/bcn_movie-1.mp4'   edit_output = `ffmpeg -i #{video} -i #{watermark} -filter_complex "overlay=30:30" ./output_files/bcn_movie-1.watermarked.mp4`   puts edit_output
+  watermark = './data_files/levitating_man.png' 
+video = './data_files/bcn_movie-1.mp4'
 
-```
+   edit_output = `ffmpeg -i #{video} -i #{watermark} -filter_complex "overlay=30:30" ./output_files/bcn_movie-1.watermarked.mp4`
+
+   puts edit_output
+{% endhighlight %}
 
 As a bonus here’s a couple of commands that will convert an MP4 video into an animated GIF using **ffmpeg**.  Add them to the bottom of your script:
 
-```
-
-# Make a gif from the video. `ffmpeg -i #{video} -pix_fmt rgb24 -r 4 bcn_movie-1.gif`  # Optimize it. `convert -layers Optimize ./ouput_files/bcn_movie-1.gif ./ouput_files/bcn_movie-1.gif"`
-
-```
+{% highlight ruby %}
+# Make a gif from the video. 
+`ffmpeg -i #{video} -pix_fmt rgb24 -r 4 bcn_movie-1.gif`  # Optimize it. `convert -layers Optimize ./ouput_files/bcn_movie-1.gif  ./ouput_files/bcn_movie-1.gif"`
+{% endhighlight %}
 
 ## Conclusion
 
