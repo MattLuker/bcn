@@ -20,6 +20,9 @@
 //= require foundation/foundation.abide
 //= require foundation/foundation.clearing
 //= require turbolinks
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree .
 //= require foundation-datepicker
 //= require clockpicker

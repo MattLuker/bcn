@@ -35,6 +35,7 @@ gem 'taglib-ruby'
 gem 'icalendar'
 gem 'will_paginate'
 gem 'will_paginate-foundation'
+gem 'react-rails', '~> 1.3.0'
 
 gem 'dragonfly', '~> 1.0.8'
 
