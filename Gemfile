@@ -9,4 +9,5 @@ gem 'github-pages', versions['github-pages']
 group :development do
   gem 'guard'
   gem 'guard-copy'
+  gem 'guard-process'
 end

@@ -52,3 +52,7 @@
 guard :copy, :from => '_drafts/Draft', :to => './_drafts' do
   watch(%r{^(.*)})
 end
+
+guard 'process', :name => 'git_commit', :command => './git_commit.rb' do
+  watch %r{_drafts/(.*)}
+end
