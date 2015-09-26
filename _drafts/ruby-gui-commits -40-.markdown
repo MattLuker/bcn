@@ -158,10 +158,12 @@ end
 
 ```
 
-Copy **git_commit.rb** into the root directory of the Jekyll site and things should be good to go once your run the **bin/guard** command.
+Copy **git_commit.rb** into the root directory of the Jekyll site and things should be good to go once your run the **guard** command.
 
 ## Conclusion
 
 There are some assumptions with this script.  The first one being that the directory you execute it in already has a git repository setup and a remote location configured.  This is pretty simple see the [Git Book](https://git-scm.com/book/en/v2) for more information on Git.  Also, that you name your script **git_commit.rb**.
+
+One more thing, after the Sinatra site kicks off you stop it hit **Ctrl+c** in the terminal you’re running **guard** in.
 
 Party On!
