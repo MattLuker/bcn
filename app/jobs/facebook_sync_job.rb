@@ -5,6 +5,7 @@ class FacebookSyncJob < ActiveJob::Base
   def perform(token, user)
 
     @graph = Koala::Facebook::API.new(token)
+    puts "@graph:..."
     events = @graph.get_connections(user.facebook_id, 'events')
 
     events.each do |event|
