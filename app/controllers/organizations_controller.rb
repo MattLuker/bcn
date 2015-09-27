@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :set_organization, except: [:index, :new, :create]
-  before_action :require_user
+  before_action :require_user, except: [:index, :show]
 
   def show
     @posts = @organization.posts.order('created_at DESC').paginate(:page => params[:page], :per_page => 10)
