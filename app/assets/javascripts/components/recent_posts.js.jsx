@@ -1,8 +1,11 @@
 var RecentPosts = React.createClass({
   render: function() {
-    return (
-      <ul class="posts no-bullet">
+    var posts = this.props.data.map(function(posts){
+      return <Post {...posts} />
+    });
+
+    return <ul className="posts no-bullet">
+       {posts}
       </ul>
-    );
   }
-});
+})
