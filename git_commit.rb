@@ -26,7 +26,7 @@ end
 post '/commit' do
   puts params[:message]
 
-  session[:add] = `git commit add .`
+  session[:add] = `git add .`
   session[:commit] = `git commit -am "#{params[:message]}"`
   session[:push] = `git push`
   redirect to('/results')
