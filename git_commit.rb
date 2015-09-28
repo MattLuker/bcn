@@ -26,6 +26,7 @@ end
 post '/commit' do
   puts params[:message]
 
+  session[:add] = `git commit add .`
   session[:commit] = `git commit -am "#{params[:message]}"`
   session[:push] = `git push`
   redirect to('/results')
@@ -37,9 +38,11 @@ get '/results' do
   <div style="margin: 0 auto; max-width: 700px;">
     <h4>Results:</h4>
 
-    #{session[:commit]}
+    <strong>Add:</strong> #{session[:add]}
     <br/><br/>
-    #{session[:push]}
+    <strong>Commit:</strong> #{session[:commit]}
+    <br/><br/>
+    <strong>Push:</strong> #{session[:push]}
     <br/><br/>
     <a href="/">Back</a>
   </div>
