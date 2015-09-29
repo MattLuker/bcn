@@ -26,17 +26,9 @@ var Post = React.createClass({
 
     var content = this.getDOMNode().querySelector('.content');
 
-    // Toggle the 'active' className.
+    // Toggle the 'active' class.
 
-    if (content.className.indexOf('active') > -1) {
-
-      content.className = 'content';
-
-    } else {
-
-      content.className = content.className + " active";
-
-    }
+    content.classList.toggle('active');
 
   },
 
@@ -74,7 +66,7 @@ var Post = React.createClass({
 
 Looking at the *a* tag you’ll notice a new **onClick** attribute that has a value of **{this.handleClick}**.  Above the **render** function is the **handleClick** function.  This isn’t too complicated of an event handler.  Basically using the **this.getDOMNode()** method the **querySelector()** method is chained looking for an element with the class **content**.  This will grab the **content** div in that particular li.
 
-The class attribute of the content div is then checked for the **active** class and if it’s there it’s removed by setting the content div to only have the **content** class, and if it’s not there add that sucker to the current class list.
+The **’active’** class is then toggled on the element.
 
 Pow! The accordion element should now work as Foundation intended.  I’ll come clean, I did play around with triggering an event named **”toggled”** which is what Foundation Accordion is looking for, but I couldn’t get it to work right.  So toggling the **active** class was the next best thing.
 
