@@ -56,7 +56,10 @@ class Post < ActiveRecord::Base
         :end_date,
         :image_web_url,
         :audio_web_url,
-        :created_at
+        :created_at,
+        :og_title,
+        :og_url,
+        :og_description
       ],
       :include => {
         :locations => {

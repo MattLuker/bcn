@@ -2,14 +2,15 @@ var Post = React.createClass({
   render: function() {
     var postTitle = this.props.title;
     var linkTarget = '_self';
+    var postHref = '/posts/' + this.props.id;
 
-    if (postTitle == null) {
-      postTitle = this.props.og_title
-      linkTarget = '_blank'
+    if (postTitle == null || this.props.title == "") {
+      postTitle = this.props.og_title;
+      linkTarget = '_blank';
+      postHref = this.props.og_url;
     }
-
     if (postTitle.length > 100) {
-      postTitle = postTitle.slice(0,25)
+      postTitle = postTitle.slice(0,25);
     }
 
     var dateTxt = 'On: ';
@@ -17,10 +18,10 @@ var Post = React.createClass({
       dateTxt += moment(this.props.start_date).format('M/D/YYYY')
 
       if (this.props.start_time != null) {
-        dateTxt += ' @ ' + moment(this.props.start_time).format('h:mm a')
+        dateTxt += ' @ ' + moment(this.props.start_time).format('h:mm a');
       }
     } else {
-      dateTxt = moment(this.props.created_at).fromNow()
+      dateTxt = moment(this.props.created_at).fromNow();
     }
 
     var postCreator = 'Anonymous';
@@ -35,12 +36,14 @@ var Post = React.createClass({
 
     return <li className={"post row post_" + this.props.id}>
         <div className="row">
-          <PostImage src={this.props.image_web_url} start_date={this.props.start_date} />
+          <a href={'/posts/' + this.props.id}>
+            <PostImage src={this.props.image_web_url} start_date={this.props.start_date} />
+          </a>
 
           <div className="large-10 columns">
 
             <span className="post-title">
-              <a href={'/posts/' + this.props.id} target={linkTarget} id={'post_' + this.props.id}>{postTitle}</a>
+              <a href={postHref} target={linkTarget} id={'post_' + this.props.id}>{postTitle}</a>
             </span>
 
             <br/>
