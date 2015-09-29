@@ -88,11 +88,7 @@
 
       <section role="tabpanel" aria-hidden="false" class="content" id="events">
         <div class="events-wrapper">
-          <ul class="events no-bullet">
-            <% @events.each do |post| %>
-              <%= render 'layouts/posts_list', post: post %>
-            <% end %>
-          </ul>
+          <%= react_component('RecentPosts', data: @events) %>
         </div>
       </section>
     </div>
