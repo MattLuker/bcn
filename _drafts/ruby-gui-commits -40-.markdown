@@ -78,7 +78,9 @@ post '/commit' do
 
   puts params[:message]
 
-  session[:commit] = `git add . && git commit -m "#{params[:message]}"`
+  session[:add] = `git add .`
+
+  session[:commit] = `git commit -am "#{params[:message]}"`
 
   session[:push] = `git push`
 
@@ -96,11 +98,15 @@ get '/results' do
 
     <h4>Results:</h4>
 
-    #{session[:commit]}
+    <strong>Add:</strong> #{session[:add]}
 
     <br/><br/>
 
-    #{session[:push]}
+    <strong>Commit:</strong> #{session[:commit]}
+
+    <br/><br/>
+
+    <strong>Push:</strong> #{session[:push]}
 
     <br/><br/>
 
