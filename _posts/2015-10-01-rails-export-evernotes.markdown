@@ -1,4 +1,10 @@
-# Export Evernote Notes With Rails
+---
+title:  "Export Evernote Notes With Rails"
+date:   2015-10-01 14:30:00
+layout: post
+categories: rails learning
+image: evernote_cover.jpg
+---
 
 ## Notes The Backbone of Projects
 
@@ -9,6 +15,8 @@ At least it did for me and the second biggest advantage is having access to ever
 There is one big **but** though.  Having all that information in someone else’s servers and databases doesn’t always sit well.  After all everything comes to an end.  Is Evernote going to end anytime soon? I highly doubt it.  I think the Feemium model they have is great and at a price point that a lot of people don’t mind paying.  Not to mention that fact that the company is founded ran by some super smart cats.
 
 Being such a great company Evernote has a great REST API you can use to develop on top of their platform, so we’ll whip up a Rails app to export all our precious notes so that we can back them up and maybe serve them on our own server.
+
+<!--more-->
 
 ## Get Setup with Evernote
 
@@ -35,90 +43,67 @@ See this [post](http://devblog.boonecommunitynetwork.com/ruby-rails-and-passenge
 Create a new Rails project, in a terminal enter:
 
 ```
-
 rails new rails-evernote
-
 ```
 
 Add the needed gems to **Gemfile**:
 
-```
-
+{% highlight ruby %}
 gem 'evernote_oauth'
-
 gem 'nokogiri'
-
 gem 'foundation-rails'
-
 gem 'foundation-icons-sass-rails'
+{% endhighlight %}
 
-```
 
 Okay, so they  may all not be “**needed**” for the app to work, but the Foundation gems really do make things look good. Setup Foundation with:
 
 ```
-
 rails g foundation:install
-
 ```
 
 And install the gems:
 
 ```
-
 bundle install
-
 ```
 
 ### OAuth to Evernote
 
 Create a new config file for our Evernote key and secret in **config/evernote.yml** with the following:
 
-```
-
+{% highlight ruby %}
 development:
-
   evernote_server: 'https://sandbox.evernote.com'
-
   consumer_key: ‘YOUR_KEY’
-
   consumer_secret: ‘YOUR_SECRET’
-
-```
+{% endhighlight %}
 
 Next, create a config initializer in **config/initializers/evernote.rb** with:
 
 ```
-
 EVERNOTE_CONFIG = Rails.application.config_for(:evernote)
-
 ```
 
 One more setup thing we need to add is setup a session **cache_store** to save our OAuth tokens from Evernote.  Add the following to the end of **config/initializers/session_store.rb**:
 
 ```
-
 Rails.application.config.session_store :cache_store, key: ‘_rails-evernote_session’
-
 ```
 
 ### Routes
 
 We’ll whip up some “stand-alone” routes as well as using **resources** for routes in this project.  Open **config/routes.rb** and add the following:
 
-```
-
+{% highlight ruby %}
   root 'notes#index'
-
   resources :notes
 
   get '/evernote_auth', to: 'application#evernote_auth'
-
   get '/evernote_auth_callback', to: 'application#evernote_auth_callback'
 
   get '/sync', to: 'notes#sync_notes', as: :sync
-
-```
+{% endhighlight %}
 
 We’ll setup a **Note** model in ActiveRecord and we’ll use it’s *index* method for our base route.  The next routes are for authenticating and authorizing our app with Evernote.  Finally, there’s a route to sync notes to our local database.
 
@@ -127,44 +112,32 @@ We’ll setup a **Note** model in ActiveRecord and we’ll use it’s *index* me
 The model for our **Note** object is pretty simple.  First, create a migration:
 
 ```
-
 bin/rails g migration create_notes
-
 ```
 
 Second, add the following to **change** method to create the **notes** table in **db/migrate/$timestamp_create_notes.rb**:
 
-```
-
+{% highlight ruby %}
     create_table :notes do |t|
-
       t.string :title, index: true
-
       t.text :content
-
       t.string :url
-
     end
+{% endhighlight %}
 
-```
 
 Third, execute the migration:
 
 ```
-
 bin/rake db:migrate
-
 ```
 
 Finally, create the **app/models/note.rb** file with:
 
-```
-
+{% highlight ruby %}
 class Note < ActiveRecord::Base
-
 end
-
-```
+{% endhighlight %}
 
 As you can see not a whole lot going on with the model, but enough to store the Note title, content, and URL (if there is one).
 
@@ -174,47 +147,31 @@ As you can see not a whole lot going on with the model, but enough to store the 
 
 To authenticate with Evernote via OAuth add the following method to the **app/controllers/application_controller.rb** file:
 
-```
-
+{% highlight ruby %}
 class ApplicationController < ActionController::Base
-
   protect_from_forgery with: :exception
 
   def evernote_auth
-
     callback_url = 'http://localhost:3000/evernote_auth'
 
     if params[:oauth_verifier]
-
       access_token = session[:request_token].get_access_token(oauth_verifier: params[:oauth_verifier])
-
       session[:access_token] = access_token.token
-
       redirect_to root_path
-
     else
-
       client = EvernoteOAuth::Client.new
-
       session[:request_token] = client.request_token(:oauth_callback => callback_url)
-
       redirect_to session[:request_token].authorize_url
-
     end
-
   end
 
   def evernote_auth_callback
-
     session[:access_token] = access_token.token
-
     redirect_to '/'
-
   end
 
 end
-
-```
+{% endhighlight %}
 
 The first method does a couple of things. If there is a parameter named **oauth_verifier** in the request it will use the **evernote_oath** library to create an **access token** then store the token in a session variable.
 
@@ -226,79 +183,52 @@ Go ahead and browse to ```http://localhost:3000/evernote_auth``` and you should 
 
 Time to setup the *Notes* controller.  Create a new file **app/controllers/notes_controller.rb** and for now put:
 
-```
-
+{% highlight ruby %}
 class NotesController < ApplicationController
 
   def index
-
     @notes = Note.all
-
   end
 
   def show
-
     @note = Note.find(params[:id])
-
   end
 
   def sync_notes
-
     client = EvernoteOAuth::Client.new(token: session[:access_token])
-
     note_store = client.note_store
-
     notebooks = note_store.listNotebooks(session[:access_token])
-
     ideas_guid = ''
 
     notebooks.each do |notebook|
-
       if notebook.name == 'Ideas'
-
         ideas_guid = notebook.guid
-
       end
-
     end
 
     filter = Evernote::EDAM::NoteStore::NoteFilter.new
-
     filter.notebookGuid = ideas_guid
 
     note_list = note_store.findNotes(session[:access_token], filter, 0, 10000)
-
     note_list.notes.each do |note|
 
       doc = Nokogiri::XML(note_store.getNoteContent(note.guid))
-
       node = doc.xpath("//en-note")
-
       local_note = Note.find_by_title(note.title)
 
       unless local_note
-
         Note.create(
-
           title: note.title,
-
           content: node,
-
           url: note.attributes.sourceURL
-
         )
-
       end
-
     end
 
     redirect_to root_path
-
   end
-
 end
-
-```
+{% endhighlight %}
 
 So the **index** and **show** methods are pretty standard index gets a list of Note objects from the database and show gets a specific note based on the *id* request parameter.
 
@@ -312,38 +242,28 @@ The **note_list** is then looped and since the Evernote API gives back XML we us
 
 Create a list of all notes on the **index** path/method we’ll need to create a folder **app/views/notes** and inside there create a file named **app/views/notes/index.html.erb** with:
 
-```
-
+{% highlight ruby %}
 <div class="row">
-
   <div class="columns small-12">
 
     <h1>Ideas</h1>
 
     <%= link_to sync_path, class: 'button small' do %>
-
       <i class="fi-refresh"></i> &nbsp; Refresh
-
     <% end %>
 
     <hr/><br/>
 
     <div class="row">
-
       <ul class="small-block-grid-3">
 
         <% @notes.each do |note| %>
-
           <li>
-
             <div class="card">
-
               <div class="image">
-
               </div>
 
               <div class="content">
-
                 <span class="title"><%= note.title %></span>
 
                 <br/>
@@ -351,248 +271,162 @@ Create a list of all notes on the **index** path/method we’ll need to create a
                 <%= sanitize(note.content) %>
 
               </div>
-
               <div class="action">
-
                 <div class="row">
-
                   <div class="columns small-6">
-
                     <%= link_to note_path(note), class: 'button small' do %>
-
                       <i class="fi-page"></i>
-
                     <% end %>
-
                   </div>
 
                   <div class="columns small-6">
-
                     <%= link_to note.url, class: 'button small' do %>
-
                       <i class="fi-link"></i>
-
                     <% end %>
 
                   </div>
-
                 </div>
-
               </div>
-
             </div>
-
           </li>
 
         <% end %>
 
       </ul>
-
     </div>
-
   </div>
-
 </div>
-
-```
+{% endhighlight %}
 
 The layout is pretty simple.  We’re using a “card” style that will display the note title, content, and at the bottom show some links to the local note **show** page and to the Evernote link for the note (if there is one).
 
 To create the “card” elements I used a [Foundation Building Blocks](http://zurb.com/building-blocks/material-card) Material Card example.  To add the CSS I grabbed the SCSS code and added it to **app/assets/stylesheets/application.css.scss** (after renaming the file to add the **.scss** to the end):
 
-```
-
+{% highlight scss %}
 @import 'foundation-icons';
-
 @import url(//fonts.googleapis.com/css?family=Roboto:400,500,300,100,700,900);
 
  html,body { // for demo only
-
    background: #FAFAFA;
-
  }
 
  .card {
-
    font-family: 'Roboto', sans-serif;
-
    overflow: hidden;
-
    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-
    color: #272727;
-
    border-radius: 2px;
-
    .title {
-
      line-height: 3rem;
-
      font-size: 1.5rem;
-
      font-weight: 300;
-
    }
 
    .content {
-
      padding: 1.3rem;
-
      font-weight: 300;
-
      border-radius: 0 0 2px 2px;
-
    }
 
    p {
-
    margin: 0;
-
    }
 
    .action {
-
      border-top: 1px solid rgba(160, 160, 160, 0.2);
-
      padding: 1.3rem;
-
    }
 
    a {
-
      margin-right: 1.3rem;
-
      transition: color 0.3s ease;
-
      text-transform: uppercase;
-
      text-decoration: none;
-
    }
 
    .image {
-
      position: relative;
-
      .title {
-
        position: absolute;
-
        bottom: 0;
-
        left: 0;
-
        padding: 1.3rem;
-
        color: #fff;
-
      }
 
      img {
-
        border-radius: 2px 2px 0 0;
-
      }
-
    }
-
  }
+{% endhighlight %}
 
-```
 
 Also, notice the ```@import 'foundation-icons’;``` at the top. This let’s us use the Foundation Icons gem we installed earlier.  
 
 Finally, add the following to **app/views/notes/show.html.erb** to have a template for viewing individual cards:
 
-```
-
+{% highlight ruby %}
 <div class="row">
-
   <div class="columns small-12">
 
     <h1><%= @note.title %></h1>
 
     <%= link_to root_path, class: 'button small' do %>
-
       <i class="fi-left-arrow"></i> &nbsp; Back
-
     <% end %>
 
     <hr/><br/>
 
     <div class="card">
-
       <div class="image">
-
       </div>
 
       <div class="content">
-
         <span class="title"><%= @note.title %></span>
 
         <br/>
 
         <%= sanitize(@note.content) %>
-
       </div>
 
       <div class="action">
-
         <div class="row">
 
           <div class="columns small-6">
-
             <%= link_to @note.url, class: 'button small' do %>
-
               <i class="fi-link"></i>
-
             <% end %>
 
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </div>
-
-```
+{% endhighlight %}
 
 # Conclusion
 
-Whoops forgot one last modification.  Because my notes can get rather long, and they all consist of an **ol** element, I created the **app/assets/javascripts/notes.coffee** file with: 
+Whoops forgot one last modification.  Because my notes can get rather long, and they all consist of an **ol** element, I created the **app/assets/javascripts/notes.coffee** file with:
 
-```
-
+{% highlight ruby %}
 ready_notes = ->
-
   #
-
   # Only list first 5 <li>s.
-
   #
 
   if window.location.pathname == '/'
-
     $.each $('ol'), (idx, note) ->
-
       $note = $(note)
-
       trunc_notes = $note.children().slice(0,5)
 
       $note.html(trunc_notes)
 
 # Fire the ready function on load and refresh.
-
 $(document).ready(ready_notes)
-
 $(document).on('page:load', ready_notes)
-
-```
+{% endhighlight %}
 
 This will remove all but the first five **li** elements of the **ol** on the **index** page.  This really tidied things up for me, but depending on your note content you can probably skip this part.  Also, there are probably a lot better ways to truncate the text, but this is the way I used cause CoffeeScript rules.
 
