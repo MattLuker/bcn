@@ -1,6 +1,11 @@
 var RecentPosts = React.createClass({
+  getInitialState: function() {
+    return {
+      posts: this.props.data
+    }
+  },
   render: function() {
-    var posts = this.props.data.map(function(posts){
+    var posts = this.state.posts.map(function(posts){
       return <Post {...posts} key={posts.id} />
     });
 
