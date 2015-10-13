@@ -1,4 +1,10 @@
-# Hashes in Ruby
+---
+title:  "Hashes in Ruby"
+date:   2015-10-13 14:30:00
+layout: post
+categories: ruby learning
+image: hashes_cover.jpg
+---
 
 ##  The Workhorse of the Internet
 
@@ -8,35 +14,27 @@ I always thought a calling something a Hash was kind of strange.  Isn’t hash a
 
 Hashes in Ruby are known as *dictionaries* in Python, *associative arrays* in PHP, *plain objects* in JavaScript, and well *hashes* in Perl (but who uses Perl now anyway?).  Basically a hash is a object consisting of key/value pairs and it’s awesome.
 
+<!--more-->
+
 ## Looping
 
 The simplest way to loop over a Hash in Ruby is, like looping over Arrays, to use the **each** method.  Suppose we have a hash like this:
 
-```
-
+{% highlight ruby %}
 hasher = {
-
   id: 1,
-
   status: ‘good’,
-
   content: ‘I like cheese…’
-
 }
-
-```
+{% endhighlight %}
 
 The **each** method will take two arguments in the **do** block one for the **key** and another for the **value**:
 
-```
-
+{% highlight ruby %}
 hasher.each do |key, value|
-
   puts “key: #{key}, value: #{value}”
-
 end
-
-```
+{% endhighlight %}
 
 This in very useful because usually when looping over a Hash you’re going to want to do something with either the hashes keys, the values, or probably both.
 
@@ -44,25 +42,17 @@ This in very useful because usually when looping over a Hash you’re going to w
 
 Similar to the **each** method the **select** method iterates through a hash and returns a new hash of entries that return true from the block.  So for example:
 
-```
-
+{% highlight ruby %}
 hasher = {
-
   id: 1,
-
   status: ‘good’,
-
   content: ‘I like cheese…’
-
 }
 
 complete = hasher.select do |key, value|
-
   value == ‘good’
-
 end
-
-```
+{% endhighlight %}
 
 The **complete** hash now has the key ‘status’ and it’s value.  Pretty cool!
 
