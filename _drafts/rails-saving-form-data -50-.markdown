@@ -97,3 +97,69 @@ class Input < ActiveRecord::Base
 end
 
 ```
+
+## Controllers
+
+This controller takes advantage of Rails [resources](http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default) there are some methods for CRUD operations.
+
+```
+
+class InputsController < ApplicationController
+
+  def index
+
+    @inputs = Input.all
+
+  end
+
+  def new
+
+    @input = Input.new
+
+  end
+
+  def create
+
+    @input = Input.create(input_params)
+
+    redirect_to root_path
+
+  end
+
+  def edit
+
+    @input = Input.find(params[:id])
+
+  end
+
+  def update
+
+    @input = Input.find(params[:id])
+
+    @Input.update(input_params)
+
+    redirect_to root_path
+
+  end
+
+  def show
+
+    @input = Input.find(params[:id])
+
+  end
+
+  private
+
+    def input_params
+
+      params[:input].permit(:form_path, …)
+
+    end
+
+end
+
+```
+
+Here’s a quick explanation of the controller methods:
+
+## Views
