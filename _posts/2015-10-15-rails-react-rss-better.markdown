@@ -1,12 +1,20 @@
-# Better Rails React RSS Reader
+---
+title:  "Better Rails React RSS 2nd Draft"
+date:   2015-10-15 14:30:00
+layout: post
+categories: rails learning react
+image: react_rss_2_cover.jpg
+---
 
-## Okay, Slightly More Better
+## Time for a Rewrite (or more like an expansion)
 
 In a [previous post]() we setup an RSS reader for parsing Craigslist jobs postings.  The basic functionality is all there and now it’s time to add some additional things to make the project worth using.
 
 In the conclusion I mentioned it’d be great to get the [Foundation Accordion](http://foundation.zurb.com/docs/components/accordion.html) element for the **Post** model working and to be able to delete a Feed.
 
 It’s the little things in life…
+
+<!--more-->
 
 ## Accordion (always make me think of Weird Al)
 
@@ -16,53 +24,36 @@ React has a pretty clever way of handling [DOM Events](https://developer.mozilla
 
 So edit **app/assets/javascripts/components/post.js.jsx** to have:
 
-```
-
+{% highlight ruby %}
 var Post = React.createClass({
-
   handleClick: function() {
-
     // Find the 'content' div.
-
     var content = this.getDOMNode().querySelector('.content');
 
     // Toggle the 'active' class.
-
     content.classList.toggle('active');
-
   },
 
-  
+
 
   render: function() {
-
     return <li key={this.props.id} className="accordion-navigation">
-
       <a onClick={this.handleClick} href={'#post_' + this.props.id}>{this.props.title}</a>
 
       <div id={'post_' + this.props.id} className="content">
-
         <p>
-
           {this.props.description}
-
         </p>
 
         <a href={this.props.link} target="_blank" className="button tiny"><i className="fi-link"></i></a>
 
         &nbsp;&nbsp;
-
         <span className="date">{this.props.date}</span>
-
       </div>
-
     </li>
-
   }
-
 })
-
-```
+{% endhighlight %}
 
 Looking at the *a* tag you’ll notice a new **onClick** attribute that has a value of **{this.handleClick}**.  Above the **render** function is the **handleClick** function.  This isn’t too complicated of an event handler.  Basically using the **this.getDOMNode()** method the **querySelector()** method is chained looking for an element with the class **content**.  This will grab the **content** div in that particular li.
 
@@ -76,76 +67,52 @@ Before we get into destroying stuff, let’s refactor the finding of stuff.  As 
 
 First, in the **app/controllers/feeds_controller.rb** file add another method in the **private** section:
 
-```
-
+{% highlight ruby %}
     def set_feed
-
       @feed = Feed.find(params[:id])
-
     end
-
-```
+{% endhighlight %}
 
 And at the top of the file under the class definition add:
 
-```
-
+{% highlight ruby %}
   before_action :set_feed, only: [:show, :edit, :update, :destroy]
-
-```
+{% endhighlight %}
 
 The **set_feed** method will now be called by the **before_action** filter and set **@feed** for the methods listed in the **only:** array.  Now go ahead and add a **destroy** method above the **private** section:
 
-```
-
+{% highlight ruby %}
   def destroy
-
     @feed.destroy
-
   end
-
-```
+{% endhighlight %}
 
 Finally, add a **delete** button and a click handler to the component in **app/assets/javascripts/compontents/feed.js.jsx**:
 
-```
-
+{% highlight ruby %}
 var Feed = React.createClass({
-
   deleteFeed: function() {
-
     $.ajax({
-
       url: '/feeds/' + this.props.id,
-
       type: 'delete',
-
     }).success(function(data) {
-
       console.log(data);
 
       Turbolinks.visit('/');
-
     })
 
   },
 
   render: function() {
-
     return <li key={this.props.id}>
 
     <div className="card">
-
       <div className="image">
-
       </div>
 
       <div className="content">
-
         <span className="title">
-
           <a href={'/feeds/' + this.props.id}>{this.props.title}</a>
-
         </span>
 
         <br/>
@@ -155,50 +122,33 @@ var Feed = React.createClass({
         <br/>
 
         <strong>Base URL:</strong> {this.props.base_url}
-
         <br/><br/>
-
       </div>
 
       <div classNameName="action">
-
         <div classNameName="row">
-
           <div className="columns small-12">
 
             <a href={this.props.base_url + '/search/jjj?format=&query=' + this.props.query + '&sort=rel'} className="button tiny" target="_blank">
-
               <i className="fi-link"></i>
-
             </a>
 
             <a href={'/feeds/' + this.props.id + '/edit'} className="button tiny">
-
               <i className="fi-pencil"></i>
-
             </a>
 
             <button className="button tiny alert right" onClick={this.deleteFeed}>
-
               <i className="fi-trash"></i>
-
             </button>
 
           </div>
-
         </div>
-
       </div>
-
     </div>
-
-      </li>
-
+    </li>
   }
-
 })
-
-```
+{% endhighlight %}
 
 Notice come other changes with the Feed component.  The link button now points to the Craigslist search page instead of the Feed show page, and the Feed title now links to the Feed show page.  
 
@@ -208,93 +158,63 @@ Makes a little more sense I think.
 
 So the previous version of the app only searched the Craigslist **jobs** postings, but there are often great opportunities in the **gigs** postings as well.  To modify **show** method in **app/controllers/feeds_controller.rb** to search gigs is pretty straight forward:
 
-```
-
+{% highlight ruby %}
   def show
-
     @feed = Feed.find(params[:id])
-
     require 'open-uri'
-
     require 'nokogiri'
 
     job_url = "#{@feed.base_url}/search/jjj?format=rss&query=#{@feed.query}&sort=rel"
-
     gig_url = "#{@feed.base_url}/search/ggg?format=rss&query=#{@feed.query}&sort=rel"
 
     job_doc = Nokogiri::XML(open(job_url))
-
     gig_doc = Nokogiri::XML(open(gig_url))
 
     @posts = []
 
     job_doc.css('item').each_with_index do |node, idx|
-
        node.css('title').text
 
        item = {
-
          id: idx,
-
          title: node.css('title').text,
-
          description: node.css('description').text,
-
          link: node.css('link').text,
-
          date: node.at('//dc:date').text
-
        }
 
        @posts.push(item)
-
     end
 
     gig_doc.css('item').each_with_index do |node, idx|
-
        node.css('title').text
 
        item = {
-
          id: idx,
-
          title: node.css('title').text,
-
          description: node.css('description').text,
-
          link: node.css('link').text,
-
          date: node.at('//dc:date').text
-
        }
 
        @posts.push(item)
-
     end
-
   end
-
-```
+{% endhighlight %}
 
 As you can see the main difference is in the Craigslist URL one has a **jjj** and the other **ggg**, then we’re doing the same Nokogiri parse the XML and loop through the item elements.
 
 It might be useful to add another button to the Feed card on the index page for the **gigs** link in **app/assets/javascripts/compontents/feed.js.jsx**:
 
-```
-
+{% highlight ruby %}
             <a href={this.props.base_url + '/search/jjj?format=&query=' + this.props.query + '&sort=rel'} className="button tiny" target="_blank">
-
               <i className="fi-dollar"></i>
-
             </a>
 
             <a href={this.props.base_url + '/search/ggg?format=&query=' + this.props.query + '&sort=rel'} className="button tiny" target="_blank">
-
               <i className="fi-lightbulb"></i>
-
             </a>
-
-```
+{% endhighlight %}
 
 Also, notice I changed the icon for the **jobs** link to a dollar sign cause usually jobs have more money… well really I just wanted to keep the buttons small and use a different icon.
 
