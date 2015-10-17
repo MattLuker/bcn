@@ -126,8 +126,8 @@ class InputsController < ApplicationController
 
   def update
     @input = Input.find(params[:id])
-    @Input.update(input_params)
-    redirect_to root_path
+    @input.update(input_params)
+    redirect_to input_path(@input)
   end
 
   def show
@@ -213,19 +213,35 @@ Also, inside the **app/views/forms** directory create the first form template na
 
   <div class="row">
     <div class="columns small-4">
-      <%= text_field_tag 'input[data][name]', '', placeholder: 'Name' %>
+      <%= text_field_tag 'input[data][name]', @input.data.nil? ? '' : @input.data['name'], placeholder: 'Name' %>
     </div>
   </div>
 
   <div class="row">
     <div class="columns small-4">
-      <%= text_field_tag 'input[data][address]', '', placeholder: 'Address' %>
+      <%= text_field_tag 'input[data][address]', @input.data.nil? ? '' : @input.data['address'], placeholder: 'Address' %>
     </div>
   </div>
 
   <div class="row">
     <div class="columns small-4">
-      <%= text_field_tag 'input[data][favorite_movie]', '', placeholder: 'Favorite Movie' %>
+      <%= text_field_tag 'input[data][favorite_movie]', @input.data.nil? ? '' : @input.data['favorite_movie'],
+       placeholder: 'Favorite Movie' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns small-4">
+      <h4>Got Beef?</h4>
+
+      <%= check_box_tag 'input[data][beef_yes]', '', @input.data.nil? ? false : @input.data['beef_yes'], id: 'input_data_beef_yes' %>
+      <label for="input_data_beef_yes">Yes</label>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;
+
+      <%= check_box_tag 'input[data][beef_no]', '', @input.data.nil? ? false : @input.data['beef_no'], id: 'input_data_beef_no' %>
+
+      <label for="input_data_beef_no">No</label>
     </div>
   </div>
 
@@ -236,6 +252,7 @@ Also, inside the **app/views/forms** directory create the first form template na
   </div>
 
   <%= hidden_field_tag 'input[form_name]', @input.form_name %>
+
 <% end %>
 ```
 
