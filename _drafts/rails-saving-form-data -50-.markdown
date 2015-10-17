@@ -109,19 +109,16 @@ This controller takes advantage of Rails [resources](http://guides.rubyonrails.o
 class InputsController < ApplicationController
   def index
     @inputs = Input.all
-  end
-
-  def new
-    @input = Input.new
-  end
+  End
 
   def create
     @input = Input.create(input_params)
-    redirect_to root_path
+    redirect_to inputs_path
   end
 
-  def edit
+  def show
     @input = Input.find(params[:id])
+    render template: "forms/#{@input.form_name}"
   end
 
   def update
@@ -130,13 +127,9 @@ class InputsController < ApplicationController
     redirect_to input_path(@input)
   end
 
-  def show
-    @input = Input.find(params[:id])
-
-    respond_to do |format|
-      format.html { render template: "forms/#{@input.form_name}" }
-      format.json { render :show }
-    end
+  def destroy
+    Input.find(params[:id]).destroy
+    redirect_to inputs_path
   end
 
   private
@@ -151,14 +144,38 @@ end
 
 Here’s a quick explanation of the controller methods:
 
-TK
+The **index** method gets all the Inputs from the database (pretty standard index method), the **create** method takes an HTTP POST parameters and creates a new Input, the **show** method looks up the Input and renders the Form template based on the *form_name* attribute, **update** does the same lookup and updates an Input via HTTP PUT/PATCH, and **destroy** deletes an Input.
+
+A sort of unique method is the **input_params** *private* method.  Normally a *params* method is used to nonly allow certain parameters to create a new object, but in this one we’re passing a block to the **tap** method and whitelisting the **input[data]** parameters.  We need to do this in order to allow variable input fields in our Forms.  To be honest I’m not 100% sure how this code works, but I think it’s somewhat better than just not requiring the **input** parameter… somewhat.
 
 The **Forms** controller will be much more simple, but also more custom because we’ll use a *static* HTML [erb](http://ruby-doc.org/stdlib-2.2.3/libdoc/erb/rdoc/ERB.html) template that contains the form we’re going to use to gather Input data for.
 
 Create a **app/controllers/forms_controller.rb** file with:
 
 ```
+class FormsController < ApplicationController
+
+  def index
+    forms_dir = Rails.root.join('app', 'views', 'forms')
+    @forms = []
+
+    # Get a list of form template files (just the first part of the filename)
+    Dir.entries(forms_dir).each do |file|
+      if (File.file?(forms_dir.to_s + '/' + file) && file != 'index.html.erb')
+        @forms.push(file.split('.')[0])
+      end
+    end
+  end
+
+  def show
+    @input = Input.new
+    @input.form_name = params[:form]
+    render template: "forms/#{params[:form]}"
+  end
+end
 ```
+
+Very similar to the Inputs controller the **index** method lists each file in the **app/views/forms** directory and adds them to an array (except for index.html.erb).  The **show** method renders the form based on the **params[:form]** value.  
 
 ## Views
 
@@ -258,8 +275,35 @@ Also, inside the **app/views/forms** directory create the first form template na
 
 Notice the hidden field tag at the end for **input[form_name]** this is really the only **required** field because it sets the Input objects **form_name** attribute (in case that wasn’t obvious) you can add whatever other kind of input elements you’d like.
 
-We use the same Form template file to display the empty form and again in the Inputs controller to display an Input form.  Pretty clever huh?
+We use the same Form template file to display the empty form and again in the Inputs controller to display an Input form.  Pretty clever huh?  
 
-## CoffeeScript
+Also, feast your eyes on the [ternary](http://alvinalexander.com/blog/post/ruby/examples-ruby-ternary-operator-true-false-syntax) expressions for the value of the inputs.  If the **@input** object has a non-nil data attribute the values will be set.
 
-It’s not very useful to only display the same form for Inputs if it’s just going to be blank.  
+Finally, create an index template for Inputs in **app/views/inputs/index.html.erb**:
+
+```
+<ul>
+  <% @inputs.each do |input| %>
+    <li>
+      <%= link_to input.form_name, input_path(input) %> <%= input.created_at.strftime('%m:%d:%Y %H:%M:%S') %>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <%= link_to 'Delete', input_path(input), method: :delete, class: 'button tiny alert' %>
+    </li>
+  <% end %>
+</ul>
+
+<% if @inputs.blank? %>
+  <p>
+    No inputs yet...
+  </p>
+<% end %>
+```
+
+## Conclusion
+
+As mentioned earlier, the best thing about storing form data in a JSON object is that you can change what data is being saved by changing the form and new form data won’t conflict with old form data.  Granted if you change the **name** of the input element the Input form won’t be able to fill that field, but overall this type of system is very flexible.  
+
+I guess that’s compare to making a form that each field corresponds to a column in a database table.  I’ve seen it done before and it was a nightmare to change fields inside a form…
+
+Party On!
