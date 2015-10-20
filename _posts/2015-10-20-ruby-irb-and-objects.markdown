@@ -1,4 +1,10 @@
-# irb and Ruby Objects
+---
+title:  "irb and Ruby Objects"
+date:   2015-10-20 14:30:00
+layout: post
+categories: ruby learning
+image: irb_cover.jpg
+---
 
 ## Hello World
 
@@ -6,20 +12,18 @@ Before we dive into developing our own scripts, and apps, let’s take a look at
 
 This is very handy when learning new methods, double checking regular expressions, and a whole slew of other use cases.  Most languages seem to have a REPL and **irb** is great.
 
+<!--more-->
+
 To enter **irb** open a terminal and type:
 
 ```
-
 irb
-
 ```
 
 Once you’re in the Ruby shell you can use common methods like **puts** to print some text to the screen:
 
 ```
-
 puts “Hello World”
-
 ```
 
 Woo, feels good to accomplish the first thing every programming book covers.  “Hello World”!!!
@@ -29,11 +33,11 @@ Woo, feels good to accomplish the first thing every programming book covers.  �
 Using **irb** you can also loop over an array like so:
 
 ```
-
 arr = [1, 2, 3]
+```
 
+```
 arr.each do { |i| puts I }
-
 ```
 
 This very simple example creates an [Array](http://ruby-doc.org/core-2.2.0/Array.html) with three entries of simple numbers.  The **each** method is then called and each element of the array is printed using the **puts** method.
@@ -45,9 +49,7 @@ Fun Fun!
 Ruby being a pure [object oriented](https://en.wikipedia.org/wiki/Object-oriented_programming) language makes every thing into an object.  Yes, even numbers are objects.  To test this in **irb** enter:
 
 ```
-
 1.class
-
 ```
 
 As you can see the number **1** has a class of ```Fixnum < Integer```.  Pretty cool.
@@ -55,9 +57,7 @@ As you can see the number **1** has a class of ```Fixnum < Integer```.  Pretty c
 Objects in Ruby come with a bunch of methods predefined and you can see them all with the **methods** method:
 
 ```
-
 1.methods
-
 ```
 
 Bazinga!  
@@ -65,9 +65,7 @@ Bazinga!
 Some more useful methods are the **to_s** and **to_i** methods. They convert an object into a String and an Integer respectively.  
 
 ```
-
 1.to_s.class
-
 ```
 
 Notice that you can also **”chain”** methods together.  This is great if you have many things you’d like to accomplish in a small amount of space.  Also, it’s cool.
@@ -75,11 +73,11 @@ Notice that you can also **”chain”** methods together.  This is great if you
 Lastly, the **inspect** method is great for seeing the attributes of an object.  For example:
 
 ```
-
 a = {one: 2, three: 4}
+```
 
+```
 a.inspect
-
 ```
 
 Here the **inspect** method lists the keys and values of the Hash, but in more complex objects you can view the values of many different values.
