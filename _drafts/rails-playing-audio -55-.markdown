@@ -332,6 +332,8 @@ When you open **app/controllers/audios_controller.rb** you’ll see the default 
   end
 ```
 
+To keep things simple we’re calling the Unix **find** command on the Repository file path.  Notice that the command is only looking for MP3, M4A, and OGG files.  If you have other file types feel free to add them (hrmm could probably be a good setting to configure… maybe later).  The method then grabs splits the output of **find** and loops through each file path generating the file name and creating it in the database if it’s not already there.
+
 ### sync_repo Route
 
 There also needs to be a route for our **sync_repo** method, so edit **config/routes.rb** and add:
