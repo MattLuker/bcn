@@ -518,5 +518,6 @@ bin/rails s
 
 **s** being the shorthand for ```rails serve```.
 
+
 Party On!
 
