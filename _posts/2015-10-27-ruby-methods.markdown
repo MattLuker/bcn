@@ -1,10 +1,18 @@
-# Methods of Ruby
+---
+title:  "Methods of Ruby"
+date:   2015-10-27 14:30:00
+layout: post
+categories: ruby learning
+image: methods_cover.jpg
+---
 
 ## Learning About Ruby Methods
 
 For technically minded peeps **methods** are **functions** defined as part of a **class**.  Since everything in Ruby is an object (defined in a class) event “stand-alone” functions are actually methods.
 
 Methods allow you to write a re-usable chunk of code that does a specific thing.  Like say parse a text file, update a database, etc.
+
+<!--more-->
 
 ## Defining Methods
 
@@ -23,7 +31,7 @@ def say_hello(times)
 end
 {% endhighlight %}
 
-Execute the file and see what happens. 
+Execute the file and see what happens.
 
 Absolutely Nothing!  Never get involved in a land war in Asia…
 
