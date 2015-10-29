@@ -1,4 +1,10 @@
-# BCN Dev Blog Change of Focus
+---
+title:  "BCN Dev Blog Change of Focus"
+date:   2015-10-29 14:30:00
+layout: post
+categories: bcn progress
+image: fall_cover.jpg
+---
 
 ## Switching Back
 
@@ -7,6 +13,8 @@ Because the [BCN Rails project](https://github.com/asommer70/bcn) has sort of re
 The thought being that tutorial posts would be more valuable then me droning on and on about the state of the project.  My assumption was that people would rather read how to do something than a history of what was done.
 
 Well now that I’ve completed all the Ruby posts I can think of outside of Rails, and all the Rails posts that I can think of surrounding BCN, and the projects I’ve worked on, the focus of the blog will switch back to detailing milestones in the project.
+
+<!--more-->
 
 ## New Projects
 
