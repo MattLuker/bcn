@@ -39,7 +39,8 @@ class FacebookSyncJob < ActiveJob::Base
                                      og_url: "https://www.facebook.com/events/#{event['id']}",
                                      og_title: event['name'],
                                      og_image: ActionController::Base.helpers.asset_path('facebook-social.svg'),
-                                     image_url: image
+                                     image_url: image,
+                                     communities: organization.communities
                                  })
           #new_post.image_url = image if image
           new_post.create_location({lat: lat, lon: lon})

@@ -8,7 +8,7 @@ ready_home = ->
     #map_helpers.set_post_markers(map)
 
     #scroller.delay(2500, scroller.get_page)
-    scroller.often(7000, scroller.get_page)
+    #scroller.often(7000, scroller.get_page)
 
     $(document).on 'click', (e) ->
       clearInterval(window.refresher);

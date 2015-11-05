@@ -127,7 +127,7 @@ class UsersController < ApplicationController
   def update
     if current_user == @user
       if @user.update(user_params)
-        ApplyBadgesJob.perform_async(current_user)
+        ApplyBadgesJob.perform_ow(current_user)
         flash[:success] = 'Profile successfully updated.'
         redirect_to @user
       else
