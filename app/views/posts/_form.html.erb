@@ -101,15 +101,6 @@
       </div>
     </div>
 
-
-    <!--<br/>-->
-    <!--<div class="row">-->
-    <!--<div class="large-4 columns">-->
-    <!--<input id="event" type="checkbox" class="toggle" data-toggle="eventBox" />-->
-    <!--<label for="event" class="toggle" data-toggle="eventBox">Event?</label>-->
-    <!--</div>-->
-    <!--</div>-->
-
     <div class="row">
       <div class="large-4 columns">
         <fieldset>
@@ -180,6 +171,20 @@
             </div>
           </div>
 
+          <br/><br/>
+          <br/><br/>
+
+          <div class="large-12 columns">
+            <h4 class="pics-label hide">Pics to be uploaded:</h4>
+            <ul id="photos_clearing" class="clearing-thumbs" data-clearing>
+            </ul>
+            <br/>
+
+            <label for="photos">Add some pics?</label>
+            <%= file_field_tag 'photos', type: :file, multiple: true, name: 'photos[]' %>
+          </div>
+
+          <br/><br/>
           <br/><br/>
 
           <div class="row">

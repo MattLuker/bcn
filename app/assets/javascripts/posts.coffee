@@ -32,6 +32,9 @@ ready_post = ->
     $('.photo_upload').on 'change', (e) ->
       readURL(this);
 
+    $('#photos').on 'change', (e) ->
+      multiPhotoDisplay(this);
+
     # Get the Open Graph data for the Link?
     $('#post-link').on 'blur', (e) ->
       if (url != '' || url != undefined)
@@ -201,6 +204,27 @@ toggle_map = (e) ->
 
     reader.readAsDataURL(input.files[0]);
 
+
+@multiPhotoDisplay = (input) ->
+  #
+  # Read the contents of the image file to be uploaded and display it.
+  #
+  if (input.files && input.files[0])
+    for file in input.files
+      reader = new FileReader()
+
+      reader.onload = (e) ->
+        console.log('e:', e)
+        image_html = """<li><a class="th" href="#{e.target.result}"><img width="75" src="#{e.target.result}"></a></li>"""
+
+        $('#photos_clearing').append(image_html)
+
+        if $('.pics-label.hide').length != 0
+          $('.pics-label').toggle('hide').removeClass('hide')
+
+        $(document).foundation('reflow')
+
+      reader.readAsDataURL(file);
 
 
 # Fire the ready function on load and refresh.

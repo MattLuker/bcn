@@ -211,15 +211,27 @@
               <% end %>
             </section>
             <section role="tabpanel" aria-hidden="true" class="content" id="gallery">
-              <% unless @gallery.empty? %>
+              <% if not @gallery.empty? %>
                 <ul class="gallery clearing-thumbs small-block-grid" data-clearing>
                   <% if @post.image %>
                     <li><a href="<%= @post.image.url %>" class="th"><img src="<%= @post.image.url %>" width="120"></a></li>
                   <% end %>
 
+                  <% if @post.photos %>
+                    <% @post.photos[1..-1].each do |photo| %>
+                      <li><a href="<%= photo.image.url %>" class="th"><img src="<%= photo.image.url %>" width="120"></a></li>
+                    <% end %>
+                  <% end %>
+
                   <% @gallery.each do |image| %>
                     <li><a href="<%= image %>" class="th"><img src="<%= image %>" width="120"></a></li>
                   <% end %>
+                </ul>
+              <% elsif @post.photos %>
+                <ul class="gallery clearing-thumbs small-block-grid" data-clearing>
+                    <% @post.photos.each do |photo| %>
+                      <li><a href="<%= photo.image.url %>" class="th"><img src="<%= photo.image.url %>" width="120"></a></li>
+                    <% end %>
                 </ul>
               <% else %>
                 <p class="grey">No pictures uploaded... yet.</p>
@@ -320,4 +332,3 @@
 
 
 <br/><br/>
-

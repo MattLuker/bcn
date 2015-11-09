@@ -41,6 +41,8 @@ Rails.application.routes.draw do
   resources :facebook_subscriptions, only: [:index, :create]
   resources :badges
 
+  resources :photos, only: [:new, :create]
+
   get '/login' => 'user_sessions#new', as: :login
   get '/logout' => 'user_sessions#destroy', as: :logout
   resources :user_sessions, only: [:create, :new]

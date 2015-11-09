@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826095821) do
+ActiveRecord::Schema.define(version: 20151107221519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20150826095821) do
     t.boolean  "explicit"
     t.integer  "organization_id"
     t.integer  "locations"
+    t.integer  "photos"
     t.index name: "index_posts_on_description", using: :gin, expression: "to_tsvector('english'::regconfig, description)"
     t.index name: "index_posts_on_title", using: :gin, expression: "to_tsvector('english'::regconfig, (title)::text)"
   end
@@ -239,6 +240,20 @@ ActiveRecord::Schema.define(version: 20150826095821) do
   create_table "organizations_users", force: :cascade do |t|
     t.integer "organization_id", index: {name: "index_organizations_users_on_organization_id"}, foreign_key: {references: "organizations", name: "fk_organizations_users_organization_id", on_update: :no_action, on_delete: :no_action}
     t.integer "user_id",         index: {name: "index_organizations_users_on_user_id"}, foreign_key: {references: "users", name: "fk_organizations_users_user_id", on_update: :no_action, on_delete: :no_action}
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.string   "image",      index: {name: "index_photos_on_image"}
+    t.string   "image_uid"
+    t.string   "image_name", index: {name: "index_photos_on_image_name"}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "post_id",    index: {name: "index_photos_on_post_id"}, foreign_key: {references: "posts", name: "fk_photos_post_id", on_update: :no_action, on_delete: :no_action}
+  end
+
+  create_table "photos_posts", force: :cascade do |t|
+    t.integer "photo_id", index: {name: "index_photos_posts_on_photo_id"}, foreign_key: {references: "photos", name: "fk_photos_posts_photo_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "post_id",  index: {name: "index_photos_posts_on_post_id"}, foreign_key: {references: "posts", name: "fk_photos_posts_post_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "roles_users", force: :cascade do |t|

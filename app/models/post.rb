@@ -33,6 +33,7 @@ class Post < ActiveRecord::Base
   belongs_to :user
   has_many :comments
   has_many :subscribers, :class_name => "Subscriber", :foreign_key => "post_id"
+  has_many :photos
   has_and_belongs_to_many :communities
   has_and_belongs_to_many :locations
   belongs_to :organization
@@ -152,6 +153,13 @@ class Post < ActiveRecord::Base
     if audio
       file_path = Rails.root.join('public', 'system', 'dragonfly', Rails.env, audio_uid).to_s
       TagLib::FileRef.open(file_path) { |f| self.audio_duration = f.audio_properties.length }
+    end
+  end
+
+  def set_image
+    unless self.image
+      self.image = self.photos[0].image if self.photos[0]
+      self.save
     end
   end
 end

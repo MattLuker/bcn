@@ -37,6 +37,8 @@ gem 'will_paginate'
 gem 'will_paginate-foundation'
 
 gem 'dragonfly', '~> 1.0.8'
+gem 'remotipart', '~> 1.2'
+gem 'jquery-fileupload-rails', github: 'Springest/jquery-fileupload-rails'
 
 gem 'sidekiq'
 gem 'sinatra', :require => nil
