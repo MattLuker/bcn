@@ -224,7 +224,18 @@ toggle_map = (e) ->
 
         $(document).foundation('reflow')
 
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file)
+
+    window.post_files = input.files
+    if window.post_files != undefined
+      input.files = $.merge(window.post_files, input.files)
+    # if input.files.length == 1
+    #   #formData = new FormData()
+    #   #formData.append('photos_s[]', input.files[0], input.files[0].name);
+    #   #$('#photos').append(input.files[0])
+    #   formData = new FormData($('#new_post')[0])
+    #   formData.append('photos_s[]', input.files[0])
+    #   window.formData = formData
 
 
 # Fire the ready function on load and refresh.

@@ -163,29 +163,16 @@
           <legend>Upload File</legend>
           <div class="row">
             <div class="large-12 columns">
-              <%= image_tag 'avatar.png', class: 'hidden image_to_upload' %>
+              <h4 class="pics-label hide">Pics to be uploaded:</h4>
+              <ul id="photos_clearing" class="clearing-thumbs" data-clearing>
+              </ul>
+              <br/>
 
-              <%= f.label :image, 'Add a pic?'%>
-              <%= f.file_field :image, class: 'photo_upload' %>
-              <%= hidden_field_tag :retained_photo %>
+              <label for="photos">Add some pics?</label>
+              <%= file_field_tag 'photos', type: :file, multiple: true, name: 'photos[]' %>
             </div>
-          </div>
 
-          <br/><br/>
-          <br/><br/>
-
-          <div class="large-12 columns">
-            <h4 class="pics-label hide">Pics to be uploaded:</h4>
-            <ul id="photos_clearing" class="clearing-thumbs" data-clearing>
-            </ul>
-            <br/>
-
-            <label for="photos">Add some pics?</label>
-            <%= file_field_tag 'photos', type: :file, multiple: true, name: 'photos[]' %>
-          </div>
-
-          <br/><br/>
-          <br/><br/>
+          <br/><br/><br/><br/><br/>
 
           <div class="row">
             <div class="large-12 columns">
