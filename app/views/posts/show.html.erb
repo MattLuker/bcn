@@ -42,8 +42,16 @@
       </div>
       <br/><br/>
 
-      <% if @post.audio %>
-        <%= audio_tag @post.audio.url, controls: true %>
+      <% unless @post.audios.empty? %>
+        <ul class="no-bullet audio-list">
+          <% @post.audios.each do |audio| %>
+            <li>
+              <strong><%= audio.audio.name %></strong>
+              <br/>
+              <%= audio_tag audio.audio.url, controls: true %>
+            </li>
+          <% end %>
+        </ul>
       <% end %>
 
       <div class="row post-second-row">
@@ -227,7 +235,7 @@
                     <li><a href="<%= image %>" class="th"><img src="<%= image %>" width="120"></a></li>
                   <% end %>
                 </ul>
-              <% elsif @post.photos %>
+              <% elsif not @post.photos.empty? %>
                 <ul class="gallery clearing-thumbs small-block-grid" data-clearing>
                     <% @post.photos.each do |photo| %>
                       <li><a href="<%= photo.image.url %>" class="th"><img src="<%= photo.image.url %>" width="120"></a></li>

@@ -8,7 +8,6 @@ class PostsController < ApplicationController
 
   def show
     @gallery = @post.comments.collect { |c| c.photo.url if c.photo } if @post.comments
-    puts "@gallery: #{@gallery.inspect}"
     unless @post.image
       @post.set_image
     end
@@ -46,67 +45,59 @@ class PostsController < ApplicationController
       redirect_to posts_path
     else
 
-    if post_params[:lat] and post_params[:lon]
-      lat = params[:post].delete :lat
-      lon = params[:post].delete :lon
-    end
+      if post_params[:lat] and post_params[:lon]
+        lat = params[:post].delete :lat
+        lon = params[:post].delete :lon
+      end
 
-    # Remove community_ids if field not filled out on iOS cause it sends "null" anyway.
-    params[:post].delete :community_ids if params[:post][:community_ids] == ["null"]
+      # Remove community_ids if field not filled out on iOS cause it sends "null" anyway.
+      params[:post].delete :community_ids if params[:post][:community_ids] == ["null"]
 
-    if current_user
-      @post = current_user.posts.new(post_params)
-    else
-      @post = Post.new(post_params)
-    end
+      if current_user
+        @post = current_user.posts.new(post_params)
+      else
+        @post = Post.new(post_params)
+      end
 
-    if lat and lon
-      @post.create_location({lat: lat, lon: lon})
-    else
-      @post.locations = []
-    end
+      if lat and lon
+        @post.create_location({lat: lat, lon: lon})
+      else
+        @post.locations = []
+      end
 
-    if @post.save
-      if post_params[:community_ids]
-        post_params[:community_ids].each do |c|
-          unless c.blank?
-            community = Community.find(c)
+      if @post.save
+        if post_params[:community_ids]
+          post_params[:community_ids].each do |c|
+            unless c.blank?
+              community = Community.find(c)
 
-            @post.locations << community.location if community.location
+              @post.locations << community.location if community.location
+              @post.save
+
+              community.save
+            end
+          end
+
+          # Add the Organization's Communitites and Location if posting as an Org.
+          if @post.organization
+            if @post.organization.location
+             @post.locations << @post.organization.location
+            end
+            unless @post.organization.communities.blank?
+              @post.communities << @post.organization.communities
+            end
             @post.save
-
-            community.save
           end
         end
 
-        # Add the Organization's Communitites and Location if posting as an Org.
-        if @post.organization
-          if @post.organization.location
-           @post.locations << @post.organization.location
-          end
-          unless @post.organization.communities.blank?
-            @post.communities << @post.organization.communities
-          end
-          @post.save
-        end
+        # Notify Community subscribers.
+        notify_community_subscribers
+
+        add_multi_upload
+
+        flash[:success] = 'Post was successfully created.'
+        redirect_to @post
       end
-
-      # Notify Community subscribers.
-      notify_community_subscribers
-
-
-      if params[:photos]
-        puts "photos: #{params[:photos].inspect}"
-        params[:photos].each do |photo|
-          photo = Photo.create({image: photo})
-          photo.post = @post
-          photo.save
-        end
-      end
-
-      flash[:success] = 'Post was successfully created.'
-      redirect_to @post
-    end
     end
   end
 
@@ -124,6 +115,8 @@ class PostsController < ApplicationController
       respond_to do |format|
         if @post.update(post_params)
           notify_subscribers
+
+          add_multi_upload
 
           format.html { redirect_to @post, notice: 'Post was successfully updated.' }
           format.json { render :show, status: :ok, location: @post }
@@ -166,6 +159,24 @@ class PostsController < ApplicationController
       else
         flash[:info] = 'Not allowed to delete this post.'
         redirect_to @post
+      end
+    end
+  end
+
+  def add_multi_upload
+    if params[:photos]
+      params[:photos].each do |photo|
+        photo = Photo.create(image: photo)
+        photo.post = @post
+        photo.save
+      end
+    end
+
+    if params[:audios]
+      params[:audios].each do |file|
+        audio = Audio.create(audio: file)
+        audio.post = @post
+        audio.save
       end
     end
   end

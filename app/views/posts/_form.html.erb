@@ -162,24 +162,29 @@
         <fieldset>
           <legend>Upload File</legend>
           <div class="row">
+            <div class="columns large-12">
+              <span>
+                Hold Ctrl, or Command on Mac, to select more than one file.
+              </span>
+            </div>
+          </div>
+          <div class="row">
             <div class="large-12 columns">
               <h4 class="pics-label hide">Pics to be uploaded:</h4>
               <ul id="photos_clearing" class="clearing-thumbs" data-clearing>
               </ul>
               <br/>
-
               <label for="photos">Add some pics?</label>
-              <%= file_field_tag 'photos', type: :file, multiple: true, name: 'photos[]' %>
+              <input type="file" name="photos[]" id="photos" multiple />
             </div>
 
           <br/><br/><br/><br/><br/>
 
           <div class="row">
             <div class="large-12 columns">
-
-              <%= f.label :audio, 'Add an audio file?'%>
-              <%= f.file_field :audio, class: 'audio_upload' %>
-              <%= hidden_field_tag :retained_photo %>
+              <label for="audios">Add some audio files?</label>
+              <input type="file" name="audios[]" id="audios" multiple />
+              <%= f.file_field :audio, style: 'display: none;'%>
             </div>
           </div>
         </fieldset>
