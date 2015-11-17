@@ -84,7 +84,12 @@ class PostsController < ApplicationController
              @post.locations << @post.organization.location
             end
             unless @post.organization.communities.blank?
-              @post.communities << @post.organization.communities
+              # Only add the Organization Communities that aren't added by the form input.
+              @post.organization.communities.each do |org_community|
+                unless @post.communities.include?(org_community)
+                  @post.communities << org_community
+                end
+              end
             end
             @post.save
           end
