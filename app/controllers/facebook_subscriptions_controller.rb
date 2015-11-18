@@ -20,14 +20,21 @@ class FacebookSubscriptionsController < ApplicationController
   end
 
   def create
-    puts "facebook_subscriptions create params: #{params}"
+    logger.info "facebook_subscriptions create params: #{params}"
     uids = FacebookSubscription.new().remove_duplicate_uids(params)
+    #Parameters: {"object"=>"user", "entry"=>[{"uid"=>"10152906515550983", "id"=>"10152906515550983", "time"=>1447863939, "changed_fields"=>["events"]}], "facebook_subscription"=>{}
+    #
+    #curl -H "Content-Type: application/json" -X POST -d '{"object": "user", "entry": [{"uid": "10152906515550983", "id": "10152906515550983", "time": 1447865002, "changed_fields": ["events"]}], "facebook_subscription": {}}' https://www.boonecommunitynetwork.com/facebook_subscriptions/
+    #
+    #
+    logger.info "uids: #{uids}"
 
     uids.each do |entry|
       user = User.find_by_facebook_id(entry['uid'])
 
-      if user
-        FacebookSyncJob.perform_async(user.facebook_token, user)
+      if user && user.facebook_token
+        logger.info "Performing FacebookSyncJob..."
+        FacebookSyncJob.perform_now(user.facebook_token, user)
       end
     end
 

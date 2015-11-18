@@ -38,7 +38,9 @@ Rails.application.routes.draw do
 
   resources :searches, only: [:index]
 
-  resources :facebook_subscriptions, only: [:index, :create]
+  #resources :facebook_subscriptions, only: [:index, :create]
+  get '/facebook_subscriptions', to: 'facebook_subscriptions#index', as: 'facebook_subscriptions'
+  post '/facebook_subscriptions/', to: 'facebook_subscriptions#create'
   resources :badges
 
   resources :photos, only: [:new, :create]
