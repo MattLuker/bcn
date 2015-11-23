@@ -16,5 +16,6 @@ class FacebookFindGroupJob < ActiveJob::Base
       end
     end
 
+    FacebookGroupSyncJob.perform_now(user.facebook_token, user)
   end
 end

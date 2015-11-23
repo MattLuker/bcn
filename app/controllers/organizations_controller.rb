@@ -43,7 +43,7 @@ class OrganizationsController < ApplicationController
       current_user.roles << role
       current_user.save
 
-      FacebookFindGroupJob.perform_now(current_user.facebook_token, current_user) if current_user.facebook_token
+      FacebookFindGroupJob.perform_now(current_user.facebook_token, current_user, @organization) if current_user.facebook_token
 
       flash[:success] = 'Organization created.'
       redirect_to @organization
