@@ -72,5 +72,7 @@ class FacebookSyncJob < ActiveJob::Base
 
     user.event_sync_time = Time.now
     user.save
+
+    FacebookGroupSyncJob.perform_now(user.facebook_token, user)
   end
 end
