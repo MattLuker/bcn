@@ -40,7 +40,7 @@
     $all_posts = $('.all_posts')
     $all_posts.unbind('click')
     $all_posts.on 'click', (e) ->
-      Turbolinks.visit(window.location)
+      Turbolinks.visit('/')
 
     # Handle the Location Search button.
     $('.loc-search-button').on 'click', (e) ->
@@ -53,21 +53,10 @@
         map_helpers.location_search()
 
 
-    # Loop through the time filter buttons.
-    $.each $('.time'), (idx, time) ->
-      $time = $(time)
-      $time.unbind('click')
-
-      $time.on 'click', (e) ->
-        time = $(this).data().time
-        $.ajax
-          url: '/api/' + time
-          dataType: "JSON"
-          success: (posts, status, jqXHR) ->
-            scroller.update_posts(posts, 0)
-
-            if posts.length == 0
-              $('.posts-wrapper').html("<p class='grey'>No events scheduled for #{time}...</p>")
+    # Add the events parameter and revisit the home page.
+    $('.time').on 'click', (e) ->
+      e.preventDefault()
+      Turbolinks.visit("/?events=#{$(this).data().time}")
 
 
   location_search: () ->

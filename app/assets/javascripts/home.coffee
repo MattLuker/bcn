@@ -6,6 +6,7 @@ ready_home = ->
     window.layers = []
     #map_helpers.button_binder()
     #map_helpers.set_post_markers(map)
+    #scroller.get_page()
 
     #scroller.delay(2500, scroller.get_page)
     #scroller.often(7000, scroller.get_page)

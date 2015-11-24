@@ -11,7 +11,18 @@ class HomeController < ApplicationController
     #   end
     # end
     @communities = Community.all
-    @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).limit(7)
+    case params[:events]
+    when 'today'
+      today = DateTime.now
+      @events = Post.where(['start_date between ? and ?', today.beginning_of_day, today.end_of_day]).order(:start_date).limit(7)
+    when 'tomorrow'
+      tomorrow = DateTime.now + 1
+      @events = Post.where(['start_date between ? and ?', tomorrow.beginning_of_day, tomorrow.end_of_day]).order(:start_date).limit(7)
+    when 'next_week'
+      @events = Post.where(start_date: Time.now.next_week..Time.now.next_week.end_of_week).order(:start_date).limit(7)
+    else
+      @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).order(:start_date).limit(7)
+    end
   end
 
   def about
