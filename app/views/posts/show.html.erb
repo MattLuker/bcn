@@ -49,6 +49,10 @@
               <strong><%= audio.audio.name %></strong>
               <br/>
               <%= audio_tag audio.audio.url, controls: true %>
+
+              &nbsp;&nbsp;&nbsp;&nbsp;
+
+              <%= link_to 'Download ' + audio.audio.name, audio.audio.url %>
             </li>
           <% end %>
         </ul>
