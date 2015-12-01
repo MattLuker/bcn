@@ -230,7 +230,7 @@
                   <% end %>
 
                   <% if @post.photos %>
-                    <% @post.photos[1..-1].each do |photo| %>
+                    <% @post.photos.each do |photo| %>
                       <li><a href="<%= photo.image.url %>" class="th"><img src="<%= photo.image.url %>" width="120"></a></li>
                     <% end %>
                   <% end %>
