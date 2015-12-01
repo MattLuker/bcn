@@ -59,6 +59,27 @@
       Turbolinks.visit("/?events=#{$(this).data().time}")
 
 
+    # Change map markers to Events when events-tab is clicked.
+    $('#events-tab').on 'click', (e) ->
+      $.get('/api/events')
+      .then (events) ->
+        map_helpers.remove_markers()
+        map_helpers.set_home_post_markers(events)
+
+    # Change map markers to Posts when posts-tab is clicked.
+    $('#posts-tab').on 'click', (e) ->
+      $.get('/api/posts')
+      .then (posts) ->
+        map_helpers.remove_markers()
+        map_helpers.set_home_post_markers(posts)
+
+
+  remove_markers: () ->
+    # Clears all marker layers from map.
+    for layer in window.layers
+      window.home_map.removeLayer(layer)
+
+
   location_search: () ->
     $loc_input = $('.loc-search')
 

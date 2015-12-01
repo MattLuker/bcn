@@ -51,7 +51,12 @@
       <br/>
 
     <span class="grey post-date smaller-text">
-      <%= post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+      <% if post.start_date %>
+        <%= post.start_date.strftime('%m/%d/%Y') %>
+        <%= '@' + post.start_time.to_s(:time) if post.start_time %>
+      <% else %>
+        <%= post.created_at.strftime('%m/%d/%Y %I:%M%P') %>
+      <% end %>
       by
       <% if post.organization %>
         <%= link_to post.organization.name, organization_path(post.organization), class: 'grey-link' %>

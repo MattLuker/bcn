@@ -6,6 +6,22 @@ class Api::PostsController < Api::ApiController
     render json: posts.as_json(include: :location)
   end
 
+  def events
+    case params[:events]
+    when 'today'
+      today = DateTime.now
+      events = Post.where(['start_date between ? and ?', today.beginning_of_day, today.end_of_day]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    when 'tomorrow'
+      tomorrow = DateTime.now + 1
+      events = Post.where(['start_date between ? and ?', tomorrow.beginning_of_day, tomorrow.end_of_day]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    when 'next_week'
+      events = Post.where(start_date: Time.now.next_week..Time.now.next_week.end_of_week).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    else
+      events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    end
+    render json: events.as_json(include: :location)
+  end
+
   def show
     post = Post.find(params[:id])
     render json: post.as_json(include: :locations)

@@ -1,0 +1,20 @@
+<div class="small-12 large-12 columns">
+
+  <h1>Events</h1>
+  <%= link_to new_post_path, class: 'button small' do %>
+    <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
+    &nbsp;
+    New Post
+  <% end %>
+
+  <ul class="posts no-bullet">
+    <% @events.each do |post| %>
+        <%= render 'layouts/posts_index_list', post: post %>
+    <% end %>
+  </ul>
+
+  <br/><br/>
+
+  <%= will_paginate @events, renderer: FoundationPagination::Rails %>
+  <br/><br/>
+</div>

@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     get :get_og_data, on: :collection
   end
 
+  get :events, to: 'posts#events', as: 'events'
+
   resources :comments, only: [:update, :destroy, :show] do
     resources :comments, only: [:create, :update, :destroy]
   end
@@ -68,6 +70,7 @@ Rails.application.routes.draw do
     get 'today', to: 'posts#today'
     get 'tomorrow', to: 'posts#tomorrow'
     get 'next_week', to: 'posts#next_week'
+    get :events, to: 'posts#events', as: 'events'
 
     resources :comments, only: [:update, :destroy, :show] do
       resources :comments, only: [:create, :update, :destroy]

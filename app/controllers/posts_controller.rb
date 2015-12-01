@@ -3,7 +3,22 @@ class PostsController < ApplicationController
   before_filter :require_user, only: [:edit, :update, :destroy, :remove_community]
 
   def index
-    @posts = Post.order('created_at DESC').paginate(:page => params[:page], :per_page => 20)
+    @posts = Post.where('start_date is NULL').order('created_at DESC').paginate(:page => params[:page], :per_page => 20)
+  end
+
+  def events
+    case params[:events]
+    when 'today'
+      today = DateTime.now
+      @events = Post.where(['start_date between ? and ?', today.beginning_of_day, today.end_of_day]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    when 'tomorrow'
+      tomorrow = DateTime.now + 1
+      @events = Post.where(['start_date between ? and ?', tomorrow.beginning_of_day, tomorrow.end_of_day]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    when 'next_week'
+      @events = Post.where(start_date: Time.now.next_week..Time.now.next_week.end_of_week).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    else
+      @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    end
   end
 
   def show

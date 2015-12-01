@@ -6,7 +6,6 @@ $.fn.truncateLines = function(options) {
         container = $(container);
         //var containerLineHeight = Math.ceil(parseFloat(container.css('line-height')));
         var containerLineHeight = 26;
-        console.log('containerLineHeight: ', containerLineHeight);
         var maxHeight = options.lines * containerLineHeight;
         var truncated = false;
         var truncatedText = $.trim(container.text());
