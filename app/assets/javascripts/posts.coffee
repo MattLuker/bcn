@@ -214,7 +214,6 @@ toggle_map = (e) ->
       reader = new FileReader()
 
       reader.onload = (e) ->
-        console.log('e:', e)
         image_html = """<li><a class="th" href="#{e.target.result}"><img width="75" src="#{e.target.result}"></a></li>"""
 
         $('#photos_clearing').append(image_html)
@@ -229,13 +228,6 @@ toggle_map = (e) ->
     window.post_files = input.files
     if window.post_files != undefined
       input.files = $.merge(window.post_files, input.files)
-    # if input.files.length == 1
-    #   #formData = new FormData()
-    #   #formData.append('photos_s[]', input.files[0], input.files[0].name);
-    #   #$('#photos').append(input.files[0])
-    #   formData = new FormData($('#new_post')[0])
-    #   formData.append('photos_s[]', input.files[0])
-    #   window.formData = formData
 
 
 # Fire the ready function on load and refresh.

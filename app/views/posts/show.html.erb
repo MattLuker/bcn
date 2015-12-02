@@ -48,11 +48,14 @@
             <li>
               <strong><%= audio.audio.name %></strong>
               <br/>
-              <%= audio_tag audio.audio.url, controls: true %>
+              <%= audio_tag audio.audio.url, controls: true, preload: 'none' %>
 
               &nbsp;&nbsp;&nbsp;&nbsp;
 
-              <%= link_to 'Download ' + audio.audio.name, audio.audio.url %>
+              <%= link_to audio.audio.url, class: 'button tiny success' do %>
+                <%= image_tag 'download-icon.svg', class: 'ty-icon' %> &nbsp;
+                Download <%= audio.audio.name[0..-5] %>
+              <% end %>
             </li>
           <% end %>
         </ul>
