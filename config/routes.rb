@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   resources :badges
 
   resources :photos, only: [:new, :create]
+  resources :audios, only: [:index, :destroy]
 
   get '/login' => 'user_sessions#new', as: :login
   get '/logout' => 'user_sessions#destroy', as: :logout

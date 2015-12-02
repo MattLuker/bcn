@@ -1,0 +1,15 @@
+<h2>Audio Files</h2>
+
+<ul>
+  <% @audios.each do |audio| %>
+  <li>
+    <strong><%= audio.audio.name %></strong>
+    &nbsp; | <em>Post:</em> <%= link_to audio.post.title, audio.post if audio.post %>
+    &nbsp; | <em>Created:</em> <%= audio.created_at.strftime('%m/%d/%Y %H:%M:%S') %>
+    &nbsp;&nbsp;
+    <%= link_to '/audios/' + audio.id.to_s, method: :delete, class: 'button tiny alert' do %>
+      <%= image_tag 'trash-icon.svg', class: 'ty-icon' %>
+    <% end %>
+  </li>
+  <% end %>
+</ul>
