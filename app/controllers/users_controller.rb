@@ -85,8 +85,8 @@ class UsersController < ApplicationController
 
       session[:user_id] = nil
       reset_session
-      flash[:notice] = 'Your account has been merged, please login again.'
-      redirect_to home_index_path
+      flash[:notice] = 'Hurray! Your account setup with email and the new account setup via social network have been merged, you can now login with email or social network accounts.'
+      redirect_to login_path
     else
       flash[:alert] = "There was a problem merging your account: #{@user.errors.full_messages[0]}"
       redirect_to current_user
@@ -131,6 +131,11 @@ class UsersController < ApplicationController
         flash[:success] = 'Profile successfully updated.'
         redirect_to @user
       else
+        puts "user.errors: #{@user.errors.full_messages}"
+        if @user.errors[:email].include?('has already been taken')
+          flash[:alert] = "Sorry, that email has already been taken. Click ".html_safe +
+          " <a href='/send_merge?email=#{@user.email}'><strong>here</strong></a> to merge accounts.".html_safe
+        end
         render :edit
       end
     elsif current_user.admin?
