@@ -930,7 +930,7 @@ $legend-bg: $light-gray;
 // Hide controls on small
 // $orbit-nav-hide-for-small: true;
 // $orbit-bullet-hide-for-small: true;
-// $orbit-timer-hide-for-small: true; 
+// $orbit-timer-hide-for-small: true;
 
 // 20. Pagination
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1268,7 +1268,7 @@ $legend-bg: $light-gray;
 // $switch-paddle-bg: $white;
 // $switch-paddle-transition-speed: .15s;
 // $switch-paddle-transition-ease: ease-out;
-// $switch-active-color: $primary-color; 
+// $switch-active-color: $primary-color;
 
 // 30. Tables
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1322,9 +1322,9 @@ $legend-bg: $light-gray;
 // $include-html-tabs-classes: $include-html-classes;
 
 $tabs-navigation-padding: rem-calc(12);
-$tabs-navigation-bg-color: $secondary-color;
+$tabs-navigation-bg-color: $body-bg;
 $tabs-navigation-active-bg-color: $body-bg;
-// $tabs-navigation-hover-bg-color: scale-color($tabs-navigation-bg-color, $lightness: -6%);
+$tabs-navigation-hover-bg-color: $body-bg;
 // $tabs-navigation-font-color: $jet;
 // $tabs-navigation-active-font-color: $tabs-navigation-font-color;
 $tabs-navigation-font-size: rem-calc(14);
@@ -1459,7 +1459,7 @@ $topbar-dropdown-link-bg-hover: $topbar-link-bg-hover;
 // Sticky Class
 // $topbar-sticky-class: ".sticky";
 // $topbar-arrows: true; //Set false to remove the triangle icon from the menu item
-// $topbar-dropdown-arrows: true; //Set false to remove the \00bb >> text from dropdown subnavigation li// 
+// $topbar-dropdown-arrows: true; //Set false to remove the \00bb >> text from dropdown subnavigation li//
 
 // 36. Visibility Classes
 // - - - - - - - - - - - - - - - - - - - - - - - - -

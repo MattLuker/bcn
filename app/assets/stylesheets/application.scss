@@ -24,6 +24,7 @@
 
 @import 'foundation_and_overrides';
 @import 'colors';
+@import 'card';
 
 body {
   height: auto;
@@ -119,4 +120,3 @@ div.leaflet-popup-content-wrapper > div > a > img.ty-icon {
 .smaller-text {
   font-size: $paragraph-font-size - .2rem;
 }
-

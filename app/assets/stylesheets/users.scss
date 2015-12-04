@@ -74,3 +74,22 @@ ul.communities {
 .tiny.icon.edit-profile {
   margin-top: 40px;
 }
+
+.user-list {
+  background-color: $white;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+@import "foundation/components/tabs";
+
+.tab-title.active {
+  border-bottom: 2px solid $hse-maroon;
+  &:hover {
+    border-bottom: 2px solid $hse-maroon;
+  }
+  margin: 0 2px;
+}
+
+.tab-title:hover {
+  border-bottom: 2px solid $hse-maroon;
+}

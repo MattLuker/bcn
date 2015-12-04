@@ -22,160 +22,165 @@
 <% end %>
 
 <div class="row">
-
-  <div class="large-2 columns">
-    <% if @user.photo %>
-        <%= image_tag @user.photo.thumb('150x150#').url, :class => 'avatar', data: { action: 'zoom' } %>
-    <% else %>
-        <%= image_tag 'avatar.svg', :class => 'avatar' %>
-    <% end %>
-  </div>
-
-  <div class="large-10 columns">
-    <p>
-      <strong>Name:</strong>
-      <% if @user.first_name and @user.last_name %>
-          <%= @user.first_name + ' ' + @user.last_name %>
-      <% elsif @user.first_name %>
-          <%= @user.first_name %>
-      <% elsif @user.last_name %>
-          <%= @user.last_name %>
-      <% end %>
-    </p>
-    <% if current_user == @user %>
-        <p>
-          <strong>Email:</strong>
-          <%= @user.email %>
-        </p>
-    <% end %>
-
-    <p>
-      <strong>Username:</strong>
-      <%= @user.username %>
-    </p>
-
-    <div>
-      <strong>Links:</strong><br/>
-      <% if @user.web_link %>
-          <%= link_to @user.web_link, class: 'web-link', target: '_blank' do %>
-              <% image_tag 'globe-icon.svg', class: 'image-link' %>
-          <% end %>
-      <% end %>
-      <% if @user.facebook_link && !@user.facebook_link.blank? %>
-          <%= link_to @user.facebook_link, target: '_blank' do %>
-              <% image_tag 'facebook-icon.svg', class: 'image-link' %>
-          <% end %>
-      <% end %>
-      <% if @user.twitter_link && !@user.twitter_link.blank?  %>
-          <%= link_to @user.twitter_link, target: '_blank' do %>
-              <% image_tag 'twitter-icon.svg', class: 'image-link' %>
-          <% end %>
-      <% end %>
-      <% if @user.google_link && !@user.google_link.blank?  %>
-          <%= link_to @user.google_link, target: '_blank' do %>
-              <% image_tag 'google-icon.svg', class: 'image-link' %>
-          <% end %>
-      <% end %>
-    </div>
-
-    <br/>
-
-    <div>
-      <strong>Badges:</strong>
-      <br/><br/>
-
-      <% if @user.badges.length != 0 %>
-      <ul class="badges inline-list">
-        <% @user.badges.each do |badge| %>
-          <li>
-            <div class="badge-display">
-              <%= link_to badge do %>
-                <%= image_tag badge.image.url, class: 'badge-thumb' %>
-              <% end %>
-              <br/>
-              <%= badge.name %>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-      <% else %>
-        <p class="grey">No badges at this time, but don't worry we believe in you.</p>
-      <% end %>
-    </div>
-
-  </div>
-
-  <div class="row">
-    <div class="large-6 columns">
-      <br/><br/>
-      <%= markdown(@user.bio) if @user.bio %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="large-6 columns">
-      <% if current_user == @user %>
-          <%= link_to edit_user_path(@user), class: 'button tiny icon edit-profile', title: 'Edit Profile' do %>
-              <% image_tag 'edit-icon.svg', class: 'icon' %>
-          <% end %>
-      <% end %>
-
-      <% if current_user.username && current_user.username == 'asommer' %>
-        <%= link_to 'Monitoring', sidekiq_web_path %>
-      <% end %>
-      <br/>
-
-    </div>
-  </div>
-
-</div>
-
-<div class="row">
   <div class="large-6 columns">
-    <br/><hr/><br/>
-  </div>
-</div>
-
-<ul class="tabs" data-tab>
-  <li class="tab-title active"><a href="#posts">Posts</a></li>
-  <li class="tab-title"><a href="#communities" class="communities-tab">Communities</a></li>
-  <li class="tab-title"><a href="#organizations" class="organizations-tab">Organizations</a></li>
-</ul>
-<div class="tabs-content">
-  <div class="content active" id="posts">
-    <div class="large-6 columns">
-      <ul class="posts no-bullet">
-        <% @posts.each do |post| %>
-            <%= render 'layouts/posts_list', post: post %>
-        <% end %>
-      </ul>
-
-      <br/><br/>
-      <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
-    </div>
-  </div>
-
-  <div class="content" id="communities">
-    <div>
-      <% if @user.communities %>
-          <ul class="communities no-disc">
-            <% @user.communities.each do |community| %>
-                <%= render 'layouts/communities_list', community: community %>
+    <ul class="tabs" data-tab>
+      <li class="tab-title active"><a href="#posts">Posts</a></li>
+      <li class="tab-title"><a href="#communities" class="communities-tab">Communities</a></li>
+      <li class="tab-title"><a href="#organizations" class="organizations-tab">Organizations</a></li>
+    </ul>
+    <div class="tabs-content">
+      <div class="content active" id="posts">
+        <div class="large-12 columns user-list">
+          <ul class="posts no-bullet">
+            <% @posts.each do |post| %>
+                <%= render 'layouts/posts_list', post: post %>
             <% end %>
           </ul>
-      <% end %>
-    </div>
-  </div>
 
-  <div class="content" id="organizations">
-      <div>
-        <% if @user.organizations %>
-          <ul class="organizations no-disc">
-            <% @user.organizations.each do |organization| %>
-              <%= render 'layouts/organizations_list', organization: organization %>
-            <% end %>
-          </ul>
-        <% end %>
+          <br/><br/>
+          <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
+        </div>
       </div>
+
+      <div class="content" id="communities">
+        <div class="user-list columns">
+          <% if @user.communities %>
+              <ul class="communities no-disc">
+                <% @user.communities.each do |community| %>
+                    <%= render 'layouts/communities_list', community: community %>
+                <% end %>
+              </ul>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="content" id="organizations">
+          <div class="user-list columns">
+            <% if @user.organizations %>
+              <ul class="organizations no-disc">
+                <% @user.organizations.each do |organization| %>
+                  <%= render 'layouts/organizations_list', organization: organization %>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="large-4 columns right">
+    <div class="card">
+      <div class="image">
+        <% if @user.photo %>
+            <%= image_tag @user.photo.thumb('150x150#').url, :class => '', data: { action: 'zoom' } %>
+        <% else %>
+            <%= image_tag 'avatar.svg', :class => 'avatar' %>
+        <% end %>
+        <br/><br/>
+      </div>
+
+    <div class="row">
+
+      <div class="large-12 columns">
+        <p>
+          <strong>Name:</strong>
+          <% if @user.first_name and @user.last_name %>
+              <%= @user.first_name + ' ' + @user.last_name %>
+          <% elsif @user.first_name %>
+              <%= @user.first_name %>
+          <% elsif @user.last_name %>
+              <%= @user.last_name %>
+          <% end %>
+        </p>
+        <% if current_user == @user %>
+            <p>
+              <strong>Email:</strong>
+              <%= @user.email %>
+            </p>
+        <% end %>
+
+        <p>
+          <strong>Username:</strong>
+          <%= @user.username %>
+        </p>
+
+        <div>
+          <br/>
+          <% if @user.web_link %>
+              <%= link_to @user.web_link, class: 'web-link', target: '_blank' do %>
+                  <% image_tag 'globe-icon.svg', class: 'image-link' %>
+              <% end %>
+          <% end %>
+          <% if @user.facebook_link && !@user.facebook_link.blank? %>
+              <%= link_to @user.facebook_link, target: '_blank' do %>
+                  <% image_tag 'facebook-icon.svg', class: 'image-link' %>
+              <% end %>
+          <% end %>
+          <% if @user.twitter_link && !@user.twitter_link.blank?  %>
+              <%= link_to @user.twitter_link, target: '_blank' do %>
+                  <% image_tag 'twitter-icon.svg', class: 'image-link' %>
+              <% end %>
+          <% end %>
+          <% if @user.google_link && !@user.google_link.blank?  %>
+              <%= link_to @user.google_link, target: '_blank' do %>
+                  <% image_tag 'google-icon.svg', class: 'image-link' %>
+              <% end %>
+          <% end %>
+        </div>
+
+        <br/><br/>
+        <div class="bio">
+          <strong>Bio:</strong>
+          <br/>
+          <%= markdown(@user.bio) if @user.bio %>
+        </div>
+        <br/>
+
+        <div>
+          <br/>
+          <strong>Badges:</strong>
+          <br/><br/>
+
+          <% if @user.badges.length != 0 %>
+          <ul class="badges inline-list">
+            <% @user.badges.each do |badge| %>
+              <li>
+                <div class="badge-display">
+                  <%= link_to badge do %>
+                    <%= image_tag badge.image.url, class: 'badge-thumb' %>
+                  <% end %>
+                  <br/>
+                  <%= badge.name %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+          <% else %>
+            <p class="grey">No badges at this time, but don't worry we believe in you.</p>
+          <% end %>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+          <% if current_user == @user %>
+              <%= link_to edit_user_path(@user), class: 'button tiny icon edit-profile', title: 'Edit Profile' do %>
+                  <% image_tag 'edit-icon.svg', class: 'icon' %>
+              <% end %>
+          <% end %>
+
+          <% if current_user.username && current_user.username == 'asommer' %>
+            <%= link_to 'Monitoring', sidekiq_web_path %>
+          <% end %>
+          <br/>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   </div>
 
 </div>
