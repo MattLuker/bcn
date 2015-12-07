@@ -11,9 +11,31 @@
   <div class="content" id="organizations">
     <div>
       <% if @organizations %>
-        <ul class="organizations no-disc">
+        <ul class="small-block-grid-1 large-block-grid-4">
           <% @organizations.each do |organization| %>
-            <%= render 'layouts/organizations_list', organization: organization %>
+            <li data-equalizer>
+              <div class="card" data-equalizer-watch>
+                <div class="image image-sizer">
+                  <% if organization.image %>
+                    <%= link_to organization do %>
+                      <%= image_tag organization.image.url, {:style => "border: 5px solid #{organization.color}"} %>
+                    <% end %>
+                  <% else %>
+                    <%= image_tag 'group-icon.svg', :style => "border: 5px solid #{organization.color}" %>
+                  <% end %>
+                </div>
+
+                <div class="content content-sizer">
+                  <p>
+                    <%= truncate( strip_tags( markdown(organization.description) ), length: 200) %>
+                  </p>
+                </div>
+
+                <div class="action action-sizer">
+                  <%= link_to organization.name, organization, {:style => "color: #{organization.color}"} %>
+                </div>
+              </div>
+            </li>
           <% end %>
         </ul>
       <% end %>

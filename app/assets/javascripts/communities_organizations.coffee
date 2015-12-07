@@ -1,5 +1,35 @@
 ready_community = ->
   #
+  # Set card height.
+  #
+  #$('.org-card').css('height', '350')
+  boxes = $('.content-sizer')
+  maxHeight = Math.max.apply(
+    Math, boxes.map () ->
+      return $(this).height()
+    .get()
+  )
+  boxes.height(maxHeight)
+
+  actions = $('.action-sizer')
+  maxHeight = Math.max.apply(
+    Math, actions.map () ->
+      return $(this).height()
+    .get()
+  )
+  actions.height(maxHeight)
+
+  # imgs = $('.image-sizer')
+  # maxHeight = Math.max.apply(
+  #   Math, imgs.map () ->
+  #     console.log('this.height', $(this).height())
+  #     return $(this).height()
+  #   .get()
+  # )
+  # console.log('maxHeight:', maxHeight)
+  # imgs.height(maxHeight)
+
+  #
   # Determine the model: Community or Organization.
   #
   paths = window.location.pathname.split('/')

@@ -9,31 +9,89 @@
 <% end %>
 
 <div class="row">
+  <div class="large-6 columns">
+    <% if @organization.users.include?(current_user) %>
+      <%= link_to new_post_path(organization: @organization.id), class: 'button small' do %>
+        <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
+        &nbsp;
+        New Post
+      <% end %>
+    <% end %>
+    <br/><br/>
 
-  <div class="large-8 columns">
-    <div class="row">
-      <div class="large-9 columns">
-        <h2 class="title">
-          <%= @organization.name %>
-        </h2>
-        <div class="large-3 columns">
-          <% if @leaders.include?(current_user) %>
-            <%= link_to edit_organization_path(@organization), class: 'button tiny icon edit-organization', title: 'Edit organization' do %>
-              <% image_tag 'edit-icon.svg', class: 'icon' %>
-            <% end %>
+    <ul class="tabs" data-tab>
+      <li class="tab-title active"><a href="#posts">Posts</a></li>
+      <li class="tab-title"><a href="#members">Members</a></li>
+      <li class="tab-title"><a href="#location">Default Location</a></li>
+    </ul>
+
+    <div class="tabs-content">
+      <div class="content active" id="posts">
+        <ul class="posts no-bullet user-list">
+          <% @posts.each do |post| %>
+            <%= render 'layouts/posts_list', post: post %>
           <% end %>
-        </div>
+        </ul>
+
+        <br/><br/>
+        <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
+
+        <% if @organization.posts.blank? %>
+          <span class="grey">Currently there are no posts.</span>
+        <% end %>
+      </div>
+      <div class="content" id="members">
+        <ul class="no-disc member-list user-list">
+          <% @organization.users.each do |user| %>
+            <li>
+              <% if user.photo %>
+                <%= link_to user do %>
+                  <%= image_tag user.photo.thumb('75x75#').url %>
+                <% end %>
+                &nbsp;&nbsp;
+              <% end %>
+              <%= link_to user.username, user %>
+
+            </li>
+          <% end %>
+
+          <% if @organization.users.blank? %>
+            <span class="grey">Currently there are no members.</span>
+          <% end %>
+        </ul>
+      </div>
+      <div class="content" id="location">
+        <ul id="<%= dom_id(@organization) %>" class="location-list no-disc user-list">
+          <li>
+            <% if @organization.location %>
+              <span id="<%= dom_id(@organization.location) %>">
+                <strong><%= @organization.location.name %></strong>
+                <br/>
+                <span class="location-details">
+                  <%= @organization.location.address %>
+                  <%= @organization.location.city %>,
+                  <%= @organization.location.state %>
+                  <%= @organization.location.postcode %>
+                </span>
+              </span>
+            <% else %>
+              <p class="grey">No default location set.</p>
+            <% end %>
+          </li>
+        </ul>
       </div>
     </div>
 
+  </div>
+
+  <div class="large-4 columns right card">
     <div class="row">
-      <div class="large-12 columns">
+      <div class="large-12 columns text-center">
         <% if @organization.image %>
           <%= image_tag @organization.image.url, class: 'organization-image',
                         data: { action: 'zoom' },
                         style: 'border: 5px solid ' + @organization.color %>
         <% end %>
-        <br/><br/>
       </div>
     </div>
 
@@ -67,6 +125,16 @@
           <% end %>
         <% end %>
         <br/><hr/><br/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns large-12">
+        <% if @leaders.include?(current_user) %>
+          <%= link_to edit_organization_path(@organization), class: 'button tiny icon edit-organization', title: 'Edit organization' do %>
+            <% image_tag 'edit-icon.svg', class: 'icon' %>
+          <% end %>
+        <% end %>
       </div>
     </div>
 
@@ -116,88 +184,13 @@
           <% end %>
         <% end %>
 
-        <% if @organization.users.include?(current_user) %>
-          <%= link_to new_post_path(organization: @organization.id), class: 'button small' do %>
-            <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
-            &nbsp;
-            New Post
-          <% end %>
-        <% end %>
-        <br/><br/>
       </div>
     </div>
-
-    <div class="row">
-      <div class="large-12 columns">
-        <ul class="tabs" data-tab>
-          <li class="tab-title active"><a href="#posts">Posts</a></li>
-          <li class="tab-title"><a href="#members">Members</a></li>
-          <li class="tab-title"><a href="#location">Default Location</a></li>
-        </ul>
-
-        <div class="tabs-content">
-          <div class="content active" id="posts">
-            <ul class="posts no-bullet">
-              <% @posts.each do |post| %>
-                <%= render 'layouts/posts_list', post: post %>
-              <% end %>
-            </ul>
-
-            <br/><br/>
-            <%= will_paginate @posts, renderer: FoundationPagination::Rails %>
-
-            <% if @organization.posts.blank? %>
-              <span class="grey">Currently there are no posts.</span>
-            <% end %>
-          </div>
-          <div class="content" id="members">
-            <ul class="no-disc member-list">
-              <% @organization.users.each do |user| %>
-                <li>
-                  <% if user.photo %>
-                    <%= link_to user do %>
-                      <%= image_tag user.photo.thumb('75x75#').url %>
-                    <% end %>
-                    &nbsp;&nbsp;
-                  <% end %>
-                  <%= link_to user.username, user %>
-
-                </li>
-              <% end %>
-
-              <% if @organization.users.blank? %>
-                <span class="grey">Currently there are no members.</span>
-              <% end %>
-            </ul>
-          </div>
-          <div class="content" id="location">
-            <ul id="<%= dom_id(@organization) %>" class="no-disc">
-              <li>
-                <% if @organization.location %>
-                  <span id="<%= dom_id(@organization.location) %>">
-                    <strong><%= @organization.location.name %></strong>
-                    <br/>
-                    <span class="location-details">
-                      <%= @organization.location.address %>
-                      <%= @organization.location.city %>,
-                      <%= @organization.location.state %>
-                      <%= @organization.location.postcode %>
-                    </span>
-                  </span>
-                <% else %>
-                  <p class="grey">No default location set.</p>
-                <% end %>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
+    <div class="large-12 columns map-container">
+      <div id="map" class="organization-map"></div>
     </div>
-  </div>
-  <div class="large-4 columns map-container">
-    <div id="map" class="organization-map"></div>
-  </div>
+
+    </div>
 </div>
 
 

@@ -152,7 +152,7 @@ button.hidden {
   padding-right: 0 !important;
 }
 
-.post-image {
+.post-image, .organization-image {
   max-width: 300px;
 }
 
@@ -178,3 +178,13 @@ div.post-list-image {
 #post-link {
   margin-top:16px;
 }
+
+.location-list {
+  padding: 10px;
+}
+
+// .org-card {
+//   background-color: $white;
+//   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+//   margin: 7px;
+// }
