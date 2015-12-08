@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   post '/facebook_subscriptions/', to: 'facebook_subscriptions#create'
   resources :badges
 
-  resources :photos, only: [:new, :create]
+  resources :photos, only: [:index, :new, :create, :destroy]
   resources :audios, only: [:index, :destroy]
 
   get '/login' => 'user_sessions#new', as: :login

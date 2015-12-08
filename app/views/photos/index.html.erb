@@ -1,0 +1,16 @@
+<h2>Photos</h2>
+
+<ul>
+  <% @photos.each do |photo| %>
+  <li>
+    <strong><%= photo.image.name %></strong>
+    <%= image_tag photo.image.thumb('50x50#').url %>
+    &nbsp; | <em>Post:</em> <%= link_to photo.post.title, photo.post if photo.post %>
+    &nbsp; | <em>Created:</em> <%= photo.created_at.strftime('%m/%d/%Y %H:%M:%S') %>
+    &nbsp;&nbsp;
+    <%= link_to '/photos/' + photo.id.to_s, method: :delete, class: 'button tiny alert' do %>
+      <%= image_tag 'trash-icon.svg', class: 'ty-icon' %>
+    <% end %>
+  </li>
+  <% end %>
+</ul>
