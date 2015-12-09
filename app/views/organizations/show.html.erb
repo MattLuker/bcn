@@ -6,6 +6,7 @@
   <% if @organization.image %>
     <%= tag :meta, property: 'og:image', content: "http://#{request.host}#{@organization.image.url}" %>
   <% end %>
+  <meta property="fb:app_id" content="<%= FACEBOOK_CONFIG['app_id'] %>" />
 <% end %>
 
 <div class="row">
