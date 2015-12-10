@@ -32,7 +32,7 @@
     </div>
 
     <div class="row">
-      <div class="large-12 columns">
+      <div class="large-12 columns shadow-list text-block">
         <%= markdown(@community.description) %>
         <br/><br/>
       </div>
@@ -40,6 +40,7 @@
 
     <div class="row">
       <div class="large-12 columns social">
+        <br/>
         <% unless @community.home_page.blank? %>
           <%= link_to @community.home_page, target: '_blank' do %>
             <%= image_tag 'globe-icon.svg', class: 'icon' %>
@@ -157,7 +158,7 @@
           <div class="content" id="members">
             <ul class="no-disc member-list">
               <% @community.users.each do |user| %>
-                <li>
+                <li class="shadow-list">
                   <% if user.photo %>
                     <%= link_to user do %>
                       <%= image_tag user.photo.thumb('75x75#').url %>
@@ -198,7 +199,7 @@
           </div>
           <div class="content" id="location">
             <ul id="<%= dom_id(@community) %>" class="no-disc">
-              <li>
+              <li class="shadow-list">
                 <% if @community.location %>
                   <span id="<%= dom_id(@community.location) %>">
                     <strong><%= @community.location.name %></strong>

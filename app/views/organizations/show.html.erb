@@ -44,7 +44,7 @@
       <div class="content" id="members">
         <ul class="no-disc member-list user-list">
           <% @organization.users.each do |user| %>
-            <li>
+            <li class="shadow-list">
               <% if user.photo %>
                 <%= link_to user do %>
                   <%= image_tag user.photo.thumb('75x75#').url %>
@@ -63,7 +63,7 @@
       </div>
       <div class="content" id="location">
         <ul id="<%= dom_id(@organization) %>" class="location-list no-disc user-list">
-          <li>
+          <li class="shadow-list">
             <% if @organization.location %>
               <span id="<%= dom_id(@organization.location) %>">
                 <strong><%= @organization.location.name %></strong>

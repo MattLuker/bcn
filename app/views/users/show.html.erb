@@ -30,7 +30,7 @@
     </ul>
     <div class="tabs-content">
       <div class="content active" id="posts">
-        <div class="large-12 columns user-list">
+        <div class="large-12 columns shadow-list">
           <ul class="posts no-bullet">
             <% @posts.each do |post| %>
                 <%= render 'layouts/posts_list', post: post %>
@@ -43,7 +43,7 @@
       </div>
 
       <div class="content" id="communities">
-        <div class="user-list columns">
+        <div class="shadow-list columns">
           <% if @user.communities %>
               <ul class="communities no-disc">
                 <% @user.communities.each do |community| %>
@@ -55,7 +55,7 @@
       </div>
 
       <div class="content" id="organizations">
-          <div class="user-list columns">
+          <div class="shadow-list columns">
             <% if @user.organizations %>
               <ul class="organizations no-disc">
                 <% @user.organizations.each do |organization| %>
