@@ -28,7 +28,7 @@
         <%= @post.title %>
       </h2>
       <div class="row">
-        <div class="large-12 columns">
+        <div class="large-12 columns no-left-padding">
           <% if @post.image %>
             <%= image_tag @post.image.url, class: 'post-image', data: { action: 'zoom' } %>
           <% end %>
