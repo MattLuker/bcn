@@ -13,9 +13,10 @@ $black: #252525;
 }
 
 
-.posts {
+.posts, .events {
   .post-title {
-    font-size: $h4-font-size;
+    //font-size: $h4-font-size;
+    font-size: 16px;
   }
 
   .post-text {
@@ -210,9 +211,9 @@ a.button.map-button, .map-button {
 }
 
 .all.tny {
-  @include button(rem-calc(5), $hse-light-green);
+  @include button(rem-calc(5), $hse-dark-green);
   font-size: 10 px;
-  border: 3px solid darken($hse-light-green, 10);
+  border: 3px solid darken($hse-dark-green, 10);
 }
 .tny {
   @include button(rem-calc(5), $hse-dark-green);
@@ -220,6 +221,24 @@ a.button.map-button, .map-button {
   border: 3px solid darken($hse-dark-green, 10);
   margin-bottom: 10px !important;
   margin-top: 10px;
+}
+
+.tny.active {
+  @include button(rem-calc(5), $hse-light-green);
+  font-size: 10 px;
+  border: 3px solid darken($hse-light-green, 10);
+}
+
+.logo {
+  margin-top: 3px;
+  margin-bottom: 0;
+  img {
+    padding-top: 10px;
+    height: 85px;
+  }
+  hr {
+    margin-bottom: 13px;
+  }
 }
 
 //

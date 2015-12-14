@@ -35,10 +35,17 @@
     <div class="row">
       <div class="small-12 small-only-text-center large-4 columns no-side-padding text-left time-button-list">
         <ul class="button-group">
-          <li><a href="#" class="all tny all_posts" id="all_posts_btn">All</a></li>
-          <li><a href="#" class="  time success tny today" data-time="today">Today</a></li>
-          <li><a href="#" class="  time success tny tomorrow" data-time="tomorrow">Tomorrow</a></li>
-          <li><a href="#" class="  time success tny next_week" data-time="next_week">Next Week</a></li>
+          <li><a href="#" class="all tny all_posts <%= 'active' unless params[:events] %>" id="all_posts_btn">&nbsp;All</a></li>
+          <li><a href="#" class="  time success tny today <%= 'active' if params[:events] && params[:events] == 'today' %>" data-time="today">Today</a></li>
+          <li>
+            <a href="#" class="  time success tny tomorrow <%= 'active' if params[:events] && params[:events] == 'tomorrow' %>" data-time="tomorrow">
+              Tomorrow &nbsp;
+            </a></li>
+          <li>
+            <a href="#" class="  time success tny next_week <%= 'active' if params[:events] && params[:events] == 'next_week' %>" data-time="next_week">
+              Next Week
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -71,28 +78,33 @@
 
 
   <div class="large-4 columns">
+    <div class='logo text-center'>
+      <%= image_tag 'bcn_logo.svg' %>
+      <hr/>
+    </div>
+
     <ul class="tabs" data-tab role="tablist">
       <li class="tab-title active" role="presentational" >
-        <a href="#recent" id='posts-tab' role="tab" tabindex="0" aria-selected="true" controls="dates">Recent Posts</a>
+        <a href="#events" id='events-tab' role="tab" tabindex="0" aria-selected="true" controls="dates">Upcoming Events</a>
       </li>
       <li class="tab-title" role="presentational" >
-        <a href="#events" id='events-tab' role="tab" tabindex="0" aria-selected="true" controls="dates">Upcoming Events</a>
+        <a href="#recent" id='posts-tab' role="tab" tabindex="0" aria-selected="true" controls="dates">Recent Posts</a>
       </li>
     </ul>
     <div class="tabs-content">
-      <section role="tabpanel" aria-hidden="false" class="content active" id="recent">
-        <div class="posts-wrapper">
-          <ul class="posts no-bullet">
-            <% @posts.each do |post| %>
+      <section role="tabpanel" aria-hidden="false" class="content active" id="events">
+        <div class="events-wrapper">
+          <ul class="events no-bullet">
+            <% @events.each do |post| %>
               <%= render 'layouts/posts_list', post: post %>
             <% end %>
           </ul>
         </div>
       </section>
-      <section role="tabpanel" aria-hidden="false" class="content" id="events">
-        <div class="events-wrapper">
-          <ul class="events no-bullet">
-            <% @events.each do |post| %>
+      <section role="tabpanel" aria-hidden="false" class="content" id="recent">
+        <div class="posts-wrapper">
+          <ul class="posts no-bullet">
+            <% @posts.each do |post| %>
               <%= render 'layouts/posts_list', post: post %>
             <% end %>
           </ul>
