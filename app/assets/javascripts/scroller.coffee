@@ -3,6 +3,7 @@
 #
 @scroller =
   get_page: () ->
+    console.log('calling get_page()...')
     if not window.page_number? || window.page_number == 0
       window.page_number = 1
     else

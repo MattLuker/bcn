@@ -3,14 +3,10 @@ class HomeController < ApplicationController
   end
 
   def home
-    @posts = Post.where(start_date: nil).order('created_at DESC').all.limit(6)
-    # @communities = []
-    # @posts.each do |post|
-    #   if post.locations.length > 0 && post.communities.length > 0
-    #     post.communities.each { |c| @communities.push(c) }
-    #   end
-    # end
+    @posts = Post.where(start_date: nil).order('created_at DESC').limit(6)
     @communities = Community.all
+
+    # Handle the time filter buttons.
     case params[:events]
     when 'today'
       today = DateTime.now
@@ -22,6 +18,12 @@ class HomeController < ApplicationController
       @events = Post.where(start_date: Time.now.next_week..Time.now.next_week.end_of_week).order(:start_date).limit(7)
     else
       @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).order(:start_date).limit(7)
+    end
+
+    # Handle the community buttons.
+    if params[:community]
+      @community = Community.find_by_slug(params[:community].downcase.sub('-', ''))
+      @posts = @community.posts.where(start_date: nil).order('created_at DESC').limit(6)
     end
   end
 

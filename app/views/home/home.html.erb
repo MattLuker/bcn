@@ -35,14 +35,20 @@
     <div class="row">
       <div class="small-12 small-only-text-center large-4 columns no-side-padding text-left time-button-list">
         <ul class="button-group">
-          <li><a href="#" class="all tny all_posts <%= 'active' unless params[:events] %>" id="all_posts_btn">&nbsp;All</a></li>
-          <li><a href="#" class="  time success tny today <%= 'active' if params[:events] && params[:events] == 'today' %>" data-time="today">Today</a></li>
+          <li><a href="/" class="all tny all_posts <%= 'active' unless params[:events] %>" id="all_posts_btn">&nbsp;All</a></li>
           <li>
-            <a href="#" class="  time success tny tomorrow <%= 'active' if params[:events] && params[:events] == 'tomorrow' %>" data-time="tomorrow">
+            <a href="/?events=today" class="  time success tny today <%= 'active' if params[:events] && params[:events] == 'today' %>" data-time="today">
+              Today
+            </a>
+          </li>
+          <li>
+            <a href="/?events=tomorrow" class="  time success tny tomorrow <%= 'active' if params[:events] && params[:events] == 'tomorrow' %>"
+              data-time="tomorrow">
               Tomorrow &nbsp;
             </a></li>
           <li>
-            <a href="#" class="  time success tny next_week <%= 'active' if params[:events] && params[:events] == 'next_week' %>" data-time="next_week">
+            <a href="/?events=next_week" class="  time success tny next_week <%= 'active' if params[:events] && params[:events] == 'next_week' %>"
+              data-time="next_week">
               Next Week
             </a>
           </li>
@@ -57,6 +63,7 @@
                 <a class="community community_<%= community.id %> map-button tiny"
                    data-id="<%= community.id %>"
                    id="<%= dom_id(community) %>"
+                   href="/?community=<%= community.name %>"
                 >
                   <%= community.name %>
                 </a>
@@ -79,7 +86,9 @@
 
   <div class="large-4 columns">
     <div class='logo text-center'>
-      <%= image_tag 'bcn_logo.svg' %>
+      <%= link_to '/' do %>
+        <%= image_tag 'bcn_logo.svg' %>
+      <% end %>
       <hr/>
     </div>
 

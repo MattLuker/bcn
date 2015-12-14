@@ -1,7 +1,9 @@
 module PostsHelper
   def post_list_image(post)
 
-    if post.organization && !post.organization.communities.empty?
+    if params[:community] && @community
+      border = "border: 5px solid #{@community.color}"
+    elsif post.organization
       border = "border: 5px solid #{post.organization.color}"
     else
       border = ''

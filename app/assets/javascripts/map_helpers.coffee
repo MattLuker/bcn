@@ -278,7 +278,7 @@
   set_home_post_markers: (posts, community=false) ->
     #window.layers = []
     markers = []
-    map_helpers.button_binder()
+    #map_helpers.button_binder()
     for post in posts
       # Create markers for each post.
       for loc in post.locations
