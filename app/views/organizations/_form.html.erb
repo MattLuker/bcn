@@ -1,6 +1,8 @@
 <ul class="tabs" data-tab>
-  <li class="tab-title active"><a href="#settings">Settings</a></li>
-  <li class="tab-title"><a href="#members">Members</a></li>
+  <li class="tab-title active <%= 'hide' if action_name == 'new' %>"><a href="#settings">Settings</a></li>
+  <% if action_name == 'edit' %>
+    <li class="tab-title"><a href="#members">Members</a></li>
+  <% end %>
 </ul>
 
 <div class="tabs-content">
@@ -67,7 +69,7 @@
       </div>
 
       <div class="row">
-        <div class="large-4 columns">
+        <div class="large-4 columns" id="orgDescription">
           <%= f.label :description %>
           <%= f.text_area :description, placeholder: :description %>
         </div>

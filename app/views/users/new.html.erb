@@ -8,13 +8,15 @@
   <div class="intro">
     <h4>Do you have one of these Social accounts?</h4>
 
-    <%= link_to "Register with Facebook", '/auth/facebook', :class => 'button small facebook' %>
+    <div id="socialRegisters">
+      <%= link_to "Register with Facebook", '/auth/facebook', :class => 'button small facebook' %>
 
 
-    <%= link_to "Register with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
+      <%= link_to "Register with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
 
 
-    <%= link_to "Register with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
+      <%= link_to "Register with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
+    </div>
 
 
     <hr/>

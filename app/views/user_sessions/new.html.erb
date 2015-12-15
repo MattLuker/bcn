@@ -9,11 +9,13 @@
 
     <h4>Sign In with your Social account:</h4>
 
-    <%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small facebook', :id => 'facebook_login' %>
+    <div id="socialLogins">
+      <%= link_to "Login with Facebook", '/auth/facebook', :class => 'button small facebook', :id => 'facebook_login' %>
 
-    <%= link_to "Login with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
+      <%= link_to "Login with Twitter", '/auth/twitter', :class => 'button small twitter', :id => 'twitter_login' %>
 
-    <%= link_to "Login with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
+      <%= link_to "Login with Google", '/auth/google_oauth2', :class => 'button small google', :id => 'google_login' %>
+    </div>
 
     <hr/>
     <p>Or</p>
