@@ -82,7 +82,8 @@ ready_post = ->
     # Setup multi-select goodness with Chosen.
     $('.chosen-select').chosen
       allow_single_deselect: true
-      no_results_text: 'No results matched'
+      no_results_text: 'No results matched',
+      id_name: 'postCommunities'
 
 
     # Setup Markdown editor for description.

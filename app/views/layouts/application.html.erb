@@ -62,7 +62,7 @@
     <div class="row">
       <div class="large-12 columns">
         <p>
-          Boone Community Network is dedicated to bringing together the wide-ranging beautiful facets of Boone.
+          Connecting you to the what, where, and when of Boone.
         </p>
       </div>
     </div>
@@ -76,6 +76,8 @@
 
   <% if action_name == 'home' %>
     <%= render partial: 'layouts/tour_home' %>
+  <% elsif action_name == 'new' && controller_name == 'posts' %>
+    <%= render partial: 'layouts/tour_new_posts' %>
   <% else %>
     <ol class="joyride-list" data-joyride>
       <li data-button="End">
