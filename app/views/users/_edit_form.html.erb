@@ -67,7 +67,7 @@
 
     <div class="row">
       <div class="large-4 columns">
-        <fieldset>
+        <fieldset id="userWebLinks">
           <legend>Links</legend>
           <div class="row">
             <div class="large-12 columns">
@@ -107,7 +107,7 @@
     <br/>
 
     <div class="row">
-      <div class="large-4 columns actions">
+      <div class="large-4 columns actions" id="bio">
         <%= f.label :bio %>
         <%= f.text_area :bio, actionname: action_name %>
       </div>
@@ -115,7 +115,7 @@
 
   <br/><br/>
     <div class="row">
-      <div class="large-4 columns">
+      <div class="large-4 columns" id="notificationSettings">
         <table width="100%">
           <tr>
             <td>

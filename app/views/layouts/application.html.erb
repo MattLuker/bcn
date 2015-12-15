@@ -84,6 +84,10 @@
     <%= render partial: 'layouts/tour_login' %>
   <% elsif action_name == 'new' && controller_name == 'organizations' %>
     <%= render partial: 'layouts/tour_new_organization' %>
+  <% elsif action_name == 'show' && controller_name == 'users' %>
+    <%= render partial: 'layouts/tour_user_show' %>
+  <% elsif action_name == 'edit' && controller_name == 'users' %>
+    <%= render partial: 'layouts/tour_user_edit' %>
   <% else %>
     <ol class="joyride-list" data-joyride>
       <li data-button="End">

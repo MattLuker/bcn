@@ -30,7 +30,7 @@
     </ul>
     <div class="tabs-content">
       <div class="content active" id="posts">
-        <div class="large-12 columns shadow-list">
+        <div class="large-12 columns">
           <ul class="posts no-bullet">
             <% @posts.each do |post| %>
                 <%= render 'layouts/posts_list', post: post %>
@@ -43,7 +43,7 @@
       </div>
 
       <div class="content" id="communities">
-        <div class="shadow-list columns">
+        <div class="columns">
           <% if @user.communities %>
               <ul class="communities no-disc">
                 <% @user.communities.each do |community| %>
@@ -55,7 +55,7 @@
       </div>
 
       <div class="content" id="organizations">
-          <div class="shadow-list columns">
+          <div class="columns">
             <% if @user.organizations %>
               <ul class="organizations no-disc">
                 <% @user.organizations.each do |organization| %>
@@ -136,7 +136,7 @@
         </div>
         <br/>
 
-        <div>
+        <div id="badges">
           <br/>
           <strong>Badges:</strong>
           <br/><br/>
@@ -165,7 +165,7 @@
       <div class="row">
         <div class="large-6 columns">
           <% if current_user == @user %>
-              <%= link_to edit_user_path(@user), class: 'button tiny icon edit-profile', title: 'Edit Profile' do %>
+              <%= link_to edit_user_path(@user), class: 'button tiny icon edit-profile', title: 'Edit Profile', id: 'edit_user' do %>
                   <% image_tag 'edit-icon.svg', class: 'icon' %>
               <% end %>
           <% end %>
