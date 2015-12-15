@@ -35,7 +35,7 @@
       </li>
       <% if current_user %>
           <% if current_user.photo %>
-              <li>
+              <li id="userProfileLink">
                 <%= link_to user_path(current_user), :class => 'profile' do %>
                     <%= image_tag current_user.photo.thumb('35x35#').url, :class => 'nav-profile-pic' %>
               <% end %>

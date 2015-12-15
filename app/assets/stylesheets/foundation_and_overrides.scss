@@ -742,7 +742,7 @@ $legend-bg: $light-gray;
 // $include-html-joyride-classes: $include-html-classes;
 
 // Controlling default Joyride styles
-// $joyride-tip-bg: $oil;
+$joyride-tip-bg: $hse-maroon;
 // $joyride-tip-default-width: 300px;
 // $joyride-tip-padding: rem-calc(18 20 24);
 // $joyride-tip-border: solid 1px $charcoal;
@@ -763,8 +763,8 @@ $legend-bg: $light-gray;
 // $joyride-tip-timer-color: $steel;
 
 // This changes up the styles for the close button
-// $joyride-tip-close-color: $monsoon;
-// $joyride-tip-close-size: 24px;
+$joyride-tip-close-color: $white;
+$joyride-tip-close-size: 20px;
 // $joyride-tip-close-weight: $font-weight-normal;
 
 // When Joyride is filling the screen, we use this style for the bg

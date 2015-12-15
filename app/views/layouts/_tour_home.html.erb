@@ -2,6 +2,11 @@
   <li data-id="newPost" data-text="Next" data-options="tip_location: left; prev_button: false">
     <p>Hello and welcome to the Boone Community Network.<br/> Click here to create an Event or Post.</p>
   </li>
+  <% if current_user %>
+  <li data-id="userProfileLink" data-text="Next" data-options="tip_location: left; prev_button: false">
+    <p>Click here to see your BCN profile.</p>
+  </li>
+  <% end %>
   <li data-id="events-tab" data-class="custom so-awesome" data-options="tip_location: left;" data-text="Next" data-prev-text="Prev">
     <p>Here is a list of upcoming events in the Boone area.</p>
   </li>
