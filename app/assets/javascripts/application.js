@@ -64,12 +64,23 @@ $(function(){
     });
 
     $('.copyright-year').html(new Date().getFullYear());
+
+    $('#tour').on('click', function(e) {
+      e.preventDefault();
+      console.log('touring...');
+      $(document).foundation('joyride', 'start');
+    });
 });
 
 $(window).on('page:load', function() {
     // Set the year in the footer copyright statement.
     $('.copyright-year').html(new Date().getFullYear());
     stickyFooter();
+    $('#tour').on('click', function(e) {
+      e.preventDefault();
+      console.log('touring...');
+      $(document).foundation('joyride', 'start');
+    });
     $(document).foundation('reflow');
 });
 

@@ -1,0 +1,72 @@
+<nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="/">Boone Community Network</a></h1>
+    </li>
+    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li class="has-dropdown">
+        <a href="#" id="tour">Tour</a>
+        <ul class="dropdown">
+          <li><a href="/help">Help</a></li>
+        </ul>
+      </li>
+      <li class="has-form">
+        <div class="row collapse">
+          <div class="large-8 small-9 columns">
+            <input type="text" id="search_query" name="search[query]" placeholder="Search the Booniverse">
+          </div>
+          <div class="large-4 small-3 columns">
+            <a href="#" id='search_button' class="secondary button expand">
+              <img src="<%= image_url('search-icon.svg') %>" width="15"/>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <%= link_to new_post_path, class: 'button small new-post', title: 'New Post', id: 'newPost' do %>
+          <%= image_tag 'plus-icon.svg', size: '15x15' %>
+        <% end %>
+      </li>
+      <% if current_user %>
+          <% if current_user.photo %>
+              <li>
+                <%= link_to user_path(current_user), :class => 'profile' do %>
+                    <%= image_tag current_user.photo.thumb('35x35#').url, :class => 'nav-profile-pic' %>
+              <% end %>
+              </li>
+          <% elsif current_user.username %>
+              <li><%= link_to current_user.username, current_user, :class => 'profile' %></li>
+          <% else %>
+              <li><%= link_to 'Profile', current_user, :class => 'profile' %></li>
+          <% end %>
+          <li><a href="<%= logout_path %>">Log Out</a></li>
+      <% else %>
+          <li><a href="<%= new_user_path %>" id="register">Register</a></li>
+          <li><a href="<%= login_path %>" id="login">Login</a></li>
+      <% end %>
+    </ul>
+
+    <!-- Left Nav Section -->
+    <ul class="left">
+      <li class="has-dropdown">
+        <a href="/events">Events</a>
+        <ul class="dropdown">
+          <li><a href="/posts">Posts</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="/communities">Communities</a>
+        <ul class="dropdown">
+          <li><a href="/organizations">Organizations</a></li>
+        </ul>
+      </li>
+      <li><a href="/about">About Us</a></li>
+    </ul>
+  </section>
+</nav>

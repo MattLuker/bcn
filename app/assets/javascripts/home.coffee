@@ -21,7 +21,6 @@ ready_home = ->
       # Nothing really needed to do... no second paragraph in popup.
 
 
-
 # Fire the ready function on load and refresh.
 $(document).ready(ready_home)
 $(document).on('page:load', ready_home)
