@@ -57,6 +57,9 @@ $(function(){
         },
         equalizer: {
           equalize_on_stack: true
+        },
+        topbar: {
+          mobile_show_parent_link: true,
         }
     });
 
