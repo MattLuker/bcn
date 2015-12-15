@@ -55,14 +55,14 @@
       </div>
 
       <div class="small-12 small-only-text-center large-8 columns no-side-padding right community-button-list">
-        <ul class="button-group" id="communityButtons">
+        <ul class="button-group text-center" id="communityButtons">
           <li>
             <% if @commnities.blank? %>
               <% @communities.each do |community| %>
                 <a class="community community_<%= community.id %> map-button tiny"
                    data-id="<%= community.id %>"
                    id="<%= dom_id(community) %>"
-                   href="/?community=<%= community.name %>"
+                   href="/?community=<%= community.slug %>"
                 >
                   <%= community.name %>
                 </a>

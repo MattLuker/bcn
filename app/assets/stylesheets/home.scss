@@ -209,6 +209,16 @@ a.button.map-button, .map-button {
   border: 3px solid darken(#60a8db, 10);
   font-weight: bold;
 }
+.community_7 {
+  @include button($button-tny, #0c5b94);
+  border: 3px solid darken(#0c5b94, 10);
+  font-weight: bold;
+}
+.community_8 {
+  @include button($button-tny, #c74332);
+  border: 3px solid darken(#c74332, 10);
+  font-weight: bold;
+}
 
 .all.tny {
   @include button(rem-calc(5), $hse-dark-green);

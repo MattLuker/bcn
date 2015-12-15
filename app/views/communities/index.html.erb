@@ -1,8 +1,42 @@
 <div class="small-12 large-12 columns">
 
   <h2 class="page-title">Communities</h2>
-
+  <p class="grey">We're all part of the Boone community, but there are multiple communities available...</p>
+  <hr/>
   <br/>
+
+  <div id="community_logo" class="text-center">
+    <%= image_tag 'bcn_logo.svg', style: 'width: 500px' %>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
 
   <% if current_user && current_user.admin? %>
     <%= link_to new_community_path, class: 'button small' do %>

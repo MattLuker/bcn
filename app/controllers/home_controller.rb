@@ -22,7 +22,7 @@ class HomeController < ApplicationController
 
     # Handle the community buttons.
     if params[:community]
-      @community = Community.find_by_slug(params[:community].downcase.sub('-', ''))
+      @community = Community.find_by_slug(params[:community])
       @posts = @community.posts.where(start_date: nil).order('created_at DESC').limit(6)
     end
   end
