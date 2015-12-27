@@ -5,11 +5,25 @@
   <hr/>
   <br/>
 
-  <%= link_to new_post_path, class: 'button small' do %>
-    <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
-    &nbsp;
-    New Post
-  <% end %>
+  <div class="row">
+    <div class="columns large-2 no-left-padding">
+      <%= link_to new_post_path, class: 'button small' do %>
+        <%= image_tag 'plus-icon.svg', class: 'ty-icon' %>
+        &nbsp;
+        New Post
+      <% end %>
+    </div>
+
+    <div class="columns large-10 left">
+      <span>Sort Posts By:</span> &nbsp;
+      <ul class="button-group sorter">
+        <li><%= sortable 'Creation Date', 'created_at', action_name %></li>
+        <li><%= sortable 'Organization', 'organization', action_name %></li>
+        <li><%= sortable 'Community', 'community', action_name %></li>
+      </ul>
+    </div>
+  </div>
+  <br/>
 
   <ul class="posts no-bullet">
     <% @posts.each do |post| %>

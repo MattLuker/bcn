@@ -51,11 +51,19 @@
       <% end %>
     </span>
 
-      <% unless post.comments.blank? %>
-        <span class="grey comment-count smaller-text"> &nbsp; <%= post.comments.count %> Comments</span>
-      <% end %>
+    <% unless post.comments.blank? %>
+      <span class="grey comment-count smaller-text"> &nbsp; <%= post.comments.count %> Comments</span>
+    <% end %>
 
-
+    <% unless post.communities.blank? %>
+      <br/>
+      <span class="grey comment-count smaller-text">
+        <strong>Communities:</strong>
+        <% post.communities.each do |community| %>
+          <%= link_to community.name, community, class: 'grey-link' %>
+        <% end %>
+      </span>
+    <% end %>
 
     </div>
   </div>

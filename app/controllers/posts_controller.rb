@@ -1,9 +1,17 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_filter :require_user, only: [:edit, :update, :destroy, :remove_community]
+  helper_method :sort_column
 
   def index
-    @posts = Post.where('start_date is NULL').order('created_at DESC').paginate(:page => params[:page], :per_page => 20)
+    case params[:sort]
+    when 'organization'
+      @posts = Post.where('start_date is NULL').includes(:organization).order('organizations.name asc').paginate(:page => params[:page], :per_page => 20)
+    when 'community'
+      @posts = Post.where('start_date is NULL').includes(:communities).order('communities.name asc').paginate(:page => params[:page], :per_page => 20)
+    else
+      @posts = Post.where('start_date is NULL').order('created_at DESC').paginate(:page => params[:page], :per_page => 20)
+    end
   end
 
   def events
@@ -16,6 +24,17 @@ class PostsController < ApplicationController
       @events = Post.where(['start_date between ? and ?', tomorrow.beginning_of_day, tomorrow.end_of_day]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
     when 'next_week'
       @events = Post.where(start_date: Time.now.next_week..Time.now.next_week.end_of_week).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    else
+      @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    end
+
+    case params[:sort]
+    when 'organization'
+      @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).includes(:organization).order('organizations.name asc')
+        .order(:start_date).paginate(:page => params[:page], :per_page => 20)
+    when 'community'
+      @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).includes(:communities).order('communities.name asc')
+        .order(:start_date).paginate(:page => params[:page], :per_page => 20)
     else
       @events = Post.where(['start_date = ? or start_date > ?', DateTime.now, DateTime.now]).order(:start_date).paginate(:page => params[:page], :per_page => 20)
     end
@@ -202,86 +221,90 @@ class PostsController < ApplicationController
   end
 
   private
-  def notify_community_subscribers
-    unless @post.communities.blank?
-      if current_user
-        current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
-      else
-        poster = 'Anonymous'
+    def sort_column
+      params[:sort] if params[:sort]
+    end
+
+    def notify_community_subscribers
+      unless @post.communities.blank?
+        if current_user
+          current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
+        else
+          poster = 'Anonymous'
+        end
+        @post.communities.each do |community|
+          community.subscribers.each do |subscriber|
+            unless current_user == subscriber.user
+              if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
+                PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
+              end
+            end
+          end
+        end
       end
-      @post.communities.each do |community|
-        community.subscribers.each do |subscriber|
+
+      unless @post.organization.nil?
+        if current_user
+          current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
+        else
+          poster = 'Anonymous'
+        end
+        @post.organization.subscribers.each do |subscriber|
           unless current_user == subscriber.user
             if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
-              PostMailer.new_post(subscriber.user, @post, community, poster).deliver_now
+              PostMailer.new_post(subscriber.user, @post, @post.organization, poster).deliver_now
             end
           end
         end
       end
     end
 
-    unless @post.organization.nil?
-      if current_user
-        current_user.username.nil? ? poster = 'Anonymous' : poster = current_user.username
+    def notify_subscribers
+      if @post.user
+        @post.user.username.nil? ? poster = 'Anonymous' : poster = @post.user.username
       else
         poster = 'Anonymous'
       end
-      @post.organization.subscribers.each do |subscriber|
-        unless current_user == subscriber.user
-          if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
-            PostMailer.new_post(subscriber.user, @post, @post.organization, poster).deliver_now
-          end
+      @post.subscribers.each do |subscriber|
+        if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
+          PostMailer.post_updated(subscriber.user, @post, poster).deliver_now
         end
       end
     end
-  end
 
-  def notify_subscribers
-    if @post.user
-      @post.user.username.nil? ? poster = 'Anonymous' : poster = @post.user.username
-    else
-      poster = 'Anonymous'
-    end
-    @post.subscribers.each do |subscriber|
-      if subscriber.user && subscriber.user.email && subscriber.user.notify_instant
-        PostMailer.post_updated(subscriber.user, @post, poster).deliver_now
-      end
-    end
-  end
-
-  def set_post
-    if current_user
-      begin
-        @post = current_user.posts.find(params[:id])
-      rescue ActiveRecord::RecordNotFound => e
-        # Be able to view a post if logged in, but not the Post.user.
+    def set_post
+      if current_user
+        begin
+          @post = current_user.posts.find(params[:id])
+        rescue ActiveRecord::RecordNotFound => e
+          # Be able to view a post if logged in, but not the Post.user.
+          @post = Post.find(params[:id])
+        end
+      else
         @post = Post.find(params[:id])
       end
-    else
-      @post = Post.find(params[:id])
     end
-  end
 
-  def post_params
-    params.require('post').permit(:title,
-                                  :description,
-                                  :lat,
-                                  :lon,
-                                  :location_id,
-                                  :user_id,
-                                  :start_date,
-                                  :end_date,
-                                  :start_time,
-                                  :end_time,
-                                  :image,
-                                  :audio,
-                                  :community_ids,
-                                  :og_url,
-                                  :og_image,
-                                  :og_title,
-                                  :og_description,
-                                  :explicit,
-                                  :organization_id,
-                                  :community_ids => [])
-  end
+    def post_params
+      params.require('post').permit(:title,
+                                    :description,
+                                    :lat,
+                                    :lon,
+                                    :location_id,
+                                    :user_id,
+                                    :start_date,
+                                    :end_date,
+                                    :start_time,
+                                    :end_time,
+                                    :image,
+                                    :audio,
+                                    :community_ids,
+                                    :og_url,
+                                    :og_image,
+                                    :og_title,
+                                    :og_description,
+                                    :explicit,
+                                    :organization_id,
+                                    :community_ids => [])
+    end
 end

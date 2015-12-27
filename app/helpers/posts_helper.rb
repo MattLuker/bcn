@@ -27,4 +27,20 @@ module PostsHelper
        end
     end
   end
+
+  def sortable(title, column, type)
+    if (type == 'events')
+      path = events_path
+    else
+      path = posts_path
+    end
+
+    path = path + "?sort=#{column}"
+
+    color = sort_column == column ? 'secondary' : ''
+
+    link_to path, class: "button small #{color}", id: column do
+      "#{title}".html_safe
+    end
+  end
 end
